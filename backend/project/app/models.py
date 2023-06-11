@@ -51,8 +51,8 @@ class Price(models.Model):
   )
 
   class Meta:
-    verbose_name = 'Цена на товар'
-    verbose_name_plural = 'Цены на товар'
+      verbose_name = 'Цена на товар'
+      verbose_name_plural = 'Цены на товар'
 
 
 class Product(models.Model):
@@ -61,7 +61,7 @@ class Product(models.Model):
   image = models.ImageField(upload_to='products/', verbose_name='Изображение')
   subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
   tags = models.ManyToManyField(Tag, blank=True)
-  price = models.OneToOneField(Price, on_delete=models.CASCADE, primary_key=True)
+  price = models.OneToOneField(Price, on_delete=models.CASCADE, primary_key=True, blank=True, null=True)
   related_products = models.ManyToManyField(Product, blank=True)
   recommended_products = models.ManyToManyField(Product, blank=True)
 
@@ -73,15 +73,27 @@ class Product(models.Model):
 class Variant(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  price = models.OneToOneField(Price, on_delete=models.CASCADE, primary_key=True)
 
   class Meta:
     verbose_name = 'Вариант товара'
     verbose_name_plural = 'Варианты товара'
 
+  
+class CartItem(models.Model):
+  product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  amount = models.IntegerField(default=1, verbose_name='Количество')
+
+  class Meta:
+    verbose_name = 'Объект корзины'
+    verbose_name_plural = 'Объекты корзины'
+
 
 class Review(models.Model):
-  author = models.ForeignKey(User, on_delete=models.CASCADE)
-  variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, blank=True, null=True)
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   text = models.TextField(verbose_name='Текст')
   votes = models.IntegerField(default=0, verbose_name='Число голосов')
@@ -108,6 +120,7 @@ class User(AbstractUser):
     blank=True,
     verbose_name='Номер телефона',
   )
+  saved_products = models.ManyToManyField(Product, blank=True)
 
   def __str__(self):
     return self.username
@@ -115,3 +128,23 @@ class User(AbstractUser):
   class Meta:
     verbose_name = 'Пользователь'
     verbose_name_plural = 'Пользователи'
+
+
+class Order(models.Model):
+  code = models.IntegerField()
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+
+  class Meta:
+    verbose_name = 'Заказ'
+    verbose_name_plural = 'Заказы'
+
+
+class OrderedProduct(models.Model):
+  order = models.ForeignKey(Order, on_delete=models.CASCADE)
+  product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  amount = models.IntegerField(default=1, verbose_name='Количество')
+
+  class Meta:
+    verbose_name = 'Заказанный товар'
+    verbose_name_plural = 'Заказанные товары'
