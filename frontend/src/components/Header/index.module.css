@@ -1,0 +1,35 @@
+.header {
+  border-bottom: 1px solid var(--grey-1);
+}
+
+.header > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.iconButton {
+  position: relative;
+  cursor: pointer;
+}
+
+.counter {
+  position: absolute;
+  background: var(--main-1);
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -5px;
+  right: -10px;
+  border-radius: 50%;
+  font-size: 12px;
+}
