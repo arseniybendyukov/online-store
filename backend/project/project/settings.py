@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import environ
 from pathlib import Path
+import os
 
 # Initialise environment variables
 env = environ.Env(
@@ -115,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "app.User"
+AUTH_USER_MODEL = 'app.User'
 
 
 # Internationalization
