@@ -30,12 +30,10 @@ export const pageNames: PageName[] = [
   },
 ];
 
-export function NavLinks() {
-  return (
-    <div className={css.links}>
-      {pageNames.map(({ path, name }) => (
-        <Link key={path} className={css.link} to={path}>{name}</Link>
-      ))}
-    </div>
-  );
-}
+export const NavLinks = () => (
+  <div className={css.links}>
+    {pageNames.map(({ path, name }) => (
+      <Link key={path} className={css.link} to={path}>{name}</Link>
+    ))}
+  </div>
+);
