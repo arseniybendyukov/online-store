@@ -1,32 +1,35 @@
-import css from './index.module.css';
+import { NavPaths } from '../../navigation';
 import { Logo } from '../Logo';
 import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
-import { NavPaths } from '../../navigation';
-import { Link } from 'react-router-dom';
+import { IconButton } from './IconButton';
 import { ReactComponent as Heart } from '../../images/heart.svg';
 import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
+import css from './index.module.css';
 
-export function Header() {
-  return (
-    <header className={css.header}>
-      <div className='container'>
-        <Logo />
-        <NavLinks />
-        <div className={css.buttons}>
-          <Button path={NavPaths.LOGIN}>Войти</Button>
-
-          <Link className={css.iconButton} to='/'>
-            <span className={css.counter}>2</span>
-            <Heart width={40} height={40} />
-          </Link>
-
-          <Link className={css.iconButton} to='/'>
-            <span className={css.counter}>19</span>
-            <ShoppingCart width={40} height={40} />
-          </Link>
-        </div>
+export const Header = () => (
+  <header className={css.header}>
+    <div className='container'>
+      <Logo />
+      <NavLinks />
+      <div className={css.buttons}>
+        <Button
+          path={NavPaths.LOGIN}
+          state={{
+            default: { text: 'Войти', icon: undefined }
+          }}
+        />
+        <IconButton
+          icon={<Heart />}
+          path={NavPaths.MAIN}
+          counter={2}
+        />
+        <IconButton
+          icon={<ShoppingCart />}
+          path={NavPaths.MAIN}
+          counter={19}
+        />
       </div>
-    </header>
-  );
-}
+    </div>
+  </header>
+);

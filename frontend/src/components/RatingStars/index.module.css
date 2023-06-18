@@ -1,0 +1,48 @@
+.body {
+  display: flex;
+  gap: 5px
+}
+
+.ratingValue {
+  color: var(--yellow);
+}
+
+.stars {
+  position: relative;
+}
+
+.uncolored {
+  display: flex;
+}
+
+.uncolored svg {
+  fill: var(--grey-2);
+}
+
+.colored {
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.colored svg {
+  flex-shrink: 0;
+  fill: var(--yellow);
+}
+
+.uncolored svg path,
+.colored svg path {
+  stroke: none;
+}
+
+.reviewsCount {
+  color: var(--grey-1);
+}
+
+.starSVG {
+  width: 20px;
+  height: 20px;
+}
