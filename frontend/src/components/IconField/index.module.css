@@ -1,0 +1,43 @@
+.field {
+  position: relative;
+  display: flex;
+  height: 50px;
+  border: 1px solid var(--grey-1);
+  border-radius: 5px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 50px;
+  border-right: 1px solid var(--grey-1);
+}
+
+.input {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px 0 10px;
+  cursor: pointer;
+  color: var(--grey-1);
+}
+
+.arrowSVG {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5px;
+  width: 25px;
+  height: 25px;
+}
+
+.arrowSVG path {
+  fill: var(--grey-1);
+}

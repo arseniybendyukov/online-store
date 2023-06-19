@@ -28,7 +28,7 @@ interface Subcategory extends Category {
   category: Category;
 }
 
-interface Tag {
+export interface Tag {
   id: number;
   name: string;
   color: string;

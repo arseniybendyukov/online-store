@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product } from '../types/data'; 
+import { Product, Tag } from '../types/data'; 
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
@@ -8,7 +8,14 @@ export const productsApi = createApi({
     getProducts: builder.query<Product[], void>({
       query: () => `products/`,
     }),
+
+    getTags: builder.query<Tag[], void>({
+      query: () => `tags/`,
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = productsApi;
+export const {
+  useGetProductsQuery,
+  useGetTagsQuery,
+} = productsApi;
