@@ -1,5 +1,6 @@
 import { ProductCard } from '../../components/ProductCard';
 import { useGetProductsQuery } from '../../redux/productsApi';
+import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import css from './index.module.css';
 
@@ -12,9 +13,7 @@ export function Catalog() {
       <div className={css.content}>
         <aside className={css.aside}>
           <h3 className='h3'>Фильтры</h3>
-          {/* Price */}
-          {/* Categories accordion */}
-          {/* Brands checkboxes */}
+          <SidebarForm />
         </aside>
         <div className={css.main}>
           <CatalogRowForm />

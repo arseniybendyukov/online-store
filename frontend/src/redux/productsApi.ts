@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product, Tag } from '../types/data'; 
+import { ListBrand, ListCategory, MinMax, Product, Tag } from '../types/data'; 
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
@@ -12,10 +12,25 @@ export const productsApi = createApi({
     getTags: builder.query<Tag[], void>({
       query: () => `tags/`,
     }),
+
+    getMinMaxPrice: builder.query<MinMax, void>({
+      query: () => `min-max-price/`,
+    }),
+
+    getCategories: builder.query<ListCategory[], void>({
+      query: () => `categories/`,
+    }),
+
+    getBrands: builder.query<ListBrand[], void>({
+      query: () => `brands/`,
+    }),
   }),
 });
 
 export const {
   useGetProductsQuery,
   useGetTagsQuery,
+  useGetMinMaxPriceQuery,
+  useGetCategoriesQuery,
+  useGetBrandsQuery,
 } = productsApi;

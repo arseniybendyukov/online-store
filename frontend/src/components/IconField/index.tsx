@@ -1,5 +1,5 @@
 import { ReactNode, HTMLProps } from 'react';
-import { ReactComponent as Arrow } from '../../images/arrow.svg';
+import { ReactComponent as ArrowDown } from '../../images/arrow.svg';
 import css from './index.module.css';
 
 export type SelectOption<V extends string = string> = {
@@ -33,7 +33,7 @@ export function IconField<V extends string = string>({
       {props.as === 'input'
         ? <input className={css.input} type='text' {...props} />
         : <>
-          <Arrow className={css.arrowSVG} />
+          <ArrowDown className={css.arrowSVG} />
           <select className={css.select} {...props}>
             {props.options.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>

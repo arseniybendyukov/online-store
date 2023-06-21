@@ -16,7 +16,7 @@ class Category(models.Model):
 
 class Subcategory(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
-  category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+  category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories', verbose_name='Категория')
 
   def __str__(self):
     return self.name
@@ -62,12 +62,17 @@ class Price(models.Model):
     verbose_name='Процент скидки',
   )
 
+  def get_price(self):
+    if self.sale_price:
+      return self.sale_price
+    return self.actual_price
+
   def __str__(self):
     return str(self.actual_price)
 
   class Meta:
-      verbose_name = 'Цена на товар'
-      verbose_name_plural = 'Цены на товар'
+    verbose_name = 'Цена на товар'
+    verbose_name_plural = 'Цены на товар'
 
 
 class Product(models.Model):
