@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth.models import AbstractUser
 from .validators import PERCENTAGE_VALIDATOR, RATING_VALIDATOR, PHONE_NUMBER_VALIDATOR
 
@@ -97,6 +98,11 @@ class Product(models.Model):
     verbose_name='Товары, покупаемые с вместе этим'
   )
 
+  @property
+  def avg_rating(self):
+    raw = self.reviews.all().aggregate(Avg('rating'))['rating__avg'] or 0
+    return round(raw, 1)
+
   def __str__(self):
     return self.name
 
@@ -107,7 +113,12 @@ class Product(models.Model):
 
 class Variant(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
-  price = models.OneToOneField(Price, on_delete=models.CASCADE, primary_key=True, verbose_name='Цена')
+  price = models.OneToOneField(
+    Price,
+    on_delete=models.CASCADE,
+    primary_key=True, 
+    verbose_name='Цена'
+  )
   product = models.ForeignKey(
     Product,
     on_delete=models.CASCADE,

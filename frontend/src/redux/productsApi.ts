@@ -1,12 +1,28 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ListBrand, ListCategory, MinMax, Product, Tag } from '../types/data'; 
+import { ListBrand, ListCategory, MinMax, Product, Tag } from '../types/data';
+import { Ordering } from '../types/filters';
+
+const BASE_URL = 'http://127.0.0.1:8000/api/';
+
+interface ProductFilters {
+  search: string;
+  ordering: Ordering;
+  tag: number | undefined;
+}
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], void>({
-      query: () => `products/`,
+    getProducts: builder.query<Product[], ProductFilters>({
+      query: (args) => ({
+        url: `products/`,
+        params: {
+          search: args.search,
+          ordering: args.ordering,
+          tags__id: args.tag !== 0 ? args.tag : undefined,
+        }
+      }),
     }),
 
     getTags: builder.query<Tag[], void>({

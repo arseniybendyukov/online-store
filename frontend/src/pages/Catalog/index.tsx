@@ -1,11 +1,24 @@
-import { ProductCard } from '../../components/ProductCard';
+import { useState } from 'react';
+import { useDebounce } from '../../hooks';
 import { useGetProductsQuery } from '../../redux/productsApi';
 import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
+import { ProductCard } from '../../components/ProductCard';
 import css from './index.module.css';
+import { Ordering } from '../../types/filters';
 
 export function Catalog() {
-  const { data, isLoading } = useGetProductsQuery();
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 500);
+  
+  const [ordering, setOrdering] = useState(Ordering.RATING_HIGH_LOW);
+  const [tag, setTag] = useState<number>(0);
+
+  const { data, isFetching } = useGetProductsQuery({
+    search: debouncedSearch,
+    ordering,
+    tag,
+  });
 
   return (
     <main className={`container ${css.container}`}>
@@ -16,9 +29,16 @@ export function Catalog() {
           <SidebarForm />
         </aside>
         <div className={css.main}>
-          <CatalogRowForm />
+          <CatalogRowForm
+            search={search}
+            setSearch={setSearch}
+            ordering={ordering}
+            setOrdering={setOrdering}
+            tag={tag}
+            setTag={setTag}
+          />
           <div className={css.products}>
-            {isLoading ? 'Загрузка...' : (
+            {isFetching ? 'Загрузка...' : (
               data?.map((product) => <ProductCard key={product.id} product={product} />)
             )}
           </div>

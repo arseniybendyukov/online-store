@@ -1,67 +1,62 @@
-import { useEffect, useState, ChangeEvent } from 'react';
-import { useDebounce } from '../../../hooks';
+import { ChangeEvent, useEffect } from 'react';
 import { useGetTagsQuery } from '../../../redux/productsApi';
 import { IconField, SelectOption } from '../../../components/IconField';
 import { ReactComponent as Search } from '../../../images/search.svg';
 import { ReactComponent as Filter } from '../../../images/filter.svg';
 import { ReactComponent as Tag } from '../../../images/tag.svg';
 import css from './index.module.css';
+import { SetState } from '../../../types/common';
+import { Ordering } from '../../../types/filters';
 
-const enum Order {
-  PRICE_LOW_HIGH = 'price-low-high',
-  PRICE_HIGH_LOW = 'price-high-low',
-  RATING_LOW_HIGH = 'rating-low-high',
-  RATING_HIGH_LOW = 'rating-high-low',
-}
-
-const orderOptions: SelectOption<Order>[] = [
+const orderingOptions: SelectOption<Ordering>[] = [
   {
     label: 'По возрастанию цены',
-    value: Order.PRICE_LOW_HIGH,
+    value: Ordering.PRICE_LOW_HIGH,
   },
   {
     label: 'По убыванию цены',
-    value: Order.PRICE_HIGH_LOW,
+    value: Ordering.PRICE_HIGH_LOW,
   },
   {
     label: 'По возрастанию рейтинга',
-    value: Order.RATING_LOW_HIGH,
+    value: Ordering.RATING_LOW_HIGH,
   },
   {
     label: 'По убыванию рейтинга',
-    value: Order.RATING_HIGH_LOW,
+    value: Ordering.RATING_HIGH_LOW,
   },
 ];
 
-export function CatalogRowForm() {
-  const [search, setSearch] = useState('');
-  const [order, setOrder] = useState(Order.PRICE_LOW_HIGH);
-  const [tag, setTag] = useState<number | undefined>(undefined);
-  
-  const debouncedSearch = useDebounce(search, 750);
+interface Props {
+  search: string;
+  setSearch: SetState<string>;
+  ordering: Ordering;
+  setOrdering: SetState<Ordering>;
+  tag: number;
+  setTag: SetState<number>;
+}
 
-  const { data: tags = [], isLoading } = useGetTagsQuery();
-  const tagOptions: SelectOption[] = isLoading
-    ? [{ label: 'Загрузка тегов...', value: 'None' }]
-    : tags.map((tag) => ({
-      label: tag.name,
-      value: String(tag.id),
-    }));
+export function CatalogRowForm({
+  search,
+  setSearch,
+  ordering,
+  setOrdering,
+  tag,
+  setTag,
+}: Props) {
+  const { data: tags = [] } = useGetTagsQuery();
+  const tagOptions: SelectOption[] = tags.map((tag) => ({
+    label: tag.name,
+    value: String(tag.id),
+  }));
 
-  useEffect(() => {
-    console.log(debouncedSearch);
-  }, [debouncedSearch]);
-
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
-
-  useEffect(() => {
-    console.log(tag);
-  }, [tag]);
+  tagOptions.unshift({
+    label: 'Все теги',
+    value: '0',
+  });
 
   return (
-    <form className={css.form}>
+    <form className={css.form} onSubmit={(e) => e.preventDefault()}>
       <IconField
         as='input'
         icon={<Search className={css.svg} />}
@@ -75,17 +70,19 @@ export function CatalogRowForm() {
           setSearch(e.target.value)
         )}
       />
+
       <IconField
         icon={<Filter className={css.svg} />}
         as='select'
-        id='order'
-        name='order'
-        options={orderOptions}
-        value={order}
+        id='ordering'
+        name='ordering'
+        options={orderingOptions}
+        value={ordering}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => (
-          setOrder(e.target.value as Order)
+          setOrdering(e.target.value as Ordering)
         )}
       />
+
       <IconField
         icon={<Tag className={css.tagSVG} />}
         as='select'
