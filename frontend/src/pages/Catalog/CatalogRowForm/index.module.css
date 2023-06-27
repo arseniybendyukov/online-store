@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search {
+  width: 100%;
+}
+
+.svg {
+  width: 23px;
+  height: 23px;
+}
+
+.svg path {
+  fill: var(--grey-1);
+}
+
+.tagSVG {
+  width: 25px;
+  height: 25px;
+}
+
+.tagSVG path {
+  stroke: var(--grey-1);
+  stroke-width: 5px;
+}

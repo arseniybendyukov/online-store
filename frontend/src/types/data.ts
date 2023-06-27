@@ -28,7 +28,7 @@ interface Subcategory extends Category {
   category: Category;
 }
 
-interface Tag {
+export interface Tag {
   id: number;
   name: string;
   color: string;
@@ -44,3 +44,23 @@ export interface Price {
   sale_price: number | null;
   percentage: number | null;
 }
+
+export interface MinMax {
+  min: number;
+  max: number;
+}
+
+interface ListSubcategory extends Category {
+  count: number; 
+}
+
+export interface ListCategory extends ListSubcategory {
+  subcategories: ListSubcategory[];
+}
+
+export interface ListBrand {
+  id: number;
+  name: string;
+  count: number;
+}
+
