@@ -35,3 +35,7 @@
   gap: 5px;
   cursor: pointer;
 }
+
+.label + .label {
+  margin-top: 5px;
+}

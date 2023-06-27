@@ -9,7 +9,6 @@ from .ordering import ProductCustomOrdering
 
 
 class ProductList(generics.ListAPIView):
-  queryset = Product.objects.all()
   serializer_class = ProductSerializer
   filter_backends = (
     django_filters_rest.DjangoFilterBackend,
@@ -17,7 +16,39 @@ class ProductList(generics.ListAPIView):
     ProductCustomOrdering,
   )
   search_fields = ('name',)
-  filterset_fields = ('tags__id',)
+  filterset_fields = ('tags__id', 'subcategory__id',)
+  
+  def get_queryset(self):
+    queryset = Product.objects.all()
+    
+    # Фильтрация по минимальной и максимальной цене
+    min_price = self.request.query_params.get('min_price')
+    max_price = self.request.query_params.get('max_price')
+
+    if min_price and max_price:
+      filtered_objects = filter(
+        lambda o: int(min_price) <= o.variants.first().price.get_price() <= int(max_price),
+        queryset
+      )
+      filtered_objects_ids = [o.id for o in filtered_objects]
+      queryset = Product.objects.filter(id__in=filtered_objects_ids)
+
+
+    # Фильтрация по подкатегориям
+    subcategory_ids = self.request.query_params.getlist('subcategory_id[]', '')
+    
+    if subcategory_ids:
+      queryset = queryset.filter(subcategory__id__in=map(int, subcategory_ids))
+
+
+    # Фильтрация по брендам
+    brand_ids = self.request.query_params.getlist('brand_id[]', '')
+    
+    if brand_ids:
+      queryset = queryset.filter(brand__id__in=map(int, brand_ids))
+
+
+    return queryset
 
 
 class TagList(generics.ListAPIView):

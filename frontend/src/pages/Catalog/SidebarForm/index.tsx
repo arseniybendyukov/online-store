@@ -1,11 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/productsApi";
 import { RangeInput } from "../../../components/RangeInput";
 import { CategoryAccordionSelect } from "../../../components/CategoryAccordionSelect";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
+import { SetState } from "../../../types/common";
 
-export function SidebarForm() {
+interface Props {
+  minPrice: number;
+  setMinPrice: SetState<number>;
+  maxPrice: number;
+  setMaxPrice: SetState<number>;
+  subcategoryIds: number[];
+  setSubcategoryIds: SetState<number[]>;
+  brandIds: number[];
+  setBrandIds: SetState<number[]>;
+}
+
+export function SidebarForm({
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
+  subcategoryIds,
+  setSubcategoryIds,
+  brandIds,
+  setBrandIds,
+}: Props) {
   const {
     data: minMaxPrice,
     isLoading: isLoadingMinMaxPrice,
@@ -21,17 +42,12 @@ export function SidebarForm() {
     isLoading: isLoadingBrands,
   } = useGetBrandsQuery();
 
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [subcategoryIds, setSubcategoryIds] = useState<number[]>([]);
-  const [brandIds, setBrandIds] = useState<number[]>([]);
-
   useEffect(() => {
     if (minMaxPrice) {
       setMinPrice(minMaxPrice.min);
       setMaxPrice(minMaxPrice.max);
     }
-  }, [minMaxPrice])
+  }, [minMaxPrice]);
 
   return (
     <div>

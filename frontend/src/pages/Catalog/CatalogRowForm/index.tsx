@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import { useGetTagsQuery } from '../../../redux/productsApi';
 import { IconField, SelectOption } from '../../../components/IconField';
 import { ReactComponent as Search } from '../../../images/search.svg';
@@ -45,6 +45,7 @@ export function CatalogRowForm({
   setTag,
 }: Props) {
   const { data: tags = [] } = useGetTagsQuery();
+  
   const tagOptions: SelectOption[] = tags.map((tag) => ({
     label: tag.name,
     value: String(tag.id),
