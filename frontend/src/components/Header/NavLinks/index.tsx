@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom";
 import { NavPaths } from "../../../navigation";
+import { NamedLink } from "../../../types/common";
 import css from './index.module.css';
 
-interface PageName {
-  path: NavPaths;
-  name: string;
-}
-
-export const pageNames: PageName[] = [
+export const pageLinks: NamedLink<NavPaths>[] = [
   {
     path: NavPaths.ABOUT,
     name: 'О нас',
@@ -32,7 +28,7 @@ export const pageNames: PageName[] = [
 
 export const NavLinks = () => (
   <div className={css.links}>
-    {pageNames.map(({ path, name }) => (
+    {pageLinks.map(({ path, name }) => (
       <Link key={path} className={css.link} to={path}>{name}</Link>
     ))}
   </div>

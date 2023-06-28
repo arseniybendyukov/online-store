@@ -63,7 +63,7 @@ export function SidebarForm({
         }
       </SidebarSection>
       
-      <SidebarSection heading='Категория'>
+      <SidebarSection heading='Категории'>
         {isLoadingCategories
           ? 'Загрузка категорий...'
           : <CategoryAccordionSelect

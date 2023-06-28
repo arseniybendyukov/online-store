@@ -6,3 +6,8 @@ export const enum Colors {
 }
 
 export type SetState<T extends any> = Dispatch<React.SetStateAction<T>>;
+
+export interface NamedLink<P extends string = string> {
+  path: P;
+  name: string;
+}
