@@ -59,6 +59,10 @@ export const productsApi = createApi({
       },
     }),
 
+    getProductDetail: builder.query<Product, { id: string }>({
+      query: ({ id }) => `product/${id}`,
+    }),
+
     getTags: builder.query<Tag[], void>({
       query: () => `tags/`,
     }),
@@ -79,6 +83,7 @@ export const productsApi = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductDetailQuery,
   useGetTagsQuery,
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,

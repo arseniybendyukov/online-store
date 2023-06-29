@@ -23,7 +23,7 @@ type ActiveState = {
 // Типы для кнопки
 type CommonButtonProps = {
   path?: never;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 type DefaultButton = CommonButtonProps & {

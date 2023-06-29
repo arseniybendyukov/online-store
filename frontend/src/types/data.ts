@@ -34,12 +34,13 @@ export interface Tag {
   color: string;
 }
 
-interface Variant {
+export interface Variant {
   name: string;
   price: Price;
 }
 
 export interface Price {
+  id: number;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;

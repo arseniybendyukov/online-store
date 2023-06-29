@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.variant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 30px;
+  border: 1px solid var(--grey-1);
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  transition: var(--hover);
+}
+
+.variant.selected {
+  color: var(--main-1);
+  border-color: var(--main-1);
+  background: var(--main-1-transparent);
+  transition: var(--hover);
+}

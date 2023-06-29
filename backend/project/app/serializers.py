@@ -32,7 +32,7 @@ class BrandSerializer(serializers.ModelSerializer):
 class PriceSerializer(serializers.ModelSerializer):
   class Meta:
     model = Price
-    exclude = ['id']
+    fields = '__all__'
 
 
 class VariantSerializer(serializers.ModelSerializer):
