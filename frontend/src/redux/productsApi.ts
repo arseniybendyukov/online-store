@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ListBrand, ListCategory, MinMax, Product, Tag } from '../types/data';
+import {
+  ListBrand,
+  ListCategory,
+  MinMax,
+  ListProduct,
+  Tag,
+  DetailProduct
+} from '../types/data';
 import { Ordering } from '../types/filters';
 
 const BASE_URL = 'http://127.0.0.1:8000/api/';
@@ -32,7 +39,7 @@ export const productsApi = createApi({
     baseUrl: BASE_URL,
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], ProductFilters>({
+    getProducts: builder.query<ListProduct[], ProductFilters>({
       query: ({
         search,
         ordering,
@@ -59,7 +66,7 @@ export const productsApi = createApi({
       },
     }),
 
-    getProductDetail: builder.query<Product, { id: string }>({
+    getProductDetail: builder.query<DetailProduct, { id: string }>({
       query: ({ id }) => `product/${id}`,
     }),
 

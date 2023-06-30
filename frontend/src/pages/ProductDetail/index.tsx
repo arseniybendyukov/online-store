@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useGetProductDetailQuery } from "../../redux/productsApi";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
@@ -12,6 +12,8 @@ import { AddToCartButton } from "../../components/AddToCartButton";
 import { Button } from "../../components/Button";
 import { Colors } from "../../types/common";
 import { ReactComponent as Heart } from '../../images/heart.svg';
+import { ProductDetailNestedPaths } from "../../navigation";
+import { HorizontalTabs } from "../../components/HorizontalTabs";
 
 interface Props {}
 
@@ -36,7 +38,7 @@ export function ProductDetail({}: Props) {
           <h1 className='h1'>{product.name}</h1>
           <div className={css.rowStats}>
             <RatingStars avgRating={product.avg_rating} />
-            <ReadReviews reviewsCount={product.reviews_count} />
+            <ReadReviews reviewsCount={product.reviews.length} />
           </div>
           <div className={css.description}>{product.description}</div>
           {selectedVariant && (
@@ -83,6 +85,32 @@ export function ProductDetail({}: Props) {
           </div>
         </div>
       </div>
+      <HorizontalTabs
+        options={[
+          {
+            path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
+            name: `С этим товаром покупают (${product.bought_together_products.length})`,
+          },
+          {
+            path: ProductDetailNestedPaths.SIMILAR_PRODUCTS,
+            name: `Похожие товары (${product.silimar_products.length})`,
+          },
+          {
+            path: ProductDetailNestedPaths.REVIEWS,
+            name: `Отзывы (${product.reviews.length})`,
+          },
+        ]}
+      />
+      <Outlet
+        context={{
+          boughtTogetherProducts: product.bought_together_products,
+          silimarProducts: product.silimar_products,
+          reviews: {
+            reviews: product.reviews,
+            avgRating: product.avg_rating,
+          },
+        }}
+      />
     </div>
   ) : <>Loading</>;
 }

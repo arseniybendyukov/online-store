@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 30px 15px 15px 15px;
+  border-radius: 5px;
+  background: var(--main-1);
+  color: #fff;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.avgRating {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.reviewsCount {
+  color: var(--main-2);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}

@@ -4,12 +4,12 @@ from django_filters import rest_framework as django_filters_rest
 from rest_framework.response import Response
 from django.db.models import Max
 from .models import Product, Tag, Price, Category, Brand
-from .serializers import ProductSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer
+from .serializers import ProductListSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer, ProductDetailSerializer
 from .ordering import ProductCustomOrdering
 
 
 class ProductList(generics.ListAPIView):
-  serializer_class = ProductSerializer
+  serializer_class = ProductListSerializer
   filter_backends = (
     django_filters_rest.DjangoFilterBackend,
     filters.SearchFilter,
@@ -53,7 +53,7 @@ class ProductList(generics.ListAPIView):
 
 class ProductDetail(generics.RetrieveAPIView):
   queryset = Product.objects.all()
-  serializer_class = ProductSerializer
+  serializer_class = ProductDetailSerializer
 
 
 class TagList(generics.ListAPIView):

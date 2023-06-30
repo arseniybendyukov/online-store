@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px 0;
 }
 
@@ -42,8 +45,6 @@
   align-items: center;
   gap: 10px;
 }
-
-/* ------------- */
 
 .heartSVG {
   width: 25px;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Product } from '../../types/data';
+import { ListProduct } from '../../types/data';
 import { Tag } from '../Tag';
 import { RatingStars } from '../RatingStars';
 import { ProductPrice } from '../ProductPrice';
@@ -9,7 +9,7 @@ import { NavPaths, paramPath } from '../../navigation';
 import { AddToCartButton } from '../AddToCartButton';
 
 interface Props {
-  product: Product;
+  product: ListProduct;
 }
 
 export function ProductCard({ product }: Props) {

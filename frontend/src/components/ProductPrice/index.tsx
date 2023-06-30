@@ -25,7 +25,7 @@ export function ProductPrice({
       {salePrice !== null && (
         <p className={css.oldPrice}>{actualPrice} ₽</p>
       )}
-      {percentage !== null && (
+      {percentage && (
         <p className={css.percentage}>-{percentage}%</p>
       )}
     </div>

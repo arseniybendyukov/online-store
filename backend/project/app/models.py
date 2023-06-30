@@ -175,9 +175,7 @@ class Review(models.Model):
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   text = models.TextField(verbose_name='Текст')
   votes = models.IntegerField(default=0, verbose_name='Число голосов')
-  rating = models.DecimalField(
-    max_digits=1,
-    decimal_places=0,
+  rating = models.PositiveSmallIntegerField(
     validators=RATING_VALIDATOR,
     verbose_name='Рейтинг',
   )
