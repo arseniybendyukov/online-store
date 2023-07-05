@@ -1,0 +1,51 @@
+.container {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  max-width: 600px;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--main-1);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.date {
+  color: var(--grey-1);
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.starSVG {
+  width: 15px;
+  height: 15px;
+  fill: var(--main-1);
+}
+
+.starSVG path {
+  stroke: var(--main-1);
+}

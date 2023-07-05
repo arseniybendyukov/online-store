@@ -1,4 +1,4 @@
-export const enum Ordering {
+export const enum CatalogOrdering {
   PRICE_LOW_HIGH = 'price',
   PRICE_HIGH_LOW = '-price',
   RATING_LOW_HIGH = 'rating',

@@ -3,3 +3,16 @@
   grid-template-columns: 300px 1fr;
   gap: 20px;
 }
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Пока дублируется, но, возможно, класс нужен будет в адаптивах */
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.db.models import Count
-from .models import Product, Tag, Category, Subcategory, Brand, Variant, Price, Review, User
+from .models import Product, Tag, Category, Subcategory, Brand, Variant, Price, Review, User, Vote
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -74,6 +74,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
   user = UserSerializer()
   variant = serializers.CharField(source='variant.name')
+  votes = serializers.IntegerField(source='votes_count')
 
   class Meta:
     model = Review
@@ -87,11 +88,19 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   avg_rating = serializers.FloatField()
   silimar_products = ProductListSerializer(many=True)
   bought_together_products = ProductListSerializer(many=True) 
-  reviews = ReviewSerializer(many=True)
+  reviews_count = serializers.IntegerField(source='reviews.count')
 
   class Meta:
     model = Product
     fields = '__all__'
+
+
+class ReviewListSerializer(serializers.ModelSerializer):
+  reviews = ReviewSerializer(many=True)
+
+  class Meta:
+    model = Product
+    fields = ['reviews']
 
 
 class SubcategoryListSerializer(serializers.ModelSerializer):

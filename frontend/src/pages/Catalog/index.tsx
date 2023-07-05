@@ -5,14 +5,14 @@ import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';
 import css from './index.module.css';
-import { Ordering } from '../../types/filters';
+import { CatalogOrdering } from '../../types/filters';
 
 export function Catalog() {
   // Фильтры (поиск и select)
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
   
-  const [ordering, setOrdering] = useState(Ordering.RATING_HIGH_LOW);
+  const [ordering, setOrdering] = useState(CatalogOrdering.RATING_HIGH_LOW);
   const [tag, setTag] = useState<number>(0);
 
   // Фильтры (сайдбар)

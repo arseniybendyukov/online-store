@@ -5,15 +5,16 @@ import {
   MinMax,
   ListProduct,
   Tag,
-  DetailProduct
+  DetailProduct,
+  Review
 } from '../types/data';
-import { Ordering } from '../types/filters';
+import { CatalogOrdering } from '../types/filters';
 
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 interface ProductFilters {
   search: string;
-  ordering: Ordering;
+  ordering: CatalogOrdering;
   tag: number;
   minPrice: number;
   maxPrice: number;
@@ -70,6 +71,10 @@ export const productsApi = createApi({
       query: ({ id }) => `product/${id}`,
     }),
 
+    getReviewsById: builder.query<{ reviews: Review[] }, { id: number }>({
+      query: ({ id }) => `reviews/${id}`,
+    }),
+
     getTags: builder.query<Tag[], void>({
       query: () => `tags/`,
     }),
@@ -91,6 +96,7 @@ export const productsApi = createApi({
 export const {
   useGetProductsQuery,
   useGetProductDetailQuery,
+  useGetReviewsByIdQuery,
   useGetTagsQuery,
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,

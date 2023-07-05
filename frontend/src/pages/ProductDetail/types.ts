@@ -4,7 +4,7 @@ export type OutletContext = {
   boughtTogetherProducts: ListProduct[];
   silimarProducts: ListProduct[];
   reviews: {
-    reviews: Review[];
+    id: number;
     avgRating: number;
   };
 };

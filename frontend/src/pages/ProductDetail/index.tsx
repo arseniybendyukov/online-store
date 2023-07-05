@@ -38,7 +38,7 @@ export function ProductDetail({}: Props) {
           <h1 className='h1'>{product.name}</h1>
           <div className={css.rowStats}>
             <RatingStars avgRating={product.avg_rating} />
-            <ReadReviews reviewsCount={product.reviews.length} />
+            <ReadReviews reviewsCount={product.reviews_count} />
           </div>
           <div className={css.description}>{product.description}</div>
           {selectedVariant && (
@@ -97,7 +97,7 @@ export function ProductDetail({}: Props) {
           },
           {
             path: ProductDetailNestedPaths.REVIEWS,
-            name: `Отзывы (${product.reviews.length})`,
+            name: `Отзывы (${product.reviews_count})`,
           },
         ]}
       />
@@ -106,7 +106,7 @@ export function ProductDetail({}: Props) {
           boughtTogetherProducts: product.bought_together_products,
           silimarProducts: product.silimar_products,
           reviews: {
-            reviews: product.reviews,
+            id: product.id,
             avgRating: product.avg_rating,
           },
         }}

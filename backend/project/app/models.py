@@ -174,11 +174,18 @@ class Review(models.Model):
   variant = models.ForeignKey(Variant, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Вариант')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   text = models.TextField(verbose_name='Текст')
-  votes = models.IntegerField(default=0, verbose_name='Число голосов')
   rating = models.PositiveSmallIntegerField(
     validators=RATING_VALIDATOR,
     verbose_name='Рейтинг',
   )
+
+  @property
+  def votes_count(self):
+    total = self.votes.all().count()
+    positive = self.votes.filter(is_positive=True).count()
+    negative = total - positive
+
+    return positive - negative
 
   def __str__(self):
     return f'{self.user.username}-{self.product.name}-{self.created_at}'
@@ -186,6 +193,26 @@ class Review(models.Model):
   class Meta:
     verbose_name = 'Отзыв на товар'
     verbose_name_plural = 'Отзывы на товар'
+
+  
+class Vote(models.Model):
+  is_positive = models.BooleanField()
+  user = models.ForeignKey(
+    User,
+    related_name='votes',
+    on_delete=models.CASCADE,
+    verbose_name='Пользователь'
+  )
+  review = models.ForeignKey(
+    Review,
+    related_name='votes',
+    on_delete=models.CASCADE,
+    verbose_name='Отзыв'
+  )
+
+  class Meta:
+    verbose_name = 'Голос за отзыв'
+    verbose_name_plural = 'Голоса за отзыв'
 
 
 class Order(models.Model):

@@ -19,9 +19,9 @@ export interface DetailProduct {
   subcategory: Subcategory;
   variants: Variant[];
   avg_rating: number;
+  reviews_count: number;
   silimar_products: ListProduct[];
   bought_together_products: ListProduct[];
-  reviews: Review[];
 }
 
 export interface Review {
