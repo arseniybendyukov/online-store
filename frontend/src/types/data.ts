@@ -1,16 +1,44 @@
-export interface Product {
+export interface ListProduct {
+  id: number;
+  name: string;
+  image: string;
+  brand: Brand;
+  subcategory: Subcategory;
+  tags: Tag[];
+  variants: Variant[];
+  avg_rating: number;
+  reviews_count: number;
+}
+
+export interface DetailProduct {
   id: number;
   name: string;
   description: string;
   image: string;
   brand: Brand;
   subcategory: Subcategory;
-  tags: Tag[];
   variants: Variant[];
-  silimar_products: Product[];
-  bought_together_products: Product[];
   avg_rating: number;
   reviews_count: number;
+  silimar_products: ListProduct[];
+  bought_together_products: ListProduct[];
+}
+
+export interface Review {
+  id: number;
+  user: ReviewUser;
+  variant: string;
+  created_at: string;
+  text: string;
+  votes: [number, number];
+  rating: number;
+}
+
+interface ReviewUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  image: string | null;
 }
 
 interface Brand {
@@ -34,12 +62,13 @@ export interface Tag {
   color: string;
 }
 
-interface Variant {
+export interface Variant {
   name: string;
   price: Price;
 }
 
 export interface Price {
+  id: number;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;

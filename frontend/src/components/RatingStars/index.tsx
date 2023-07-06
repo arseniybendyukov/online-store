@@ -3,16 +3,23 @@ import { repeat } from '../../utils';
 import css from './index.module.css';
 
 interface Props {
+  onlyStars?: boolean;
   avgRating: number;
-  reviewsCount: number;
+  reviewsCount?: number;
 }
 
 const fiveStars = repeat(5, () => <Star className={css.starSVG} />);
 
-export function RatingStars({ avgRating, reviewsCount }: Props) {
+export function RatingStars({
+  onlyStars=false,
+  avgRating,
+  reviewsCount,
+}: Props) {
   return (
     <div className={css.body}>
-      <span className={css.ratingValue}>{avgRating}</span>
+      {!onlyStars && (
+        <span className={css.ratingValue}>{avgRating}</span>
+      )}
       <div className={css.stars}>
         <div className={css.uncolored}>
           {fiveStars}
@@ -24,7 +31,9 @@ export function RatingStars({ avgRating, reviewsCount }: Props) {
           {fiveStars}
         </div>
       </div>
-      <span className={css.reviewsCount}>({reviewsCount})</span>
+      {reviewsCount && (
+        <span className={css.reviewsCount}>({reviewsCount})</span>
+      )}
     </div>
   );
 }

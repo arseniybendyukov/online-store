@@ -1,25 +1,25 @@
-import { Product } from '../../types/data';
+import { Link } from 'react-router-dom';
+import { ListProduct } from '../../types/data';
 import { Tag } from '../Tag';
 import { RatingStars } from '../RatingStars';
 import { ProductPrice } from '../ProductPrice';
 import { HeartButton } from './HeartButton';
-import { Button } from '../Button';
-import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
-import { ReactComponent as Check } from '../../images/check.svg';
 import css from './index.module.css';
+import { NavPaths, paramPath } from '../../navigation';
+import { AddToCartButton } from '../AddToCartButton';
 
 interface Props {
-  product: Product;
+  product: ListProduct;
 }
 
 export function ProductCard({ product }: Props) {
   const price = product.variants[0].price;
 
-  const switchSaved = () => {};
-  const switchAddedToCart = () => {};
-
   return (
-    <div className={css.product}>
+    <Link
+      to={paramPath(NavPaths.PRODUCT_DETAIL, product.id)}
+      className={css.product}
+    >
       <div className={css.tags}>
         {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
       </div>
@@ -37,18 +37,9 @@ export function ProductCard({ product }: Props) {
         salePrice={price.sale_price}
       />
       <div className={css.buttons}>
-        <HeartButton onClick={switchSaved} isActive={false} />
-        <Button onClick={switchAddedToCart} isActive={false} state={{
-          default: {
-            text: 'В корзину',
-            icon: <ShoppingCart className={css.shoppingCartSVG} />,
-          },
-          active: {
-            text: 'Добавлено',
-            icon: <Check className={css.checkSVG} />,
-          },
-        }} />
+        <HeartButton onClick={(e) => { e.preventDefault() }} isActive={false} />
+        <AddToCartButton id={product.id} isActive={false} />
       </div>
-    </div>
+    </Link>
   );
 }

@@ -10,6 +10,11 @@
   font-weight: 700;
 }
 
+.salePrice.large,
+.actualPrice.large {
+  font-size: 26px;
+}
+
 .salePrice {
   color: var(--red);
 }
@@ -19,4 +24,8 @@
   font-weight: 400;
   color: var(--grey-1);
   text-decoration: line-through;
+}
+
+.percentage {
+  color: var(--red);
 }

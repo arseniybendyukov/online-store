@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--hover);
+}
+
+.option.active {
+  color: var(--main-1);
+  border-color: var(--main-1);
+  transition: var(--hover);
+}
+
+.option.active .arrow {
+  visibility: visible;
+  opacity: 1;
+  transition: var(--hover);
+}
+
+.option.active .arrow .arrowSVG path {
+  fill: var(--main-1);
+  transition: var(--hover);
+}
+
+.arrow {
+  visibility: hidden;
+  opacity: 0;
+  transition: var(--hover);
+}
+
+.arrowSVG {
+  width: 20px;
+  height: 20px;
+  transform: rotate(90deg);
+  transition: var(--hover);
+}
+
+.arrow.reversed .arrowSVG {
+  transform: rotate(-90deg);
+  transition: var(--hover);
+}

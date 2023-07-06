@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  width: 100px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button.increment .arrowSVG {
+  transform: rotate(180deg);
+}
+
+.button.positive .arrowSVG path {
+  fill: var(--green);
+}
+
+.button.negative .arrowSVG path {
+  fill: var(--red);
+}
+
+.arrowSVG {
+  width: 25px;
+  height: 25px;
+}
+
+.value {}
+
+.value.positive {
+  color: var(--green);
+}
+
+.value.negative {
+  color: var(--red);
+}

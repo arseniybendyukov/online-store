@@ -8,6 +8,7 @@
   padding: 10px;
   border: 1px solid var(--grey-1);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .text {
@@ -36,22 +37,4 @@
 
 .buttons > button:nth-child(2) {
   width: 100%;
-}
-
-.shoppingCartSVG {
-  width: 25px;
-  height: 25px;
-}
-
-.shoppingCartSVG path {
-  stroke: white;
-}
-
-.checkSVG {
-  width: 25px;
-  height: 25px;
-}
-
-.checkSVG path {
-  stroke: var(--main-1);
 }

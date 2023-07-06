@@ -1,12 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ListBrand, ListCategory, MinMax, Product, Tag } from '../types/data';
-import { Ordering } from '../types/filters';
+import {
+  ListBrand,
+  ListCategory,
+  MinMax,
+  ListProduct,
+  Tag,
+  DetailProduct,
+  Review
+} from '../types/data';
+import { CatalogOrdering } from '../types/filters';
 
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 interface ProductFilters {
   search: string;
-  ordering: Ordering;
+  ordering: CatalogOrdering;
   tag: number;
   minPrice: number;
   maxPrice: number;
@@ -32,7 +40,7 @@ export const productsApi = createApi({
     baseUrl: BASE_URL,
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], ProductFilters>({
+    getProducts: builder.query<ListProduct[], ProductFilters>({
       query: ({
         search,
         ordering,
@@ -59,6 +67,20 @@ export const productsApi = createApi({
       },
     }),
 
+    getProductDetail: builder.query<DetailProduct, { id: string }>({
+      query: ({ id }) => `product/${id}`,
+    }),
+
+    getReviewsById: builder.query<Review[], {
+      id: number,
+      ordering: string,
+    }>({
+      query: ({ id, ordering }) => ({
+        url: `reviews/${id}`,
+        params: { ordering },
+      }),
+    }),
+
     getTags: builder.query<Tag[], void>({
       query: () => `tags/`,
     }),
@@ -79,6 +101,8 @@ export const productsApi = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductDetailQuery,
+  useGetReviewsByIdQuery,
   useGetTagsQuery,
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,

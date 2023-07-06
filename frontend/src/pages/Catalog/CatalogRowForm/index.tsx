@@ -6,32 +6,32 @@ import { ReactComponent as Filter } from '../../../images/filter.svg';
 import { ReactComponent as Tag } from '../../../images/tag.svg';
 import css from './index.module.css';
 import { SetState } from '../../../types/common';
-import { Ordering } from '../../../types/filters';
+import { CatalogOrdering } from '../../../types/filters';
 
-const orderingOptions: SelectOption<Ordering>[] = [
+const orderingOptions: SelectOption<CatalogOrdering>[] = [
   {
     label: 'По возрастанию цены',
-    value: Ordering.PRICE_LOW_HIGH,
+    value: CatalogOrdering.PRICE_LOW_HIGH,
   },
   {
     label: 'По убыванию цены',
-    value: Ordering.PRICE_HIGH_LOW,
+    value: CatalogOrdering.PRICE_HIGH_LOW,
   },
   {
     label: 'По возрастанию рейтинга',
-    value: Ordering.RATING_LOW_HIGH,
+    value: CatalogOrdering.RATING_LOW_HIGH,
   },
   {
     label: 'По убыванию рейтинга',
-    value: Ordering.RATING_HIGH_LOW,
+    value: CatalogOrdering.RATING_HIGH_LOW,
   },
 ];
 
 interface Props {
   search: string;
   setSearch: SetState<string>;
-  ordering: Ordering;
-  setOrdering: SetState<Ordering>;
+  ordering: CatalogOrdering;
+  setOrdering: SetState<CatalogOrdering>;
   tag: number;
   setTag: SetState<number>;
 }
@@ -80,7 +80,7 @@ export function CatalogRowForm({
         options={orderingOptions}
         value={ordering}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => (
-          setOrdering(e.target.value as Ordering)
+          setOrdering(e.target.value as CatalogOrdering)
         )}
       />
 

@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.starsAndValue {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.starSVG {
+  width: 15px;
+  height: 15px;
+  fill: #fff;
+}
+
+.starSVG path {
+  stroke: #fff;
+}
+
+.progressBar {
+  position: relative;
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .3);
+}
+
+.progressValue {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  border-radius: 5px;
+  background: #fff;
+}

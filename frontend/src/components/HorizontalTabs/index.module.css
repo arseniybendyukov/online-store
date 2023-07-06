@@ -1,0 +1,26 @@
+.tabs {
+  display: flex;
+  width: 100%;
+}
+
+.tabLink {
+  flex: 1 1 0;
+  cursor: pointer;
+}
+
+.tab {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0px -2px 0px var(--grey-1) inset;
+  font-size: 20px;
+  color: var(--grey-1);
+  transition: var(--hover);
+}
+
+.tab.active {
+  color: var(--main-1);
+  font-weight: 600;
+  box-shadow: 0px -4px 0px var(--main-1) inset;
+  transition: var(--hover);
+}
