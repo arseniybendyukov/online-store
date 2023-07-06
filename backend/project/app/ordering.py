@@ -28,3 +28,21 @@ class ProductCustomOrdering(OrderingFilter):
         )
 
     return queryset
+
+class ReviewCustomOrdering(OrderingFilter):
+  allowed_custom_filters = [
+    'votes',
+    '-votes',
+  ]
+
+  def filter_queryset(self, request, queryset, view):
+    param = request.query_params.get(self.ordering_param)
+    
+    if param in self.allowed_custom_filters:
+      return sorted(
+        queryset,
+        key = lambda o: o.votes_count,
+        reverse = '-' in param
+      )
+
+    return queryset

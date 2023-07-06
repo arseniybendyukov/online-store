@@ -30,7 +30,7 @@ export interface Review {
   variant: string;
   created_at: string;
   text: string;
-  votes: number;
+  votes: [number, number];
   rating: number;
 }
 

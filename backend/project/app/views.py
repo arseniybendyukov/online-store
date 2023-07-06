@@ -3,9 +3,9 @@ from rest_framework import filters
 from django_filters import rest_framework as django_filters_rest
 from rest_framework.response import Response
 from django.db.models import Max
-from .models import Product, Tag, Price, Category, Brand
-from .serializers import ProductListSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer, ProductDetailSerializer, ReviewListSerializer
-from .ordering import ProductCustomOrdering
+from .models import Product, Tag, Price, Category, Brand, Review
+from .serializers import ProductListSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer, ProductDetailSerializer, ReviewSerializer
+from .ordering import ProductCustomOrdering, ReviewCustomOrdering
 
 
 class ProductList(generics.ListAPIView):
@@ -56,9 +56,16 @@ class ProductDetail(generics.RetrieveAPIView):
   serializer_class = ProductDetailSerializer
 
 
-class ReviewList(generics.RetrieveAPIView):
-  queryset = Product.objects.all()
-  serializer_class = ReviewListSerializer
+class ReviewList(generics.ListAPIView):
+  serializer_class = ReviewSerializer
+  filter_backends = [
+    filters.OrderingFilter,
+    ReviewCustomOrdering,
+  ]
+  ordering_fields = ['created_at', 'rating']
+
+  def get_queryset(self):
+    return Review.objects.filter(product__id=self.kwargs['pk'])
 
 
 class TagList(generics.ListAPIView):

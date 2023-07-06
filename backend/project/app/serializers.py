@@ -74,7 +74,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
   user = UserSerializer()
   variant = serializers.CharField(source='variant.name')
-  votes = serializers.IntegerField(source='votes_count')
+  votes = serializers.ListField(source='get_votes')
 
   class Meta:
     model = Review
@@ -93,14 +93,6 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   class Meta:
     model = Product
     fields = '__all__'
-
-
-class ReviewListSerializer(serializers.ModelSerializer):
-  reviews = ReviewSerializer(many=True)
-
-  class Meta:
-    model = Product
-    fields = ['reviews']
 
 
 class SubcategoryListSerializer(serializers.ModelSerializer):

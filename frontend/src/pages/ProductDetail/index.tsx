@@ -33,7 +33,9 @@ export function ProductDetail({}: Props) {
   return !isLoading && product ? (
     <div className={`container ${css.container}`}>
       <div className={css.productDetails}>
-        <div className={css.slider}></div>
+        <div className={css.slider}>
+          <img src={product.image} alt={`product ${product.name}`} />
+        </div>
         <div className={css.main}>
           <h1 className='h1'>{product.name}</h1>
           <div className={css.rowStats}>

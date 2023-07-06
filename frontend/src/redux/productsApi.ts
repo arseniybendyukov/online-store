@@ -71,8 +71,14 @@ export const productsApi = createApi({
       query: ({ id }) => `product/${id}`,
     }),
 
-    getReviewsById: builder.query<{ reviews: Review[] }, { id: number }>({
-      query: ({ id }) => `reviews/${id}`,
+    getReviewsById: builder.query<Review[], {
+      id: number,
+      ordering: string,
+    }>({
+      query: ({ id, ordering }) => ({
+        url: `reviews/${id}`,
+        params: { ordering },
+      }),
     }),
 
     getTags: builder.query<Tag[], void>({

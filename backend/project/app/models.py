@@ -179,12 +179,16 @@ class Review(models.Model):
     verbose_name='Рейтинг',
   )
 
-  @property
-  def votes_count(self):
+  def get_votes(self):
     total = self.votes.all().count()
     positive = self.votes.filter(is_positive=True).count()
     negative = total - positive
 
+    return positive, negative
+
+  @property
+  def votes_count(self):
+    positive, negative = self.get_votes()
     return positive - negative
 
   def __str__(self):
@@ -196,7 +200,7 @@ class Review(models.Model):
 
   
 class Vote(models.Model):
-  is_positive = models.BooleanField()
+  is_positive = models.BooleanField(verbose_name='Положительный ли отзыв')
   user = models.ForeignKey(
     User,
     related_name='votes',
@@ -209,6 +213,9 @@ class Vote(models.Model):
     on_delete=models.CASCADE,
     verbose_name='Отзыв'
   )
+
+  def __str__(self):
+    return f'{self.user.username} → {self.review}'
 
   class Meta:
     verbose_name = 'Голос за отзыв'

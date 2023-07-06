@@ -1,0 +1,39 @@
+.container {
+  position: relative;
+}
+
+.title {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  background: #000;
+  color: #fff;
+  white-space: nowrap;
+  transition: var(--hover);
+}
+
+.title::before {
+  --size: 5px;
+  content: '';
+  position: absolute;
+  bottom: calc(var(--size) * -1);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid #000;
+}
+
+.container:hover .title {
+  opacity: 1;
+  visibility: visible;
+  transition: var(--hover);
+}

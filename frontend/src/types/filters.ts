@@ -4,3 +4,9 @@ export const enum CatalogOrdering {
   RATING_LOW_HIGH = 'rating',
   RATING_HIGH_LOW = '-rating',
 }
+
+export const enum ReviewsOrdering {
+  Date = 'created_at',
+  Rating = 'rating',
+  Votes = 'votes',
+}

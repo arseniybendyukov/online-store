@@ -11,10 +11,6 @@
   gap: 20px;
 }
 
-.slider {
-  background: #ccc;
-}
-
 .main {
   display: flex;
   flex-direction: column;

@@ -4,7 +4,6 @@ import { ReactComponent as Star } from '../../images/star.svg';
 import css from './index.module.css';
 import { formatDate, repeat } from '../../utils';
 import { Label } from '../Label';
-import { useState } from 'react';
 
 interface Props {
   review: IReview;
@@ -32,7 +31,7 @@ export function Review({ review }: Props) {
           </div>
         </div>
         <p>{review.text}</p>
-        <VotesCounter value={review.votes} />
+        <VotesCounter votes={review.votes} />
       </div>
     </div>
   );
