@@ -23,8 +23,10 @@ body {
 }
 
 .container {
-  max-width: 1300px;
+  max-width: calc(1300px + 30px); /* padding */
   margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .h1 {

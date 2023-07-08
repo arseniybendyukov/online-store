@@ -6,12 +6,17 @@ import { ProductDetail } from "../pages/ProductDetail";
 import { Reviews } from "../pages/ProductDetail/Reviews";
 import { SimilarProducts } from "../pages/ProductDetail/SimilarProducts";
 import { BoughtTogetherProducts } from "../pages/ProductDetail/BoughtTogetherProducts";
+import { Main } from "../pages/Main";
 
 export const router = createBrowserRouter([
   {
-    path: NavPaths.MAIN,
+    path: '/',
     element: <App />,
     children: [
+      {
+        path: NavPaths.MAIN,
+        element: <Main />
+      },
       {
         path: NavPaths.ABOUT,
         element: 'about page',

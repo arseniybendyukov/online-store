@@ -15,9 +15,7 @@ import { ReactComponent as Heart } from '../../images/heart.svg';
 import { ProductDetailNestedPaths } from "../../navigation";
 import { HorizontalTabs } from "../../components/HorizontalTabs";
 
-interface Props {}
-
-export function ProductDetail({}: Props) {
+export function ProductDetail() {
   let { id } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id: id || '' });
 

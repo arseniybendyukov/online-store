@@ -41,10 +41,11 @@ interface ReviewUser {
   image: string | null;
 }
 
-interface Brand {
+export interface Brand {
   id: number;
   name: string;
   image: string;
+  count: number;
 }
 
 interface Category {
@@ -86,10 +87,3 @@ interface ListSubcategory extends Category {
 export interface ListCategory extends ListSubcategory {
   subcategories: ListSubcategory[];
 }
-
-export interface ListBrand {
-  id: number;
-  name: string;
-  count: number;
-}
-

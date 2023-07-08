@@ -7,6 +7,8 @@ import { Copyright } from './Copyright';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 
+// todo: расставить правильные ссылки с query params
+
 const catalogLinks: NamedLink[] = [
   {
     path: '#',
@@ -64,42 +66,40 @@ const companyLinks: NamedLink[] = [
   },
 ];
 
-export function Footer() {
-  return (
-    <footer className={css.footer}>
-      <div className='container'>
-        <div className={css.blocks}>
-          <FooterBlock heading='Контакты'>
-            <div className={css.block}>
-              <span className={css.phone}>{PHONE_NUMBER}</span>
-              <p className={css.addressAndSchedule}>
-                <span>{SCHEDULE}</span>
-                <span>{ADDRESS}</span>
-              </p>
-              <SocialMedias />
-            </div>
-          </FooterBlock>
+export const Footer = () => (
+  <footer className={css.footer}>
+    <div className='container'>
+      <div className={css.blocks}>
+        <FooterBlock heading='Контакты'>
+          <div className={css.block}>
+            <span className={css.phone}>{PHONE_NUMBER}</span>
+            <p className={css.addressAndSchedule}>
+              <span>{SCHEDULE}</span>
+              <span>{ADDRESS}</span>
+            </p>
+            <SocialMedias />
+          </div>
+        </FooterBlock>
 
-          <FooterLinksBlock
-            heading='Каталог'
-            links={catalogLinks}
-          />
+        <FooterLinksBlock
+          heading='Каталог'
+          links={catalogLinks}
+        />
 
-          <FooterLinksBlock
-            heading='Блог'
-            links={blogLinks}
-          />
+        <FooterLinksBlock
+          heading='Блог'
+          links={blogLinks}
+        />
 
-          <FooterLinksBlock
-            heading='Компания'
-            links={companyLinks}
-          />
-        </div>
-        <Copyright />
+        <FooterLinksBlock
+          heading='Компания'
+          links={companyLinks}
+        />
       </div>
-    </footer>
-  );
-}
+      <Copyright />
+    </div>
+  </footer>
+);
 
 interface FooterLinksBlockProps {
   heading: string;

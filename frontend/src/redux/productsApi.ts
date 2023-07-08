@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-  ListBrand,
+  Brand,
   ListCategory,
   MinMax,
   ListProduct,
@@ -13,16 +13,17 @@ import { CatalogOrdering } from '../types/filters';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 interface ProductFilters {
-  search: string;
-  ordering: CatalogOrdering;
-  tag: number;
-  minPrice: number;
-  maxPrice: number;
-  subcategoryIds: number[];
-  brandIds: number[];
+  search?: string;
+  ordering?: CatalogOrdering;
+  tag?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  subcategoryIds?: number[];
+  brandIds?: number[];
+  limit?: number;
 }
 
-function optionalWithValue(arg: number, value: number) {
+function optionalWithValue(arg: number | undefined, value: number) {
   return arg !== value ? arg : undefined;
 }
 
@@ -47,8 +48,9 @@ export const productsApi = createApi({
         tag,
         minPrice,
         maxPrice,
-        subcategoryIds,
-        brandIds,
+        subcategoryIds=[],
+        brandIds=[],
+        limit,
       }) => {
         const subcategoryListParams = listQueryParam('subcategory_id[]', subcategoryIds);
         const brandListParams = listQueryParam('brand_id[]', brandIds);
@@ -57,11 +59,12 @@ export const productsApi = createApi({
         return {
           url: `products/` + composedParams,
           params: {
-            search: search,
-            ordering: ordering,
+            search,
+            ordering,
             tags__id: optionalWithValue(tag, 0),
             min_price: optionalWithValue(minPrice, 0),
             max_price: optionalWithValue(maxPrice, 0),
+            limit,
           }
         }
       },
@@ -93,7 +96,7 @@ export const productsApi = createApi({
       query: () => `categories/`,
     }),
 
-    getBrands: builder.query<ListBrand[], void>({
+    getBrands: builder.query<Brand[], void>({
       query: () => `brands/`,
     }),
   }),

@@ -49,37 +49,42 @@ type LinkProps = CommonProps & {
 // Общие стили и итоговые props
 type CommonProps = {
   color?: Colors;
+  outlineColor?: Colors;
 }
 
 type Props = ButtonProps | LinkProps;
 
-export function Button({ color = Colors.BLUE, ...props }: Props) {  
+export function Button({
+  color = Colors.BLUE,
+  outlineColor = Colors.WHITE,
+  ...props
+}: Props) {  
   if (props.path) {
     return (
       <Link to={props.path}>
-        <Content color={color} {...props} />
+        <Content color={color} outlineColor={outlineColor} {...props} />
       </Link>
     );
   } else {
     return (
       <button onClick={props.onClick}>
-        <Content color={color} {...props} />
+        <Content color={color} outlineColor={outlineColor} {...props} />
       </button>
     );
   }
 }
 
-const Content = (props: Props & { color: Colors }) => (
+const Content = (props: Props & { color: Colors, outlineColor: Colors }) => (
   <div
     className={css.button}
     style={{
-      background: props.isActive ? '#fff' : props.color,
-      borderColor: props.isActive ? props.color : 'transparent',
+      background: props.isActive ? props.outlineColor : props.color,
+      borderColor: props.isActive ? props.color : props.outlineColor,
     }}
   >
     <div
       className={css.text}
-      style={{ color: props.isActive ? props.color : '#fff' }}
+      style={{ color: props.isActive ? props.color : props.outlineColor }}
     >
       {props.isActive
         ? props.state.active.text
