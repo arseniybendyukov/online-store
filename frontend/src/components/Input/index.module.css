@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid var(--grey-1);
+}
+
+.container.error {
+  border-color: var(--red);
+}
+
+.input {
+  display: inline-block;
+  width: 100%;
+  padding: 15px;
+}
+
+.label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background: #fff;
+  padding: 3px;
+  color: var(--grey-1);
+  font-size: 13px;
+}
+
+.errorText {
+  font-size: 14px;
+  color: var(--red);
+}

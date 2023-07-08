@@ -1,0 +1,33 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 600px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 50px 5px rgba(14, 42, 71, .3);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link {
+  cursor: pointer;
+  color: var(--main-1);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}

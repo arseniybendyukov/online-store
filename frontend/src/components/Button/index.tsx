@@ -23,7 +23,8 @@ type ActiveState = {
 // Типы для кнопки
 type CommonButtonProps = {
   path?: never;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: 'submit' | 'reset' | 'button' | undefined;
 }
 
 type DefaultButton = CommonButtonProps & {
@@ -42,8 +43,9 @@ type ButtonProps = CommonProps & (DefaultButton | ActiveButton);
 type LinkProps = CommonProps & {
   isActive?: never;
   state: DefaultState;
-  path: NavPaths;
+  path: string;
   onClick?: never;
+  type?: never;
 }
 
 // Общие стили и итоговые props
@@ -67,7 +69,7 @@ export function Button({
     );
   } else {
     return (
-      <button onClick={props.onClick}>
+      <button onClick={props.onClick} type={props.type}>
         <Content color={color} outlineColor={outlineColor} {...props} />
       </button>
     );
