@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.image {
+  width: 200px;
+  -webkit-filter: grayscale(100%);
+          filter: grayscale(100%);
+  transition: var(--hover);
+}
+
+.link:hover .image {
+  -webkit-filter: none;
+          filter: none;
+  transition: var(--hover);
+}

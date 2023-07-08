@@ -52,7 +52,7 @@ export function CatalogRowForm({
   }));
 
   tagOptions.unshift({
-    label: 'Все теги',
+    label: 'Всё',
     value: '0',
   });
 

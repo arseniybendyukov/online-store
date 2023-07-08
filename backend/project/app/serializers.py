@@ -126,4 +126,4 @@ class BrandListSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Brand
-    fields = ('id', 'name', 'count')
+    fields = '__all__'

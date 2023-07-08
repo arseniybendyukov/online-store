@@ -1,0 +1,43 @@
+.banner {
+  height: calc(100vh - 101px); /* header */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.content {
+  max-width: 630px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1;
+}
+
+.paragraph {
+  font-size: 20px;
+}
+
+.buttons {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.spray {
+  bottom: 0;
+  right: 155px;
+  position: absolute;
+  z-index: 1;
+}
+
+.polygon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 500px 1000px;
+  border-color: transparent transparent var(--main-1) transparent;
+  z-index: 0;
+}
