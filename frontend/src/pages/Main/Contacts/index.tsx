@@ -4,18 +4,15 @@ import {
   ADDRESS,
   PHONE_NUMBER,
   EMAIL,
-} from '../../../consts';
+} from '../../../consts/data';
 import { NavPaths } from '../../../navigation';
 import { ReactComponent as Location } from '../../../images/location.svg';
 import { ReactComponent as Phone } from '../../../images/phone.svg';
 import { ReactComponent as Envelope } from '../../../images/envelope.svg';
 import css from './index.module.css';
 import { ReactNode } from 'react';
-import { Colors } from '../../../types/common';
 
-interface Props {}
-
-export function Contacts({}: Props) {
+export function Contacts() {
   return (
     <section className={css.container}>
       <h2 className='h2'>Контакты</h2>

@@ -2,8 +2,9 @@ import { useFormik } from 'formik';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { Link } from 'react-router-dom';
 import { AuthNestedPaths, NavPaths, paramPath } from '../../../navigation';
+import { FormTemplate } from '../FormTemplate';
+import { REQUIRED_FIELD } from '../../../consts/forms';
 
 interface FormValues {
   firstName: string;
@@ -15,8 +16,6 @@ interface FormValues {
 
 function validate(values: FormValues) {
   const errors: Partial<FormValues> = {};
-
-  const REQUIRED_FIELD = 'Обязательное поле!';
  
   if (!values.firstName) {
     errors.firstName = REQUIRED_FIELD;
@@ -66,13 +65,14 @@ export function Registration() {
   });
 
   return (
-    <div className={css.body}>
-      <div className={css.header}>
-        <h2 className='h2'>Регистрация</h2>
-        <Link to={paramPath(NavPaths.AUTH, AuthNestedPaths.LOGIN)} className={css.link}>
-          Вход
-        </Link>
-      </div>
+    <FormTemplate
+      heading='Регистрация'
+      width={600}
+      link={{
+        path: paramPath(NavPaths.AUTH, AuthNestedPaths.LOGIN),
+        name: 'Вход',
+      }}
+    >
       <form onSubmit={formik.handleSubmit} className={css.form}>
         <div className={css.row}>
           <Input
@@ -128,6 +128,6 @@ export function Registration() {
           state={{ default: { text: 'Отправить', icon: undefined } }}
         />
       </form>
-    </div>
+    </FormTemplate>
   );
 }
