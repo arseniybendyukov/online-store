@@ -1,11 +1,23 @@
-from rest_framework import generics, views
+from rest_framework import generics, views, permissions
 from rest_framework import filters
 from django_filters import rest_framework as django_filters_rest
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
 from .models import Product, Tag, Price, Category, Brand, Review
-from .serializers import ProductListSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer, ProductDetailSerializer, ReviewSerializer
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
+from .serializers import (
+  UserDetailSerializer,
+  UserRegisterationSerializer,
+  UserLoginSerializer,
+  ProductListSerializer,
+  TagSerializer,
+  CategoryListSerializer,
+  BrandListSerializer,
+  ProductDetailSerializer,
+  ReviewSerializer,
+)
 
 
 class ProductList(generics.ListAPIView):
@@ -90,3 +102,46 @@ class CategoryList(generics.ListAPIView):
 class BrandList(generics.ListAPIView):
   queryset = Brand.objects.all()
   serializer_class = BrandListSerializer
+
+
+class UserRegisterationView(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = UserRegisterationSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    token = RefreshToken.for_user(user)
+    serializer = UserDetailSerializer(user)
+    data = serializer.data
+    data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
+    return Response(data, status=status.HTTP_201_CREATED)
+
+
+class UserLoginView(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = UserLoginSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.validated_data
+    serializer = UserDetailSerializer(user)
+    token = RefreshToken.for_user(user)
+    data = serializer.data
+    data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
+    return Response(data, status=status.HTTP_200_OK)
+
+
+class UserLogoutView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def post(self, request, *args, **kwargs):
+    try:
+      refresh_token = request.data["refresh"]
+      token = RefreshToken(refresh_token)
+      token.blacklist()
+      return Response(status=status.HTTP_205_RESET_CONTENT)
+    except Exception as e:
+      return Response(status=status.HTTP_400_BAD_REQUEST)
