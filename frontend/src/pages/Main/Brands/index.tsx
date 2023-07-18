@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useGetBrandsQuery } from '../../../redux/productsApi';
+import { useGetBrandsQuery } from '../../../redux/apis/productsApi';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 

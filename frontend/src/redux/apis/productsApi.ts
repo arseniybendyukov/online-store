@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   Brand,
   ListCategory,
@@ -7,21 +7,9 @@ import {
   Tag,
   DetailProduct,
   Review
-} from '../types/data';
-import { CatalogOrdering } from '../types/filters';
-
-const BASE_URL = 'http://127.0.0.1:8000/api/';
-
-interface ProductFilters {
-  search?: string;
-  ordering?: CatalogOrdering;
-  tag?: number;
-  minPrice?: number;
-  maxPrice?: number;
-  subcategoryIds?: number[];
-  brandIds?: number[];
-  limit?: number;
-}
+} from '../../types/data';
+import { CatalogFilters } from '../../types/filters';
+import { baseQueryWithReauth } from '../baseQueryWithReauth';
 
 function optionalWithValue(arg: number | undefined, value: number) {
   return arg !== value ? arg : undefined;
@@ -37,11 +25,9 @@ function composeParams(params: string[]) {
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    getProducts: builder.query<ListProduct[], ProductFilters>({
+    getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
         search,
         ordering,

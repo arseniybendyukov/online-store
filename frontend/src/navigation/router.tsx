@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { NavPaths, ProductDetailNestedPaths, paramPath } from ".";
+import { AuthNestedPaths, NavPaths, ProductDetailNestedPaths, paramPath } from ".";
 import { App } from "../App";
 import { Catalog } from "../pages/Catalog";
 import { ProductDetail } from "../pages/ProductDetail";
@@ -7,12 +7,29 @@ import { Reviews } from "../pages/ProductDetail/Reviews";
 import { SimilarProducts } from "../pages/ProductDetail/SimilarProducts";
 import { BoughtTogetherProducts } from "../pages/ProductDetail/BoughtTogetherProducts";
 import { Main } from "../pages/Main";
+import { Auth } from "../pages/Auth";
+import { Login } from "../pages/Auth/Login";
+import { Registration } from "../pages/Auth/Registration";
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {
+        path: NavPaths.AUTH,
+        element: <Auth />,
+        children: [
+          {
+            path: AuthNestedPaths.LOGIN,
+            element: <Login />
+          },
+          {
+            path: AuthNestedPaths.REGISTRATION,
+            element: <Registration />
+          },
+        ],
+      },
       {
         path: NavPaths.MAIN,
         element: <Main />
@@ -36,10 +53,6 @@ export const router = createBrowserRouter([
       {
         path: NavPaths.HOW_TO_BUY,
         element: 'how to buy page',
-      },
-      {
-        path: NavPaths.LOGIN,
-        element: 'login page',
       },
       {
         path: paramPath(NavPaths.PRODUCT_DETAIL, ':id'),

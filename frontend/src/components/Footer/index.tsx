@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { NamedLink } from '../../types/common';
-import { ADDRESS, PHONE_NUMBER, SCHEDULE } from '../../consts';
+import { ADDRESS, PHONE_NUMBER, SCHEDULE } from '../../consts/data';
 import { FooterBlock } from './FooterBlock';
 import { SocialMedias } from '../SocialMedias';
 import { Copyright } from './Copyright';

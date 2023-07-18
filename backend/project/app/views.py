@@ -1,14 +1,27 @@
-from rest_framework import generics, views
+from rest_framework import generics, views, permissions
 from rest_framework import filters
 from django_filters import rest_framework as django_filters_rest
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
 from .models import Product, Tag, Price, Category, Brand, Review
-from .serializers import ProductListSerializer, TagSerializer, CategoryListSerializer, BrandListSerializer, ProductDetailSerializer, ReviewSerializer
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
+from .serializers import (
+  UserDetailSerializer,
+  UserRegisterationSerializer,
+  UserLoginSerializer,
+  ProductListSerializer,
+  TagSerializer,
+  CategoryListSerializer,
+  BrandListSerializer,
+  ProductDetailSerializer,
+  ReviewSerializer,
+)
 
 
 class ProductList(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
   serializer_class = ProductListSerializer
   filter_backends = (
     django_filters_rest.DjangoFilterBackend,
@@ -52,6 +65,7 @@ class ProductList(generics.ListAPIView):
 
 
 class ProductDetail(generics.RetrieveAPIView):
+  permission_classes = (permissions.AllowAny,)
   queryset = Product.objects.all()
   serializer_class = ProductDetailSerializer
 
@@ -69,11 +83,13 @@ class ReviewList(generics.ListAPIView):
 
 
 class TagList(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
   queryset = Tag.objects.all()
   serializer_class = TagSerializer
 
 
 class MinMaxPrice(views.APIView):
+  permission_classes = (permissions.AllowAny,)
   def get(self, request):
     prices = [price.get_price() for price in Price.objects.all()]
     return Response({
@@ -83,10 +99,48 @@ class MinMaxPrice(views.APIView):
 
 
 class CategoryList(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
   queryset = Category.objects.all()
   serializer_class = CategoryListSerializer
 
 
 class BrandList(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
   queryset = Brand.objects.all()
   serializer_class = BrandListSerializer
+
+
+class UserRegisterView(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = UserRegisterationSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    token = RefreshToken.for_user(user)
+    serializer = UserDetailSerializer(user)
+    data = serializer.data
+    data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
+    return Response(data, status=status.HTTP_201_CREATED)
+
+
+class UserLogoutView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def post(self, request, *args, **kwargs):
+    try:
+      refresh_token = request.data["refresh"]
+      token = RefreshToken(refresh_token)
+      token.blacklist()
+      return Response(status=status.HTTP_205_RESET_CONTENT)
+    except Exception as e:
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class WhoAmIView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def get(self, request, *args, **kwargs):
+    serializer = UserDetailSerializer(request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)

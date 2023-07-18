@@ -1,4 +1,4 @@
-import { NavPaths } from '../../navigation';
+import { AuthNestedPaths, NavPaths, paramPath } from '../../navigation';
 import { Logo } from '../Logo';
 import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
@@ -14,7 +14,7 @@ export const Header = () => (
       <NavLinks />
       <div className={css.buttons}>
         <Button
-          path={NavPaths.LOGIN}
+          path={paramPath(NavPaths.AUTH, AuthNestedPaths.LOGIN)}
           state={{
             default: { text: 'Войти', icon: undefined }
           }}

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/productsApi";
+import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/apis/productsApi";
 import { RangeInput } from "../../../components/RangeInput";
 import { CategoryAccordionSelect } from "../../../components/CategoryAccordionSelect";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";

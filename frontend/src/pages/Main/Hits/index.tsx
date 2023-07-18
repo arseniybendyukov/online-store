@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
-import { useGetProductsQuery } from '../../../redux/productsApi';
+import { useGetProductsQuery } from '../../../redux/apis/productsApi';
 import { ProductSlider } from '../../../components/ProductSlider';
 
 const HIT_TAG_ID = 2;
