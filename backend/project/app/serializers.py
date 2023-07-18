@@ -14,7 +14,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
       'image',
       'patronymic',
       'birthdate',
-      'saved_products',
       'phone_number',
     )
 

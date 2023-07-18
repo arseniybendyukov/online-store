@@ -163,12 +163,6 @@ class UserManager(BaseUserManager):
     
 
 class User(AbstractBaseUser, PermissionsMixin):
-  """ 
-  An abstract base class implementing a fully featured User model with 
-  admin-compliant permissions. 
-  """
-
-  username = None
   email = models.EmailField(max_length=40, unique=True)
   first_name = models.CharField(max_length=30, blank=True)
   last_name = models.CharField(max_length=30, blank=True)

@@ -1,21 +1,24 @@
 import { useFormik } from 'formik';
-import { REQUIRED_FIELD } from '../../../consts/forms';
+import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { AuthNestedPaths, NavPaths, paramPath } from '../../../navigation';
 import { FormTemplate } from '../FormTemplate';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
+import { useObtainTokensMutation } from '../../../redux/apis/authApi';
 
 interface FormValues {
-  username: string;
+  email: string;
   password: string;
 }
 
 function validate(values: FormValues) {
   const errors: Partial<FormValues> = {};
 
-  if (!values.username) {
-    errors.username = REQUIRED_FIELD;
+  if (!values.email) {
+    errors.email = REQUIRED_FIELD;
+  } else if (!isEmailValid(values.email)) {
+    errors.email = INVALID_EMAIL;
   }
 
   if (!values.password) {
@@ -26,18 +29,28 @@ function validate(values: FormValues) {
 }
 
 export function Login() {
+  const [login, response] = useObtainTokensMutation();
+
   const formik = useFormik<FormValues>({
     initialValues: {
-      username: '',
+      email: '',
       password: '',
     },
     validate,
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await login({
+          email: values.email,
+          password: values.password,
+        });
+
+        resetForm();
+      } catch (error) {
+        console.error('rejected', error);
+      }
     }
   });
-  
+
   return (
     <FormTemplate
       heading='Вход'
@@ -49,12 +62,13 @@ export function Login() {
     >
       <form onSubmit={formik.handleSubmit} className={css.form}>
         <Input
-          label='Логин'
-          name='username'
+          label='Электронная почта'
+          name='email'
+          type='email'
           onChange={formik.handleChange}
-          value={formik.values.username}
-          isTouched={formik.touched.username}
-          error={formik.errors.username}
+          value={formik.values.email}
+          isTouched={formik.touched.email}
+          error={formik.errors.email}
         />
 
         <Input

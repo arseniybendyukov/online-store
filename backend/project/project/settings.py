@@ -39,11 +39,12 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
+CORS_ALLOWED_ORIGINS = env.list('CORS_ORIGINS')
+CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGINS')
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,8 +68,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 MIDDLEWARE = [

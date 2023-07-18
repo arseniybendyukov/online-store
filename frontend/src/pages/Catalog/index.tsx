@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDebounce } from '../../hooks';
-import { useGetProductsQuery } from '../../redux/productsApi';
+import { useGetProductsQuery } from '../../redux/apis/productsApi';
 import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';

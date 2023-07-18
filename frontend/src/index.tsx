@@ -6,11 +6,14 @@ import { router } from './navigation/router';
 import { store } from './redux/store';
 import './css/index.css';
 import './css/reset.css';
+import { AuthMiddleware } from './components/AuthMiddleware';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthMiddleware>
+        <RouterProvider router={router} />
+      </AuthMiddleware>
     </Provider>
   </React.StrictMode>
 );

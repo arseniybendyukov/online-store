@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { useGetTagsQuery } from '../../../redux/productsApi';
+import { useGetTagsQuery } from '../../../redux/apis/productsApi';
 import { IconField, SelectOption } from '../../../components/IconField';
 import { ReactComponent as Search } from '../../../images/search.svg';
 import { ReactComponent as Filter } from '../../../images/filter.svg';

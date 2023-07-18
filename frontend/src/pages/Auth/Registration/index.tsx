@@ -4,12 +4,13 @@ import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { AuthNestedPaths, NavPaths, paramPath } from '../../../navigation';
 import { FormTemplate } from '../FormTemplate';
-import { REQUIRED_FIELD } from '../../../consts/forms';
+import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
+import { useRegisterMutation } from '../../../redux/apis/authApi';
 
 interface FormValues {
   firstName: string;
   lastName: string;
-  username: string;
+  email: string;
   password1: string;
   password2: string;
 }
@@ -29,8 +30,10 @@ function validate(values: FormValues) {
     errors.lastName = 'Максимальная длина: 150 символов!';
   }
 
-  if (!values.username) {
-    errors.username = REQUIRED_FIELD;
+  if (!values.email) {
+    errors.email = REQUIRED_FIELD;
+  } else if (!isEmailValid(values.email)) {
+    errors.email = INVALID_EMAIL;
   }
 
   if (!values.password1) {
@@ -49,18 +52,30 @@ function validate(values: FormValues) {
 }
 
 export function Registration() {
+  const [register, response] = useRegisterMutation();
+
   const formik = useFormik<FormValues>({
     initialValues: {
       firstName: '',
       lastName: '',
-      username: '',
+      email: '',
       password1: '',
       password2: '',
     },
     validate,
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await register({
+          email: values.email,
+          first_name: values.firstName,
+          last_name: values.lastName,
+          password: values.password1,
+        })
+
+        resetForm();
+      } catch (error) {
+        console.error('rejected', error);
+      }
     }
   });
 
@@ -95,12 +110,13 @@ export function Registration() {
         </div>
 
         <Input
-          label='Логин'
-          name='username'
+          label='Электронная почта'
+          name='email'
+          type='email'
           onChange={formik.handleChange}
-          value={formik.values.username}
-          isTouched={formik.touched.username}
-          error={formik.errors.username}
+          value={formik.values.email}
+          isTouched={formik.touched.email}
+          error={formik.errors.email}
         />
 
         <Input

@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useGetProductDetailQuery } from "../../redux/productsApi";
+import { useGetProductDetailQuery } from "../../redux/apis/productsApi";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
 import { ProductPrice } from "../../components/ProductPrice";
@@ -16,8 +16,8 @@ import { ProductDetailNestedPaths } from "../../navigation";
 import { HorizontalTabs } from "../../components/HorizontalTabs";
 
 export function ProductDetail() {
-  let { id } = useParams();
-  const { data: product, isLoading } = useGetProductDetailQuery({ id: id || '' });
+  let { id = '' } = useParams();
+  const { data: product, isLoading } = useGetProductDetailQuery({ id });
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [amount, setAmount] = useState(1);
