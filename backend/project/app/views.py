@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
-from .models import Product, Tag, Price, Category, Brand, Review
+from .models import Product, Tag, Price, Category, Brand, Review, CartItem, Variant
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
 from .serializers import (
   UserDetailSerializer,
@@ -17,11 +17,17 @@ from .serializers import (
   BrandListSerializer,
   ProductDetailSerializer,
   ReviewSerializer,
+  SavedProductSerializer,
+  MyReviewSerializer,
+  AddToCartSerializer,
+  CartItemListSerializer,
+  UpdateCartAmountSerializer,
+  UpdateUserSerializer,
 )
 
 
 class ProductList(generics.ListAPIView):
-  permission_classes = (permissions.AllowAny,)
+  permission_classes = (permissions.IsAuthenticated,)
   serializer_class = ProductListSerializer
   filter_backends = (
     django_filters_rest.DjangoFilterBackend,
@@ -65,7 +71,7 @@ class ProductList(generics.ListAPIView):
 
 
 class ProductDetail(generics.RetrieveAPIView):
-  permission_classes = (permissions.AllowAny,)
+  permission_classes = (permissions.IsAuthenticated,)
   queryset = Product.objects.all()
   serializer_class = ProductDetailSerializer
 
@@ -118,24 +124,7 @@ class UserRegisterView(generics.GenericAPIView):
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
-    token = RefreshToken.for_user(user)
-    serializer = UserDetailSerializer(user)
-    data = serializer.data
-    data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
-    return Response(data, status=status.HTTP_201_CREATED)
-
-
-class UserLogoutView(generics.GenericAPIView):
-  permission_classes = (permissions.IsAuthenticated,)
-
-  def post(self, request, *args, **kwargs):
-    try:
-      refresh_token = request.data["refresh"]
-      token = RefreshToken(refresh_token)
-      token.blacklist()
-      return Response(status=status.HTTP_205_RESET_CONTENT)
-    except Exception as e:
-      return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_201_CREATED)
 
 
 class WhoAmIView(generics.GenericAPIView):
@@ -144,3 +133,98 @@ class WhoAmIView(generics.GenericAPIView):
   def get(self, request, *args, **kwargs):
     serializer = UserDetailSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class MyCountsView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def get(self, request, *args, **kwargs):
+    saved_products_count = request.user.saved_products.count()
+    cart_products_count = CartItem.objects.filter(user=request.user).count()
+
+    data = {
+      'saved_products_count': saved_products_count,
+      'cart_products_count': cart_products_count,
+    }
+
+    return Response(data, status=status.HTTP_200_OK)
+
+
+class SavedProductsView(generics.ListAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = SavedProductSerializer
+
+  def get_queryset(self):
+    return self.request.user.saved_products
+
+
+class MyReviewsView(generics.ListAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = MyReviewSerializer
+
+  def get_queryset(self):
+    return Review.objects.filter(user=self.request.user)
+
+
+class AddToSavedView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def post(self, request, *args, **kwargs):
+    product = Product.objects.get(id=self.kwargs['pk'])
+    request.user.saved_products.add(product)
+    return Response(status=status.HTTP_200_OK)
+
+
+class RemoveFromSavedView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def post(self, request, *args, **kwargs):
+    product = Product.objects.get(id=self.kwargs['pk'])
+    request.user.saved_products.remove(product)
+    return Response(status=status.HTTP_200_OK)
+
+
+class CartItemListView(generics.ListAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = CartItemListSerializer
+
+  def get_queryset(self):
+    return CartItem.objects.filter(user=self.request.user).order_by('created_at')
+
+
+class AddToCartView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = AddToCartSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(status=status.HTTP_201_CREATED)
+
+
+class RemoveFromCartView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def post(self, request, *args, **kwargs):
+    CartItem.objects.filter(
+      user=request.user,
+      variant__product__id=self.kwargs['pk'],
+    ).delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+class UpdateCartAmountView(generics.UpdateAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = UpdateCartAmountSerializer
+
+  def get_queryset(self):
+    return CartItem.objects.filter(user=self.request.user)
+
+
+class UpdateUserView(generics.UpdateAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = UpdateUserSerializer
+
+  def get_object(self):
+    return self.request.user

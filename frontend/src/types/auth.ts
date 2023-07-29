@@ -13,10 +13,15 @@ export interface User {
   email: string;
   first_name: string;
   last_name: string;
-  patronymic: string;
-  image: string;
-  birthdate: string;
-  phone_number: string;
+  patronymic: string | null;
+  image: string | null;
+  birthdate: string  | null;
+  phone_number: string  | null;
+}
+
+export interface UserCounts {
+  saved_products_count: number;
+  cart_products_count: number;
 }
 
 export interface RegisterInput {
@@ -31,6 +36,10 @@ export interface LoginInput {
   password: string;
 }
 
-export interface UserWithTokens extends User {
-  tokens: Tokens;
+export interface UpdateMeInput {
+  first_name: string;
+  last_name: string;
+  patronymic: string;
+  birthdate: string;
+  phone_number: string;
 }

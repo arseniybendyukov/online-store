@@ -48,3 +48,12 @@ body {
   font-size: 20px;
   font-weight: 700;
 }
+
+a,
+button {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--main-1);
+}

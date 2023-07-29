@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AccessToken, Tokens, User } from '../../types/auth';
-import { redirect } from 'react-router-dom';
-import { NavPaths } from '../../navigation';
 
 interface State {
   user: User | null;
@@ -21,7 +19,7 @@ export const userSlice = createSlice({
 
     setTokens: (_, action: PayloadAction<Tokens>) => {
       localStorage.setItem('accessToken', action.payload.access);
-      localStorage.setItem('refreshToken', action.payload.access);
+      localStorage.setItem('refreshToken', action.payload.refresh);
     },
 
     refreshToken: (_, action: PayloadAction<AccessToken>) => {
@@ -32,7 +30,6 @@ export const userSlice = createSlice({
       state.user = null;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      redirect(NavPaths.MAIN);
     },
   },
 });

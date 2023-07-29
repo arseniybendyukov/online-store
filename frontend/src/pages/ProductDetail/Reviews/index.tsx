@@ -9,7 +9,7 @@ import { ReviewsOrdering } from "../../../types/filters";
 import { useState } from "react";
 import { ArrowOrdering, OrderingParam, paramToString } from "../../../components/ArrowOrdering";
 
-export function Reviews() {
+export function ProductReviews() {
   const [ordering, setOrdering] = useState<OrderingParam<ReviewsOrdering>>({
     param: ReviewsOrdering.Date,
     isReversed: false,

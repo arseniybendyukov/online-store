@@ -4,11 +4,12 @@ import css from './index.module.css';
 
 interface Props {
   options: NamedLink[];
+  vertical?: boolean;
 }
 
-export function HorizontalTabs({ options }: Props) {
+export function NavTabs({ options, vertical=false }: Props) {
   return (
-    <div className={css.tabs}>
+    <div className={`${css.tabs} ${vertical ? css.vertical : ''}`}>
       {options.map((option) => (
         <NavLink
           key={option.path}
@@ -16,7 +17,7 @@ export function HorizontalTabs({ options }: Props) {
           to={option.path}
         >
           {({ isActive }: { isActive: boolean }) => (
-            <div className={`${css.tab} ${isActive ? css.active : ''}`}>
+            <div className={`${vertical ? css.verticalTab : css.horizontalTab} ${isActive ? css.active : ''}`}>
               {option.name}
             </div>
           )}

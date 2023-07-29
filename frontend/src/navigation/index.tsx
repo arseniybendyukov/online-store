@@ -1,6 +1,7 @@
 export const enum NavPaths {
-  AUTH = '/auth',
   MAIN = '/',
+  AUTH = '/auth',
+  PROFILE = '/profile',
   ABOUT = '/about',
   BLOG = '/blog',
   CATALOG = '/catalog',
@@ -20,6 +21,10 @@ export const enum AuthNestedPaths {
   REGISTRATION = 'registration',
 }
 
-export const paramPath = (path: NavPaths, param: string | number) => (
-  `${path}/${param}`
-);
+export const enum ProfileNestedPaths {
+  ORDERS = 'orders',
+  CART = 'cart',
+  SAVED = 'saved',
+  REVIEWS = 'reviews',
+  PERSONAL_INFO = 'personal-info',
+}

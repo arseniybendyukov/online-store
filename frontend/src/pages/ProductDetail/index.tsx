@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useGetProductDetailQuery } from "../../redux/apis/productsApi";
+import { useGetProductDetailQuery, useToggleSaved } from "../../redux/apis/productsApi";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
 import { ProductPrice } from "../../components/ProductPrice";
@@ -13,11 +13,13 @@ import { Button } from "../../components/Button";
 import { Colors } from "../../types/common";
 import { ReactComponent as Heart } from '../../images/heart.svg';
 import { ProductDetailNestedPaths } from "../../navigation";
-import { HorizontalTabs } from "../../components/HorizontalTabs";
+import { NavTabs } from "../../components/NavTabs";
 
 export function ProductDetail() {
   let { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
+
+  const toggleSaved = useToggleSaved(product?.id || 0, product?.is_saved || false);
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [amount, setAmount] = useState(1);
@@ -27,6 +29,11 @@ export function ProductDetail() {
       setSelectedVariant(product.variants[0]);
     }
   }, [product]);
+
+  function onSaveButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    toggleSaved();
+  }
 
   return !isLoading && product ? (
     <div className={`container ${css.container}`}>
@@ -66,10 +73,16 @@ export function ProductDetail() {
             />
           </Label>
           <div className={css.buttons}>
-            <AddToCartButton id={product.id} isActive={false} />
+            <AddToCartButton
+              productId={product.id}
+              productVariantId={selectedVariant?.pk || 0}
+              isInCart={product.is_in_cart}
+              amount={amount}
+            />
+
             <Button
-              onClick={(e) => { e.preventDefault() }}
-              isActive={false}
+              onClick={onSaveButtonClick}
+              isActive={product.is_saved}
               color={Colors.RED}
               state={{
                 default: {
@@ -85,7 +98,7 @@ export function ProductDetail() {
           </div>
         </div>
       </div>
-      <HorizontalTabs
+      <NavTabs
         options={[
           {
             path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,

@@ -19,7 +19,7 @@ export const FormTemplate = ({
   <div className={css.body} style={{ width }}>
     <div className={css.header}>
       <h2 className='h2'>{heading}</h2>
-      {link && <Link to={link.path} className={css.link}>{link.name}</Link>}
+      {link && <Link to={link.path} className='link'>{link.name}</Link>}
     </div>
     {children}
   </div>

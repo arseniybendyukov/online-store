@@ -10,10 +10,6 @@
   gap: 10px;
 }
 
-.link {
-  cursor: pointer;
-}
-
 .image {
   width: 200px;
   -webkit-filter: grayscale(100%);

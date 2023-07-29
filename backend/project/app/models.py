@@ -200,12 +200,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class CartItem(models.Model):
-  product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
   amount = models.IntegerField(default=1, verbose_name='Количество')
+  created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
 
   def __str__(self):
-    return f'{self.user.username}-{self.product.name}-{self.amount}'
+    return f'{self.user.email}-{self.variant.product.name}-{self.amount}'
 
   class Meta:
     verbose_name = 'Объект корзины'
@@ -236,7 +237,7 @@ class Review(models.Model):
     return positive - negative
 
   def __str__(self):
-    return f'{self.user.username}-{self.product.name}-{self.created_at}'
+    return f'{self.user.email}-{self.product.name}-{self.created_at}'
 
   class Meta:
     verbose_name = 'Отзыв на товар'
@@ -259,7 +260,7 @@ class Vote(models.Model):
   )
 
   def __str__(self):
-    return f'{self.user.username} → {self.review}'
+    return f'{self.user.email} → {self.review}'
 
   class Meta:
     verbose_name = 'Голос за отзыв'

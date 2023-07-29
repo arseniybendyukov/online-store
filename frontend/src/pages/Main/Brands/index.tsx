@@ -13,11 +13,7 @@ export function Brands() {
       <div className={css.slider}>
         {isLoading ? 'Загрузка брендов...' : data.map(((brand) => (
           // todo: сделать ссылку на каталог с правильными query params
-          <Link
-            key={brand.id}
-            to={NavPaths.CATALOG}
-            className={css.link}
-          >
+          <Link key={brand.id} to={NavPaths.CATALOG} className={css.link}>
             <img
               src={brand.image}
               alt={brand.name}

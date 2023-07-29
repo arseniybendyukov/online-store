@@ -5,19 +5,27 @@ import { RatingStars } from '../RatingStars';
 import { ProductPrice } from '../ProductPrice';
 import { HeartButton } from './HeartButton';
 import css from './index.module.css';
-import { NavPaths, paramPath } from '../../navigation';
+import { NavPaths } from '../../navigation';
 import { AddToCartButton } from '../AddToCartButton';
+import { useToggleSaved } from '../../redux/apis/productsApi';
 
 interface Props {
   product: ListProduct;
 }
 
 export function ProductCard({ product }: Props) {
+  const toggleSaved = useToggleSaved(product.id, product.is_saved);
+
+  function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    toggleSaved();
+  }
+
   const price = product.variants[0].price;
 
   return (
     <Link
-      to={paramPath(NavPaths.PRODUCT_DETAIL, product.id)}
+      to={`${NavPaths.PRODUCT_DETAIL}/${product.id}`}
       className={css.product}
     >
       <div className={css.tags}>
@@ -37,8 +45,16 @@ export function ProductCard({ product }: Props) {
         salePrice={price.sale_price}
       />
       <div className={css.buttons}>
-        <HeartButton onClick={(e) => { e.preventDefault() }} isActive={false} />
-        <AddToCartButton id={product.id} isActive={false} />
+        <HeartButton
+          onClick={onHeartClick}
+          isActive={product.is_saved}
+        />
+
+        <AddToCartButton
+          productId={product.id}
+          productVariantId={product.variants[0].pk}
+          isInCart={product.is_in_cart}
+        />
       </div>
     </Link>
   );

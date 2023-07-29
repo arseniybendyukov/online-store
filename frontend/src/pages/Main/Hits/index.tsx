@@ -14,7 +14,7 @@ export function Hits() {
     <section className={css.container}>
       <div className={css.row}>
         <h2 className='h2'>Хиты продаж</h2>
-        <Link to={NavPaths.CATALOG} className={css.link}>Перейти в каталог</Link>
+        <Link to={NavPaths.CATALOG} className='link'>Перейти в каталог</Link>
       </div>
       {isLoading ? 'Загрузка хитов продаж...' : (
         <ProductSlider

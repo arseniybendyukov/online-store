@@ -8,6 +8,8 @@ export interface ListProduct {
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
+  is_saved: boolean;
+  is_in_cart: boolean;
 }
 
 export interface DetailProduct {
@@ -22,6 +24,8 @@ export interface DetailProduct {
   reviews_count: number;
   silimar_products: ListProduct[];
   bought_together_products: ListProduct[];
+  is_saved: boolean;
+  is_in_cart: boolean;
 }
 
 export interface Review {
@@ -64,6 +68,7 @@ export interface Tag {
 }
 
 export interface Variant {
+  pk: number;
   name: string;
   price: Price;
 }
@@ -86,4 +91,54 @@ interface ListSubcategory extends Category {
 
 export interface ListCategory extends ListSubcategory {
   subcategories: ListSubcategory[];
+}
+
+export interface SavedProduct {
+  id: number;
+  name: string;
+  image: string;
+  variants: Variant[];
+  is_in_cart: boolean;
+}
+
+export interface MyReview {
+  id: number;
+  user: ReviewUser;
+  variant?: never;
+  product: number;
+  created_at: string;
+  text: string;
+  votes: [number, number];
+  rating: number;
+}
+
+export interface Review {
+  id: number;
+  user: ReviewUser;
+  variant: string;
+  product?: never;
+  created_at: string;
+  text: string;
+  votes: [number, number];
+  rating: number;
+}
+
+export interface CartItem {
+  id: number;
+  amount: number;
+  variant: CartVariant;
+}
+
+interface CartVariant {
+  id: number;
+  name: string;
+  price: Price;
+  product: CartProduct;
+}
+
+interface CartProduct {
+  id: number;
+  name: string;
+  image: string;
+  is_saved: boolean;
 }

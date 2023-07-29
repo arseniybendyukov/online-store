@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db.models import Count
-from .models import Product, Tag, Category, Subcategory, Brand, Variant, Price, Review, User, Vote
+from .models import Product, Tag, Category, Subcategory, Brand, Variant, Price, Review, User, Vote, CartItem
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -21,8 +21,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class UserRegisterationSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ("id", 'first_name', 'last_name', "email", "password")
-    extra_kwargs = {"password": {"write_only": True}}
+    fields = ('id', 'first_name', 'last_name', 'email', 'password')
+    extra_kwargs = {'password': {'write_only': True}}
 
   def create(self, validated_data):
     return User.objects.create_user(**validated_data)
@@ -76,7 +76,11 @@ class VariantSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Variant
-    exclude = ['product']
+    fields = (
+      'pk',
+      'name',
+      'price',
+    )
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -86,6 +90,18 @@ class ProductListSerializer(serializers.ModelSerializer):
   brand = BrandSerializer()
   avg_rating = serializers.FloatField()
   reviews_count = serializers.IntegerField(source='reviews.count')
+  is_saved = serializers.SerializerMethodField()
+  is_in_cart = serializers.SerializerMethodField()
+
+  def get_is_saved(self, obj):
+    user =  self.context['request'].user
+    return user.saved_products.filter(pk=obj.id).exists()
+
+  def get_is_in_cart(self, obj):
+    return CartItem.objects.filter(
+      user=self.context['request'].user,
+      variant__product__id=obj.id,
+    ).exists()
 
   class Meta:
     model = Product
@@ -125,6 +141,18 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   silimar_products = ProductListSerializer(many=True)
   bought_together_products = ProductListSerializer(many=True) 
   reviews_count = serializers.IntegerField(source='reviews.count')
+  is_saved = serializers.SerializerMethodField()
+  is_in_cart = serializers.SerializerMethodField()
+
+  def get_is_saved(self, obj):
+    user =  self.context['request'].user
+    return user.saved_products.filter(pk=obj.id).exists()
+
+  def get_is_in_cart(self, obj):
+    return CartItem.objects.filter(
+      user=self.context['request'].user,
+      variant__product__id=obj.id,
+    ).exists()
 
   class Meta:
     model = Product
@@ -163,3 +191,105 @@ class BrandListSerializer(serializers.ModelSerializer):
   class Meta:
     model = Brand
     fields = '__all__'
+
+
+class SavedProductSerializer(serializers.ModelSerializer):
+  variants = VariantSerializer(many=True)
+  is_in_cart = serializers.SerializerMethodField()
+
+  def get_is_in_cart(self, obj):
+    return CartItem.objects.filter(
+      user=self.context['request'].user,
+      variant__product__id=obj.id,
+    ).exists()
+
+  class Meta:
+    model = Product
+    fields = (
+      'id',
+      'name',
+      'image',
+      'variants',
+      'is_in_cart',
+    )
+
+
+class MyReviewSerializer(serializers.ModelSerializer):
+  user = UserSmallSerializer()
+  votes = serializers.ListField(source='get_votes')
+
+  class Meta:
+    model = Review
+    fields = (
+      'id',
+      'user',
+      'product',
+      'created_at',
+      'text',
+      'votes',
+      'rating',
+    )
+
+
+class AddToCartSerializer(serializers.Serializer):
+  variant_id = serializers.IntegerField()
+  amount = serializers.IntegerField()
+
+  def create(self, validated_data):
+    return CartItem.objects.create(
+      user = self.context['request'].user,
+      variant = Variant.objects.get(pk=validated_data.get('variant_id')),
+      amount = validated_data.get('amount'),
+    )
+
+
+class CartProductSerializer(serializers.ModelSerializer):
+  is_saved = serializers.SerializerMethodField()
+
+  def get_is_saved(self, obj):
+    user =  self.context['request'].user
+    return user.saved_products.filter(pk=obj.id).exists()
+
+  class Meta:
+    model = Product
+    fields = (
+      'id',
+      'name',
+      'image',
+      'is_saved',
+    )
+
+
+class CartVariantSerializer(serializers.ModelSerializer):
+  price = PriceSerializer()
+  product = CartProductSerializer()
+
+  class Meta:
+    model = Variant
+    fields = '__all__'
+
+
+class CartItemListSerializer(serializers.ModelSerializer):
+  variant = CartVariantSerializer()
+
+  class Meta:
+    model = CartItem
+    exclude = ('user',)
+
+
+class UpdateCartAmountSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = CartItem
+    fields = ('amount',)
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = (
+      'first_name',
+      'last_name',
+      'patronymic',
+      'birthdate',
+      'phone_number',
+    )
