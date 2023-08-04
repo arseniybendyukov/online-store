@@ -1,10 +1,22 @@
 import css from './index.module.css';
 import { ProfileSubpage } from '../common/ProfileSubpage';
-import { useGetCartQuery } from '../../../redux/apis/productsApi';
+import { useCreateOrderMutation, useGetCartQuery } from '../../../redux/apis/productsApi';
 import { CartItemCard } from '../../../components/CartItemCard';
+import { Button } from '../../../components/Button';
 
 export function Cart() {
   const { data, isLoading } = useGetCartQuery();
+  const [createOrder] = useCreateOrderMutation();
+
+  function onOrderButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    if (data) {
+      createOrder(data.map((cartItem) => ({
+        product: cartItem.variant.product.id,
+        amount: cartItem.amount,
+      })));
+    }
+  }
 
   return (
     <ProfileSubpage
@@ -17,6 +29,10 @@ export function Cart() {
           {data.map((cartItem) => <CartItemCard key={cartItem.id} {...cartItem} />)}
         </div>
       )}
+      <Button
+        onClick={onOrderButtonClick}
+        state={{ default: { text: 'Заказать', icon: undefined } }}
+      />
     </ProfileSubpage>
   );
 }

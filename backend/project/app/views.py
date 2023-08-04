@@ -5,8 +5,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
-from .models import Product, Tag, Price, Category, Brand, Review, CartItem, Variant
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
+from .models import (
+  Product,
+  Tag,
+  Price,
+  Category,
+  Brand,
+  Review,
+  CartItem,
+  Variant,
+  Order,
+)
 from .serializers import (
   UserDetailSerializer,
   UserRegisterationSerializer,
@@ -23,8 +33,10 @@ from .serializers import (
   CartItemListSerializer,
   UpdateCartAmountSerializer,
   UpdateUserSerializer,
+  CreateOrderSerializer,
+  OrderListSerializer,
 )
-
+  
 
 class ProductList(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
@@ -228,3 +240,16 @@ class UpdateUserView(generics.UpdateAPIView):
 
   def get_object(self):
     return self.request.user
+
+
+class CreateOrderView(generics.CreateAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = CreateOrderSerializer
+
+
+class OrderListView(generics.ListAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = OrderListSerializer
+
+  def get_queryset(self):
+    return Order.objects.filter(user=self.request.user)

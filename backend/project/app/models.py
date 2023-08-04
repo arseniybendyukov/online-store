@@ -268,12 +268,11 @@ class Vote(models.Model):
 
 
 class Order(models.Model):
-  code = models.IntegerField(verbose_name='Код')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
 
   def __str__(self):
-    return f'{self.user.username}-{self.code}'
+    return f'{self.user.__str__()}-{self.created_at}'
 
   class Meta:
     verbose_name = 'Заказ'
@@ -281,12 +280,12 @@ class Order(models.Model):
 
 
 class OrderedProduct(models.Model):
-  order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='Заказ')
-  product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+  order = models.ForeignKey(Order, related_name='products', on_delete=models.CASCADE, verbose_name='Заказ')
+  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
   amount = models.IntegerField(default=1, verbose_name='Количество')
 
-  def __str__(self):
-    return f'Заказ: {self.order.__str__()}, Продукт: {self.product.name}'
+  def __str__(self):  
+    return f'Заказ: {self.order.__str__()}, Продукт: {self.variant.product.name}'
 
   class Meta:
     verbose_name = 'Заказанный товар'

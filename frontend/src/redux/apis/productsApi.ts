@@ -9,7 +9,9 @@ import {
   Review,
   MyReview,
   SavedProduct,
-  CartItem
+  CartItem,
+  OderedProductInput,
+  Order
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQueryWithReauth';
@@ -154,6 +156,18 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Cart'],
     }),
+
+    getOrders: builder.query<Order[], void>({
+      query: () => `orders/`,
+    }),
+
+    createOrder: builder.mutation<void, OderedProductInput[]>({
+      query: (data) => ({
+        url: `create-order/`,
+        method: 'POST',
+        body: { products: data },
+      }),
+    }),
   }),
 });
 
@@ -212,4 +226,6 @@ export const {
   useAddToCartMutation,
   useRemoveFromCartMutation,
   useUpdateCartAmountMutation,
+  useGetOrdersQuery,
+  useCreateOrderMutation,
 } = productsApi;

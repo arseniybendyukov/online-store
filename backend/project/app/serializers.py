@@ -1,7 +1,21 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db.models import Count
-from .models import Product, Tag, Category, Subcategory, Brand, Variant, Price, Review, User, Vote, CartItem
+from .models import (
+  Product,
+  Tag,
+  Category,
+  Subcategory,
+  Brand,
+  Variant,
+  Price,
+  Review,
+  User,
+  Vote,
+  CartItem,
+  Order,
+  OrderedProduct,
+)
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -293,3 +307,67 @@ class UpdateUserSerializer(serializers.ModelSerializer):
       'birthdate',
       'phone_number',
     )
+
+
+class OrderProductSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = OrderedProduct
+    fields = ('product', 'amount',)
+
+
+class CreateOrderSerializer(serializers.ModelSerializer):
+  products = OrderProductSerializer(many=True)
+
+  def create(self, validated_data):
+    order = Order.objects.create(user=self.context['request'].user)
+    for raw in validated_data['products']:
+      OrderedProduct.objects.create(
+        order=order,
+        product=raw['product'],
+        amount=raw['amount'],
+      )
+    return order
+
+  class Meta:
+    model = Order
+    fields = ('products',)
+
+
+class OrderedVariantProductSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Product
+    fields = (
+      'id',
+      'name',
+      'image',
+    )
+
+  
+class OrderedVariantSerializer(serializers.ModelSerializer):
+  price = PriceSerializer()
+  product = OrderedVariantProductSerializer()
+  
+  class Meta:
+    model = Variant
+    fields = (
+      'pk',
+      'name',
+      'price',
+      'product',
+    )
+
+
+class OrderedProductListSerializer(serializers.ModelSerializer):
+  variant = OrderedVariantSerializer()
+
+  class Meta:
+    model = OrderedProduct
+    exclude = ('order',)
+
+
+class OrderListSerializer(serializers.ModelSerializer):
+  products = OrderedProductListSerializer(many=True)
+
+  class Meta:
+    model = Order
+    fields = ('products', 'created_at',)

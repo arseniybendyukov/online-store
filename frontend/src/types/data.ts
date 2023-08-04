@@ -142,3 +142,32 @@ interface CartProduct {
   image: string;
   is_saved: boolean;
 }
+
+export interface OderedProductInput {
+  product: number;
+  amount: number;
+}
+
+interface OrderedVariantProduct {
+  id: number;
+  name: string;
+  image: string;
+}
+
+interface OrderedVariant {
+  id: number;
+  name: string;
+  price: Price;
+  product: OrderedVariantProduct;
+}
+
+interface OrderedProduct {
+  id: number;
+  variant: OrderedVariant;
+  amount: number;
+}
+
+export interface Order {
+  created_at: string;
+  products: OrderedProduct[];
+}
