@@ -130,7 +130,7 @@ export interface CartItem {
 }
 
 interface CartVariant {
-  id: number;
+  pk: number;
   name: string;
   price: Price;
   product: CartProduct;
@@ -144,7 +144,7 @@ interface CartProduct {
 }
 
 export interface OderedProductInput {
-  product: number;
+  variant: number;
   amount: number;
 }
 
@@ -155,7 +155,7 @@ interface OrderedVariantProduct {
 }
 
 interface OrderedVariant {
-  id: number;
+  pk: number;
   name: string;
   price: Price;
   product: OrderedVariantProduct;

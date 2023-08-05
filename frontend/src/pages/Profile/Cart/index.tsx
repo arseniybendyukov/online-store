@@ -12,7 +12,7 @@ export function Cart() {
     e.preventDefault();
     if (data) {
       createOrder(data.map((cartItem) => ({
-        product: cartItem.variant.product.id,
+        variant: cartItem.variant.pk,
         amount: cartItem.amount,
       })));
     }

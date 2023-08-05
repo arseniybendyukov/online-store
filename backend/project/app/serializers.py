@@ -280,7 +280,12 @@ class CartVariantSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Variant
-    fields = '__all__'
+    fields = (
+      'pk',
+      'name',
+      'price',
+      'product',
+    )
 
 
 class CartItemListSerializer(serializers.ModelSerializer):
@@ -312,7 +317,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 class OrderProductSerializer(serializers.ModelSerializer):
   class Meta:
     model = OrderedProduct
-    fields = ('product', 'amount',)
+    fields = ('variant', 'amount',)
 
 
 class CreateOrderSerializer(serializers.ModelSerializer):
@@ -323,7 +328,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
         order=order,
-        product=raw['product'],
+        variant=raw['variant'],
         amount=raw['amount'],
       )
     return order

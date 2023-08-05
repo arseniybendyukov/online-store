@@ -17,7 +17,7 @@ export function CartItemCard(cartItem: Props) {
     id: cartItemId,
     amount,
     variant: {
-      id: productVariantId,
+      pk: productVariantId,
       name: productVariantName,
       price,
       product: {
