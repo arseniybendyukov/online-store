@@ -161,13 +161,30 @@ interface OrderedVariant {
   product: OrderedVariantProduct;
 }
 
-interface OrderedProduct {
+export interface OrderedProduct {
   id: number;
   variant: OrderedVariant;
   amount: number;
 }
 
+interface OrderStageType {
+  id: number;
+  name: string;
+}
+
+interface OrderStage {
+  id: number;
+  stage_type: OrderStageType;
+  modified_at: string;
+}
+
 export interface Order {
-  created_at: string;
+  id: number;
+  is_active: boolean;
   products: OrderedProduct[];
+  created_at: string;
+}
+
+export interface OrderDetail extends Order {
+  stages: OrderStage[];
 }

@@ -11,7 +11,8 @@ import {
   SavedProduct,
   CartItem,
   OderedProductInput,
-  Order
+  Order,
+  OrderDetail,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQueryWithReauth';
@@ -32,7 +33,7 @@ function composeParams(params: string[]) {
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -159,6 +160,7 @@ export const productsApi = createApi({
 
     getOrders: builder.query<Order[], void>({
       query: () => `orders/`,
+      providesTags: ['Order'],
     }),
 
     createOrder: builder.mutation<void, OderedProductInput[]>({
@@ -167,6 +169,11 @@ export const productsApi = createApi({
         method: 'POST',
         body: { products: data },
       }),
+      invalidatesTags: ['Order'],
+    }),
+
+    getOrderDetail: builder.query<OrderDetail, { id: string }>({
+      query: ({ id }) => `order/${id}`,
     }),
   }),
 });
@@ -228,4 +235,5 @@ export const {
   useUpdateCartAmountMutation,
   useGetOrdersQuery,
   useCreateOrderMutation,
+  useGetOrderDetailQuery,
 } = productsApi;

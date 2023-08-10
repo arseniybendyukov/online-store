@@ -15,6 +15,8 @@ from .models import (
   CartItem,
   Order,
   OrderedProduct,
+  OrderStage,
+  OrderStageType,
 )
 
 
@@ -144,7 +146,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Review
-    exclude = ['product']
+    fields = '__all__'
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -231,6 +233,7 @@ class SavedProductSerializer(serializers.ModelSerializer):
 class MyReviewSerializer(serializers.ModelSerializer):
   user = UserSmallSerializer()
   votes = serializers.ListField(source='get_votes')
+  product = serializers.IntegerField(source='variant.product.id')
 
   class Meta:
     model = Review
@@ -323,14 +326,28 @@ class OrderProductSerializer(serializers.ModelSerializer):
 class CreateOrderSerializer(serializers.ModelSerializer):
   products = OrderProductSerializer(many=True)
 
+  def validate(self, data):
+    if not len(data['products']) > 0:
+      raise serializers.ValidationError('Невозможно создать пустой заказ')
+    return data
+
   def create(self, validated_data):
     order = Order.objects.create(user=self.context['request'].user)
+
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
         order=order,
         variant=raw['variant'],
         amount=raw['amount'],
       )
+
+    for stage_type in OrderStageType.objects.all():
+      OrderStage.objects.create(
+        order=order,
+        stage_type=stage_type,
+        is_done=False,
+      )
+
     return order
 
   class Meta:
@@ -375,4 +392,31 @@ class OrderListSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Order
-    fields = ('products', 'created_at',)
+    fields = (
+      'id',
+      'is_active',
+      'products',
+      'created_at',
+    )
+
+
+class OrderStageSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = OrderStage
+    exclude = ('order',)
+    depth = 1
+
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+  products = OrderedProductListSerializer(many=True)
+  stages = OrderStageSerializer(many=True)
+
+  class Meta:
+    model = Order
+    fields = (
+      'id',
+      'is_active',
+      'products',
+      'stages',
+      'created_at',
+    )

@@ -23,8 +23,14 @@ export const enum AuthNestedPaths {
 
 export const enum ProfileNestedPaths {
   ORDERS = 'orders',
+  ORDER_DETAIL = 'order/:id',
   CART = 'cart',
   SAVED = 'saved',
   REVIEWS = 'reviews',
   PERSONAL_INFO = 'personal-info',
+}
+
+export const enum OrdersNestedPaths {
+  ACTIVE = 'active',
+  COMPLETED = 'completed',
 }

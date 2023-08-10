@@ -1,5 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AuthNestedPaths, NavPaths, ProductDetailNestedPaths, ProfileNestedPaths } from ".";
+import {
+  AuthNestedPaths,
+  NavPaths,
+  OrdersNestedPaths,
+  ProductDetailNestedPaths,
+  ProfileNestedPaths,
+} from ".";
 import { App } from "../App";
 import { Catalog } from "../pages/Catalog";
 import { ProductDetail } from "../pages/ProductDetail";
@@ -16,6 +22,9 @@ import { Saved } from "../pages/Profile/Saved";
 import { Cart } from "../pages/Profile/Cart";
 import { PersonalInfo } from "../pages/Profile/PersonalInfo";
 import { Reviews } from "../pages/Profile/Reviews";
+import { Active } from "../pages/Profile/Orders/Active";
+import { Completed } from "../pages/Profile/Orders/Completed";
+import { OrderDetail } from "../pages/Profile/Orders/Detail";
 
 export const router = createBrowserRouter([
   {
@@ -41,10 +50,6 @@ export const router = createBrowserRouter([
         element: <Profile />,
         children: [
           {
-            path: ProfileNestedPaths.ORDERS,
-            element: <Orders />,
-          },
-          {
             path: ProfileNestedPaths.CART,
             element: <Cart />,
           },
@@ -59,6 +64,24 @@ export const router = createBrowserRouter([
           {
             path: ProfileNestedPaths.PERSONAL_INFO,
             element: <PersonalInfo />,
+          },
+          {
+            path: `${ProfileNestedPaths.ORDER_DETAIL}/:id`,
+            element: <OrderDetail />
+          },
+          {
+            path: ProfileNestedPaths.ORDERS,
+            element: <Orders />,
+            children: [
+              {
+                path: OrdersNestedPaths.ACTIVE,
+                element: <Active />,
+              },
+              {
+                path: OrdersNestedPaths.COMPLETED,
+                element: <Completed />,
+              },
+            ],
           },
         ],
       },

@@ -1,0 +1,10 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.properties {
+  display: flex;
+  gap: 20px;
+}

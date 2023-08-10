@@ -1,11 +1,14 @@
 import { useOutletContext } from "react-router-dom";
-import { OutletContext } from "../types";
+import { ProductDetailOutletContext } from "../types";
 import { ProductSlider } from "../../../components/ProductSlider";
+import { ProductCard } from "../../../components/ProductCard";
 
 export function BoughtTogetherProducts() {
-  const { boughtTogetherProducts } = useOutletContext<OutletContext>();
+  const { boughtTogetherProducts } = useOutletContext<ProductDetailOutletContext>();
 
   return (
-    <ProductSlider products={boughtTogetherProducts} />
+    <ProductSlider items={boughtTogetherProducts.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ))} />
   );
 }

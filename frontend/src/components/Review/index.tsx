@@ -2,10 +2,11 @@ import { Review as ProductReview, MyReview } from '../../types/data';
 import { VotesCounter } from '../VotesCounter';
 import { ReactComponent as Star } from '../../images/star.svg';
 import css from './index.module.css';
-import { formatDate, repeat } from '../../utils';
 import { Label } from '../Label';
 import { NavPaths } from '../../navigation';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../utils/data';
+import { repeat } from '../../utils/arrays';
 
 interface Props {
   review: ProductReview | MyReview;

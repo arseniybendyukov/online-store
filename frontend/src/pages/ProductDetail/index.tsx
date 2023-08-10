@@ -16,7 +16,7 @@ import { ProductDetailNestedPaths } from "../../navigation";
 import { NavTabs } from "../../components/NavTabs";
 
 export function ProductDetail() {
-  let { id = '' } = useParams();
+  const { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
 
   const toggleSaved = useToggleSaved(product?.id || 0, product?.is_saved || false);

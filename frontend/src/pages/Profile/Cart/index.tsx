@@ -24,15 +24,18 @@ export function Cart() {
       itemsCount={data?.length}
       isLoading={isLoading}
     >
-      {data && (
+      {data && <>
         <div className={css.cartItems}>
           {data.map((cartItem) => <CartItemCard key={cartItem.id} {...cartItem} />)}
         </div>
-      )}
-      <Button
-        onClick={onOrderButtonClick}
-        state={{ default: { text: 'Заказать', icon: undefined } }}
-      />
+
+        {data.length > 0 && (
+          <Button
+            onClick={onOrderButtonClick}
+            state={{ default: { text: 'Заказать', icon: undefined } }}
+          />
+        )}
+      </>}
     </ProfileSubpage>
   );
 }

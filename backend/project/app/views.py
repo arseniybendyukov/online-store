@@ -35,6 +35,7 @@ from .serializers import (
   UpdateUserSerializer,
   CreateOrderSerializer,
   OrderListSerializer,
+  OrderDetailSerializer,
 )
   
 
@@ -97,7 +98,8 @@ class ReviewList(generics.ListAPIView):
   ordering_fields = ['created_at', 'rating']
 
   def get_queryset(self):
-    return Review.objects.filter(product__id=self.kwargs['pk'])
+    product = Product.objects.get(id=self.kwargs['pk'])
+    return product.reviews
 
 
 class TagList(generics.ListAPIView):
@@ -251,5 +253,13 @@ class OrderListView(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
   serializer_class = OrderListSerializer
 
+  def get_queryset(self):
+    return Order.objects.filter(user=self.request.user)
+
+
+class OrderDetail(generics.RetrieveAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = OrderDetailSerializer
+  
   def get_queryset(self):
     return Order.objects.filter(user=self.request.user)

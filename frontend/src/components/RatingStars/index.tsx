@@ -1,5 +1,5 @@
 import { ReactComponent as Star } from '../../images/star.svg';
-import { repeat } from '../../utils';
+import { repeat } from '../../utils/arrays';
 import css from './index.module.css';
 
 interface Props {

@@ -11,6 +11,10 @@
   gap: 20px;
 }
 
+.content {
+  min-width: 0;
+}
+
 .logoutButton {
   width: 100%;
   padding: 20px;

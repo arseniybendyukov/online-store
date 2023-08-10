@@ -3,6 +3,7 @@ import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { useGetProductsQuery } from '../../../redux/apis/productsApi';
 import { ProductSlider } from '../../../components/ProductSlider';
+import { ProductCard } from '../../../components/ProductCard';
 
 const HIT_TAG_ID = 2;
 
@@ -17,10 +18,9 @@ export function Hits() {
         <Link to={NavPaths.CATALOG} className='link'>Перейти в каталог</Link>
       </div>
       {isLoading ? 'Загрузка хитов продаж...' : (
-        <ProductSlider
-          products={data.slice(0, 4)}
-          slidable={false}
-        />
+        <ProductSlider items={data.slice(0, 4).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))} />
       )}
     </section>
   );

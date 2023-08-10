@@ -1,11 +1,14 @@
 import { useOutletContext } from "react-router-dom";
-import { OutletContext } from "../types";
+import { ProductDetailOutletContext } from "../types";
 import { ProductSlider } from "../../../components/ProductSlider";
+import { ProductCard } from "../../../components/ProductCard";
 
 export function SimilarProducts() {
-  const { silimarProducts } = useOutletContext<OutletContext>();
+  const { silimarProducts } = useOutletContext<ProductDetailOutletContext>();
 
   return (
-    <ProductSlider products={silimarProducts} />
+    <ProductSlider items={silimarProducts.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ))} />
   );
 }
