@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useGetBrandsQuery } from '../../../redux/apis/productsApi';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
+import { Slider } from '../../../components/Slider';
 
 export function Brands() {
   const { data=[], isLoading } = useGetBrandsQuery();
@@ -9,23 +10,26 @@ export function Brands() {
   return (
     <section>
       <h2 className='h2'>Бренды</h2>
-      {/* todo: сделать слайдер */}
-      <div className={css.slider}>
-        {isLoading ? 'Загрузка брендов...' : data.map(((brand) => (
-          // todo: сделать ссылку на каталог с правильными query params
-          <Link
-            key={brand.id}
-            to={NavPaths.CATALOG}
-            className={css.link}
-          >
-            <img
-              src={brand.image}
-              alt={brand.name}
-              className={css.image}
-            />
-          </Link>
-        )))}
-      </div>
+      {
+        isLoading
+        ? 'Загрузка брендов'
+        : (
+          <Slider
+            insideArrows
+            slidesPerView={6}
+            items={data.map(((brand) => (
+              // todo: сделать ссылку на каталог с query params
+              <Link key={brand.id} to={NavPaths.CATALOG} className={css.link}>
+                <img
+                  src={brand.image}
+                  alt={brand.name}
+                  className={css.image}
+                />
+              </Link>
+            )))}
+          />
+        )
+      }
     </section>
   );
 }

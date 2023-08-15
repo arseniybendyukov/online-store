@@ -44,6 +44,7 @@ export function CatalogRowForm({
   tag,
   setTag,
 }: Props) {
+  const isReversedOrdering = !ordering.startsWith('-');
   const { data: tags = [] } = useGetTagsQuery();
   
   const tagOptions: SelectOption[] = tags.map((tag) => ({
@@ -52,7 +53,7 @@ export function CatalogRowForm({
   }));
 
   tagOptions.unshift({
-    label: 'Всё',
+    label: 'Все',
     value: '0',
   });
 
@@ -73,7 +74,7 @@ export function CatalogRowForm({
       />
 
       <IconField
-        icon={<Filter className={css.svg} />}
+        icon={<Filter className={`${css.svg} ${isReversedOrdering ? css.reversed : ''}`} />}
         as='select'
         id='ordering'
         name='ordering'

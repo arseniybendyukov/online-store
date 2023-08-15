@@ -1,11 +1,12 @@
 import { useFormik } from 'formik';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
-import { AuthNestedPaths, NavPaths, paramPath } from '../../../navigation';
+import { AuthNestedPaths, NavPaths } from '../../../navigation';
 import { FormTemplate } from '../FormTemplate';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { useObtainTokensMutation } from '../../../redux/apis/authApi';
+import { useLoginMutation } from '../../../redux/apis/authApi';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
   email: string;
@@ -29,7 +30,8 @@ function validate(values: FormValues) {
 }
 
 export function Login() {
-  const [login, response] = useObtainTokensMutation();
+  const navigate = useNavigate();
+  const [login, response] = useLoginMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -37,26 +39,28 @@ export function Login() {
       password: '',
     },
     validate,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
         await login({
           email: values.email,
           password: values.password,
         });
-
-        resetForm();
       } catch (error) {
         console.error('rejected', error);
       }
     }
   });
 
+  if (response.isSuccess) {
+    navigate(NavPaths.PROFILE);
+  }
+
   return (
     <FormTemplate
       heading='Вход'
       width={450}
       link={{
-        path: paramPath(NavPaths.AUTH, AuthNestedPaths.REGISTRATION),
+        path: `${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`,
         name: 'Регистрация',
       }}
     >

@@ -1,4 +1,4 @@
-import { range } from '../../utils';
+import { range } from '../../utils/arrays';
 import { RatingStars } from '../RatingStars';
 import { Row } from './Row';
 import css from './index.module.css';

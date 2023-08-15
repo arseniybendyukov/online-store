@@ -13,6 +13,10 @@
   height: 23px;
 }
 
+.svg.reversed {
+  transform: rotate(180deg);
+}
+
 .svg path {
   fill: var(--grey-1);
 }

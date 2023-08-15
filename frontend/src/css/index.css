@@ -8,6 +8,7 @@
   --main-2: #C7E0FA;
   --main-3: #092B4D;
   --main-1-transparent: rgba(7, 83, 161, .2);
+  --main-1-disabled: rgb(115, 129, 143);
   --grey-1: #63676B;
   --grey-2: #E1E1E1;
   --red: #E11F1F;
@@ -47,4 +48,13 @@ body {
 .h4 {
   font-size: 20px;
   font-weight: 700;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--main-1);
 }

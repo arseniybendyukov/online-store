@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.productsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}

@@ -27,7 +27,6 @@
 .reviewsCount {
   font-size: 20px;
   color: var(--main-1);
-  cursor: pointer;
 }
 
 .devider {

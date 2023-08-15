@@ -1,6 +1,8 @@
 from django.forms import ModelForm
+from django.forms import BaseInlineFormSet
 from django.forms.widgets import TextInput
-from .models import Tag
+from django.core.exceptions import ValidationError
+from .models import Tag, Order
 
 class TagForm(ModelForm):
   class Meta:
@@ -9,3 +11,14 @@ class TagForm(ModelForm):
     widgets = {
       'color': TextInput(attrs={'type': 'color'}),
     }
+
+
+class OrderStageFormSet(BaseInlineFormSet):
+  def clean(self):
+    super().clean()
+
+    is_prev_done = True
+    for form in self.forms:
+      if not is_prev_done and form.cleaned_data['is_done']:
+        raise ValidationError('Этап не может быть выполненным, так как не выполнены предыдущие этапы')
+      is_prev_done = form.cleaned_data['is_done']

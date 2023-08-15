@@ -1,0 +1,91 @@
+import { ProductPrice } from '../ProductPrice';
+import { CartItem } from '../../types/data';
+import { ReactComponent as Cross } from '../../images/cross.svg';
+import { ReactComponent as Heart } from '../../images/heart.svg';
+import css from './index.module.css';
+import { Link } from 'react-router-dom';
+import { NavPaths } from '../../navigation';
+import { useRemoveFromCartMutation, useToggleSaved, useUpdateCartAmountMutation } from '../../redux/apis/productsApi';
+import { AmountInput } from '../AmountInput';
+import { useEffect, useState } from 'react';
+import { useDebounce } from '../../hooks';
+
+interface Props extends CartItem {}
+
+export function CartItemCard(cartItem: Props) {
+  const {
+    id: cartItemId,
+    amount,
+    variant: {
+      pk: productVariantId,
+      name: productVariantName,
+      price,
+      product: {
+        id: productId,
+        name: productName,
+        is_saved: isSaved,
+        image,
+      }
+    },
+  } = cartItem;
+
+  const [inputAmount, setInputAmount] = useState(amount);
+  const debouncedAmount = useDebounce(inputAmount, 500);
+
+  const [updateCartAmount] = useUpdateCartAmountMutation();
+
+  useEffect(() => {
+    if (inputAmount !== amount) {
+      updateCartAmount({ cartItemId, amount: debouncedAmount });
+    }
+  }, [debouncedAmount]);
+
+  const [removeFromCart] = useRemoveFromCartMutation();
+  const toggleSaved = useToggleSaved(productId, isSaved);
+
+  function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    toggleSaved();
+  }
+
+  function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    removeFromCart({ productId });
+  }
+
+  return (
+    <Link
+      to={`${NavPaths.PRODUCT_DETAIL}/${productId}`}
+      className={css.card}
+    >
+      <div className={css.majorInfo}>
+        <img src={image} alt='product' className={css.image} />
+        <h4 className='h4'>{productName}</h4>
+      </div>
+
+      <div onClick={(e) => e.preventDefault()}>
+        <AmountInput
+          amount={inputAmount}
+          setAmount={setInputAmount}
+        />
+      </div>
+
+      <div className={css.minorInfo}>
+        <ProductPrice
+          actualPrice={price.actual_price}
+          salePrice={price.sale_price}
+        />
+
+        <div className={css.buttons}>
+          <button onClick={onHeartClick}>
+            <Heart className={`${css.heartSVG} ${isSaved ? css.active : ''}`} />
+          </button>
+
+          <button onClick={onCrossClick}>
+            <Cross className={css.crossSVG} />
+          </button>
+        </div>
+      </div>
+    </Link>
+  );
+}

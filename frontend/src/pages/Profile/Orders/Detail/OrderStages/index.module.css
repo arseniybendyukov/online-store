@@ -1,0 +1,72 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  padding-bottom: 60px;
+}
+
+.bar {
+  position: absolute;
+  width: calc(100% - 100px);
+  height: 5px;
+  background: var(--grey-2);
+  z-index: -1;
+}
+
+.progress {
+  height: 5px;
+  background: var(--main-1);
+}
+
+/* ---- */
+
+.stage {
+  position: relative;
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.circle.notDone {
+  border: 5px solid var(--grey-2);
+  background: #FFF;
+}
+
+.circle.done {
+  background: var(--main-1);
+}
+
+.checkSVG {
+  width: 30px;
+  height: 30px;
+}
+
+.checkSVG path {
+  stroke: #FFF;
+}
+
+.label {
+  position: absolute;
+  transform: translate(calc(-50% + 25px), 10px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stageName,
+.stageDate {
+  white-space: nowrap;
+}
+
+.stageDate {
+  color: var(--grey-1);
+}

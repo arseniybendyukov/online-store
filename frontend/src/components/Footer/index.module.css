@@ -24,7 +24,6 @@
 }
 
 .link {
-  cursor: pointer;
   color:rgba(255, 255, 255, .6);
   transition: var(--hover);
 }

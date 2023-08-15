@@ -3,20 +3,20 @@ import { Review } from "../../../components/Review";
 import { RatingStatsBar } from "../../../components/RatingStatsBar";
 import { Label } from "../../../components/Label";
 import css from './index.module.css';
-import { OutletContext } from "../types";
+import { ProductDetailOutletContext } from "../types";
 import { useOutletContext } from "react-router-dom";
 import { ReviewsOrdering } from "../../../types/filters";
 import { useState } from "react";
 import { ArrowOrdering, OrderingParam, paramToString } from "../../../components/ArrowOrdering";
 
-export function Reviews() {
+export function ProductReviews() {
   const [ordering, setOrdering] = useState<OrderingParam<ReviewsOrdering>>({
     param: ReviewsOrdering.Date,
     isReversed: false,
     isDesc: false,
   });
 
-  const { reviews: { id, avgRating } } = useOutletContext<OutletContext>();
+  const { reviews: { id, avgRating } } = useOutletContext<ProductDetailOutletContext>();
   
   const { data: reviews = [], isLoading } = useGetReviewsByIdQuery({
     id,

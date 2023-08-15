@@ -25,7 +25,7 @@ export function Catalog() {
   const [subcategoryIds, setSubcategoryIds] = useState<number[]>([]);
   const [brandIds, setBrandIds] = useState<number[]>([]);
 
-  const { data, isFetching } = useGetProductsQuery({
+  const { data, isLoading } = useGetProductsQuery({
     search: debouncedSearch,
     ordering,
     tag,
@@ -62,7 +62,7 @@ export function Catalog() {
             setTag={setTag}
           />
           <div className={css.products}>
-            {isFetching ? 'Загрузка...' : (
+            {isLoading ? 'Загрузка...' : (
               data?.map((product) => <ProductCard key={product.id} product={product} />)
             )}
           </div>

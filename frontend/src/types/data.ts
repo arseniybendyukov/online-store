@@ -8,6 +8,8 @@ export interface ListProduct {
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
+  is_saved: boolean;
+  is_in_cart: boolean;
 }
 
 export interface DetailProduct {
@@ -22,6 +24,8 @@ export interface DetailProduct {
   reviews_count: number;
   silimar_products: ListProduct[];
   bought_together_products: ListProduct[];
+  is_saved: boolean;
+  is_in_cart: boolean;
 }
 
 export interface Review {
@@ -64,6 +68,7 @@ export interface Tag {
 }
 
 export interface Variant {
+  pk: number;
   name: string;
   price: Price;
 }
@@ -86,4 +91,102 @@ interface ListSubcategory extends Category {
 
 export interface ListCategory extends ListSubcategory {
   subcategories: ListSubcategory[];
+}
+
+export interface SavedProduct {
+  id: number;
+  name: string;
+  image: string;
+  variants: Variant[];
+  is_in_cart: boolean;
+}
+
+export interface MyReview {
+  id: number;
+  user: ReviewUser;
+  variant?: never;
+  product: number;
+  created_at: string;
+  text: string;
+  votes: [number, number];
+  rating: number;
+}
+
+export interface Review {
+  id: number;
+  user: ReviewUser;
+  variant: string;
+  product?: never;
+  created_at: string;
+  text: string;
+  votes: [number, number];
+  rating: number;
+}
+
+export interface CartItem {
+  id: number;
+  amount: number;
+  variant: CartVariant;
+}
+
+interface CartVariant {
+  pk: number;
+  name: string;
+  price: Price;
+  product: CartProduct;
+}
+
+interface CartProduct {
+  id: number;
+  name: string;
+  image: string;
+  is_saved: boolean;
+}
+
+export interface OderedProductInput {
+  variant: number;
+  amount: number;
+}
+
+interface OrderedVariantProduct {
+  id: number;
+  name: string;
+  image: string;
+}
+
+interface OrderedVariant {
+  pk: number;
+  name: string;
+  price: Price;
+  product: OrderedVariantProduct;
+}
+
+export interface OrderedProduct {
+  id: number;
+  variant: OrderedVariant;
+  amount: number;
+}
+
+interface OrderStageType {
+  id: number;
+  name: string;
+}
+
+export interface OrderStage {
+  id: number;
+  is_done: boolean;
+  stage_type: OrderStageType;
+  modified_at: string;
+}
+
+export interface Order {
+  id: number;
+  is_active: boolean;
+  products: OrderedProduct[];
+  created_at: string;
+  approx_delivery_date: string | null;
+}
+
+export interface OrderDetail extends Order {
+  stages: OrderStage[];
 }

@@ -2,10 +2,11 @@ import { useFormik } from 'formik';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { AuthNestedPaths, NavPaths, paramPath } from '../../../navigation';
+import { AuthNestedPaths, NavPaths } from '../../../navigation';
 import { FormTemplate } from '../FormTemplate';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/apis/authApi';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
   firstName: string;
@@ -52,6 +53,7 @@ function validate(values: FormValues) {
 }
 
 export function Registration() {
+  const navigate = useNavigate();
   const [register, response] = useRegisterMutation();
 
   const formik = useFormik<FormValues>({
@@ -79,12 +81,16 @@ export function Registration() {
     }
   });
 
+  if (response.isSuccess) {
+    navigate(NavPaths.PROFILE);
+  }
+
   return (
     <FormTemplate
       heading='Регистрация'
       width={600}
       link={{
-        path: paramPath(NavPaths.AUTH, AuthNestedPaths.LOGIN),
+        path: `${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`,
         name: 'Вход',
       }}
     >

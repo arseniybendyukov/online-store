@@ -1,0 +1,37 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px 10px 10px;
+  border: 1px solid var(--grey-1);
+  border-radius: 5px;
+}
+
+.majorInfo {
+  width: 450px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.image {
+  width: 130px;
+  height: 130px;
+}
+
+.minorInfo {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.crossSVG {
+  width: 20px;
+  height: 20px;
+}
+
+.crossSVG path {
+  fill: var(--grey-1);
+}

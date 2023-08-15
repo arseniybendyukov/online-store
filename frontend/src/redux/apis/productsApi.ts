@@ -6,10 +6,17 @@ import {
   ListProduct,
   Tag,
   DetailProduct,
-  Review
+  Review,
+  MyReview,
+  SavedProduct,
+  CartItem,
+  OderedProductInput,
+  Order,
+  OrderDetail,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQueryWithReauth';
+import { UserCounts } from '../../types/auth';
 
 function optionalWithValue(arg: number | undefined, value: number) {
   return arg !== value ? arg : undefined;
@@ -26,6 +33,7 @@ function composeParams(params: string[]) {
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -54,10 +62,12 @@ export const productsApi = createApi({
           }
         }
       },
+      providesTags: ['Product'],
     }),
 
     getProductDetail: builder.query<DetailProduct, { id: string }>({
       query: ({ id }) => `product/${id}`,
+      providesTags: ['ProductDetail'],
     }),
 
     getReviewsById: builder.query<Review[], {
@@ -85,8 +95,124 @@ export const productsApi = createApi({
     getBrands: builder.query<Brand[], void>({
       query: () => `brands/`,
     }),
+
+    // Profile API
+    getMyCounts: builder.query<UserCounts, void>({
+      query: () => `my-counts/`,
+      providesTags: ['MyCounts'],
+    }),
+
+    getMyReviews: builder.query<MyReview[], void>({
+      query: () => `my-reviews/`,
+    }),
+
+    getSavedProducts: builder.query<SavedProduct[], void>({
+      query: () => `saved-products/`,
+      providesTags: ['SavedProduct'],
+    }),
+
+    addToSaved: builder.mutation<void, { id: number; }>({
+      query: ({ id }) => ({
+        url: `add-to-saved/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+    }),
+
+    removeFromSaved: builder.mutation<void, { id: number; }>({
+      query: ({ id }) => ({
+        url: `remove-from-saved/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+    }),
+
+    getCart: builder.query<CartItem[], void>({
+      query: () => `cart/`,
+      providesTags: ['Cart'],
+    }),
+
+    addToCart: builder.mutation<void, { variant_id: number; amount: number; }>({
+      query: (data) => ({
+        url: `add-to-cart/`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+    }),
+
+    removeFromCart: builder.mutation<void, { productId: number }>({
+      query: ({ productId }) => ({
+        url: `remove-from-cart/${productId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+    }),
+
+    updateCartAmount: builder.mutation<void, { cartItemId: number; amount: number; }>({
+      query: ({ cartItemId, amount }) => ({
+        url: `update-cart-amount/${cartItemId}`,
+        method: 'PATCH',
+        body: { amount },
+      }),
+      invalidatesTags: ['Cart'],
+    }),
+
+    getOrders: builder.query<Order[], void>({
+      query: () => `orders/`,
+      providesTags: ['Order'],
+    }),
+
+    createOrder: builder.mutation<void, OderedProductInput[]>({
+      query: (data) => ({
+        url: `create-order/`,
+        method: 'POST',
+        body: { products: data },
+      }),
+      invalidatesTags: ['Order'],
+    }),
+
+    getOrderDetail: builder.query<OrderDetail, { id: string }>({
+      query: ({ id }) => `order/${id}`,
+    }),
   }),
 });
+
+export function useToggleSaved(id: number, isSaved: boolean) {
+  const [addToSaved] = useAddToSavedMutation();
+  const [removeFromSaved] = useRemoveFromSavedMutation();
+
+  return () => {
+    if (isSaved) {
+      removeFromSaved({ id });
+    } else {
+      addToSaved({ id });
+    }
+  };
+}
+
+export function useToggleCart(agrs: {
+  productId: number;
+  productVariantId: number;
+  isInCart: boolean;
+  amount: number;
+}) {
+  const { productId, productVariantId, isInCart, amount } = agrs;
+
+  const [addToCart] = useAddToCartMutation();
+  const [removeFromCart] = useRemoveFromCartMutation();
+
+  return () => {
+    if (isInCart) {
+      removeFromCart({ productId });
+    } else {
+      addToCart({
+        variant_id: productVariantId,
+        amount,
+      });
+    }
+  };
+}
 
 export const {
   useGetProductsQuery,
@@ -96,4 +222,18 @@ export const {
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,
   useGetBrandsQuery,
+
+  // Profile API
+  useGetMyCountsQuery,
+  useGetMyReviewsQuery,
+  useGetSavedProductsQuery,
+  useAddToSavedMutation,
+  useRemoveFromSavedMutation,
+  useGetCartQuery,
+  useAddToCartMutation,
+  useRemoveFromCartMutation,
+  useUpdateCartAmountMutation,
+  useGetOrdersQuery,
+  useCreateOrderMutation,
+  useGetOrderDetailQuery,
 } = productsApi;

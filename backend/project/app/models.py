@@ -1,7 +1,9 @@
 from django.db import models
+from datetime import datetime
 from django.utils import timezone
 from django.db import transaction
 from django.db.models import Avg
+from .utils import format_datetime
 from .validators import PERCENTAGE_VALIDATOR, RATING_VALIDATOR, PHONE_NUMBER_VALIDATOR
 from django.contrib.auth.models import (
   AbstractBaseUser, PermissionsMixin, BaseUserManager
@@ -73,7 +75,7 @@ class Price(models.Model):
     return self.actual_price
 
   def __str__(self):
-    return str(self.actual_price)
+    return f'{self.actual_price}, {self.variant}'
 
   class Meta:
     verbose_name = 'Цена на товар'
@@ -103,6 +105,10 @@ class Product(models.Model):
   )
 
   @property
+  def reviews(self):
+    return Review.objects.filter(variant__in=self.variants.all())
+
+  @property
   def avg_rating(self):
     raw = self.reviews.all().aggregate(Avg('rating'))['rating__avg'] or 0
     return round(raw, 1)
@@ -120,6 +126,7 @@ class Variant(models.Model):
   price = models.OneToOneField(
     Price,
     on_delete=models.CASCADE,
+    related_name='variant',
     primary_key=True, 
     verbose_name='Цена'
   )
@@ -131,7 +138,7 @@ class Variant(models.Model):
   )
 
   def __str__(self):
-    return self.name
+    return f'{self.name}, {self.product}'
 
   class Meta:
     verbose_name = 'Вариант товара'
@@ -187,12 +194,15 @@ class User(AbstractBaseUser, PermissionsMixin):
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first_name', 'last_name']
 
+  def get_fullname(self):
+    return f'{self.first_name} {self.last_name}'
+
   def save(self, *args, **kwargs):
     super(User, self).save(*args, **kwargs)
     return self
 
   def __str__(self):
-    return f'{self.first_name} {self.last_name}'
+    return self.get_fullname()
 
   class Meta:
     verbose_name = 'Пользователь'
@@ -200,12 +210,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class CartItem(models.Model):
-  product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
   amount = models.IntegerField(default=1, verbose_name='Количество')
+  created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
 
   def __str__(self):
-    return f'{self.user.username}-{self.product.name}-{self.amount}'
+    return f'{self.variant.product.name}, {self.amount} шт., {self.user}'
 
   class Meta:
     verbose_name = 'Объект корзины'
@@ -213,8 +224,7 @@ class CartItem(models.Model):
 
 
 class Review(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-  product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews', verbose_name='Товар')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор отзыва')
   variant = models.ForeignKey(Variant, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Вариант')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   text = models.TextField(verbose_name='Текст')
@@ -236,7 +246,8 @@ class Review(models.Model):
     return positive - negative
 
   def __str__(self):
-    return f'{self.user.username}-{self.product.name}-{self.created_at}'
+    created_at = format_datetime(self.created_at)
+    return f'{self.variant.product}, {self.user}, {created_at}'
 
   class Meta:
     verbose_name = 'Отзыв на товар'
@@ -244,12 +255,12 @@ class Review(models.Model):
 
   
 class Vote(models.Model):
-  is_positive = models.BooleanField(verbose_name='Положительный ли отзыв')
+  is_positive = models.BooleanField(verbose_name='Положительный ли голос')
   user = models.ForeignKey(
     User,
     related_name='votes',
     on_delete=models.CASCADE,
-    verbose_name='Пользователь'
+    verbose_name='Проголосовавший'
   )
   review = models.ForeignKey(
     Review,
@@ -259,7 +270,7 @@ class Vote(models.Model):
   )
 
   def __str__(self):
-    return f'{self.user.username} → {self.review}'
+    return f'Отзыв: {self.review}, Пользователь: {self.user}'
 
   class Meta:
     verbose_name = 'Голос за отзыв'
@@ -267,26 +278,56 @@ class Vote(models.Model):
 
 
 class Order(models.Model):
-  code = models.IntegerField(verbose_name='Код')
+  is_active = models.BooleanField(default=True, verbose_name='Активен ли заказ')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+  approx_delivery_date = models.DateField(blank=True, null=True, verbose_name='Примерная дата доставки')
 
   def __str__(self):
-    return f'{self.user.username}-{self.code}'
+    created_at = format_datetime(self.created_at)
+    return f'{self.user}, {created_at}'
 
   class Meta:
     verbose_name = 'Заказ'
     verbose_name_plural = 'Заказы'
+    ordering = ('-created_at',)
 
 
 class OrderedProduct(models.Model):
-  order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='Заказ')
-  product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+  order = models.ForeignKey(Order, related_name='products', on_delete=models.CASCADE, verbose_name='Заказ')
+  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
   amount = models.IntegerField(default=1, verbose_name='Количество')
 
-  def __str__(self):
-    return f'Заказ: {self.order.__str__()}, Продукт: {self.product.name}'
+  def __str__(self):  
+    return f'{self.variant.product.name}, {self.order}'
 
   class Meta:
     verbose_name = 'Заказанный товар'
     verbose_name_plural = 'Заказанные товары'
+
+
+class OrderStageType(models.Model):
+  name = models.CharField(max_length=100, verbose_name='Название')
+  ordering = models.PositiveSmallIntegerField(verbose_name='Порядковый номер этапа')
+
+  def __str__(self):
+    return self.name
+  
+  class Meta:
+    verbose_name = 'Тип этапа заказа'
+    verbose_name_plural = 'Типы этапа заказа'
+
+
+class OrderStage(models.Model):
+  order = models.ForeignKey(Order, related_name='stages', on_delete=models.CASCADE, verbose_name='Заказ')
+  is_done = models.BooleanField(default=False, verbose_name='Выполнен ли')
+  stage_type = models.ForeignKey(OrderStageType, on_delete=models.CASCADE, verbose_name='Тип этапа')
+  modified_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
+
+  def __str__(self):
+    return f'{self.order}, {self.stage_type.name}'
+
+  class Meta:
+    verbose_name = 'Этап заказа'
+    verbose_name_plural = 'Этапы заказа'
+    ordering = ('stage_type__ordering',)

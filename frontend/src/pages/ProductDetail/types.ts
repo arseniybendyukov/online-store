@@ -1,6 +1,6 @@
 import { ListProduct, Review } from "../../types/data";
 
-export type OutletContext = {
+export type ProductDetailOutletContext = {
   boughtTogetherProducts: ListProduct[];
   silimarProducts: ListProduct[];
   reviews: {

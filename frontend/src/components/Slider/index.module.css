@@ -1,0 +1,72 @@
+.wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.wrapper.inside {
+  padding: 0 50px;
+}
+
+.swiper {
+  max-width: 100%;
+}
+
+.swiper > div > div {
+  height: auto;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  z-index: 1;
+  background: var(--main-1);
+  cursor: pointer;
+  transition: var(--hover);
+}
+
+
+.arrow svg {
+  width: 30px;
+  height: 30px;
+}
+
+.arrow svg path {
+  fill: #fff;
+}
+
+.next.outside {
+  right: -20px;
+}
+
+.next.inside {
+  right: 0;
+}
+
+.next svg {
+  transform: rotate(-90deg) translateY(2px);
+}
+
+.prev.outside {
+  left: -20px;
+}
+
+.prev.inside {
+  left: 0;
+}
+
+.prev svg {
+  transform: rotate(90deg) translateY(2px);
+}
+
+.disabled {
+  background: var(--main-1-disabled);
+  cursor: not-allowed;
+  transition: var(--hover);
+}

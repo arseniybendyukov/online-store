@@ -12,7 +12,7 @@ export function AuthMiddleware({ children }: Props) {
   const loading = isLoading || isFetching;
 
   if (loading) {
-    return <div>ЗАГРУЗКА</div>;
+    return <>ЗАГРУЗКА</>;
   }
 
   return <>{children}</>;
