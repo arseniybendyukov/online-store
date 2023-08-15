@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .forms import TagForm
+from .forms import TagForm, OrderStageFormSet
 from .utils import format_datetime, crop_text, to_price
 from .models import (
   Category,
@@ -84,6 +84,7 @@ class OrderedProductAdmin(admin.ModelAdmin):
 class OrderStageInline(admin.TabularInline):
   model = OrderStage
   readonly_fields = ('stage_type',)
+  formset = OrderStageFormSet
   extra = 0
 
   def has_add_permission(self, request, instance=None):

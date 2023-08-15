@@ -9,6 +9,7 @@ export function Saved() {
   return (
     <ProfileSubpage
       heading='Сохраненное'
+      empty='Нет сохраненных товаров'
       itemsCount={data?.length}
       isLoading={isLoading}
     >

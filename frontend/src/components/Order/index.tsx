@@ -3,7 +3,7 @@ import { Order as IOrder } from '../../types/data';
 import { formatDate, getOverallPrice } from '../../utils/data';
 import { Label } from '../Label';
 import { OrderedProductCard } from '../OrderedProductCard';
-import { ProductSlider } from '../ProductSlider';
+import { Slider } from '../Slider';
 import css from './index.module.css';
 import { NavPaths, ProfileNestedPaths } from '../../navigation';
 
@@ -28,7 +28,7 @@ export function Order({ order }: Props) {
           Перейти к деталям
         </Link>
       </div>
-      <ProductSlider items={order.products.map((orderedProduct) => (
+      <Slider items={order.products.map((orderedProduct) => (
         <OrderedProductCard key={orderedProduct.id} orderedProduct={orderedProduct} />
       ))} />
     </div>

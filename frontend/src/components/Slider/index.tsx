@@ -7,17 +7,23 @@ import { ReactComponent as Arrow } from '../../images/arrow.svg';
 
 interface Props {
   items: ReactNode[];
+  slidesPerView?: number;
+  insideArrows?: boolean;
 }
 
-export function ProductSlider({ items }: Props) {
+export function Slider({
+  items,
+  slidesPerView=4,
+  insideArrows=false,
+}: Props) {
   const nextArrowId = useId();
   const prevArrowId = useId();
 
   return (
-    <div className={css.wrapper}>
+    <div className={`${css.wrapper} ${insideArrows ? css.inside : ''}`}>
       <Swiper
         className={css.swiper}
-        slidesPerView={4}
+        slidesPerView={slidesPerView}
         slidesPerGroup={4}
         spaceBetween={10}
         modules={[Navigation]}
@@ -32,8 +38,8 @@ export function ProductSlider({ items }: Props) {
         ))}
       </Swiper>
 
-      <div className={`${css.arrow} ${css.next}`} id={nextArrowId}><Arrow /></div>
-      <div className={`${css.arrow} ${css.prev}`} id={prevArrowId}><Arrow /></div>
+      <div className={`${css.arrow} ${css.next} ${insideArrows ? css.inside : css.outside}`} id={nextArrowId}><Arrow /></div>
+      <div className={`${css.arrow} ${css.prev} ${insideArrows ? css.inside : css.outside}`} id={prevArrowId}><Arrow /></div>
     </div>
   );
 }

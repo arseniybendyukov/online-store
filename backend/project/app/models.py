@@ -281,6 +281,7 @@ class Order(models.Model):
   is_active = models.BooleanField(default=True, verbose_name='Активен ли заказ')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+  approx_delivery_date = models.DateField(blank=True, null=True, verbose_name='Примерная дата доставки')
 
   def __str__(self):
     created_at = format_datetime(self.created_at)
@@ -289,6 +290,7 @@ class Order(models.Model):
   class Meta:
     verbose_name = 'Заказ'
     verbose_name_plural = 'Заказы'
+    ordering = ('-created_at',)
 
 
 class OrderedProduct(models.Model):
@@ -306,6 +308,7 @@ class OrderedProduct(models.Model):
 
 class OrderStageType(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
+  ordering = models.PositiveSmallIntegerField(verbose_name='Порядковый номер этапа')
 
   def __str__(self):
     return self.name
@@ -327,3 +330,4 @@ class OrderStage(models.Model):
   class Meta:
     verbose_name = 'Этап заказа'
     verbose_name_plural = 'Этапы заказа'
+    ordering = ('stage_type__ordering',)

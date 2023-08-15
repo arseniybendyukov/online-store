@@ -21,6 +21,7 @@ export function Cart() {
   return (
     <ProfileSubpage
       heading='Корзина'
+      empty='Корзина пуста'
       itemsCount={data?.length}
       isLoading={isLoading}
     >
@@ -29,12 +30,10 @@ export function Cart() {
           {data.map((cartItem) => <CartItemCard key={cartItem.id} {...cartItem} />)}
         </div>
 
-        {data.length > 0 && (
-          <Button
-            onClick={onOrderButtonClick}
-            state={{ default: { text: 'Заказать', icon: undefined } }}
-          />
-        )}
+        <Button
+          onClick={onOrderButtonClick}
+          state={{ default: { text: 'Оформить заказ', icon: undefined } }}
+        />
       </>}
     </ProfileSubpage>
   );

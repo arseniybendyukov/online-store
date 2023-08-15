@@ -413,10 +413,4 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Order
-    fields = (
-      'id',
-      'is_active',
-      'products',
-      'stages',
-      'created_at',
-    )
+    exclude = ('user',)

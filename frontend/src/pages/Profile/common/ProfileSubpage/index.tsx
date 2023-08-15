@@ -3,6 +3,7 @@ import css from './index.module.css';
 
 interface Props {
   heading: string;
+  empty: string;
   itemsCount?: number;
   isLoading: boolean;
   children: ReactNode;
@@ -10,16 +11,23 @@ interface Props {
 
 export function ProfileSubpage({
   heading,
+  empty,
   itemsCount,
   isLoading,
   children,
 }: Props) {
-  const pageHeading = itemsCount !== undefined ? `${heading} (${itemsCount})` : heading;
+  const pageHeading = itemsCount ? `${heading} (${itemsCount})` : heading;
 
   return isLoading ? <>Загрузка...</> : (
     <div className={css.content}>
-      <h1 className='h1'>{pageHeading}</h1>
-      <div>{children}</div>
+      {
+        itemsCount
+        ? <>
+          <h1 className='h1'>{pageHeading}</h1>
+          <div>{children}</div>
+        </>
+        : <div className={css.empty}>{empty}</div>
+      }
     </div>
   );
 }

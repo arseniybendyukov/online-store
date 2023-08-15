@@ -12,6 +12,15 @@ export function formatDate(date: string) {
   return obj.format(new Date(date));
 }
 
+export function monthAndDayFromDate(date: string) {
+  const obj = new Intl.DateTimeFormat('ru', {
+    month: 'long',
+    day: 'numeric',
+  });
+
+  return obj.format(new Date(date));
+}
+
 export function getOverallPrice(order: Order) {
   const price = order.products.reduce((acc, orderedProduct) => {
     const price = orderedProduct.variant.price.sale_price || orderedProduct.variant.price.actual_price;

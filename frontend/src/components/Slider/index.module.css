@@ -3,6 +3,10 @@
   overflow: visible;
 }
 
+.wrapper.inside {
+  padding: 0 50px;
+}
+
 .swiper {
   max-width: 100%;
 }
@@ -27,6 +31,7 @@
   transition: var(--hover);
 }
 
+
 .arrow svg {
   width: 30px;
   height: 30px;
@@ -36,16 +41,24 @@
   fill: #fff;
 }
 
-.next {
+.next.outside {
   right: -20px;
+}
+
+.next.inside {
+  right: 0;
 }
 
 .next svg {
   transform: rotate(-90deg) translateY(2px);
 }
 
-.prev {
+.prev.outside {
   left: -20px;
+}
+
+.prev.inside {
+  left: 0;
 }
 
 .prev svg {

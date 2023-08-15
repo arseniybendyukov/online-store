@@ -23,7 +23,7 @@ export const enum AuthNestedPaths {
 
 export const enum ProfileNestedPaths {
   ORDERS = 'orders',
-  ORDER_DETAIL = 'order/:id',
+  ORDER_DETAIL = 'order',
   CART = 'cart',
   SAVED = 'saved',
   REVIEWS = 'reviews',

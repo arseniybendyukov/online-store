@@ -172,8 +172,9 @@ interface OrderStageType {
   name: string;
 }
 
-interface OrderStage {
+export interface OrderStage {
   id: number;
+  is_done: boolean;
   stage_type: OrderStageType;
   modified_at: string;
 }
@@ -183,6 +184,7 @@ export interface Order {
   is_active: boolean;
   products: OrderedProduct[];
   created_at: string;
+  approx_delivery_date: string | null;
 }
 
 export interface OrderDetail extends Order {
