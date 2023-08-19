@@ -11,7 +11,7 @@ import { AccessToken } from '../types/auth';
 
 const mutex = new Mutex();
 
-const baseQuery = fetchBaseQuery({
+export const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
     const accessToken = localStorage.getItem('accessToken');

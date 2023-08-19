@@ -1,3 +1,10 @@
+export interface AppealInput {
+  full_name: string;
+  email: string;
+  phone_number: string;
+  text: string;
+}
+
 export interface ListProduct {
   id: number;
   name: string;

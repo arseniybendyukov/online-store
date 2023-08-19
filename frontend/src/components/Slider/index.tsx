@@ -38,8 +38,18 @@ export function Slider({
         ))}
       </Swiper>
 
-      <div className={`${css.arrow} ${css.next} ${insideArrows ? css.inside : css.outside}`} id={nextArrowId}><Arrow /></div>
-      <div className={`${css.arrow} ${css.prev} ${insideArrows ? css.inside : css.outside}`} id={prevArrowId}><Arrow /></div>
+      <div
+        id={nextArrowId}
+        className={`${css.arrow} ${css.next} ${insideArrows ? css.inside : css.outside}`}
+      >
+        <Arrow />
+      </div>
+      <div
+        className={`${css.arrow} ${css.prev} ${insideArrows ? css.inside : css.outside}`}
+        id={prevArrowId}
+      >
+        <Arrow />
+      </div>
     </div>
   );
 }

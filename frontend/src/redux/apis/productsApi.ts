@@ -15,7 +15,7 @@ import {
   OrderDetail,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
-import { baseQueryWithReauth } from '../baseQueryWithReauth';
+import { baseQueryWithReauth } from '../baseQuery';
 import { UserCounts } from '../../types/auth';
 
 function optionalWithValue(arg: number | undefined, value: number) {
