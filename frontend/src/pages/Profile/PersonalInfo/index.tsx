@@ -4,7 +4,7 @@ import { Input } from '../../../components/Input';
 import { useAppSelector } from '../../../redux/store';
 import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
-import { isPhoneNumberValid } from '../../../utils/forms';
+import { INVALID_PHONE_NUMBER, isPhoneNumberValid } from '../../../utils/forms';
 import { useUpdateMeMutation } from '../../../redux/apis/authApi';
 
 interface FormValues {
@@ -19,7 +19,7 @@ function validate(values: FormValues) {
   const errors: Partial<FormValues> = {};
 
   if (values.phoneNumber && !isPhoneNumberValid(values.phoneNumber)) {
-    errors.phoneNumber = 'Номер должен быть введен в формате: \'+999999999\'. Номер должен содержать не меньше 9 и не больше 15 цифр.';
+    errors.phoneNumber = INVALID_PHONE_NUMBER;
   }
 
   return errors;

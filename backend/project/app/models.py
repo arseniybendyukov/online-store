@@ -10,6 +10,26 @@ from django.contrib.auth.models import (
 )
 
 
+class Appeal(models.Model):
+  full_name = models.CharField(max_length=100, verbose_name='Полное имя')
+  email = models.EmailField(max_length=40, verbose_name='Электронная почта')
+  phone_number = models.CharField(
+    max_length=17,
+    validators=[PHONE_NUMBER_VALIDATOR],
+    verbose_name='Номер телефона',
+  )
+  text = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+
+  def __str__(self):
+    created_at = format_datetime(self.created_at)
+    return f'{self.full_name}, {self.email}, {self.phone_number}, {created_at}'
+
+  class Meta:
+    verbose_name = 'Обращение по форме'
+    verbose_name_plural = 'Обращения по форме'
+
+
 class Category(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
 
@@ -17,7 +37,7 @@ class Category(models.Model):
     return self.name
 
   class Meta:
-    verbose_name = 'Категория товара' 
+    verbose_name = 'Категория товара'
     verbose_name_plural = 'Категории товара'
 
 
@@ -170,13 +190,12 @@ class UserManager(BaseUserManager):
     
 
 class User(AbstractBaseUser, PermissionsMixin):
-  email = models.EmailField(max_length=40, unique=True)
-  first_name = models.CharField(max_length=30, blank=True)
-  last_name = models.CharField(max_length=30, blank=True)
-  image = models.ImageField(null=True, blank=True, upload_to='users/', verbose_name='Изображение')
+  email = models.EmailField(max_length=40, unique=True, verbose_name='Электронная почта')
+  first_name = models.CharField(max_length=30, blank=True, verbose_name='Имя')
+  last_name = models.CharField(max_length=30, blank=True, verbose_name='Фамилия')
   patronymic = models.CharField(max_length=100, null=True, blank=True, verbose_name='Отчество')
   birthdate = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
-  saved_products = models.ManyToManyField(Product, blank=True, verbose_name='Сохраненные товары')
+  image = models.ImageField(null=True, blank=True, upload_to='users/', verbose_name='Изображение')
   phone_number = models.CharField(
     max_length=17,
     validators=[PHONE_NUMBER_VALIDATOR],
@@ -184,6 +203,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     blank=True,
     verbose_name='Номер телефона',
   )
+  saved_products = models.ManyToManyField(Product, blank=True, verbose_name='Сохраненные товары')
 
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)

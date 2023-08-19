@@ -25,6 +25,7 @@ import { Reviews } from "../pages/Profile/Reviews";
 import { Active } from "../pages/Profile/Orders/Active";
 import { Completed } from "../pages/Profile/Orders/Completed";
 import { OrderDetail } from "../pages/Profile/Orders/Detail";
+import { Contacts } from "../pages/Contacts";
 
 export const router = createBrowserRouter([
   {
@@ -103,7 +104,7 @@ export const router = createBrowserRouter([
       },
       {
         path: NavPaths.CONTACTS,
-        element: 'contacts page',
+        element: <Contacts />,
       },
       {
         path: NavPaths.HOW_TO_BUY,

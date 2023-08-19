@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
 from .models import (
+  Appeal,
   Product,
   Tag,
   Price,
@@ -36,6 +37,7 @@ from .serializers import (
   CreateOrderSerializer,
   OrderListSerializer,
   OrderDetailSerializer,
+  AppealSerializer,
 )
   
 
@@ -263,3 +265,8 @@ class OrderDetail(generics.RetrieveAPIView):
   
   def get_queryset(self):
     return Order.objects.filter(user=self.request.user)
+
+
+class CreateAppealView(generics.CreateAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = AppealSerializer

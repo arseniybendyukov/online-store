@@ -1,25 +1,30 @@
 import { HTMLProps } from 'react';
 import css from './index.module.css';
 
-interface Props extends HTMLProps<HTMLInputElement> {
+type Props<T extends 'input' | 'textarea'> = {
+  identity?: T;
   label: string;
   isTouched?: boolean;
   error?: string;
-}
+} & (T extends 'input' ? HTMLProps<HTMLInputElement> : HTMLProps<HTMLTextAreaElement>);
 
-export function Input({
+export function Input<T extends 'input' | 'textarea'>({
+  identity='input' as T,
   label,
-  type='text',
   isTouched,
   error,
   ...props
-}: Props) {
+}: Props<T>) {
   const isError = isTouched && error;
 
   return (
     <div>
       <div className={`${css.container} ${isError ? css.error : ''}`}>
-        <input type={type} className={css.input} {...props} />
+        {
+          identity === 'input'
+          ? <input className={css.input} {...props as HTMLProps<HTMLInputElement>} />
+          : <textarea className={css.input} {...props as HTMLProps<HTMLTextAreaElement>} />
+        }
         <label className={css.label}>{label}</label>
       </div>
       {isError ? (

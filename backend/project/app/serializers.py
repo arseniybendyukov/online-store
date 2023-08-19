@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db.models import Count
 from .models import (
+  Appeal,
   Product,
   Tag,
   Category,
@@ -414,3 +415,9 @@ class OrderDetailSerializer(serializers.ModelSerializer):
   class Meta:
     model = Order
     exclude = ('user',)
+
+
+class AppealSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Appeal
+    fields = '__all__'

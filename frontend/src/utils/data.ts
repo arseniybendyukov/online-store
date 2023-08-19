@@ -1,3 +1,4 @@
+import { User } from "../types/auth";
 import { Order } from "../types/data";
 
 export function formatDate(date: string) {
@@ -28,4 +29,14 @@ export function getOverallPrice(order: Order) {
   }, 0);
 
   return `${price} ₽`;
+}
+
+export function getFullName(user: User) {
+  let fullName = `${user.first_name} ${user.last_name}`;
+
+  if (user.patronymic) {
+    fullName = `${fullName} ${user.patronymic}`;
+  }
+
+  return fullName;
 }
