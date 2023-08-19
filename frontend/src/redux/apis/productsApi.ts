@@ -13,6 +13,7 @@ import {
   OderedProductInput,
   Order,
   OrderDetail,
+  VoteOnReviewInput,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
@@ -33,7 +34,7 @@ function composeParams(params: string[]) {
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order'],
+  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order', 'Reviews', 'MyReviews'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -78,6 +79,7 @@ export const productsApi = createApi({
         url: `reviews/${id}`,
         params: { ordering },
       }),
+      providesTags: ['Reviews'],
     }),
 
     getTags: builder.query<Tag[], void>({
@@ -104,6 +106,7 @@ export const productsApi = createApi({
 
     getMyReviews: builder.query<MyReview[], void>({
       query: () => `my-reviews/`,
+      providesTags: ['MyReviews'],
     }),
 
     getSavedProducts: builder.query<SavedProduct[], void>({
@@ -175,6 +178,15 @@ export const productsApi = createApi({
     getOrderDetail: builder.query<OrderDetail, { id: string }>({
       query: ({ id }) => `order/${id}`,
     }),
+
+    voteOnReview: builder.mutation<void, VoteOnReviewInput>({
+      query: (data) => ({
+        url: 'vote/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Reviews', 'MyReviews'],
+    }),
   }),
 });
 
@@ -222,6 +234,7 @@ export const {
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,
   useGetBrandsQuery,
+  useVoteOnReviewMutation,
 
   // Profile API
   useGetMyCountsQuery,

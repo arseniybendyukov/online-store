@@ -6,11 +6,17 @@ type VotesCountState = 'positive' | 'neutral' | 'negative';
 
 interface Props {
   votes: [number, number];
+  isVotePositive: boolean | null;
+  upVote: () => void;
+  downVote: () => void;
 }
 
-export function VotesCounter({ votes }: Props) {
-  // todo: подкрашивать стрелки в зависимости от выбора пользователя
-
+export function VotesCounter({
+  votes,
+  isVotePositive,
+  upVote,
+  downVote,
+}: Props) {
   const [positive, negative] = votes;
   const value = positive - negative;
 
@@ -30,13 +36,13 @@ export function VotesCounter({ votes }: Props) {
   return (
     <HoverTitle title={`${positive} плюсов; ${negative} минусов`}>
       <div className={css.container}>
-        <button className={`${css.button} ${css.decrement}`}>
+        <button onClick={downVote} className={`${css.button} ${isVotePositive === false ? css.negative : ''}`}>
           <Arrow className={css.arrowSVG} />
         </button>
         <span className={`${css.value} ${stateClass}`}>
           {formattedValue}
         </span>
-        <button className={`${css.button} ${css.increment}`}>
+        <button onClick={upVote} className={`${css.button} ${css.increment} ${isVotePositive === true ? css.positive : ''}`}>
           <Arrow className={css.arrowSVG} />
         </button>
       </div>
