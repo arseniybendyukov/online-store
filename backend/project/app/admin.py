@@ -3,10 +3,12 @@ from .forms import TagForm, OrderStageFormSet
 from .utils import format_datetime, crop_text, to_price
 from .models import (
   Appeal,
+  BlogPost,
   Category,
   Subcategory,
   Brand,
-  Tag,
+  ProductTag,
+  BlogTag,
   Price,
   Product,
   Variant,
@@ -37,6 +39,18 @@ class AppealAdmin(admin.ModelAdmin):
   @admin.display(description='Дата и время создания')
   def formatted_created_at(self, instance):
     return format_datetime(instance.created_at)
+
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+  list_display = (
+    'heading_starts_with',
+    'created_at',
+  )
+  
+  @admin.display(description='Заголовок')
+  def heading_starts_with(self, instance):
+    return crop_text(instance.heading, 30)
 
 
 admin.site.register(Brand)
@@ -186,8 +200,13 @@ class UserAdmin(admin.ModelAdmin):
     return instance.get_fullname()
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
+@admin.register(ProductTag)
+class ProductTagAdmin(admin.ModelAdmin):
+  form = TagForm
+
+
+@admin.register(BlogTag)
+class BlogTagAdmin(admin.ModelAdmin):
   form = TagForm
 
 

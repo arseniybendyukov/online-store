@@ -8,8 +8,9 @@ from django.db.models import Max
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
 from .models import (
   Appeal,
+  BlogPost,
   Product,
-  Tag,
+  ProductTag,
   Price,
   Category,
   Brand,
@@ -41,6 +42,8 @@ from .serializers import (
   AppealSerializer,
   VoteSerializer,
   CreateReviewSerializer,
+  BlogListSerializer,
+  BlogDetailSerializer,
 )
   
 
@@ -88,13 +91,13 @@ class ProductList(generics.ListAPIView):
     return queryset
 
 
-class ProductDetail(generics.RetrieveAPIView):
+class ProductDetailView(generics.RetrieveAPIView):
   permission_classes = (permissions.IsAuthenticated,)
   queryset = Product.objects.all()
   serializer_class = ProductDetailSerializer
 
 
-class ReviewList(generics.ListAPIView):
+class ReviewListView(generics.ListAPIView):
   serializer_class = ReviewSerializer
   filter_backends = [
     filters.OrderingFilter,
@@ -107,13 +110,13 @@ class ReviewList(generics.ListAPIView):
     return product.reviews
 
 
-class TagList(generics.ListAPIView):
+class TagListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
-  queryset = Tag.objects.all()
+  queryset = ProductTag.objects.all()
   serializer_class = TagSerializer
 
 
-class MinMaxPrice(views.APIView):
+class MinMaxPriceView(views.APIView):
   permission_classes = (permissions.AllowAny,)
   def get(self, request):
     prices = [price.get_price() for price in Price.objects.all()]
@@ -123,13 +126,13 @@ class MinMaxPrice(views.APIView):
     })
 
 
-class CategoryList(generics.ListAPIView):
+class CategoryListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = Category.objects.all()
   serializer_class = CategoryListSerializer
 
 
-class BrandList(generics.ListAPIView):
+class BrandListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = Brand.objects.all()
   serializer_class = BrandListSerializer
@@ -301,6 +304,19 @@ class VoteView(generics.GenericAPIView):
 
     return Response(status=status.HTTP_200_OK)
 
+
 class CreateReviewView(generics.CreateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
   serializer_class = CreateReviewSerializer
+
+
+class BlogListView(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
+  queryset = BlogPost.objects.all()
+  serializer_class = BlogListSerializer
+
+
+class BlogDetailView(generics.RetrieveAPIView):
+  permission_classes = (permissions.AllowAny,)
+  queryset = BlogPost.objects.all()
+  serializer_class = BlogDetailSerializer
