@@ -440,3 +440,19 @@ class VoteSerializer(serializers.ModelSerializer):
   class Meta:
     model = Vote
     exclude = ('user',)
+
+
+class CreateReviewSerializer(serializers.ModelSerializer):
+  def create(self, validated_data):
+    print(validated_data)
+
+    return Review.objects.create(
+      user=self.context['request'].user,
+      variant=validated_data.get('variant'),
+      text=validated_data.get('text'),
+      rating=validated_data.get('rating'),
+    )
+
+  class Meta:
+    model = Review
+    fields = ('variant', 'text', 'rating',)

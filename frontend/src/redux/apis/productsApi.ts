@@ -14,6 +14,7 @@ import {
   Order,
   OrderDetail,
   VoteOnReviewInput,
+  ReviewCreationInput,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
@@ -187,6 +188,15 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Reviews', 'MyReviews'],
     }),
+
+    createReview: builder.mutation<void, ReviewCreationInput>({
+      query: (data) => ({
+        url: 'create-review/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Reviews', 'MyReviews'],
+    }),
   }),
 });
 
@@ -249,4 +259,5 @@ export const {
   useGetOrdersQuery,
   useCreateOrderMutation,
   useGetOrderDetailQuery,
+  useCreateReviewMutation,
 } = productsApi;

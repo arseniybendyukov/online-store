@@ -40,6 +40,7 @@ from .serializers import (
   OrderDetailSerializer,
   AppealSerializer,
   VoteSerializer,
+  CreateReviewSerializer,
 )
   
 
@@ -299,3 +300,7 @@ class VoteView(generics.GenericAPIView):
       )
 
     return Response(status=status.HTTP_200_OK)
+
+class CreateReviewView(generics.CreateAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = CreateReviewSerializer

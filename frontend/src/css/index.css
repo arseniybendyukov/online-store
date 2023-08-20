@@ -3,6 +3,8 @@
 :root {
   --container: 1300px;
   --hover: all 0.15s ease;
+  --long: all 0.3s ease;
+  --shadow: 10px 10px 50px 5px rgba(14, 42, 71, .3);
 
   --main-1: #0753A1;
   --main-2: #C7E0FA;
@@ -57,4 +59,9 @@ button {
 
 .link {
   color: var(--main-1);
+}
+
+.error {
+  font-size: 14px;
+  color: var(--red);
 }

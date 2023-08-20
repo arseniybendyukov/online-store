@@ -121,6 +121,7 @@ export function ProductDetail() {
           reviews: {
             id: product.id,
             avgRating: product.avg_rating,
+            product: product,
           },
         }}
       />

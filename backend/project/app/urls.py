@@ -42,4 +42,5 @@ urlpatterns = [
   path('order/<int:pk>', views.OrderDetail.as_view()),
 
   path('vote/', views.VoteView.as_view()),
+  path('create-review/', views.CreateReviewView.as_view()),
 ]

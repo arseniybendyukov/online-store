@@ -1,0 +1,47 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .5);
+  z-index: 100;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: var(--long);
+}
+
+.wrapper.opened {
+  visibility: visible;
+  opacity: 1;
+  transition: var(--long);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #FFF;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.crossSVG {
+  width: 20px;
+  height: 20px;
+}
+
+.crossSVG path {
+  fill: var(--grey-1);
+}

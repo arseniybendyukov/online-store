@@ -204,3 +204,9 @@ export interface VoteOnReviewInput {
   is_positive: boolean;
   review: number;
 }
+
+export interface ReviewCreationInput {
+  variant: number;
+  rating: number;
+  text: string;
+}
