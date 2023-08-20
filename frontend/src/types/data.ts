@@ -117,6 +117,7 @@ export interface MyReview {
   text: string;
   votes: [number, number];
   rating: number;
+  is_my_vote_positive: boolean | null;
 }
 
 export interface Review {
@@ -128,6 +129,7 @@ export interface Review {
   text: string;
   votes: [number, number];
   rating: number;
+  is_my_vote_positive: boolean | null;
 }
 
 export interface CartItem {
@@ -196,4 +198,15 @@ export interface Order {
 
 export interface OrderDetail extends Order {
   stages: OrderStage[];
+}
+
+export interface VoteOnReviewInput {
+  is_positive: boolean;
+  review: number;
+}
+
+export interface ReviewCreationInput {
+  variant: number;
+  rating: number;
+  text: string;
 }

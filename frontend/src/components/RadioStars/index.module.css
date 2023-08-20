@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.option {
+  cursor: pointer;
+}
+
+.option.active .starSVG {
+  fill: var(--yellow);
+}
+
+.starSVG {
+  width: 25px;
+  height: 25px;
+  fill: var(--grey-2);
+}
+
+.starSVG path {
+  stroke: none;
+}

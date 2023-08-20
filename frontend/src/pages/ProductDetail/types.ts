@@ -1,4 +1,5 @@
-import { ListProduct, Review } from "../../types/data";
+import { DetailProduct } from "../../types/data";
+import { ListProduct } from "../../types/data";
 
 export type ProductDetailOutletContext = {
   boughtTogetherProducts: ListProduct[];
@@ -6,5 +7,6 @@ export type ProductDetailOutletContext = {
   reviews: {
     id: number;
     avgRating: number;
+    product: DetailProduct;
   };
 };

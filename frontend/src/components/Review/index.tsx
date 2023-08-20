@@ -7,12 +7,15 @@ import { NavPaths } from '../../navigation';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/data';
 import { repeat } from '../../utils/arrays';
+import { useVoteOnReviewMutation } from '../../redux/apis/productsApi';
 
 interface Props {
   review: ProductReview | MyReview;
 }
 
 export function Review({ review }: Props) {
+  const [vote] = useVoteOnReviewMutation();
+
   return (
     <div className={css.container}>
       <div className={css.avatar}>
@@ -45,8 +48,15 @@ export function Review({ review }: Props) {
             )}
           </div>
         </div>
+
         <p>{review.text}</p>
-        <VotesCounter votes={review.votes} />
+
+        <VotesCounter
+          votes={review.votes}
+          isVotePositive={review.is_my_vote_positive}
+          upVote={() => vote({ is_positive: true, review: review.id })}
+          downVote={() => vote({ is_positive: false, review: review.id })}
+        />
       </div>
     </div>
   );

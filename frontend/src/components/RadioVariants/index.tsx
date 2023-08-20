@@ -6,13 +6,19 @@ interface Props {
   options: Variant[];
   selectedVariant: Variant | null;
   setSelectedVariant: SetState<Variant | null>;
+  isTouched?: boolean;
+  error?: string;
 }
 
 export function RadioVariants({
   options,
   selectedVariant,
   setSelectedVariant,
+  isTouched,
+  error,
 }: Props) {
+  const isError = isTouched && error;
+
   return (
     <div className={css.container}>
       {options.map((variant) => (
@@ -24,6 +30,10 @@ export function RadioVariants({
           {variant.name}
         </div>
       ))}
+      
+      {isError ? (
+        <span className='error'>{error}</span>
+      ) : null}
     </div>
   );
 }

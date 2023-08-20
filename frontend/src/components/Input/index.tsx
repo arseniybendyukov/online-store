@@ -28,7 +28,7 @@ export function Input<T extends 'input' | 'textarea'>({
         <label className={css.label}>{label}</label>
       </div>
       {isError ? (
-        <span className={css.errorText}>{error}</span>
+        <span className='error'>{error}</span>
       ) : null}
     </div>
   );

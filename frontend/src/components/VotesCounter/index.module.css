@@ -29,8 +29,6 @@
   height: 25px;
 }
 
-.value {}
-
 .value.positive {
   color: var(--green);
 }

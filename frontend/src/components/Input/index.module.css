@@ -23,8 +23,3 @@
   color: var(--grey-1);
   font-size: 13px;
 }
-
-.errorText {
-  font-size: 14px;
-  color: var(--red);
-}
