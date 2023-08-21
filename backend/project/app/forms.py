@@ -2,11 +2,11 @@ from django.forms import ModelForm
 from django.forms import BaseInlineFormSet
 from django.forms.widgets import TextInput
 from django.core.exceptions import ValidationError
-from .models import Tag, Order
+from .models import ProductTag, Order
 
 class TagForm(ModelForm):
   class Meta:
-    model = Tag
+    model = ProductTag
     fields = '__all__'
     widgets = {
       'color': TextInput(attrs={'type': 'color'}),

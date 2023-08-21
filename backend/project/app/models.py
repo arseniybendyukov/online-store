@@ -30,6 +30,45 @@ class Appeal(models.Model):
     verbose_name_plural = 'Обращения по форме'
 
 
+class CommonTag(models.Model):
+  name = models.CharField(max_length=100, verbose_name='Название')
+  color = models.CharField(max_length=7, verbose_name='Цвет')
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    abstract = True
+
+
+class ProductTag(CommonTag):
+  class Meta:
+    verbose_name = 'Тег продукта'
+    verbose_name_plural = 'Теги продукта'
+
+  
+class BlogTag(CommonTag):
+  class Meta:
+    verbose_name = 'Тег блога'
+    verbose_name_plural = 'Теги блога'
+
+
+class BlogPost(models.Model):
+  image = models.ImageField(upload_to='blog/', verbose_name='Изображение')
+  heading = models.CharField(max_length=200, verbose_name='Заголовок')
+  description = models.CharField(max_length=200, verbose_name=' Описание')
+  text = models.TextField()
+  tags = models.ManyToManyField(BlogTag, blank=True, verbose_name='Теги')
+  created_at = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+
+  def __str__(self):
+    return f'{self.created_at}, {self.heading}'
+  
+  class Meta:
+    verbose_name = 'Пост в блоге'
+    verbose_name_plural = 'Посты в блоге'
+
+
 class Category(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
 
@@ -64,18 +103,6 @@ class Brand(models.Model):
     verbose_name = 'Бренд'
     verbose_name_plural = 'Бренды'
 
-  
-class Tag(models.Model):
-  name = models.CharField(max_length=100, verbose_name='Название')
-  color = models.CharField(max_length=7, verbose_name='Цвет')
-
-  def __str__(self):
-    return self.name
-
-  class Meta:
-    verbose_name = 'Тег'
-    verbose_name_plural = 'Теги'
-
 
 class Price(models.Model):
   actual_price = models.PositiveIntegerField(verbose_name='Цена без скидки')
@@ -107,7 +134,7 @@ class Product(models.Model):
   description = models.TextField(verbose_name='Описание')
   image = models.ImageField(upload_to='products/', verbose_name='Изображение')
   subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, verbose_name='Подкатегория')
-  tags = models.ManyToManyField(Tag, blank=True, verbose_name='Теги')
+  tags = models.ManyToManyField(ProductTag, blank=True, verbose_name='Теги')
   brand = models.ForeignKey(Brand, on_delete=models.CASCADE, verbose_name='Бренд')
   silimar_products = models.ManyToManyField(
     'self',

@@ -26,6 +26,8 @@ import { Active } from "../pages/Profile/Orders/Active";
 import { Completed } from "../pages/Profile/Orders/Completed";
 import { OrderDetail } from "../pages/Profile/Orders/Detail";
 import { Contacts } from "../pages/Contacts";
+import { Blog } from "../pages/Blog";
+import { BlogDetail } from "../pages/BlogDetail";
 
 export const router = createBrowserRouter([
   {
@@ -96,7 +98,11 @@ export const router = createBrowserRouter([
       },
       {
         path: NavPaths.BLOG,
-        element: 'blog page',
+        element: <Blog />,
+      },
+      {
+        path: `${NavPaths.BLOG}/:id`,
+        element: <BlogDetail />,
       },
       {
         path: NavPaths.CATALOG,

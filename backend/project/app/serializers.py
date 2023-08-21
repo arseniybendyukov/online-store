@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate
 from django.db.models import Count
 from .models import (
   Appeal,
+  BlogPost,
   Product,
-  Tag,
+  ProductTag,
   Category,
   Subcategory,
   Brand,
@@ -19,6 +20,19 @@ from .models import (
   OrderStage,
   OrderStageType,
 )
+
+class BlogListSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = BlogPost
+    exclude = ('text',)
+    depth = 1
+
+
+class BlogDetailSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = BlogPost
+    fields = '__all__'
+    depth = 1
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -72,7 +86,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
 
 class TagSerializer(serializers.ModelSerializer):
   class Meta:
-    model = Tag
+    model = ProductTag
     fields = '__all__'
 
 

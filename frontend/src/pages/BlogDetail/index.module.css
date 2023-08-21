@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 0;
+  max-width: 700px !important;
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.date {
+  color: var(--grey-1);
+}
+
+.separator {
+  height: 1px;
+  background: var(--grey-1);
+}

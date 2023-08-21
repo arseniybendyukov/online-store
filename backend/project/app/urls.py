@@ -17,12 +17,12 @@ urlpatterns = [
   path('update-me/', views.UpdateUserView.as_view()),
 
   path('products/', views.ProductList.as_view()),
-  path('product/<int:pk>', views.ProductDetail.as_view()),
-  path('reviews/<int:pk>', views.ReviewList.as_view()),
-  path('tags/', views.TagList.as_view()),
-  path('min-max-price/', views.MinMaxPrice.as_view()),
-  path('categories/', views.CategoryList.as_view()),
-  path('brands/', views.BrandList.as_view()),
+  path('product/<int:pk>', views.ProductDetailView.as_view()),
+  path('reviews/<int:pk>', views.ReviewListView.as_view()),
+  path('tags/', views.TagListView.as_view()),
+  path('min-max-price/', views.MinMaxPriceView.as_view()),
+  path('categories/', views.CategoryListView.as_view()),
+  path('brands/', views.BrandListView.as_view()),
   
   path('my-counts/', views.MyCountsView.as_view()),
   
@@ -43,4 +43,7 @@ urlpatterns = [
 
   path('vote/', views.VoteView.as_view()),
   path('create-review/', views.CreateReviewView.as_view()),
+
+  path('blog/', views.BlogListView.as_view()),
+  path('blog/<int:pk>', views.BlogDetailView.as_view()),
 ]

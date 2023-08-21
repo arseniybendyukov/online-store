@@ -210,3 +210,16 @@ export interface ReviewCreationInput {
   rating: number;
   text: string;
 }
+
+export interface BlogList {
+  id: number;
+  image: string;
+  heading: string;
+  description: string;
+  tags: Tag[];
+  created_at: string;
+}
+
+export interface BlogDetail extends BlogList {
+  text: string;
+}
