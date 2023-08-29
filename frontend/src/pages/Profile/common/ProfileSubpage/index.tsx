@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import css from './index.module.css';
+import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 
 interface Props {
   heading: string;
@@ -18,16 +19,22 @@ export function ProfileSubpage({
 }: Props) {
   const pageHeading = itemsCount ? `${heading} (${itemsCount})` : heading;
 
-  return isLoading ? <>Загрузка...</> : (
-    <div className={css.content}>
-      {
-        itemsCount
-        ? <>
-          <h1 className='h1'>{pageHeading}</h1>
-          <div>{children}</div>
-        </>
-        : <div className={css.empty}>{empty}</div>
-      }
-    </div>
-  );
+  return <>
+    {
+      isLoading
+      ? <SpinnerScreen />
+      : (
+        <div className={css.content}>
+          {
+            itemsCount
+            ? <>
+              <h1 className='h1'>{pageHeading}</h1>
+              <div>{children}</div>
+            </>
+            : <div className='empty'>{empty}</div>
+          }
+        </div>
+      )
+    }
+  </>;
 }

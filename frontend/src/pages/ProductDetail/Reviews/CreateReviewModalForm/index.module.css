@@ -45,3 +45,16 @@
 .crossSVG path {
   fill: var(--grey-1);
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.labeled {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+

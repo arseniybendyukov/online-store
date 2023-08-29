@@ -2,13 +2,24 @@ import { useOutletContext } from 'react-router-dom';
 import css from '../index.module.css';
 import { OrdersOutletContext } from '../types';
 import { Order } from '../../../../components/Order';
+import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 
 export function Completed() {
-  const { completedOrders } = useOutletContext<OrdersOutletContext>();
+  const { completedOrders, isLoading } = useOutletContext<OrdersOutletContext>();
 
-  return (
-    <div className={css.items}>
-      {completedOrders.map((order) => <Order key={order.id} order={order} />)}
-    </div>
-  );
+  return <>
+    {
+      isLoading
+      ? <SpinnerScreen />
+      : (
+        <div className={css.items}>
+          {
+            completedOrders.length > 0
+            ? completedOrders.map((order) => <Order key={order.id} order={order} />)
+            : <div className='empty'>Нет выполненных заказов</div>
+          }
+        </div>
+      )
+    }
+  </>;
 }

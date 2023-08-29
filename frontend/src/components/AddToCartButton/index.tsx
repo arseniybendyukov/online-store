@@ -17,7 +17,10 @@ export function AddToCartButton({
   isInCart,
   amount=1,
 }: Props) {
-  const toggleCart = useToggleCart({ productId, productVariantId, isInCart, amount });
+  const {
+    toggleCart,
+    isLoading,
+  } = useToggleCart({ productId, productVariantId, isInCart, amount });
 
   function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -25,15 +28,20 @@ export function AddToCartButton({
   }
 
   return (
-    <Button onClick={onClick} isActive={isInCart} state={{
-      default: {
-        text: 'В корзину',
-        icon: <ShoppingCart className={css.shoppingCartSVG} />,
-      },
-      active: {
-        text: 'Добавлено',
-        icon: <Check className={css.checkSVG} />,
-      },
-    }} />
+    <Button
+      onClick={onClick}
+      isLoading={isLoading}
+      isActive={isInCart}
+      state={{
+        default: {
+          text: 'В корзину',
+          icon: <ShoppingCart className={css.shoppingCartSVG} />,
+        },
+        active: {
+          text: 'Добавлено',
+          icon: <Check className={css.checkSVG} />,
+        },
+      }}
+    />
   );
 }

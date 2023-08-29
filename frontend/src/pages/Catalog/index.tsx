@@ -6,6 +6,7 @@ import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';
 import css from './index.module.css';
 import { CatalogOrdering } from '../../types/filters';
+import { SpinnerScreen } from '../../components/SpinnerScreen';
 
 export function Catalog() {
   // Фильтры (поиск и select)
@@ -61,11 +62,15 @@ export function Catalog() {
             tag={tag}
             setTag={setTag}
           />
-          <div className={css.products}>
-            {isLoading ? 'Загрузка...' : (
-              data?.map((product) => <ProductCard key={product.id} product={product} />)
-            )}
-          </div>
+          {
+            isLoading
+            ? <SpinnerScreen />
+            : data && (
+              <div className={css.products}>
+                {data?.map((product) => <ProductCard key={product.id} product={product} />)}
+              </div>
+            )
+          }
         </div>
       </div>
     </main>

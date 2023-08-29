@@ -3,6 +3,7 @@ import { LoginInput, RegisterInput, Tokens, UpdateMeInput, User } from '../../ty
 import { logout, setTokens, setUser } from '../slices/userSlice';
 import { baseQueryWithReauth } from '../baseQuery';
 import { productsApi } from './productsApi';
+import { toast } from 'react-toastify';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -22,7 +23,7 @@ export const authApi = createApi({
           await queryFulfilled;
           await dispatch(authApi.endpoints.login.initiate({ email, password }));
         } catch (error) {
-          // ...
+          toast('Произошла ошибка регистрации!', { type: 'error' });
         }
       },
     }),
@@ -35,21 +36,17 @@ export const authApi = createApi({
           body: data,
         };
       },
-      invalidatesTags: ['User'],
       transformResponse: (response: Tokens) => response,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setTokens(data));
           
-          // todo: сделать ?функцию? и не копипастить один и тот же код для сброса состояния
-          // Сброс состояния, чтобы новый пользовательfetch не увидел данные старого пользователя
-          dispatch(authApi.util.resetApiState());
           dispatch(productsApi.util.resetApiState());
 
           await dispatch(authApi.endpoints.whoAmI.initiate());
         } catch (error) {
-          // ...
+          toast('Произошла ошибка авторизации!', { type: 'error' });
         }
       },
     }),
@@ -69,25 +66,17 @@ export const authApi = createApi({
     }),
 
     logout: builder.mutation<void, void>({
-      query() {
-        const refresh = localStorage.getItem('refreshToken') || '';
-
-        return {
-          url: 'logout/',
-          method: 'POST',
-          body: { refresh },
-        };
-      },
+      query: () => ({
+        url: 'logout/',
+        method: 'POST',
+        body: {
+          refresh: localStorage.getItem('refreshToken') || ''
+        },
+      }),
       async onQueryStarted(_, { dispatch }) {
-        try {
-          dispatch(logout());
-
-          // Сброс состояния, чтобы новый пользователь не увидел данные старого пользователя
-          dispatch(authApi.util.resetApiState());
-          dispatch(productsApi.util.resetApiState());
-        } catch (error) {
-          // ...
-        }
+        dispatch(logout());
+        dispatch(authApi.util.resetApiState());
+        dispatch(productsApi.util.resetApiState());
       },
     }),
 

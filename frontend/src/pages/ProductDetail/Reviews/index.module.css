@@ -31,15 +31,3 @@
 .reviewSVG path {
   fill: #FFF;
 }
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.labeled {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}

@@ -9,6 +9,7 @@ import { useRemoveFromCartMutation, useToggleSaved, useUpdateCartAmountMutation 
 import { AmountInput } from '../AmountInput';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks';
+import { Spinner } from '../Spinner';
 
 interface Props extends CartItem {}
 
@@ -40,8 +41,15 @@ export function CartItemCard(cartItem: Props) {
     }
   }, [debouncedAmount]);
 
-  const [removeFromCart] = useRemoveFromCartMutation();
-  const toggleSaved = useToggleSaved(productId, isSaved);
+  const [
+    removeFromCart,
+    { isLoading: isRemoveLoading },
+  ] = useRemoveFromCartMutation();
+
+  const {
+    toggleSaved,
+    isLoading: isToggleSaveLoading,
+  } = useToggleSaved(productId, isSaved);
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -77,13 +85,25 @@ export function CartItemCard(cartItem: Props) {
         />
 
         <div className={css.buttons}>
-          <button onClick={onHeartClick}>
-            <Heart className={`${css.heartSVG} ${isSaved ? css.active : ''}`} />
-          </button>
+          {
+            isToggleSaveLoading
+            ? <Spinner size={40} thickness={3} />
+            : (
+              <button onClick={onHeartClick}>
+                <Heart className={`${css.heartSVG} ${isSaved ? css.active : ''}`} />
+              </button>
+            )
+          }
 
-          <button onClick={onCrossClick}>
-            <Cross className={css.crossSVG} />
-          </button>
+          {
+            isRemoveLoading
+            ? <Spinner size={20} thickness={2} />
+            : (
+              <button onClick={onCrossClick}>
+                <Cross className={css.crossSVG} />
+              </button>
+            )
+          }
         </div>
       </div>
     </Link>

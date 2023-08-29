@@ -2,6 +2,8 @@ import { Header } from '../components/Header';
 import { Outlet } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import css from './index.module.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => (
   <div className={css.app}>
@@ -10,5 +12,12 @@ export const App = () => (
       <Outlet />
     </main>
     <Footer />
+
+    <ToastContainer
+      theme='colored'
+      position='bottom-center'
+      autoClose={5000}
+      hideProgressBar
+    />
   </div>
 );

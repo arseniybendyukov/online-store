@@ -7,6 +7,7 @@ import { FormTemplate } from '../FormTemplate';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface FormValues {
   firstName: string;
@@ -54,7 +55,7 @@ function validate(values: FormValues) {
 
 export function Registration() {
   const navigate = useNavigate();
-  const [register, response] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -66,24 +67,19 @@ export function Registration() {
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      try {
-        await register({
-          email: values.email,
-          first_name: values.firstName,
-          last_name: values.lastName,
-          password: values.password1,
-        })
+      const result = await register({
+        email: values.email,
+        first_name: values.firstName,
+        last_name: values.lastName,
+        password: values.password1,
+      })
 
+      if (!('error' in result)) {
         resetForm();
-      } catch (error) {
-        console.error('rejected', error);
+        navigate(NavPaths.PROFILE);
       }
     }
   });
-
-  if (response.isSuccess) {
-    navigate(NavPaths.PROFILE);
-  }
 
   return (
     <FormTemplate
@@ -147,6 +143,7 @@ export function Registration() {
 
         <Button
           type='submit'
+          isLoading={isLoading}
           state={{ default: { text: 'Отправить', icon: undefined } }}
         />
       </form>

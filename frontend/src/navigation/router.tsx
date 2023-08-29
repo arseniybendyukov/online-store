@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import {
   AuthNestedPaths,
   NavPaths,
@@ -39,6 +39,10 @@ export const router = createBrowserRouter([
         element: <Auth />,
         children: [
           {
+            index: true,
+            element: <Navigate to={AuthNestedPaths.LOGIN} />
+          },
+          {
             path: AuthNestedPaths.LOGIN,
             element: <Login />
           },
@@ -52,6 +56,10 @@ export const router = createBrowserRouter([
         path: NavPaths.PROFILE,
         element: <Profile />,
         children: [
+          {
+            index: true,
+            element: <Navigate to={ProfileNestedPaths.PERSONAL_INFO} />
+          },
           {
             path: ProfileNestedPaths.CART,
             element: <Cart />,
@@ -76,6 +84,10 @@ export const router = createBrowserRouter([
             path: ProfileNestedPaths.ORDERS,
             element: <Orders />,
             children: [
+              {
+                index: true,
+                element: <Navigate to={OrdersNestedPaths.ACTIVE} />
+              },
               {
                 path: OrdersNestedPaths.ACTIVE,
                 element: <Active />,
@@ -120,6 +132,10 @@ export const router = createBrowserRouter([
         path: `${NavPaths.PRODUCT_DETAIL}/:id`,
         element: <ProductDetail />,
         children: [
+          {
+            index: true,
+            element: <Navigate to={ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS} />
+          },
           {
             path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
             element: <BoughtTogetherProducts />,

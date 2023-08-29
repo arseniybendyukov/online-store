@@ -5,6 +5,7 @@ import { CategoryAccordionSelect } from "../../../components/CategoryAccordionSe
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
+import { Spinner } from "../../../components/Spinner";
 
 interface Props {
   minPrice: number;
@@ -33,12 +34,12 @@ export function SidebarForm({
   } = useGetMinMaxPriceQuery();
 
   const {
-    data: categories=[],
+    data: categories,
     isLoading: isLoadingCategories,
   } = useGetCategoriesQuery();
 
   const {
-    data: brands=[],
+    data: brands,
     isLoading: isLoadingBrands,
   } = useGetBrandsQuery();
 
@@ -51,47 +52,55 @@ export function SidebarForm({
 
   return (
     <div>
-      <SidebarSection heading='Цена'>
-        {isLoadingMinMaxPrice
-          ? 'Загрузка цен...'
-          : minMaxPrice && <RangeInput
-              min={minPrice}
-              max={maxPrice}
-              setMin={setMinPrice}
-              setMax={setMaxPrice}
-            />
-        }
+      <SidebarSection
+        heading='Цена'
+        isLoading={isLoadingMinMaxPrice}
+      >
+        {minMaxPrice && (
+          <RangeInput
+            min={minPrice}
+            max={maxPrice}
+            setMin={setMinPrice}
+            setMax={setMaxPrice}
+          />
+        )}
       </SidebarSection>
       
-      <SidebarSection heading='Категории'>
-        {isLoadingCategories
-          ? 'Загрузка категорий...'
-          : <CategoryAccordionSelect
-              selectedIds={subcategoryIds}
-              setSelectedIds={setSubcategoryIds}
-              nodes={categories.map((category) => ({
-                id: category.id,
-                label: `${category.name} (${category.count})`,
-                children: category.subcategories.map((subcategory) => ({
-                  id: subcategory.id,
-                  label: `${subcategory.name} (${subcategory.count})`,
-                }))
-              }))}
-            />
+      <SidebarSection
+        heading='Категории'
+        isLoading={isLoadingCategories}
+      >
+        {categories && (
+          <CategoryAccordionSelect
+            selectedIds={subcategoryIds}
+            setSelectedIds={setSubcategoryIds}
+            nodes={categories.map((category) => ({
+              id: category.id,
+              label: `${category.name} (${category.count})`,
+              children: category.subcategories.map((subcategory) => ({
+                id: subcategory.id,
+                label: `${subcategory.name} (${subcategory.count})`,
+              }))
+            }))}
+          />
+          )
         }
       </SidebarSection>
 
-      <SidebarSection heading='Бренды'>
-        {isLoadingBrands
-          ? 'Загрузка брендов...'
-          : <CheckboxSelect
-              selectedIds={brandIds}
-              setSelectedIds={setBrandIds}
-              options={brands.map((brand) => ({
-                id: brand.id,
-                label: `${brand.name} (${brand.count})`,
-              }))}
-            /> 
+      <SidebarSection
+        heading='Бренды'
+        isLoading={isLoadingBrands}
+      >
+        {brands && (
+          <CheckboxSelect
+            selectedIds={brandIds}
+            setSelectedIds={setBrandIds}
+            options={brands.map((brand) => ({
+              id: brand.id,
+              label: `${brand.name} (${brand.count})`,
+            }))}
+          />
+          )
         }
       </SidebarSection>
     </div>

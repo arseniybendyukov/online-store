@@ -27,7 +27,6 @@ function validate(values: FormValues) {
 
 export function PersonalInfo() {
   const user = useAppSelector((state) => state.userState.user);
-  // todo: демонстрировать состояние загрузки
   const [updateMe, { isLoading }] = useUpdateMeMutation();
 
   const formik = useFormik<FormValues>({
@@ -131,6 +130,7 @@ export function PersonalInfo() {
         </div>
         <Button
           type='submit'
+          isLoading={isLoading}
           state={{ default: { text: 'Сохранить', icon: undefined } }}
         />
       </form>
