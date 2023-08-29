@@ -7,10 +7,15 @@ import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { useLoginMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface FormValues {
   email: string;
   password: string;
+}
+
+interface LoginError {
+  data: { datail: string };
 }
 
 function validate(values: FormValues) {
@@ -31,7 +36,7 @@ function validate(values: FormValues) {
 
 export function Login() {
   const navigate = useNavigate();
-  const [login, response] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -39,21 +44,18 @@ export function Login() {
       password: '',
     },
     validate,
-    onSubmit: async (values) => {
-      try {
-        await login({
-          email: values.email,
-          password: values.password,
-        });
-      } catch (error) {
-        console.error('rejected', error);
+    onSubmit: async (values, { resetForm }) => {
+      const result = await login({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (!('error' in result)) {
+        resetForm();
+        navigate(NavPaths.PROFILE);
       }
     }
   });
-
-  if (response.isSuccess) {
-    navigate(NavPaths.PROFILE);
-  }
 
   return (
     <FormTemplate
@@ -87,6 +89,7 @@ export function Login() {
 
         <Button
           type='submit'
+          isLoading={isLoading}
           state={{ default: { text: 'Отправить', icon: undefined } }}
         />
       </form>

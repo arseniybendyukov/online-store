@@ -1,5 +1,6 @@
 import { ReactComponent as Arrow } from '../../images/arrow.svg';
 import { HoverTitle } from '../HoverTitle';
+import { Spinner } from '../Spinner';
 import css from './index.module.css';
 
 type VotesCountState = 'positive' | 'neutral' | 'negative';
@@ -9,6 +10,7 @@ interface Props {
   isVotePositive: boolean | null;
   upVote: () => void;
   downVote: () => void;
+  isLoading: boolean;
 }
 
 export function VotesCounter({
@@ -16,6 +18,7 @@ export function VotesCounter({
   isVotePositive,
   upVote,
   downVote,
+  isLoading,
 }: Props) {
   const [positive, negative] = votes;
   const value = positive - negative;
@@ -40,7 +43,11 @@ export function VotesCounter({
           <Arrow className={css.arrowSVG} />
         </button>
         <span className={`${css.value} ${stateClass}`}>
-          {formattedValue}
+          {
+            isLoading
+            ? <Spinner size={20} thickness={2} />
+            : formattedValue
+          }
         </span>
         <button onClick={upVote} className={`${css.button} ${css.increment} ${isVotePositive === true ? css.positive : ''}`}>
           <Arrow className={css.arrowSVG} />

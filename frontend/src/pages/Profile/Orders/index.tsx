@@ -27,7 +27,13 @@ export function Orders() {
         ]}
       />
 
-      <Outlet context={{ activeOrders, completedOrders }} />
+      <Outlet
+        context={{
+          activeOrders,
+          completedOrders,
+          isLoading,
+        }}
+      />
     </div>
   );
 }

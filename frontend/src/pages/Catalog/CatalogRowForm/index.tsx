@@ -45,7 +45,7 @@ export function CatalogRowForm({
   setTag,
 }: Props) {
   const isReversedOrdering = !ordering.startsWith('-');
-  const { data: tags = [] } = useGetTagsQuery();
+  const { data: tags = [], isLoading } = useGetTagsQuery();
   
   const tagOptions: SelectOption[] = tags.map((tag) => ({
     label: tag.name,
@@ -90,11 +90,15 @@ export function CatalogRowForm({
         as='select'
         id='tag'
         name='tag'
-        options={tagOptions}
         value={tag}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => (
           setTag(Number(e.target.value))
         )}
+        options={
+          isLoading
+          ? [{ label: 'Загрузка...', value: '0' }]
+          : tagOptions
+        }
       />
     </form>
   );

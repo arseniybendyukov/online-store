@@ -201,16 +201,20 @@ export const productsApi = createApi({
 });
 
 export function useToggleSaved(id: number, isSaved: boolean) {
-  const [addToSaved] = useAddToSavedMutation();
-  const [removeFromSaved] = useRemoveFromSavedMutation();
+  const [addToSaved, { isLoading: isAddLoading }] = useAddToSavedMutation();
+  const [removeFromSaved, { isLoading: isRemoveLoading }] = useRemoveFromSavedMutation();
 
-  return () => {
+  const isLoading = isAddLoading || isRemoveLoading;
+
+  function toggleSaved() {
     if (isSaved) {
       removeFromSaved({ id });
     } else {
       addToSaved({ id });
     }
-  };
+  }
+
+  return { toggleSaved, isLoading };
 }
 
 export function useToggleCart(agrs: {
@@ -221,11 +225,14 @@ export function useToggleCart(agrs: {
 }) {
   const { productId, productVariantId, isInCart, amount } = agrs;
 
-  const [addToCart] = useAddToCartMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
+  const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
+  const [removeFromCart, { isLoading: isRemoveLoading }] = useRemoveFromCartMutation();
 
-  return () => {
+  const isLoading = isAddLoading || isRemoveLoading;
+
+  function toggleCart() {
     if (isInCart) {
+      // todo: удалять по variant_id. В целом сделать возможность хранить варианты одного и того же товара
       removeFromCart({ productId });
     } else {
       addToCart({
@@ -233,7 +240,9 @@ export function useToggleCart(agrs: {
         amount,
       });
     }
-  };
+  }
+
+  return { toggleCart, isLoading };
 }
 
 export const {

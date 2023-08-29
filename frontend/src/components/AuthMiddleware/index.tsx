@@ -1,18 +1,16 @@
 import { ReactNode } from 'react';
 import { useWhoAmIQuery } from '../../redux/apis/authApi';
-import css from './index.module.css';
+import { SpinnerScreen } from '../SpinnerScreen';
 
 interface Props {
   children: ReactNode;
 }
 
 export function AuthMiddleware({ children }: Props) {
-  const { isLoading, isFetching } = useWhoAmIQuery();
+  const { isLoading } = useWhoAmIQuery();
 
-  const loading = isLoading || isFetching;
-
-  if (loading) {
-    return <>ЗАГРУЗКА</>;
+  if (isLoading) {
+    return <SpinnerScreen size={80} width='100vw' height='100vh' />;
   }
 
   return <>{children}</>;

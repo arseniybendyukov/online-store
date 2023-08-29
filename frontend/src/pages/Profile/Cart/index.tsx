@@ -6,7 +6,10 @@ import { Button } from '../../../components/Button';
 
 export function Cart() {
   const { data, isLoading } = useGetCartQuery();
-  const [createOrder] = useCreateOrderMutation();
+  const [
+    createOrder,
+    { isLoading: isOrderCreationLoading },
+  ] = useCreateOrderMutation();
 
   function onOrderButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -32,6 +35,7 @@ export function Cart() {
 
         <Button
           onClick={onOrderButtonClick}
+          isLoading={isOrderCreationLoading}
           state={{ default: { text: 'Оформить заказ', icon: undefined } }}
         />
       </>}

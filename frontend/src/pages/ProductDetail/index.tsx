@@ -14,12 +14,16 @@ import { Colors } from "../../types/common";
 import { ReactComponent as Heart } from '../../images/heart.svg';
 import { ProductDetailNestedPaths } from "../../navigation";
 import { NavTabs } from "../../components/NavTabs";
+import { SpinnerScreen } from "../../components/SpinnerScreen";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
 
-  const toggleSaved = useToggleSaved(product?.id || 0, product?.is_saved || false);
+  const {
+    toggleSaved,
+    isLoading: isToggleSaveLoading,
+  } = useToggleSaved(product?.id || 0, product?.is_saved || false);
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [amount, setAmount] = useState(1);
@@ -35,98 +39,105 @@ export function ProductDetail() {
     toggleSaved();
   }
 
-  return !isLoading && product ? (
-    <div className={`container ${css.container}`}>
-      <div className={css.productDetails}>
-        <div className={css.slider}>
-          <img src={product.image} alt={`product ${product.name}`} />
-        </div>
-        <div className={css.main}>
-          <h1 className='h1'>{product.name}</h1>
-          <div className={css.rowStats}>
-            <RatingStars avgRating={product.avg_rating} />
-            <ReadReviews reviewsCount={product.reviews_count} />
-          </div>
-          <div className={css.description}>{product.description}</div>
-          {selectedVariant && (
-            <ProductPrice
-              large
-              actualPrice={selectedVariant.price.actual_price}
-              salePrice={selectedVariant.price.sale_price}
-              percentage={selectedVariant.price.percentage}
-            />
-          )}
-          <div className={css.devider}></div>
-          <Label label='Бренд'>{product.brand.name}</Label>
-          <Label label='Категория'>{product.subcategory.category.name}</Label>
-          <Label label='Вариант товара'>
-            <RadioVariants
-              options={product.variants}
-              selectedVariant={selectedVariant}
-              setSelectedVariant={setSelectedVariant}
-            />
-          </Label>
-          <Label label='Количество'>
-            <AmountInput
-              amount={amount}
-              setAmount={setAmount}
-            />
-          </Label>
-          <div className={css.buttons}>
-            <AddToCartButton
-              productId={product.id}
-              productVariantId={selectedVariant?.pk || 0}
-              isInCart={product.is_in_cart}
-              amount={amount}
-            />
+  return <>
+    {
+      isLoading
+      ? <SpinnerScreen height={500} />
+      : product && (
+        <div className={`container ${css.container}`}>
+          <div className={css.productDetails}>
+            <div className={css.slider}>
+              <img src={product.image} alt={`product ${product.name}`} />
+            </div>
+            <div className={css.main}>
+              <h1 className='h1'>{product.name}</h1>
+              <div className={css.rowStats}>
+                <RatingStars avgRating={product.avg_rating} />
+                <ReadReviews reviewsCount={product.reviews_count} />
+              </div>
+              <div className={css.description}>{product.description}</div>
+              {selectedVariant && (
+                <ProductPrice
+                  large
+                  actualPrice={selectedVariant.price.actual_price}
+                  salePrice={selectedVariant.price.sale_price}
+                  percentage={selectedVariant.price.percentage}
+                />
+              )}
+              <div className={css.devider}></div>
+              <Label label='Бренд'>{product.brand.name}</Label>
+              <Label label='Категория'>{product.subcategory.category.name}</Label>
+              <Label label='Вариант товара'>
+                <RadioVariants
+                  options={product.variants}
+                  selectedVariant={selectedVariant}
+                  setSelectedVariant={setSelectedVariant}
+                />
+              </Label>
+              <Label label='Количество'>
+                <AmountInput
+                  amount={amount}
+                  setAmount={setAmount}
+                />
+              </Label>
+              <div className={css.buttons}>
+                <AddToCartButton
+                  productId={product.id}
+                  productVariantId={selectedVariant?.pk || 0}
+                  isInCart={product.is_in_cart}
+                  amount={amount}
+                />
 
-            <Button
-              onClick={onSaveButtonClick}
-              isActive={product.is_saved}
-              color={Colors.RED}
-              state={{
-                default: {
-                  text: 'В сохраненное',
-                  icon: <Heart className={css.heartSVG} />,
-                },
-                active: {
-                  text: 'Cохранено',
-                  icon: <Heart className={`${css.heartSVG} ${css.active}`} />,
-                },
-              }}
-            />
+                <Button
+                  onClick={onSaveButtonClick}
+                  isActive={product.is_saved}
+                  isLoading={isToggleSaveLoading}
+                  color={Colors.RED}
+                  state={{
+                    default: {
+                      text: 'В сохраненное',
+                      icon: <Heart className={css.heartSVG} />,
+                    },
+                    active: {
+                      text: 'Cохранено',
+                      icon: <Heart className={`${css.heartSVG} ${css.active}`} />,
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
+          <NavTabs
+            options={[
+              {
+                path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
+                name: `С этим товаром покупают (${product.bought_together_products.length})`,
+              },
+              {
+                path: ProductDetailNestedPaths.SIMILAR_PRODUCTS,
+                name: `Похожие товары (${product.silimar_products.length})`,
+              },
+              {
+                path: ProductDetailNestedPaths.REVIEWS,
+                name: `Отзывы (${product.reviews_count})`,
+              },
+            ]}
+          />
+          <Outlet
+            context={{
+              boughtTogetherProducts: product.bought_together_products,
+              silimarProducts: product.silimar_products,
+              reviews: {
+                id: product.id,
+                avgRating: product.avg_rating,
+                variants: product.variants,
+              },
+            }}
+          />
         </div>
-      </div>
-      <NavTabs
-        options={[
-          {
-            path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
-            name: `С этим товаром покупают (${product.bought_together_products.length})`,
-          },
-          {
-            path: ProductDetailNestedPaths.SIMILAR_PRODUCTS,
-            name: `Похожие товары (${product.silimar_products.length})`,
-          },
-          {
-            path: ProductDetailNestedPaths.REVIEWS,
-            name: `Отзывы (${product.reviews_count})`,
-          },
-        ]}
-      />
-      <Outlet
-        context={{
-          boughtTogetherProducts: product.bought_together_products,
-          silimarProducts: product.silimar_products,
-          reviews: {
-            id: product.id,
-            avgRating: product.avg_rating,
-            product: product,
-          },
-        }}
-      />
-    </div>
-  ) : <>Loading</>;
+      )
+    }
+  </>;
 }
 
 interface ReadReviewsProps {

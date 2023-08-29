@@ -8,13 +8,14 @@ import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 import { AddToCartButton } from '../AddToCartButton';
 import { useToggleSaved } from '../../redux/apis/productsApi';
+import { Spinner } from '../Spinner';
 
 interface Props {
   product: ListProduct;
 }
 
 export function ProductCard({ product }: Props) {
-  const toggleSaved = useToggleSaved(product.id, product.is_saved);
+  const { toggleSaved, isLoading } = useToggleSaved(product.id, product.is_saved);
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -45,10 +46,16 @@ export function ProductCard({ product }: Props) {
         salePrice={price.sale_price}
       />
       <div className={css.buttons}>
-        <HeartButton
-          onClick={onHeartClick}
-          isActive={product.is_saved}
-        />
+        {
+          isLoading
+          ? <Spinner size={40} thickness={3} />
+          : (
+            <HeartButton
+              onClick={onHeartClick}
+              isActive={product.is_saved}
+            />
+          )
+        }
 
         <AddToCartButton
           productId={product.id}

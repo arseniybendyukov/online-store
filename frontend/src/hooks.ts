@@ -15,3 +15,13 @@ export function useDebounce<V extends string | number>(value: V, delay: number) 
 
   return debouncedValue;
 }
+
+export function useDisableScroll(flag: boolean) {
+  useEffect(() =>  {
+    if (flag) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "visible";
+    }
+  }, [flag]);
+}

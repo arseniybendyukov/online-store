@@ -6,6 +6,7 @@ import { AddToCartButton } from '../AddToCartButton';
 import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
 import { useRemoveFromSavedMutation } from '../../redux/apis/productsApi';
+import { Spinner } from '../Spinner';
 
 interface Props extends SavedProduct {}
 
@@ -16,7 +17,7 @@ export function SavedProductCard({
   variants,
   is_in_cart: isInCart,
 }: Props) {
-  const [removeFromSaved, response] = useRemoveFromSavedMutation();
+  const [removeFromSaved, { isLoading }] = useRemoveFromSavedMutation();
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -47,9 +48,15 @@ export function SavedProductCard({
           salePrice={price.sale_price}
         />
         
-        <button onClick={onCrossClick}>
-          <Cross className={css.crossSVG} />
-        </button>
+        {
+          isLoading
+          ? <Spinner size={20} thickness={2} />
+          : (
+            <button onClick={onCrossClick}>
+              <Cross className={css.crossSVG} />
+            </button>
+          )
+        }
       </div>
     </Link>
   );

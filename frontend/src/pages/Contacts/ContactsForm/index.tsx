@@ -7,6 +7,7 @@ import { getFullName } from '../../../utils/data';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { useCreateAppealMutation } from '../../../redux/apis/appealsApi';
+import { toast } from 'react-toastify';
 
 interface FormValues {
   fullName: string;
@@ -40,9 +41,8 @@ function validate(values: FormValues) {
 }
 
 export function ContactsForm() {
-  // todo: показывать состояние загрузки; при успешной отправке показывать какое-нибудь сообщение и очищать форму.
   const user = useAppSelector((state) => state.userState.user);
-  const [createAppeal] = useCreateAppealMutation();
+  const [createAppeal, { isLoading }] = useCreateAppealMutation();
   
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -52,13 +52,19 @@ export function ContactsForm() {
       text: '',
     },
     validate,
-    onSubmit: (values) => {
-      createAppeal({
+    onSubmit: async (values) => {
+      const result = await createAppeal({
         full_name: values.fullName,
         email: values.email,
         phone_number: values.phoneNumber,
         text: values.text,
       });
+
+      if ('error' in result) {
+        toast('Произошла ошибка отправки обращения!', { type: 'error' });
+      } else {
+        toast('Ваше обращение отправлено!', { type: 'success' });
+      }
     },
   });
 
@@ -112,6 +118,7 @@ export function ContactsForm() {
 
       <Button
         type='submit'
+        isLoading={isLoading}
         state={{ default: { text: 'Отправить сообщение', icon: undefined } }}
       />
     </form>

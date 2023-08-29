@@ -17,6 +17,12 @@
   --green: #10C057;
   --blue: #0038FD;
   --yellow: #FFBE16;
+
+  /* Настройка react-toastify */
+  --toastify-color-info: var(--main-1);
+  --toastify-color-success: var(--green);
+  --toastify-color-warning: var(--yellow);
+  --toastify-color-error: var(--red);
 }
 
 body {
@@ -64,4 +70,12 @@ button {
 .error {
   font-size: 14px;
   color: var(--red);
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--grey-1);
 }

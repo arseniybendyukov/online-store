@@ -4,11 +4,3 @@
   gap: 20px;
   height: 100%;
 }
-
-.empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--grey-1);
-}

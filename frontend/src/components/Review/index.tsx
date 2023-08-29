@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function Review({ review }: Props) {
-  const [vote] = useVoteOnReviewMutation();
+  const [vote, { isLoading }] = useVoteOnReviewMutation();
 
   return (
     <div className={css.container}>
@@ -56,6 +56,7 @@ export function Review({ review }: Props) {
           isVotePositive={review.is_my_vote_positive}
           upVote={() => vote({ is_positive: true, review: review.id })}
           downVote={() => vote({ is_positive: false, review: review.id })}
+          isLoading={isLoading}
         />
       </div>
     </div>

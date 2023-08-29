@@ -6,7 +6,7 @@ import { useLogoutMutation } from '../../redux/apis/authApi';
 import { useAppSelector } from '../../redux/store';
 
 export function Profile() {
-  const [logout, response] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
 
   const logoutButtonOnClick = async () => {
     await logout();
