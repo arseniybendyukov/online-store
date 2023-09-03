@@ -1,6 +1,6 @@
 import { NavPaths } from '../../navigation';
 import { Link } from 'react-router-dom';
-import logo from '../../images/logo.jpg';
+import logo from '../../images/logo.svg';
 import css from './index.module.css';
 
 export const Logo = () => (

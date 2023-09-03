@@ -1,7 +1,13 @@
 {
   "short_name": "PROFF CLEAN MARKET",
-  "name": "PROFF CLEAN MARKET",
-  "icons": [],
+  "name": "PROFFCLEANMARKET",
+  "description": "Вебсайт магазина профессиональной химии PROFF CLEAN MARKET.",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "any"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
