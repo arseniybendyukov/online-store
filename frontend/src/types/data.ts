@@ -100,6 +100,10 @@ export interface ListCategory extends ListSubcategory {
   subcategories: ListSubcategory[];
 }
 
+export interface CategoryIds extends Category {
+  subcategories: number[];
+}
+
 export interface SavedProduct {
   id: number;
   name: string;

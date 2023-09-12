@@ -15,22 +15,12 @@ import {
   OrderDetail,
   VoteOnReviewInput,
   ReviewCreationInput,
+  CategoryIds,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
 import { UserCounts } from '../../types/auth';
-
-function optionalWithValue(arg: number | undefined, value: number) {
-  return arg !== value ? arg : undefined;
-}
-
-function listQueryParam(name: string, ids: number[]) {
-  return ids.map((id) => `${name}=${id}`).join('&');
-}
-
-function composeParams(params: string[]) {
-  return `?${params.join('&')}`;
-}
+import { composeParams, listQueryParam, optionalWithValue } from '../../utils/queryParams';
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
@@ -93,6 +83,10 @@ export const productsApi = createApi({
 
     getCategories: builder.query<ListCategory[], void>({
       query: () => `categories/`,
+    }),
+
+    getCategoryIds: builder.query<CategoryIds[], void>({
+      query: () => `category-ids/`,
     }),
 
     getBrands: builder.query<Brand[], void>({
@@ -252,6 +246,7 @@ export const {
   useGetTagsQuery,
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,
+  useGetCategoryIdsQuery,
   useGetBrandsQuery,
   useVoteOnReviewMutation,
 
