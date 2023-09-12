@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDebounce } from '../../hooks';
+import { useDebounce, useSyncQueryParam } from '../../hooks';
 import { useGetProductsQuery } from '../../redux/apis/productsApi';
 import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
@@ -7,24 +7,58 @@ import { ProductCard } from '../../components/ProductCard';
 import css from './index.module.css';
 import { CatalogOrdering } from '../../types/filters';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
+import { useSearchParams } from 'react-router-dom';
 
 export function Catalog() {
-  // Фильтры (поиск и select)
-  const [search, setSearch] = useState('');
-  const debouncedSearch = useDebounce(search, 500);
-  
-  const [ordering, setOrdering] = useState(CatalogOrdering.RATING_HIGH_LOW);
-  const [tag, setTag] = useState<number>(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // Фильтры (сайдбар)
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  // Поиск
+  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const debouncedSearch = useDebounce(search, 500);
+
+  // Сортировка
+  const queryParamOrdering = searchParams.get('ordering') || '';
+  const validatedQueryParamOrdering = (
+    Object.values<string>(CatalogOrdering).includes(queryParamOrdering)
+    ? queryParamOrdering
+    : CatalogOrdering.RATING_HIGH_LOW
+  ) as CatalogOrdering;
+
+  const [ordering, setOrdering] = useState(validatedQueryParamOrdering);
+
+  // Фильтрация по тегу
+  const [tag, setTag] = useState<number>(Number(searchParams.get('tag') || '0'));
+
+  // Минимальная и максимальная цена
+  const [minPrice, setMinPrice] = useState(Number(searchParams.get('minPrice') || '0'));
+  const [maxPrice, setMaxPrice] = useState(Number(searchParams.get('maxPrice') || '0'));
 
   const debouncedMinPrice = useDebounce(minPrice, 500);
   const debouncedMaxPrice = useDebounce(maxPrice, 500);
 
-  const [subcategoryIds, setSubcategoryIds] = useState<number[]>([]);
-  const [brandIds, setBrandIds] = useState<number[]>([]);
+  // Подкатегории
+  const [subcategoryIds, setSubcategoryIds] = useState<number[]>(
+    searchParams.getAll('subcategory').map(Number)
+  );
+
+  // Бренды
+  const [brandIds, setBrandIds] = useState<number[]>(
+    searchParams.getAll('brand').map(Number)
+  );
+
+  // Синхронизация состояния с query parameters
+  useSyncQueryParam(
+    [
+      ['search', debouncedSearch],
+      ['ordering', ordering],
+      ['tag', tag],
+      ['minPrice', debouncedMinPrice],
+      ['maxPrice', debouncedMaxPrice],
+      ['brand', brandIds],
+      ['subcategory', subcategoryIds],
+    ],
+    setSearchParams,
+  );
 
   const { data, isLoading } = useGetProductsQuery({
     search: debouncedSearch,

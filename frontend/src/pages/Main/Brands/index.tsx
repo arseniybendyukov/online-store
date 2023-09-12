@@ -18,8 +18,11 @@ export function Brands() {
             insideArrows
             slidesPerView={6}
             items={data.map(((brand) => (
-              // todo: сделать ссылку на каталог с query params
-              <Link key={brand.id} to={NavPaths.CATALOG} className={css.link}>
+              <Link
+                key={brand.id}
+                className={css.link}
+                to={`${NavPaths.CATALOG}?brand=${brand.id}`}
+              >
                 <img
                   src={brand.image}
                   alt={brand.name}

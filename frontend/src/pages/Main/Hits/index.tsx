@@ -9,14 +9,18 @@ import { SpinnerScreen } from '../../../components/SpinnerScreen';
 const HIT_TAG_ID = 2;
 
 export function Hits() {
-  // todo: сделать ссылку на каталог с query param на хиты
   const { data, isLoading } = useGetProductsQuery({ tag: HIT_TAG_ID });
 
   return (
     <section className={css.container}>
       <div className={css.row}>
         <h2 className='h2'>Хиты продаж</h2>
-        <Link to={NavPaths.CATALOG} className='link'>Перейти в каталог</Link>
+        <Link
+          className='link'
+          to={`${NavPaths.CATALOG}?tag=${HIT_TAG_ID}`}
+        >
+          Перейти в каталог
+        </Link>
       </div>
       {
         isLoading

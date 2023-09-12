@@ -6,28 +6,10 @@ import { SocialMedias } from '../SocialMedias';
 import { Copyright } from './Copyright';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
+import { useGetCategoryIdsQuery } from '../../redux/apis/productsApi';
+import { listQueryParam } from '../../utils/queryParams';
 
 // todo: расставить правильные ссылки с query params
-
-const catalogLinks: NamedLink[] = [
-  {
-    path: '#',
-    name: 'Инвентарь для химчистки',
-  },
-  {
-    path: '#',
-    name: 'Средства для химчистки',
-  },
-  {
-    path: '#',
-    name: 'Средства для клининга',
-  },
-  {
-    path: '#',
-    name: 'Инвентарь для мятья окон',
-  },
-];
-
 const blogLinks: NamedLink[] = [
   {
     path: '#',
@@ -66,49 +48,74 @@ const companyLinks: NamedLink[] = [
   },
 ];
 
-export const Footer = () => (
-  <footer className={css.footer}>
-    <div className='container'>
-      <div className={css.blocks}>
-        <FooterBlock heading='Контакты'>
-          <div className={css.block}>
-            <span className={css.phone}>{PHONE_NUMBER}</span>
-            <p className={css.addressAndSchedule}>
-              <span>{SCHEDULE}</span>
-              <span>{ADDRESS}</span>
-            </p>
-            <SocialMedias />
-          </div>
-        </FooterBlock>
+export const Footer = () => {
+  const {
+    data: categoryIds,
+    isLoading: isCategoryIdsLoading,
+  } = useGetCategoryIdsQuery();
 
-        <FooterLinksBlock
-          heading='Каталог'
-          links={catalogLinks}
-        />
+  return (
+    <footer className={css.footer}>
+      <div className='container'>
+        <div className={css.blocks}>
+          <FooterBlock heading='Контакты'>
+            <div className={css.block}>
+              <span className={css.phone}>{PHONE_NUMBER}</span>
+              <p className={css.addressAndSchedule}>
+                <span>{SCHEDULE}</span>
+                <span>{ADDRESS}</span>
+              </p>
+              <SocialMedias />
+            </div>
+          </FooterBlock>
 
-        <FooterLinksBlock
-          heading='Блог'
-          links={blogLinks}
-        />
+          {
+            isCategoryIdsLoading
+            // todo: skeleton loading
+            ? 'Загрузка категорий...'
+            : categoryIds && (
+              <FooterLinksBlock
+                heading='Каталог'
+                path={NavPaths.CATALOG}
+                links={categoryIds.map((category) => ({
+                  name: category.name,
+                  path: `${NavPaths.CATALOG}?${listQueryParam('subcategory', category.subcategories)}`
+                }))}
+              />
+            )
+          }
 
-        <FooterLinksBlock
-          heading='Компания'
-          links={companyLinks}
-        />
+          <FooterLinksBlock
+            heading='Блог'
+            path={NavPaths.BLOG}
+            links={blogLinks}
+          />
+
+          <FooterLinksBlock
+            heading='Компания'
+            links={companyLinks}
+          />
+        </div>
+        
+        <Copyright />
       </div>
-      <Copyright />
-    </div>
-  </footer>
-);
+    </footer>
+  );
+}
 
 interface FooterLinksBlockProps {
   heading: string;
+  path?: string;
   links: NamedLink[];
 }
 
-function FooterLinksBlock({ heading, links }: FooterLinksBlockProps) {
+function FooterLinksBlock({
+  heading,
+  path,
+  links,
+}: FooterLinksBlockProps) {
   return (
-    <FooterBlock heading={heading}>
+    <FooterBlock heading={heading} path={path}>
       <div className={css.block}>
         {links.map((link) => (
           <Link
