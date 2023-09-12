@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDebounce, useSyncQueryParam } from '../../hooks';
 import { useGetProductsQuery } from '../../redux/apis/productsApi';
 import { SidebarForm } from './SidebarForm';
@@ -15,7 +15,6 @@ export function Catalog() {
   // Поиск
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const debouncedSearch = useDebounce(search, 500);
-  useSyncQueryParam('search', debouncedSearch, setSearchParams);
 
   // Сортировка
   const queryParamOrdering = searchParams.get('ordering') || '';
@@ -26,11 +25,9 @@ export function Catalog() {
   ) as CatalogOrdering;
 
   const [ordering, setOrdering] = useState(validatedQueryParamOrdering);
-  useSyncQueryParam('ordering', ordering, setSearchParams);
 
   // Фильтрация по тегу
   const [tag, setTag] = useState<number>(Number(searchParams.get('tag') || '0'));
-  useSyncQueryParam('tag', tag, setSearchParams);
 
   // Минимальная и максимальная цена
   const [minPrice, setMinPrice] = useState(Number(searchParams.get('minPrice') || '0'));
@@ -39,14 +36,29 @@ export function Catalog() {
   const debouncedMinPrice = useDebounce(minPrice, 500);
   const debouncedMaxPrice = useDebounce(maxPrice, 500);
 
-  useSyncQueryParam('minPrice', debouncedMinPrice, setSearchParams);
-  useSyncQueryParam('maxPrice', debouncedMaxPrice, setSearchParams);
-
   // Подкатегории
-  const [subcategoryIds, setSubcategoryIds] = useState<number[]>([]);
+  const [subcategoryIds, setSubcategoryIds] = useState<number[]>(
+    searchParams.getAll('subcategory').map(Number)
+  );
 
   // Бренды
-  const [brandIds, setBrandIds] = useState<number[]>([]);
+  const [brandIds, setBrandIds] = useState<number[]>(
+    searchParams.getAll('brand').map(Number)
+  );
+
+  // Синхронизация состояния с query parameters
+  useSyncQueryParam(
+    [
+      ['search', debouncedSearch],
+      ['ordering', ordering],
+      ['tag', tag],
+      ['minPrice', debouncedMinPrice],
+      ['maxPrice', debouncedMaxPrice],
+      ['brand', brandIds],
+      ['subcategory', subcategoryIds],
+    ],
+    setSearchParams,
+  );
 
   const { data, isLoading } = useGetProductsQuery({
     search: debouncedSearch,

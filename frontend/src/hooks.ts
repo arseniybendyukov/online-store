@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { SetURLSearchParams } from 'react-router-dom';
 
 export function useDebounce<V extends string | number>(value: V, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -20,29 +20,27 @@ export function useDebounce<V extends string | number>(value: V, delay: number) 
 export function useDisableScroll(flag: boolean) {
   useEffect(() =>  {
     if (flag) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "visible";
+      document.body.style.overflow = 'visible';
     }
   }, [flag]);
 }
 
 export function useSyncQueryParam(
-  key: string,
-  value: any,
+  params: [string, any][],
   setSearchParams: SetURLSearchParams,
 ) {
+  const memorizedParams = useMemo<[string, any][]>(
+    () => params,
+    params.map(([_, value]) => value),
+  );
+
   useEffect(() => {
-    if (value || value.length !== 0) {
-      setSearchParams((prev) => {
-        prev.set(key, value);
-        return prev;
-      });
-    } else {
-      setSearchParams((prev) => {
-        prev.delete(key);
-        return prev;
-      });
-    }
-  }, [value]);
-} 
+    setSearchParams(
+      Object.fromEntries(
+        memorizedParams.filter(([_, value]) => value)
+      )
+    );
+  }, [memorizedParams, setSearchParams]);
+}
