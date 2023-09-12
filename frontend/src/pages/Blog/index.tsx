@@ -1,23 +1,79 @@
-import { useGetBlogsQuery } from '../../redux/apis/blogApi';
+import { useGetBlogTagsQuery, useGetBlogsQuery } from '../../redux/apis/blogApi';
 import { BlogCard } from '../../components/BlogCard';
 import css from './index.module.css';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
+import { IconField, SelectOption } from '../../components/IconField';
+import { ReactComponent as Tag } from '../../images/tag.svg';
+import { ChangeEvent, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useSyncQueryParam } from '../../hooks';
 
 export function Blog() {
-  const { data, isLoading } = useGetBlogsQuery();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [tag, setTag] = useState<number>(Number(searchParams.get('tag') || '0'));
+  useSyncQueryParam([['tag', tag]], setSearchParams);
+
+  const {
+    data: tags = [],
+    isLoading: isTagsLoading,
+  } = useGetBlogTagsQuery();
+  
+  const tagOptions: SelectOption[] = tags.map((tag) => ({
+    label: tag.name,
+    value: String(tag.id),
+  }));
+
+  tagOptions.unshift({
+    label: 'Все',
+    value: '0',
+  });
+
+  const {
+    data: blogs,
+    isLoading: isBlogsLoading,
+  } = useGetBlogsQuery({ tag });
 
   return (
     <div className={`container ${css.container}`}>
-      <h1 className='h1'>Блог</h1>
+      <div className={css.header}>
+        <h1 className='h1'>Блог</h1>
+
+        <IconField
+          icon={<Tag className={css.tagSVG} />}
+          as='select'
+          id='tag'
+          name='tag'
+          value={tag}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => (
+            setTag(Number(e.target.value))
+          )}
+          options={
+            isTagsLoading
+            ? [{ label: 'Загрузка...', value: '0' }]
+            : tagOptions
+          }
+        />
+      </div>
 
       {
-        isLoading
+        isBlogsLoading
         ? <SpinnerScreen height={500} />
-        : data && (
-          <div className={css.blogs}>
-            {data.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
-          </div>
-        )
+        : blogs && <>
+          {
+            blogs.length
+            ? (
+              <div className={css.blogs}>
+                {blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
+              </div>
+            )
+            : (
+              <div className='empty' style={{ height: 500 }}>
+                Нет постов в блоге
+              </div>
+            )
+          }
+        </>
       }
     </div>
   );

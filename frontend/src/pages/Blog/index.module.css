@@ -5,6 +5,22 @@
   padding: 20px 0;
 }
 
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.tagSVG {
+  width: 25px;
+  height: 25px;
+}
+
+.tagSVG path {
+  stroke: var(--grey-1);
+  stroke-width: 5px;
+}
+
 .blogs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
