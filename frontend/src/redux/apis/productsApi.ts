@@ -74,7 +74,7 @@ export const productsApi = createApi({
     }),
 
     getTags: builder.query<Tag[], void>({
-      query: () => `tags/`,
+      query: () => `product-tags/`,
     }),
 
     getMinMaxPrice: builder.query<MinMax, void>({

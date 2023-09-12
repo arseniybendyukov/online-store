@@ -8,26 +8,7 @@ import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 import { useGetCategoryIdsQuery } from '../../redux/apis/productsApi';
 import { listQueryParam } from '../../utils/queryParams';
-
-// todo: расставить правильные ссылки с query params
-const blogLinks: NamedLink[] = [
-  {
-    path: '#',
-    name: 'Обзоры',
-  },
-  {
-    path: '#',
-    name: 'Новинки',
-  },
-  {
-    path: '#',
-    name: 'Подборки',
-  },
-  {
-    path: '#',
-    name: 'Новости',
-  },
-];
+import { useGetBlogTagsQuery } from '../../redux/apis/blogApi';
 
 const companyLinks: NamedLink[] = [
   {
@@ -54,6 +35,11 @@ export const Footer = () => {
     isLoading: isCategoryIdsLoading,
   } = useGetCategoryIdsQuery();
 
+  const {
+    data: blogTags,
+    isLoading: isBlogTagsLoading,
+  } = useGetBlogTagsQuery();
+
   return (
     <footer className={css.footer}>
       <div className='container'>
@@ -79,17 +65,27 @@ export const Footer = () => {
                 path={NavPaths.CATALOG}
                 links={categoryIds.map((category) => ({
                   name: category.name,
-                  path: `${NavPaths.CATALOG}?${listQueryParam('subcategory', category.subcategories)}`
+                  path: `${NavPaths.CATALOG}?${listQueryParam('subcategory', category.subcategories)}`,
                 }))}
               />
             )
           }
 
-          <FooterLinksBlock
-            heading='Блог'
-            path={NavPaths.BLOG}
-            links={blogLinks}
-          />
+          {
+            isBlogTagsLoading
+            // todo: skeleton loading
+            ? 'Загрузка блога...'
+            : blogTags && (
+              <FooterLinksBlock
+                heading='Блог'
+                path={NavPaths.BLOG}
+                links={blogTags.map((tag) => ({
+                  name: tag.name,
+                  path: `${NavPaths.BLOG}?tag=${tag.id}`,
+                }))}
+              />
+            )
+          }
 
           <FooterLinksBlock
             heading='Компания'
