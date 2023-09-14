@@ -19,9 +19,10 @@ urlpatterns = [
   path('products/', views.ProductList.as_view()),
   path('product/<int:pk>', views.ProductDetailView.as_view()),
   path('reviews/<int:pk>', views.ReviewListView.as_view()),
-  path('tags/', views.TagListView.as_view()),
+  path('product-tags/', views.ProductTagListView.as_view()),
   path('min-max-price/', views.MinMaxPriceView.as_view()),
   path('categories/', views.CategoryListView.as_view()),
+  path('category-ids/', views.CategoryIdsView.as_view()),
   path('brands/', views.BrandListView.as_view()),
   
   path('my-counts/', views.MyCountsView.as_view()),
@@ -46,4 +47,5 @@ urlpatterns = [
 
   path('blog/', views.BlogListView.as_view()),
   path('blog/<int:pk>', views.BlogDetailView.as_view()),
+  path('blog-tags/', views.BlogTagListView.as_view()),
 ]

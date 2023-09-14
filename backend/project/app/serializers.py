@@ -6,6 +6,7 @@ from .models import (
   BlogPost,
   Product,
   ProductTag,
+  BlogTag,
   Category,
   Subcategory,
   Brand,
@@ -84,9 +85,15 @@ class SubcategorySerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
-class TagSerializer(serializers.ModelSerializer):
+class ProductTagSerializer(serializers.ModelSerializer):
   class Meta:
     model = ProductTag
+    fields = '__all__'
+
+
+class BlogTagSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = BlogTag
     fields = '__all__'
 
 
@@ -116,7 +123,7 @@ class VariantSerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(serializers.ModelSerializer):
   variants = VariantSerializer(many=True)
-  tags = TagSerializer(many=True)
+  tags = ProductTagSerializer(many=True)
   subcategory = SubcategorySerializer()
   brand = BrandSerializer()
   avg_rating = serializers.FloatField()
@@ -124,14 +131,14 @@ class ProductListSerializer(serializers.ModelSerializer):
   is_saved = serializers.SerializerMethodField()
   is_in_cart = serializers.SerializerMethodField()
 
-  def get_is_saved(self, obj):
+  def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=obj.id).exists()
+    return user.saved_products.filter(pk=instance.id).exists()
 
-  def get_is_in_cart(self, obj):
+  def get_is_in_cart(self, instance):
     return CartItem.objects.filter(
       user=self.context['request'].user,
-      variant__product__id=obj.id,
+      variant__product__id=instance.id,
     ).exists()
 
   class Meta:
@@ -160,9 +167,9 @@ class ReviewSerializer(serializers.ModelSerializer):
   votes = serializers.ListField(source='get_votes')
   is_my_vote_positive = serializers.SerializerMethodField()
 
-  def get_is_my_vote_positive(self, obj):
+  def get_is_my_vote_positive(self, instance):
     user =  self.context['request'].user
-    vote = Vote.objects.filter(user=user, review=obj).first()
+    vote = Vote.objects.filter(user=user, review=instance).first()
     return vote.is_positive if vote else None
 
   class Meta:
@@ -181,14 +188,14 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   is_saved = serializers.SerializerMethodField()
   is_in_cart = serializers.SerializerMethodField()
 
-  def get_is_saved(self, obj):
+  def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=obj.id).exists()
+    return user.saved_products.filter(pk=instance.id).exists()
 
-  def get_is_in_cart(self, obj):
+  def get_is_in_cart(self, instance):
     return CartItem.objects.filter(
       user=self.context['request'].user,
-      variant__product__id=obj.id,
+      variant__product__id=instance.id,
     ).exists()
 
   class Meta:
@@ -199,8 +206,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 class SubcategoryListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()
 
-  def get_count(self, obj):
-    return Product.objects.filter(subcategory=obj).count()
+  def get_count(self, instance):
+    return Product.objects.filter(subcategory=instance).count()
 
   class Meta:
     model = Subcategory
@@ -211,19 +218,24 @@ class CategoryListSerializer(serializers.ModelSerializer):
   subcategories = SubcategoryListSerializer(many=True)
   count = serializers.SerializerMethodField()
 
-  def get_count(self, obj):
-    return Product.objects.filter(subcategory__category=obj).count()
+  def get_count(self, instance):
+    return Product.objects.filter(subcategory__category=instance).count()
 
   class Meta:
     model = Category
     fields = '__all__'
 
 
+class CategoryIdsSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Category
+    fields = ('id', 'name', 'subcategories',)
+
 class BrandListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()
 
-  def get_count(self, obj):
-    return Product.objects.filter(brand=obj).count()
+  def get_count(self, instance):
+    return Product.objects.filter(brand=instance).count()
 
   class Meta:
     model = Brand
@@ -234,10 +246,10 @@ class SavedProductSerializer(serializers.ModelSerializer):
   variants = VariantSerializer(many=True)
   is_in_cart = serializers.SerializerMethodField()
 
-  def get_is_in_cart(self, obj):
+  def get_is_in_cart(self, instance):
     return CartItem.objects.filter(
       user=self.context['request'].user,
-      variant__product__id=obj.id,
+      variant__product__id=instance.id,
     ).exists()
 
   class Meta:
@@ -257,9 +269,9 @@ class MyReviewSerializer(serializers.ModelSerializer):
   product = serializers.IntegerField(source='variant.product.id')
   is_my_vote_positive = serializers.SerializerMethodField()
 
-  def get_is_my_vote_positive(self, obj):
+  def get_is_my_vote_positive(self, instance):
     user =  self.context['request'].user
-    vote = Vote.objects.filter(user=user, review=obj).first()
+    vote = Vote.objects.filter(user=user, review=instance).first()
     return vote.is_positive if vote else None
 
   class Meta:
@@ -291,9 +303,9 @@ class AddToCartSerializer(serializers.Serializer):
 class CartProductSerializer(serializers.ModelSerializer):
   is_saved = serializers.SerializerMethodField()
 
-  def get_is_saved(self, obj):
+  def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=obj.id).exists()
+    return user.saved_products.filter(pk=instance.id).exists()
 
   class Meta:
     model = Product
@@ -458,8 +470,6 @@ class VoteSerializer(serializers.ModelSerializer):
 
 class CreateReviewSerializer(serializers.ModelSerializer):
   def create(self, validated_data):
-    print(validated_data)
-
     return Review.objects.create(
       user=self.context['request'].user,
       variant=validated_data.get('variant'),

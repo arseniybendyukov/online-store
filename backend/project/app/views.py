@@ -11,6 +11,7 @@ from .models import (
   BlogPost,
   Product,
   ProductTag,
+  BlogTag,
   Price,
   Category,
   Brand,
@@ -25,8 +26,10 @@ from .serializers import (
   UserRegisterationSerializer,
   UserLoginSerializer,
   ProductListSerializer,
-  TagSerializer,
+  ProductTagSerializer,
+  BlogTagSerializer,
   CategoryListSerializer,
+  CategoryIdsSerializer,
   BrandListSerializer,
   ProductDetailSerializer,
   ReviewSerializer,
@@ -110,10 +113,16 @@ class ReviewListView(generics.ListAPIView):
     return product.reviews
 
 
-class TagListView(generics.ListAPIView):
+class ProductTagListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = ProductTag.objects.all()
-  serializer_class = TagSerializer
+  serializer_class = ProductTagSerializer
+
+
+class BlogTagListView(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
+  queryset = BlogTag.objects.all()
+  serializer_class = BlogTagSerializer
 
 
 class MinMaxPriceView(views.APIView):
@@ -130,6 +139,12 @@ class CategoryListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = Category.objects.all()
   serializer_class = CategoryListSerializer
+
+
+class CategoryIdsView(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
+  queryset = Category.objects.all()
+  serializer_class = CategoryIdsSerializer
 
 
 class BrandListView(generics.ListAPIView):
@@ -314,6 +329,8 @@ class BlogListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = BlogPost.objects.all()
   serializer_class = BlogListSerializer
+  filter_backends = (django_filters_rest.DjangoFilterBackend,)
+  filterset_fields = ('tags__id',)
 
 
 class BlogDetailView(generics.RetrieveAPIView):
