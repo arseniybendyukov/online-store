@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.success {
+  font-weight: 700;
+  color: var(--green);
+}

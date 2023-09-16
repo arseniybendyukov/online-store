@@ -3,7 +3,7 @@ import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';
-import { FormTemplate } from '../FormTemplate';
+import { ModalTemplate } from '../ModalTemplate';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
@@ -82,7 +82,7 @@ export function Registration() {
   });
 
   return (
-    <FormTemplate
+    <ModalTemplate
       heading='Регистрация'
       width={600}
       link={{
@@ -144,9 +144,9 @@ export function Registration() {
         <Button
           type='submit'
           isLoading={isLoading}
-          state={{ default: { text: 'Отправить', icon: undefined } }}
+          state={{ default: { text: 'Зарегистрироваться', icon: undefined } }}
         />
       </form>
-    </FormTemplate>
+    </ModalTemplate>
   );
 }

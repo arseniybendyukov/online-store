@@ -19,6 +19,8 @@ export const enum ProductDetailNestedPaths {
 export const enum AuthNestedPaths {
   LOGIN = 'login',
   REGISTRATION = 'registration',
+  EMAIL_VERIFICATION = 'email-verification',
+  EMAIL_RESEND = 'email-resend',
 }
 
 export const enum ProfileNestedPaths {

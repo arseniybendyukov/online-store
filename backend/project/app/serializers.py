@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.db.models import Count
 from .models import (
   Appeal,
@@ -60,15 +61,27 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
     return User.objects.create_user(**validated_data)
 
 
-class UserLoginSerializer(serializers.Serializer):
-  email = serializers.CharField()
-  password = serializers.CharField(write_only=True)
+class ActivateEmailSerializer(serializers.Serializer):
+  uidb64 = serializers.CharField()
+  token = serializers.CharField()
 
-  def validate(self, data):
-    user = authenticate(**data)
-    if user is not None:
-      return user
-    raise serializers.ValidationError('Неправильные логин или пароль')
+
+class CustomJWTSerializer(TokenObtainPairSerializer):
+  def validate(self, attrs):
+    data = super().validate(attrs)
+
+    user = User.objects.filter(email=attrs.get('email')).first()
+  
+    if user and not user.is_email_verified:
+      raise serializers.ValidationError({
+        'email': 'Электронная почта не верифицирована!'
+      })
+
+    return data
+
+
+class ResendActivationSerializer(serializers.Serializer):
+  email = serializers.EmailField()
 
 
 class CategorySerializer(serializers.ModelSerializer):

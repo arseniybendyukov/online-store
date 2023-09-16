@@ -1,21 +1,17 @@
 import { useFormik } from 'formik';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';
-import { FormTemplate } from '../FormTemplate';
+import { ModalTemplate } from '../ModalTemplate';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { useLoginMutation } from '../../../redux/apis/authApi';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 interface FormValues {
   email: string;
   password: string;
-}
-
-interface LoginError {
-  data: { datail: string };
 }
 
 function validate(values: FormValues) {
@@ -36,7 +32,7 @@ function validate(values: FormValues) {
 
 export function Login() {
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -57,10 +53,20 @@ export function Login() {
     }
   });
 
+  useEffect(() => {
+    if (error && 'data' in error) {
+      const data = error.data as Record<string, string[]>;
+
+      if ('email' in data) {
+        formik.setFieldError('email', data.email[0]);
+      }
+    }
+  }, [error]);
+
   return (
-    <FormTemplate
+    <ModalTemplate
       heading='Вход'
-      width={450}
+      width={500}
       link={{
         path: `${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`,
         name: 'Регистрация',
@@ -90,9 +96,13 @@ export function Login() {
         <Button
           type='submit'
           isLoading={isLoading}
-          state={{ default: { text: 'Отправить', icon: undefined } }}
+          state={{ default: { text: 'Войти', icon: undefined } }}
         />
+
+        {formik.errors.email === 'Электронная почта не верифицирована!' && (
+          <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Выслать письмо ещё раз</Link>
+        )}
       </form>
-    </FormTemplate>
+    </ModalTemplate>
   );
 }

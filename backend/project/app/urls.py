@@ -4,17 +4,20 @@ from rest_framework_simplejwt.views import (
   TokenRefreshView,
   TokenBlacklistView,
 )
+from .serializers import CustomJWTSerializer
 from app import views
 
 urlpatterns = [
   path('create-appeal/', views.CreateAppealView.as_view()),
 
   path('register/', views.UserRegisterView.as_view()),
-  path('token/obtain/', TokenObtainPairView.as_view()),
+  path('token/obtain/', TokenObtainPairView.as_view(serializer_class=CustomJWTSerializer)),
   path('token/refresh/', TokenRefreshView.as_view()),
   path('who-am-i/', views.WhoAmIView.as_view()),
   path('logout/', TokenBlacklistView.as_view()),
   path('update-me/', views.UpdateUserView.as_view()),
+  path('activate-email/', views.ActivateEmailView.as_view()),
+  path('resend-activation/', views.ResendActivationView.as_view()),
 
   path('products/', views.ProductList.as_view()),
   path('product/<int:pk>', views.ProductDetailView.as_view()),

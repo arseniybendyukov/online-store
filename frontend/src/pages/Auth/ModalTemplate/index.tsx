@@ -10,7 +10,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const FormTemplate = ({
+export const ModalTemplate = ({
   heading,
   width,
   link,

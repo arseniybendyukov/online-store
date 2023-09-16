@@ -43,3 +43,8 @@ export interface UpdateMeInput {
   birthdate: string;
   phone_number: string;
 }
+
+export interface ActivateEmailInput {
+  uidb64: string;
+  token: string;
+}

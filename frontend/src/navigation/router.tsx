@@ -1,33 +1,35 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import {
   AuthNestedPaths,
   NavPaths,
   OrdersNestedPaths,
   ProductDetailNestedPaths,
   ProfileNestedPaths,
-} from ".";
-import { App } from "../App";
-import { Catalog } from "../pages/Catalog";
-import { ProductDetail } from "../pages/ProductDetail";
-import { ProductReviews } from "../pages/ProductDetail/Reviews";
-import { SimilarProducts } from "../pages/ProductDetail/SimilarProducts";
-import { BoughtTogetherProducts } from "../pages/ProductDetail/BoughtTogetherProducts";
-import { Main } from "../pages/Main";
-import { Auth } from "../pages/Auth";
-import { Login } from "../pages/Auth/Login";
-import { Registration } from "../pages/Auth/Registration";
-import { Profile } from "../pages/Profile";
-import { Orders } from "../pages/Profile/Orders";
-import { Saved } from "../pages/Profile/Saved";
-import { Cart } from "../pages/Profile/Cart";
-import { PersonalInfo } from "../pages/Profile/PersonalInfo";
-import { Reviews } from "../pages/Profile/Reviews";
-import { Active } from "../pages/Profile/Orders/Active";
-import { Completed } from "../pages/Profile/Orders/Completed";
-import { OrderDetail } from "../pages/Profile/Orders/Detail";
-import { Contacts } from "../pages/Contacts";
-import { Blog } from "../pages/Blog";
-import { BlogDetail } from "../pages/BlogDetail";
+} from '.';
+import { App } from '../App';
+import { Catalog } from '../pages/Catalog';
+import { ProductDetail } from '../pages/ProductDetail';
+import { ProductReviews } from '../pages/ProductDetail/Reviews';
+import { SimilarProducts } from '../pages/ProductDetail/SimilarProducts';
+import { BoughtTogetherProducts } from '../pages/ProductDetail/BoughtTogetherProducts';
+import { Main } from '../pages/Main';
+import { Auth } from '../pages/Auth';
+import { Login } from '../pages/Auth/Login';
+import { Registration } from '../pages/Auth/Registration';
+import { EmailVerification } from '../pages/Auth/EmailVerification';
+import { Profile } from '../pages/Profile';
+import { Orders } from '../pages/Profile/Orders';
+import { Saved } from '../pages/Profile/Saved';
+import { Cart } from '../pages/Profile/Cart';
+import { PersonalInfo } from '../pages/Profile/PersonalInfo';
+import { Reviews } from '../pages/Profile/Reviews';
+import { Active } from '../pages/Profile/Orders/Active';
+import { Completed } from '../pages/Profile/Orders/Completed';
+import { OrderDetail } from '../pages/Profile/Orders/Detail';
+import { Contacts } from '../pages/Contacts';
+import { Blog } from '../pages/Blog';
+import { BlogDetail } from '../pages/BlogDetail';
+import { EmailResend } from '../pages/Auth/EmailResend';
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ export const router = createBrowserRouter([
           {
             path: AuthNestedPaths.REGISTRATION,
             element: <Registration />
+          },
+          {
+            path: AuthNestedPaths.EMAIL_VERIFICATION,
+            element: <EmailVerification />,
+          },
+          {
+            path: AuthNestedPaths.EMAIL_RESEND,
+            element: <EmailResend />,
           },
         ],
       },
