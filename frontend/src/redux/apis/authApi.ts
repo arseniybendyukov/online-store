@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { LoginInput, RegisterInput, Tokens, UpdateMeInput, User } from '../../types/auth';
+import { ActivateEmailInput, LoginInput, RegisterInput, Tokens, UpdateMeInput, User } from '../../types/auth';
 import { logout, setTokens, setUser } from '../slices/userSlice';
 import { baseQueryWithReauth } from '../baseQuery';
 import { productsApi } from './productsApi';
@@ -18,14 +18,6 @@ export const authApi = createApi({
           body: data,
         };
       },
-      async onQueryStarted({ email, password }, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          await dispatch(authApi.endpoints.login.initiate({ email, password }));
-        } catch (error) {
-          toast('Произошла ошибка регистрации!', { type: 'error' });
-        }
-      },
     }),
 
     login: builder.mutation<Tokens, LoginInput>({
@@ -42,8 +34,10 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setTokens(data));
           
+          // todo: странный момент с ресетом состояния
           dispatch(productsApi.util.resetApiState());
 
+          // todo: баг с логином: пользователь не меняется
           await dispatch(authApi.endpoints.whoAmI.initiate());
         } catch (error) {
           toast('Произошла ошибка авторизации!', { type: 'error' });
@@ -88,6 +82,22 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
+    activateEmail: builder.mutation<void, ActivateEmailInput>({
+      query: (data) => ({
+        url: `activate-email/`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    resendActivation: builder.mutation<void, { email: string }>({
+      query: (data) => ({
+        url: `resend-activation/`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -97,4 +107,6 @@ export const {
   useWhoAmIQuery,
   useLogoutMutation,
   useUpdateMeMutation,
+  useActivateEmailMutation,
+  useResendActivationMutation,
 } = authApi;

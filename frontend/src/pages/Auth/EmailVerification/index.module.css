@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.error {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.success {
+  font-weight: 700;
+  color: var(--green);
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.list li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: black;
+}

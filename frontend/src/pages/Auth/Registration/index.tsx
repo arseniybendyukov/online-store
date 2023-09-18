@@ -3,11 +3,12 @@ import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';
-import { FormTemplate } from '../FormTemplate';
+import { ModalTemplate } from '../ModalTemplate';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 interface FormValues {
   firstName: string;
@@ -55,7 +56,7 @@ function validate(values: FormValues) {
 
 export function Registration() {
   const navigate = useNavigate();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, error }] = useRegisterMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -80,9 +81,19 @@ export function Registration() {
       }
     }
   });
+  
+  useEffect(() => {
+    if (error && 'data' in error) {
+      const data = error.data as Record<string, string[]>;
+
+      if (data instanceof Object && 'email' in data) {
+        formik.setFieldError('email', data.email[0]);
+      }
+    }
+  }, [error]);
 
   return (
-    <FormTemplate
+    <ModalTemplate
       heading='Регистрация'
       width={600}
       link={{
@@ -144,9 +155,9 @@ export function Registration() {
         <Button
           type='submit'
           isLoading={isLoading}
-          state={{ default: { text: 'Отправить', icon: undefined } }}
+          state={{ default: { text: 'Зарегистрироваться', icon: undefined } }}
         />
       </form>
-    </FormTemplate>
+    </ModalTemplate>
   );
 }

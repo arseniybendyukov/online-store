@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Max
 from .ordering import ProductCustomOrdering, ReviewCustomOrdering
+from .email import send_activation_email
 from .models import (
   Appeal,
   BlogPost,
@@ -20,11 +21,11 @@ from .models import (
   Variant,
   Order,
   Vote,
+  User,
 )
 from .serializers import (
   UserDetailSerializer,
   UserRegisterationSerializer,
-  UserLoginSerializer,
   ProductListSerializer,
   ProductTagSerializer,
   BlogTagSerializer,
@@ -47,8 +48,13 @@ from .serializers import (
   CreateReviewSerializer,
   BlogListSerializer,
   BlogDetailSerializer,
+  ActivateEmailSerializer,
+  ResendActivationSerializer,
 )
-  
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
+from .email import token_generator
+ 
 
 class ProductList(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
@@ -161,7 +167,59 @@ class UserRegisterView(generics.GenericAPIView):
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
+
+    send_activation_email(user, request)
+
     return Response(status=status.HTTP_201_CREATED)
+
+
+class ActivateEmailView(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = ActivateEmailSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    uidb64 = serializer.validated_data.get('uidb64')
+    token = serializer.validated_data.get('token')
+
+    try:
+      uid = force_str(urlsafe_base64_decode(uidb64))
+      user = User.objects.get(pk=uid)
+    except Exception as e:
+      user = None
+
+    if user and token_generator.check_token(user, token):
+      user.is_email_verified = True
+      user.save()
+      return Response(status=status.HTTP_200_OK)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ResendActivationView(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = ResendActivationSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    
+    email = serializer.validated_data.get('email')
+
+    try:
+      user = User.objects.get(email=email)
+    except Exception as e:
+      user = None
+
+    print(user)
+
+    if user:
+      send_activation_email(user, request)
+      return Response(status=status.HTTP_200_OK)
+    
+    return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class WhoAmIView(generics.GenericAPIView):
