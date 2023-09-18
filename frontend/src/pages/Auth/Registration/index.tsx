@@ -8,6 +8,7 @@ import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/form
 import { useRegisterMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 interface FormValues {
   firstName: string;
@@ -55,7 +56,7 @@ function validate(values: FormValues) {
 
 export function Registration() {
   const navigate = useNavigate();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, error }] = useRegisterMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -80,6 +81,16 @@ export function Registration() {
       }
     }
   });
+  
+  useEffect(() => {
+    if (error && 'data' in error) {
+      const data = error.data as Record<string, string[]>;
+
+      if (data instanceof Object && 'email' in data) {
+        formik.setFieldError('email', data.email[0]);
+      }
+    }
+  }, [error]);
 
   return (
     <ModalTemplate

@@ -213,6 +213,8 @@ class ResendActivationView(generics.GenericAPIView):
     except Exception as e:
       user = None
 
+    print(user)
+
     if user:
       send_activation_email(user, request)
       return Response(status=status.HTTP_200_OK)

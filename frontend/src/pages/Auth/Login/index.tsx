@@ -57,7 +57,7 @@ export function Login() {
     if (error && 'data' in error) {
       const data = error.data as Record<string, string[]>;
 
-      if ('email' in data) {
+      if (data instanceof Object && 'email' in data) {
         formik.setFieldError('email', data.email[0]);
       }
     }
