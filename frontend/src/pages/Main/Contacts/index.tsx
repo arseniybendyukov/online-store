@@ -3,6 +3,7 @@ import { SocialMedias } from '../../../components/SocialMedias';
 import { NavPaths } from '../../../navigation';
 import css from './index.module.css';
 import { InfoRows } from '../../../components/InfoRows';
+import { Map } from '../../../components/Map';
 
 export function Contacts() {
   return (
@@ -20,7 +21,8 @@ export function Contacts() {
             <SocialMedias dark />
           </div>
         </div>
-        <div className={css.map}>(карта)</div>
+        
+        <Map />
       </div>
     </section>
   );

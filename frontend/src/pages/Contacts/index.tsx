@@ -1,4 +1,5 @@
 import { InfoRows } from '../../components/InfoRows';
+import { Map } from '../../components/Map';
 import { SocialMedias } from '../../components/SocialMedias';
 import { ContactsForm } from './ContactsForm';
 import css from './index.module.css';
@@ -22,7 +23,7 @@ export function Contacts() {
             </div>
             
             <div className={css.right}>
-              <div className={css.map}>(карта)</div>
+              <Map className={css.map} />
               <InfoRows />
             </div>
           </div>
