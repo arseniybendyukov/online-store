@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { NamedLink } from '../../types/common';
-import { ADDRESS, PHONE_NUMBER, SCHEDULE } from '../../consts/data';
+import { ADDRESS, SCHEDULE } from '../../consts/data';
 import { FooterBlock } from './FooterBlock';
 import { SocialMedias } from '../SocialMedias';
 import { Copyright } from './Copyright';
@@ -9,6 +9,7 @@ import { NavPaths } from '../../navigation';
 import { useGetCategoryIdsQuery } from '../../redux/apis/productsApi';
 import { listQueryParam } from '../../utils/queryParams';
 import { useGetBlogTagsQuery } from '../../redux/apis/blogApi';
+import { PhoneLink } from '../PhoneLink';
 
 const companyLinks: NamedLink[] = [
   {
@@ -46,7 +47,8 @@ export const Footer = () => {
         <div className={css.blocks}>
           <FooterBlock heading='Контакты'>
             <div className={css.block}>
-              <span className={css.phone}>{PHONE_NUMBER}</span>
+              <PhoneLink className={css.phone} />
+
               <p className={css.addressAndSchedule}>
                 <span>{SCHEDULE}</span>
                 <span>{ADDRESS}</span>

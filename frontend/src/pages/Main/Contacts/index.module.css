@@ -25,10 +25,3 @@
   align-items: center;
   justify-content: space-between;
 }
-
-.map {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #cccccc;
-}

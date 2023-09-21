@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
-import { ADDRESS, PHONE_NUMBER, EMAIL } from '../../consts/data';
+import { ADDRESS, EMAIL } from '../../consts/data';
 import { ReactComponent as Location } from '../../images/location.svg';
 import { ReactComponent as Phone } from '../../images/phone.svg';
 import { ReactComponent as Envelope } from '../../images/envelope.svg';
 import css from './index.module.css';
+import { PhoneLink } from "../PhoneLink";
 
 interface Row {
   icon: ReactNode;
-  text: string;
+  text: ReactNode;
 }
 
 interface RowsProps {
@@ -16,8 +17,8 @@ interface RowsProps {
 
 const Rows = ({ rows }: RowsProps) => (
   <div className={css.rows}>
-    {rows.map((row) => (
-      <div key={row.text} className={css.row}>
+    {rows.map((row, index) => (
+      <div key={index} className={css.row}>
         <div className={css.rowIcon}>{row.icon}</div>
         <span className={css.rowText}>{row.text}</span>
       </div>
@@ -34,7 +35,7 @@ export const InfoRows = () => (
       },
       {
         icon: <Phone width={16} heigth={16} />,
-        text: PHONE_NUMBER,
+        text: <PhoneLink />,
       },
       {
         icon: <Envelope width={17} heigth={17} />,
