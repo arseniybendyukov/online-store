@@ -41,15 +41,17 @@ export function Login() {
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      const result = await login({
+      await login({
         email: values.email,
         password: values.password,
-      });
-
-      if (!('error' in result)) {
-        resetForm();
-        navigate(NavPaths.PROFILE);
-      }
+      })
+        .unwrap()
+        .then((result) => {
+          if (!('error' in result)) {
+            resetForm();
+            navigate(NavPaths.PROFILE);
+          }
+        });
     }
   });
 

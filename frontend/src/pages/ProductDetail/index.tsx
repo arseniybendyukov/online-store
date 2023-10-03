@@ -15,10 +15,14 @@ import { ReactComponent as Heart } from '../../images/heart.svg';
 import { ProductDetailNestedPaths } from "../../navigation";
 import { NavTabs } from "../../components/NavTabs";
 import { SpinnerScreen } from "../../components/SpinnerScreen";
+import { useAppSelector } from "../../redux/store";
+import { toast } from "react-toastify";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
+
+  const user = useAppSelector((state) => state.userState.user);
 
   const {
     toggleSaved,
@@ -36,7 +40,11 @@ export function ProductDetail() {
 
   function onSaveButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    toggleSaved();
+    if (user) {
+      toggleSaved();
+    } else {
+      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+    }
   }
 
   return <>

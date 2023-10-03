@@ -57,7 +57,7 @@ from .email import token_generator
  
 
 class ProductList(generics.ListAPIView):
-  permission_classes = (permissions.IsAuthenticated,)
+  permission_classes = (permissions.AllowAny,)
   serializer_class = ProductListSerializer
   filter_backends = (
     django_filters_rest.DjangoFilterBackend,
@@ -101,9 +101,16 @@ class ProductList(generics.ListAPIView):
 
 
 class ProductDetailView(generics.RetrieveAPIView):
-  permission_classes = (permissions.IsAuthenticated,)
+  permission_classes = (permissions.AllowAny,)
   queryset = Product.objects.all()
   serializer_class = ProductDetailSerializer
+
+
+class AmIAuthenticated(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  
+  def get(self, request):
+    return Response(request.user.is_authenticated)
 
 
 class ReviewListView(generics.ListAPIView):

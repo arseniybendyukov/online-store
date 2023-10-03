@@ -146,13 +146,18 @@ class ProductListSerializer(serializers.ModelSerializer):
 
   def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=instance.id).exists()
+    if user.is_authenticated:
+      return user.saved_products.filter(pk=instance.id).exists()
+    return False
 
   def get_is_in_cart(self, instance):
-    return CartItem.objects.filter(
-      user=self.context['request'].user,
-      variant__product__id=instance.id,
-    ).exists()
+    user =  self.context['request'].user
+    if user.is_authenticated:
+      return CartItem.objects.filter(
+        user=self.context['request'].user,
+        variant__product__id=instance.id,
+      ).exists()
+    return False
 
   class Meta:
     model = Product
@@ -201,15 +206,21 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   is_saved = serializers.SerializerMethodField()
   is_in_cart = serializers.SerializerMethodField()
 
+  # todo: дублирование двух функций ниже в других serializers
   def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=instance.id).exists()
+    if user.is_authenticated:
+      return user.saved_products.filter(pk=instance.id).exists()
+    return False
 
   def get_is_in_cart(self, instance):
-    return CartItem.objects.filter(
-      user=self.context['request'].user,
-      variant__product__id=instance.id,
-    ).exists()
+    user =  self.context['request'].user
+    if user.is_authenticated:
+      return CartItem.objects.filter(
+        user=self.context['request'].user,
+        variant__product__id=instance.id,
+      ).exists()
+    return False
 
   class Meta:
     model = Product

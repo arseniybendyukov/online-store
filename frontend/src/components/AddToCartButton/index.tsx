@@ -3,6 +3,8 @@ import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
 import { ReactComponent as Check } from '../../images/check.svg';
 import css from './index.module.css';
 import { useToggleCart } from '../../redux/apis/productsApi';
+import { useAppSelector } from '../../redux/store';
+import { toast } from 'react-toastify';
 
 interface Props {
   productId: number;
@@ -21,10 +23,15 @@ export function AddToCartButton({
     toggleCart,
     isLoading,
   } = useToggleCart({ productId, productVariantId, isInCart, amount });
+  const user = useAppSelector((state) => state.userState.user);
 
   function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    toggleCart();
+    if (user) {
+      toggleCart();
+    } else {
+      toast('Войдите, чтобы пользоваться корзиной', { type: 'error' })
+    }
   }
 
   return (

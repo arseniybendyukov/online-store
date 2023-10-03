@@ -211,14 +211,17 @@ export function useToggleSaved(id: number, isSaved: boolean) {
   return { toggleSaved, isLoading };
 }
 
-export function useToggleCart(agrs: {
+export function useToggleCart({
+  productId,
+  productVariantId,
+  isInCart,
+  amount,
+}: {
   productId: number;
   productVariantId: number;
   isInCart: boolean;
   amount: number;
 }) {
-  const { productId, productVariantId, isInCart, amount } = agrs;
-
   const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
   const [removeFromCart, { isLoading: isRemoveLoading }] = useRemoveFromCartMutation();
 
