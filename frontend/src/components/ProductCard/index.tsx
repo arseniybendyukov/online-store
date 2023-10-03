@@ -9,6 +9,8 @@ import { NavPaths } from '../../navigation';
 import { AddToCartButton } from '../AddToCartButton';
 import { useToggleSaved } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
+import { useAppSelector } from '../../redux/store';
+import { toast } from 'react-toastify';
 
 interface Props {
   product: ListProduct;
@@ -16,10 +18,15 @@ interface Props {
 
 export function ProductCard({ product }: Props) {
   const { toggleSaved, isLoading } = useToggleSaved(product.id, product.is_saved);
+  const user = useAppSelector((state) => state.userState.user);
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    toggleSaved();
+    if (user) {
+      toggleSaved();
+    } else {
+      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+    }
   }
 
   const price = product.variants[0].price;

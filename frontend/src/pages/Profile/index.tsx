@@ -4,6 +4,7 @@ import { NavTabs } from '../../components/NavTabs';
 import { ProfileNestedPaths } from '../../navigation';
 import { useLogoutMutation } from '../../redux/apis/authApi';
 import { useAppSelector } from '../../redux/store';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 export function Profile() {
   const [logout] = useLogoutMutation();
@@ -13,46 +14,48 @@ export function Profile() {
   }
 
   return (
-    <div className={`container ${css.container}`}>
-      <aside className={css.sidebar}>
-        <UserInfo />
+    <PrivateRoute>
+      <div className={`container ${css.container}`}>
+        <aside className={css.sidebar}>
+          <UserInfo />
 
-        <div className={css.tabs}>
-          <NavTabs
-            vertical
-            options={[
-              {
-                name: 'Заказы',
-                path: ProfileNestedPaths.ORDERS,
-              },
-              {
-                name: 'Корзина',
-                path: ProfileNestedPaths.CART,
-              },
-              {
-                name: 'Сохраненное',
-                path: ProfileNestedPaths.SAVED,
-              },
-              {
-                name: 'Отзывы на товары',
-                path: ProfileNestedPaths.REVIEWS,
-              },
-              {
-                name: 'Личные данные',
-                path: ProfileNestedPaths.PERSONAL_INFO,
-              },
-            ]}
-          />
+          <div className={css.tabs}>
+            <NavTabs
+              vertical
+              options={[
+                {
+                  name: 'Заказы',
+                  path: ProfileNestedPaths.ORDERS,
+                },
+                {
+                  name: 'Корзина',
+                  path: ProfileNestedPaths.CART,
+                },
+                {
+                  name: 'Сохраненное',
+                  path: ProfileNestedPaths.SAVED,
+                },
+                {
+                  name: 'Отзывы на товары',
+                  path: ProfileNestedPaths.REVIEWS,
+                },
+                {
+                  name: 'Личные данные',
+                  path: ProfileNestedPaths.PERSONAL_INFO,
+                },
+              ]}
+            />
 
-          <button onClick={logoutButtonOnClick} className={css.logoutButton}>
-            Выйти из аккаунта
-          </button>
+            <button onClick={logoutButtonOnClick} className={css.logoutButton}>
+              Выйти из аккаунта
+            </button>
+          </div>
+        </aside>
+        <div className={css.content}>
+          <Outlet />
         </div>
-      </aside>
-      <div className={css.content}>
-        <Outlet />
       </div>
-    </div>
+    </PrivateRoute>
   );
 }
 

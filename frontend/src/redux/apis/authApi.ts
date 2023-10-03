@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User'],
+  tagTypes: ['User', 'IsAuthenticated'],
   endpoints: (builder) => ({
     register: builder.mutation<void, RegisterInput>({
       query(data) {
@@ -28,17 +28,13 @@ export const authApi = createApi({
           body: data,
         };
       },
+      invalidatesTags: ['User', 'IsAuthenticated'],
       transformResponse: (response: Tokens) => response,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setTokens(data));
-          
-          // todo: странный момент с ресетом состояния
           dispatch(productsApi.util.resetApiState());
-
-          // todo: баг с логином: пользователь не меняется
-          await dispatch(authApi.endpoints.whoAmI.initiate());
         } catch (error) {
           toast('Произошла ошибка авторизации!', { type: 'error' });
         }
@@ -59,6 +55,11 @@ export const authApi = createApi({
       },
     }),
 
+    amIAuthenticated: builder.query<boolean, void>({
+      query: () => `am-i-authenticated/`,
+      providesTags: ['IsAuthenticated'],
+    }),
+
     logout: builder.mutation<void, void>({
       query: () => ({
         url: 'logout/',
@@ -67,9 +68,9 @@ export const authApi = createApi({
           refresh: localStorage.getItem('refreshToken') || ''
         },
       }),
+      invalidatesTags: ['User', 'IsAuthenticated'],
       async onQueryStarted(_, { dispatch }) {
         dispatch(logout());
-        dispatch(authApi.util.resetApiState());
         dispatch(productsApi.util.resetApiState());
       },
     }),
@@ -105,6 +106,7 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useWhoAmIQuery,
+  useAmIAuthenticatedQuery,
   useLogoutMutation,
   useUpdateMeMutation,
   useActivateEmailMutation,
