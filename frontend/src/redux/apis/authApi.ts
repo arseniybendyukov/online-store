@@ -84,6 +84,15 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
 
+    updateAvatar: builder.mutation<void, { image: string | null }>({
+      query: (data) => ({
+        url: `update-avatar/`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
     activateEmail: builder.mutation<void, ActivateEmailInput>({
       query: (data) => ({
         url: `activate-email/`,
@@ -109,6 +118,7 @@ export const {
   useAmIAuthenticatedQuery,
   useLogoutMutation,
   useUpdateMeMutation,
+  useUpdateAvatarMutation,
   useActivateEmailMutation,
   useResendActivationMutation,
 } = authApi;

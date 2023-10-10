@@ -61,6 +61,12 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
     return User.objects.create_user(**validated_data)
 
 
+class UpdateAvatarSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ('image',)
+
+
 class ActivateEmailSerializer(serializers.Serializer):
   uidb64 = serializers.CharField()
   token = serializers.CharField()
@@ -378,6 +384,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
       'patronymic',
       'birthdate',
       'phone_number',
+      'image',
     )
 
 

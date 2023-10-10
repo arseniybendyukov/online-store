@@ -50,6 +50,7 @@ from .serializers import (
   BlogDetailSerializer,
   ActivateEmailSerializer,
   ResendActivationSerializer,
+  UpdateAvatarSerializer,
 )
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -231,9 +232,15 @@ class ResendActivationView(generics.GenericAPIView):
 
 class WhoAmIView(generics.GenericAPIView):
   permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = UserDetailSerializer
+
+  def get_serializer_context(self):
+    context = super(WhoAmIView, self).get_serializer_context()
+    context.update({'request': self.request})
+    return context
 
   def get(self, request, *args, **kwargs):
-    serializer = UserDetailSerializer(request.user)
+    serializer = self.get_serializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -327,6 +334,14 @@ class UpdateCartAmountView(generics.UpdateAPIView):
 class UpdateUserView(generics.UpdateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
   serializer_class = UpdateUserSerializer
+
+  def get_object(self):
+    return self.request.user
+
+
+class UpdateAvatarView(generics.UpdateAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = UpdateAvatarSerializer
 
   def get_object(self):
     return self.request.user

@@ -64,7 +64,11 @@ function UserInfo() {
 
   return (
     <div className={css.userInfo}>
-      <div className={css.avatar}></div>
+      <div className={css.avatar}>
+        {user?.image && (
+          <img src={user.image} alt='avatar' />
+        )}
+      </div>
       <h3 className={`h3 ${css.fullname}`}>
         {`${user?.first_name} ${user?.last_name}`}
       </h3>

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import { INVALID_PHONE_NUMBER, isPhoneNumberValid } from '../../../utils/forms';
 import { useUpdateMeMutation } from '../../../redux/apis/authApi';
+import { Avatar } from './Avatar';
 
 interface FormValues {
   firstName: string;
@@ -66,7 +67,8 @@ export function PersonalInfo() {
         <div className={css.formTemplate}>
           <div className={css.mainFormSide}>
             <div className={css.identityInfo}>
-              <div className={css.avatar}></div>
+              <Avatar image={user?.image} />
+
               <div className={css.nameInputs}>
                 <Input
                   label='Имя'

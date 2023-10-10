@@ -19,7 +19,9 @@ export function Review({ review }: Props) {
   return (
     <div className={css.container}>
       <div className={css.avatar}>
-        <div className={css.image}></div>
+        {review.user.image && (
+          <img src={review.user.image} alt='avatar' />
+        )}
       </div>
       <div className={css.main}>
         <div className={css.info}>
