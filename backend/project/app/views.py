@@ -318,7 +318,7 @@ class RemoveFromCartView(generics.GenericAPIView):
   def post(self, request, *args, **kwargs):
     CartItem.objects.filter(
       user=request.user,
-      variant__product__id=self.kwargs['pk'],
+      variant__pk=self.kwargs['pk'],
     ).delete()
     return Response(status=status.HTTP_200_OK)
 

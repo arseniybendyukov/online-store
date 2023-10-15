@@ -14,7 +14,7 @@ import { REQUIRED_FIELD } from '../../../../utils/forms';
 
 interface FormValues {
   rating: number;
-  variant: Variant | null;
+  variantId: number | null;
   text: string;
 }
 
@@ -25,8 +25,8 @@ function validate(values: FormValues) {
     errors.rating = 'Укажите оценку товара!';
   }
 
-  if (values.variant === null) {
-    errors.variant = 'Выберите вариант товара!';
+  if (values.variantId === null) {
+    errors.variantId = 'Выберите вариант товара!';
   }
 
   if (!values.text) {
@@ -57,16 +57,16 @@ export function CreateReviewModalForm({
   const formik = useFormik<FormValues>({
     initialValues: {
       rating: 0,
-      variant: null,
+      variantId: null,
       text: '',
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      if (values.variant) {
+      if (values.variantId) {
         const result = await createReview({
           rating: values.rating,
           text: values.text,
-          variant: values.variant.pk,
+          variant: values.variantId,
         });
 
         if ('error' in result) {
@@ -101,10 +101,10 @@ export function CreateReviewModalForm({
             <Label label='Выберите вариант товара' gap={10}>
               <RadioVariants
                 options={variants}
-                selectedVariant={formik.values.variant}
-                setSelectedVariant={(value) => formik.setFieldValue('variant', value)}
-                isTouched={formik.touched.variant}
-                error={formik.errors.variant}
+                selectedVariant={variants.filter((variant) => variant.pk === formik.values.variantId)[0] || null}
+                setSelectedVariantId={(value) => formik.setFieldValue('variantId', value)}
+                isTouched={formik.touched.variantId}
+                error={formik.errors.variantId}
               />
             </Label>
 

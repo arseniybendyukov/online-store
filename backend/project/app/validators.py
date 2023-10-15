@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 
 
+AMOUNT_VALIDATOR = [MinValueValidator(1)]
+
 PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
 
 RATING_VALIDATOR = [MinValueValidator(1), MaxValueValidator(5)]

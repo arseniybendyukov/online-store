@@ -32,7 +32,6 @@ export interface DetailProduct {
   silimar_products: ListProduct[];
   bought_together_products: ListProduct[];
   is_saved: boolean;
-  is_in_cart: boolean;
 }
 
 export interface Review {
@@ -79,6 +78,7 @@ export interface Variant {
   pk: number;
   name: string;
   price: Price;
+  is_in_cart: boolean;
 }
 
 export interface Price {

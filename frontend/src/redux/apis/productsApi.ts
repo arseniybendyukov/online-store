@@ -139,9 +139,9 @@ export const productsApi = createApi({
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
 
-    removeFromCart: builder.mutation<void, { productId: number }>({
-      query: ({ productId }) => ({
-        url: `remove-from-cart/${productId}`,
+    removeFromCart: builder.mutation<void, { variantId: number }>({
+      query: ({ variantId }) => ({
+        url: `remove-from-cart/${variantId}`,
         method: 'POST',
       }),
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
@@ -161,13 +161,13 @@ export const productsApi = createApi({
       providesTags: ['Order'],
     }),
 
-    createOrder: builder.mutation<void, OderedProductInput[]>({
+    createOrder: builder.mutation<{ id: number }, OderedProductInput[]>({
       query: (data) => ({
         url: `create-order/`,
         method: 'POST',
         body: { products: data },
       }),
-      invalidatesTags: ['Order'],
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
 
     getOrderDetail: builder.query<OrderDetail, { id: string }>({
@@ -212,13 +212,11 @@ export function useToggleSaved(id: number, isSaved: boolean) {
 }
 
 export function useToggleCart({
-  productId,
-  productVariantId,
+  variantId,
   isInCart,
   amount,
 }: {
-  productId: number;
-  productVariantId: number;
+  variantId: number;
   isInCart: boolean;
   amount: number;
 }) {
@@ -229,11 +227,10 @@ export function useToggleCart({
 
   function toggleCart() {
     if (isInCart) {
-      // todo: удалять по variant_id. В целом сделать возможность хранить варианты одного и того же товара
-      removeFromCart({ productId });
+      removeFromCart({ variantId });
     } else {
       addToCart({
-        variant_id: productVariantId,
+        variant_id: variantId,
         amount,
       });
     }
