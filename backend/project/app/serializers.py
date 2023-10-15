@@ -44,6 +44,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
       'email',
       'first_name',
       'last_name',
+      'color',
       'image',
       'patronymic',
       'birthdate',
@@ -181,6 +182,7 @@ class UserSmallSerializer(serializers.ModelSerializer):
       'id',
       'first_name',
       'last_name',
+      'color',
       'image',
     ]
 

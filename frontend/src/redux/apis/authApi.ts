@@ -84,11 +84,12 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
 
-    updateAvatar: builder.mutation<void, { image: string | null }>({
+    updateAvatar: builder.mutation<void, FormData>({
       query: (data) => ({
         url: `update-avatar/`,
         method: 'PATCH',
         body: data,
+        formData: true,
       }),
       invalidatesTags: ['User'],
     }),

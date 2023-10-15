@@ -1,22 +1,16 @@
 .avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   flex-shrink: 0;
-  width: 190px;
-  height: 190px;
   border-radius: 50%;
   background: var(--main-1);
   overflow: hidden;
-  position: relative;
 }
 
 .avatar:hover .avatarPick {
   display: flex;
-}
-
-.image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
 
 .avatarPick {

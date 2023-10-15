@@ -8,6 +8,7 @@ from .validators import PERCENTAGE_VALIDATOR, RATING_VALIDATOR, PHONE_NUMBER_VAL
 from django.contrib.auth.models import (
   AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
+from .color import get_random_blue_color
 
 
 class Appeal(models.Model):
@@ -223,6 +224,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   patronymic = models.CharField(max_length=100, null=True, blank=True, verbose_name='Отчество')
   birthdate = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
   image = models.ImageField(null=True, blank=True, upload_to='users/', verbose_name='Изображение')
+  color = models.CharField(max_length=18, default='rgb(7, 83, 161)', verbose_name='Цвет аватара (без картинки)')
   phone_number = models.CharField(
     max_length=17,
     validators=[PHONE_NUMBER_VALIDATOR],
@@ -247,6 +249,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     return f'{self.first_name} {self.last_name}'
 
   def save(self, *args, **kwargs):
+    if self.pk is None:
+      self.color = get_random_blue_color()
     super(User, self).save(*args, **kwargs)
     return self
 

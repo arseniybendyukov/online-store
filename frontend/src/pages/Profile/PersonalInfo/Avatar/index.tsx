@@ -3,22 +3,25 @@ import { useEffect, useState } from 'react';
 import { ReactComponent as Pencil } from '../../../../images/pencil.svg';
 import { useUpdateAvatarMutation } from '../../../../redux/apis/authApi';
 import { Spinner } from '../../../../components/Spinner';
+import { CircleAvatar } from '../../../../components/CircleAvatar';
 
 interface Props {
-  image?: string | null;
+  initials: string;
+  color: string;
+  image: string | null;
 }
 
-export function Avatar({ image }: Props) {
-  const [selectedImage, setSelectedImage] = useState<unknown | null>(null);
+export function Avatar({ initials, color, image }: Props) {
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [updateAvatar, { isLoading }] = useUpdateAvatarMutation();
 
   useEffect(() => {
-    if (image) {
-      setSelectedImage(image);
-      // todo: преобразовать объект картинки, чтобы отправить на бэк
-      // updateAvatar(image);
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append('image', selectedImage)
+      updateAvatar(formData);
     }
-  }, [image]);
+  }, [selectedImage]);
 
   return (
     <div className={css.avatar}>
@@ -27,7 +30,14 @@ export function Avatar({ image }: Props) {
           <Pencil className={css.pencilSVG} />
         </label>
 
-        <input type='file' name='avatar' id='avatar-picture-picker' className={css.input} />
+        <input
+          type='file'
+          accept='image/*'
+          name='avatar'
+          id='avatar-picture-picker'
+          className={css.input}
+          onChange={(e) => setSelectedImage((e.target.files ?? [null])[0])}
+        />
       </div>
 
       {isLoading && (
@@ -36,10 +46,12 @@ export function Avatar({ image }: Props) {
         </div>
       )}
 
-      {image && (
-        // todo: кривой тип у user.image
-        <img src={image ?? undefined} alt='avatar' className={css.image} />
-      )}
+      <CircleAvatar
+        sizeType='large'
+        image={image}
+        initials={initials}
+        color={color}
+      />
     </div>
   );
 }

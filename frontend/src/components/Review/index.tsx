@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/data';
 import { repeat } from '../../utils/arrays';
 import { useVoteOnReviewMutation } from '../../redux/apis/productsApi';
+import { CircleAvatar } from '../CircleAvatar';
 
 interface Props {
   review: ProductReview | MyReview;
@@ -18,11 +19,12 @@ export function Review({ review }: Props) {
 
   return (
     <div className={css.container}>
-      <div className={css.avatar}>
-        {review.user.image && (
-          <img src={review.user.image} alt='avatar' />
-        )}
-      </div>
+      <CircleAvatar
+        sizeType='small'
+        image={review.user.image}
+        initials={review.user.first_name[0] + review.user.last_name[0]}
+        color={review.user.color}
+      />
       <div className={css.main}>
         <div className={css.info}>
           <div className={css.row}>
