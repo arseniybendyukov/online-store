@@ -37,8 +37,7 @@ export function SavedProductCard({
       </div>
 
       <AddToCartButton
-        productId={id}
-        productVariantId={variants[0].pk}
+        variantId={variants[0].pk}
         isInCart={isInCart}
       />
 

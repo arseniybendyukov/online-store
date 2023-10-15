@@ -19,6 +19,12 @@
   height: 130px;
 }
 
+.productProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .minorInfo {
   width: 200px;
   display: flex;

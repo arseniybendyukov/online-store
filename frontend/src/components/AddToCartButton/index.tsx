@@ -7,22 +7,20 @@ import { useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
 
 interface Props {
-  productId: number;
-  productVariantId: number;
+  variantId: number;
   isInCart: boolean;
   amount?: number;
 }
 
 export function AddToCartButton({
-  productId,
-  productVariantId,
+  variantId,
   isInCart,
   amount=1,
 }: Props) {
   const {
     toggleCart,
     isLoading,
-  } = useToggleCart({ productId, productVariantId, isInCart, amount });
+  } = useToggleCart({ variantId, isInCart, amount });
   const user = useAppSelector((state) => state.userState.user);
 
   function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {

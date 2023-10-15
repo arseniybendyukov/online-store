@@ -65,8 +65,7 @@ export function ProductCard({ product }: Props) {
         }
 
         <AddToCartButton
-          productId={product.id}
-          productVariantId={product.variants[0].pk}
+          variantId={product.variants[0].pk}
           isInCart={product.is_in_cart}
         />
       </div>

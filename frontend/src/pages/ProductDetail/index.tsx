@@ -29,12 +29,14 @@ export function ProductDetail() {
     isLoading: isToggleSaveLoading,
   } = useToggleSaved(product?.id || 0, product?.is_saved || false);
 
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   const [amount, setAmount] = useState(1);
 
+  const selectedVariant = product?.variants.filter((variant) => variant.pk === selectedVariantId)[0] || null;
+
   useEffect(() => {
-    if (product) {
-      setSelectedVariant(product.variants[0]);
+    if (product && selectedVariantId === null) {
+      setSelectedVariantId(product.variants[0].pk);
     }
   }, [product]);
 
@@ -46,6 +48,8 @@ export function ProductDetail() {
       toast('Войдите, чтобы сохранять товары', { type: 'error' });
     }
   }
+
+  console.log(amount)
 
   return <>
     {
@@ -79,7 +83,7 @@ export function ProductDetail() {
                 <RadioVariants
                   options={product.variants}
                   selectedVariant={selectedVariant}
-                  setSelectedVariant={setSelectedVariant}
+                  setSelectedVariantId={setSelectedVariantId}
                 />
               </Label>
               <Label label='Количество'>
@@ -90,9 +94,8 @@ export function ProductDetail() {
               </Label>
               <div className={css.buttons}>
                 <AddToCartButton
-                  productId={product.id}
-                  productVariantId={selectedVariant?.pk || 0}
-                  isInCart={product.is_in_cart}
+                  variantId={selectedVariant?.pk || 0}
+                  isInCart={selectedVariant?.is_in_cart ?? false}
                   amount={amount}
                 />
 

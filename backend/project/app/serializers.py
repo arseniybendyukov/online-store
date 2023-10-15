@@ -131,6 +131,16 @@ class PriceSerializer(serializers.ModelSerializer):
 
 class VariantSerializer(serializers.ModelSerializer):
   price = PriceSerializer()
+  is_in_cart = serializers.SerializerMethodField()
+
+  def get_is_in_cart(self, instance):
+    user =  self.context['request'].user
+    if user.is_authenticated:
+      return CartItem.objects.filter(
+        user=self.context['request'].user,
+        variant__pk=instance.pk,
+      ).exists()
+    return False
 
   class Meta:
     model = Variant
@@ -138,6 +148,7 @@ class VariantSerializer(serializers.ModelSerializer):
       'pk',
       'name',
       'price',
+      'is_in_cart',
     )
 
 
@@ -212,22 +223,12 @@ class ProductDetailSerializer(serializers.ModelSerializer):
   bought_together_products = ProductListSerializer(many=True) 
   reviews_count = serializers.IntegerField(source='reviews.count')
   is_saved = serializers.SerializerMethodField()
-  is_in_cart = serializers.SerializerMethodField()
 
   # todo: дублирование двух функций ниже в других serializers
   def get_is_saved(self, instance):
     user =  self.context['request'].user
     if user.is_authenticated:
       return user.saved_products.filter(pk=instance.id).exists()
-    return False
-
-  def get_is_in_cart(self, instance):
-    user =  self.context['request'].user
-    if user.is_authenticated:
-      return CartItem.objects.filter(
-        user=self.context['request'].user,
-        variant__product__id=instance.id,
-      ).exists()
     return False
 
   class Meta:
@@ -400,12 +401,13 @@ class CreateOrderSerializer(serializers.ModelSerializer):
   products = OrderProductSerializer(many=True)
 
   def validate(self, data):
-    if not len(data['products']) > 0:
+    if len(data['products']) < 1:
       raise serializers.ValidationError('Невозможно создать пустой заказ')
     return data
 
   def create(self, validated_data):
-    order = Order.objects.create(user=self.context['request'].user)
+    user = self.context['request'].user
+    order = Order.objects.create(user=user)
 
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
@@ -413,6 +415,11 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         variant=raw['variant'],
         amount=raw['amount'],
       )
+
+      CartItem.objects.filter(
+        variant=raw['variant'],
+        user=user,
+      ).delete()
 
     for stage_type in OrderStageType.objects.all():
       OrderStage.objects.create(

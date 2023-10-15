@@ -5,7 +5,7 @@ import css from './index.module.css';
 interface Props {
   options: Variant[];
   selectedVariant: Variant | null;
-  setSelectedVariant: SetState<Variant | null>;
+  setSelectedVariantId: SetState<number | null>;
   isTouched?: boolean;
   error?: string;
 }
@@ -13,7 +13,7 @@ interface Props {
 export function RadioVariants({
   options,
   selectedVariant,
-  setSelectedVariant,
+  setSelectedVariantId,
   isTouched,
   error,
 }: Props) {
@@ -24,7 +24,7 @@ export function RadioVariants({
       {options.map((variant) => (
         <div
           key={variant.price.id}
-          onClick={() => setSelectedVariant(variant)}
+          onClick={() => setSelectedVariantId(variant.pk)}
           className={`${css.variant} ${variant === selectedVariant ? css.selected : ''}`}
         >
           {variant.name}

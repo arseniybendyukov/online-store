@@ -10,6 +10,7 @@ import { AmountInput } from '../AmountInput';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks';
 import { Spinner } from '../Spinner';
+import { Label } from '../Label';
 
 interface Props extends CartItem {}
 
@@ -18,8 +19,8 @@ export function CartItemCard(cartItem: Props) {
     id: cartItemId,
     amount,
     variant: {
-      pk: productVariantId,
-      name: productVariantName,
+      pk: variantId,
+      name: variantName,
       price,
       product: {
         id: productId,
@@ -58,7 +59,7 @@ export function CartItemCard(cartItem: Props) {
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    removeFromCart({ productId });
+    removeFromCart({ variantId });
   }
 
   return (
@@ -68,7 +69,10 @@ export function CartItemCard(cartItem: Props) {
     >
       <div className={css.majorInfo}>
         <img src={image} alt='product' className={css.image} />
-        <h4 className='h4'>{productName}</h4>
+        <div className={css.productProperties}>
+          <h4 className='h4'>{productName}</h4>
+          <Label label='Вариант' gap={10}>{variantName}</Label>
+        </div>
       </div>
 
       <div onClick={(e) => e.preventDefault()}>
@@ -80,8 +84,8 @@ export function CartItemCard(cartItem: Props) {
 
       <div className={css.minorInfo}>
         <ProductPrice
-          actualPrice={price.actual_price}
-          salePrice={price.sale_price}
+          actualPrice={price.actual_price * amount}
+          salePrice={price.sale_price ? price.sale_price * amount : null}
         />
 
         <div className={css.buttons}>

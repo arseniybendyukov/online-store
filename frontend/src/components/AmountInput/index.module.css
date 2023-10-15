@@ -16,6 +16,10 @@
   fill: var(--grey-1);
 }
 
+.button[disabled] svg path {
+  fill: var(--grey-2);
+}
+
 .input {
   width: 50px;
   text-align: center;

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.db import transaction
 from django.db.models import Avg
 from .utils import format_datetime
-from .validators import PERCENTAGE_VALIDATOR, RATING_VALIDATOR, PHONE_NUMBER_VALIDATOR
+from .validators import AMOUNT_VALIDATOR, PERCENTAGE_VALIDATOR, RATING_VALIDATOR, PHONE_NUMBER_VALIDATOR
 from django.contrib.auth.models import (
   AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
@@ -265,7 +265,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class CartItem(models.Model):
   variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-  amount = models.IntegerField(default=1, verbose_name='Количество')
+  amount = models.IntegerField(default=1, validators=AMOUNT_VALIDATOR, verbose_name='Количество')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
 
   def __str__(self):
@@ -349,7 +349,7 @@ class Order(models.Model):
 class OrderedProduct(models.Model):
   order = models.ForeignKey(Order, related_name='products', on_delete=models.CASCADE, verbose_name='Заказ')
   variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
-  amount = models.IntegerField(default=1, verbose_name='Количество')
+  amount = models.IntegerField(default=1, validators=AMOUNT_VALIDATOR, verbose_name='Количество')
 
   def __str__(self):  
     return f'{self.variant.product.name}, {self.order}'
