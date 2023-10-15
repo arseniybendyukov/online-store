@@ -7,6 +7,5 @@ export const isEmailValid = (email: string) => (
 );
 
 export const isPhoneNumberValid = (phoneNumber: string) => (
-  // todo: найти нормальное регулярное выражение для номера телефона
   /^\+?1?\d{9,15}$/.test(phoneNumber)
 );
