@@ -1,0 +1,54 @@
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--main-1);
+  overflow: hidden;
+}
+
+.avatar:hover .avatarPick {
+  display: flex;
+}
+
+.avatarPick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .4);
+}
+
+.spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .4);
+}
+
+.label {
+  cursor: pointer;
+}
+
+.pencilSVG g path {
+  fill: #fff;
+}
+
+.input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}

@@ -44,6 +44,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
       'email',
       'first_name',
       'last_name',
+      'color',
       'image',
       'patronymic',
       'birthdate',
@@ -59,6 +60,12 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
     return User.objects.create_user(**validated_data)
+
+
+class UpdateAvatarSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ('image',)
 
 
 class ActivateEmailSerializer(serializers.Serializer):
@@ -175,6 +182,7 @@ class UserSmallSerializer(serializers.ModelSerializer):
       'id',
       'first_name',
       'last_name',
+      'color',
       'image',
     ]
 
@@ -378,6 +386,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
       'patronymic',
       'birthdate',
       'phone_number',
+      'image',
     )
 
 

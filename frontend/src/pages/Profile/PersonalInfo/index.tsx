@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import { INVALID_PHONE_NUMBER, isPhoneNumberValid } from '../../../utils/forms';
 import { useUpdateMeMutation } from '../../../redux/apis/authApi';
+import { Avatar } from './Avatar';
 
 interface FormValues {
   firstName: string;
@@ -62,78 +63,85 @@ export function PersonalInfo() {
   return (
     <div className={css.container}>
       <h1 className='h1'>Личные данные</h1>
-      <form onSubmit={formik.handleSubmit} className={css.form}>
-        <div className={css.formTemplate}>
-          <div className={css.mainFormSide}>
-            <div className={css.identityInfo}>
-              <div className={css.avatar}></div>
-              <div className={css.nameInputs}>
-                <Input
-                  label='Имя'
-                  name='firstName'
-                  onChange={formik.handleChange}
-                  value={formik.values.firstName}
-                  isTouched={formik.touched.firstName}
-                  error={formik.errors.firstName}
+      {user && (
+        <form onSubmit={formik.handleSubmit} className={css.form}>
+          <div className={css.formTemplate}>
+            <div className={css.mainFormSide}>
+              <div className={css.identityInfo}>
+                <Avatar
+                  initials={user.first_name[0] + user.last_name[0]}
+                  color={user.color}
+                  image={user.image}
                 />
 
-                <Input
-                  label='Фамилия'
-                  name='lastName'
-                  onChange={formik.handleChange}
-                  value={formik.values.lastName}
-                  isTouched={formik.touched.lastName}
-                  error={formik.errors.lastName}
-                />
+                <div className={css.nameInputs}>
+                  <Input
+                    label='Имя'
+                    name='firstName'
+                    onChange={formik.handleChange}
+                    value={formik.values.firstName}
+                    isTouched={formik.touched.firstName}
+                    error={formik.errors.firstName}
+                  />
 
-                <Input
-                  label='Отчество'
-                  name='patronymic'
-                  onChange={formik.handleChange}
-                  value={formik.values.patronymic}
-                  isTouched={formik.touched.patronymic}
-                  error={formik.errors.patronymic}
-                />
+                  <Input
+                    label='Фамилия'
+                    name='lastName'
+                    onChange={formik.handleChange}
+                    value={formik.values.lastName}
+                    isTouched={formik.touched.lastName}
+                    error={formik.errors.lastName}
+                  />
+
+                  <Input
+                    label='Отчество'
+                    name='patronymic'
+                    onChange={formik.handleChange}
+                    value={formik.values.patronymic}
+                    isTouched={formik.touched.patronymic}
+                    error={formik.errors.patronymic}
+                  />
+                </div>
               </div>
+
+              <Input
+                label='Дата рождения'
+                name='birthdate'
+                type='date'
+                onChange={formik.handleChange}
+                value={formik.values.birthdate}
+                isTouched={formik.touched.birthdate}
+                error={formik.errors.birthdate}
+              />
+
+              <Input
+                disabled
+                label='Электронная почта'
+                type='email'
+                value={user.email}
+              />
+              
+              <Input
+                label='Номер телефона'
+                name='phoneNumber'
+                onChange={formik.handleChange}
+                value={formik.values.phoneNumber}
+                isTouched={formik.touched.phoneNumber}
+                error={formik.errors.phoneNumber}
+              />
             </div>
-
-            <Input
-              label='Дата рождения'
-              name='birthdate'
-              type='date'
-              onChange={formik.handleChange}
-              value={formik.values.birthdate}
-              isTouched={formik.touched.birthdate}
-              error={formik.errors.birthdate}
-            />
-
-            <Input
-              disabled
-              label='Электронная почта'
-              type='email'
-              value={user?.email ?? ''}
-            />
-            
-            <Input
-              label='Номер телефона'
-              name='phoneNumber'
-              onChange={formik.handleChange}
-              value={formik.values.phoneNumber}
-              isTouched={formik.touched.phoneNumber}
-              error={formik.errors.phoneNumber}
-            />
+            <div className={css.separator}></div>
+            <div className={css.orderFormSide}>
+              (...)
+            </div>
           </div>
-          <div className={css.separator}></div>
-          <div className={css.orderFormSide}>
-            (Вторая часть формы)
-          </div>
-        </div>
-        <Button
-          type='submit'
-          isLoading={isLoading}
-          state={{ default: { text: 'Сохранить', icon: undefined } }}
-        />
-      </form>
+          <Button
+            type='submit'
+            isLoading={isLoading}
+            state={{ default: { text: 'Сохранить', icon: undefined } }}
+          />
+        </form>
+      )}
     </div>
   );
 }

@@ -14,6 +14,7 @@ export interface User {
   first_name: string;
   last_name: string;
   patronymic: string | null;
+  color: string;
   image: string | null;
   birthdate: string  | null;
   phone_number: string  | null;

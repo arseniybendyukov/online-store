@@ -49,6 +49,7 @@ interface ReviewUser {
   id: number;
   first_name: string;
   last_name: string;
+  color: string;
   image: string | null;
 }
 

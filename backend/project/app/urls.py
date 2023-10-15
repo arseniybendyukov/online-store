@@ -17,6 +17,7 @@ urlpatterns = [
   path('am-i-authenticated/', views.AmIAuthenticated.as_view()),
   path('logout/', TokenBlacklistView.as_view()),
   path('update-me/', views.UpdateUserView.as_view()),
+  path('update-avatar/', views.UpdateAvatarView.as_view()),
   path('activate-email/', views.ActivateEmailView.as_view()),
   path('resend-activation/', views.ResendActivationView.as_view()),
 
