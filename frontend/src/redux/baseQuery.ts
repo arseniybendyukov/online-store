@@ -6,13 +6,12 @@ import type {
 } from '@reduxjs/toolkit/query';
 import { refreshToken, logout } from './slices/userSlice';
 import { Mutex } from 'async-mutex';
-import { BASE_URL } from '../consts/api';
 import { AccessToken } from '../types/auth';
 
 const mutex = new Mutex();
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
+  baseUrl: process.env.REACT_APP_BASE_URL,
   prepareHeaders: (headers) => {
     const accessToken = localStorage.getItem('accessToken');
 
