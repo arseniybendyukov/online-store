@@ -46,7 +46,6 @@ export function Review({ review }: Props) {
                 to={`${NavPaths.PRODUCT_DETAIL}/${review.product}`}
                 className='link'
               >
-                {/* todo: сделать "Перейти к !отзыву!" */}
                 Перейти к продукту
               </Link>
             )}

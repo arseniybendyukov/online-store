@@ -23,6 +23,8 @@ from .models import (
   OrderStageType,
 )
 
+
+# todo: разбить на файлы
 class BlogListSerializer(serializers.ModelSerializer):
   class Meta:
     model = BlogPost
@@ -152,21 +154,27 @@ class VariantSerializer(serializers.ModelSerializer):
     )
 
 
-class ProductListSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
   variants = VariantSerializer(many=True)
-  tags = ProductTagSerializer(many=True)
   subcategory = SubcategorySerializer()
   brand = BrandSerializer()
   avg_rating = serializers.FloatField()
   reviews_count = serializers.IntegerField(source='reviews.count')
   is_saved = serializers.SerializerMethodField()
-  is_in_cart = serializers.SerializerMethodField()
 
   def get_is_saved(self, instance):
     user =  self.context['request'].user
     if user.is_authenticated:
       return user.saved_products.filter(pk=instance.id).exists()
     return False
+
+  class Meta:
+    model = Product
+
+
+class ProductListSerializer(ProductSerializer):
+  tags = ProductTagSerializer(many=True)
+  is_in_cart = serializers.SerializerMethodField()
 
   def get_is_in_cart(self, instance):
     user =  self.context['request'].user
@@ -177,13 +185,20 @@ class ProductListSerializer(serializers.ModelSerializer):
       ).exists()
     return False
 
-  class Meta:
-    model = Product
+  class Meta(ProductSerializer.Meta):
     exclude = [
       'description',
       'silimar_products',
       'bought_together_products',
     ]
+
+
+class ProductDetailSerializer(ProductSerializer):
+  silimar_products = ProductListSerializer(many=True)
+  bought_together_products = ProductListSerializer(many=True)
+
+  class Meta(ProductSerializer.Meta):
+    fields = '__all__'
 
 
 class UserSmallSerializer(serializers.ModelSerializer):
@@ -211,28 +226,6 @@ class ReviewSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Review
-    fields = '__all__'
-
-
-class ProductDetailSerializer(serializers.ModelSerializer):
-  variants = VariantSerializer(many=True)
-  subcategory = SubcategorySerializer()
-  brand = BrandSerializer()
-  avg_rating = serializers.FloatField()
-  silimar_products = ProductListSerializer(many=True)
-  bought_together_products = ProductListSerializer(many=True) 
-  reviews_count = serializers.IntegerField(source='reviews.count')
-  is_saved = serializers.SerializerMethodField()
-
-  # todo: дублирование двух функций ниже в других serializers
-  def get_is_saved(self, instance):
-    user =  self.context['request'].user
-    if user.is_authenticated:
-      return user.saved_products.filter(pk=instance.id).exists()
-    return False
-
-  class Meta:
-    model = Product
     fields = '__all__'
 
 

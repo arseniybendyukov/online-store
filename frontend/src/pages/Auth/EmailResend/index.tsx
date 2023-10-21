@@ -44,7 +44,6 @@ export function EmailResend() {
   });
 
   useEffect(() => {
-    console.log(error)
     if (error && 'status' in error) {
       if (error.status === 404) {
         formik.setFieldError(

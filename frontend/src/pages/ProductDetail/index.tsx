@@ -49,8 +49,6 @@ export function ProductDetail() {
     }
   }
 
-  console.log(amount)
-
   return <>
     {
       isLoading

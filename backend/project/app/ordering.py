@@ -1,6 +1,7 @@
 from rest_framework.filters import OrderingFilter
 from .models import Product
 
+# todo: навести порядок в этом файле
 class ProductCustomOrdering(OrderingFilter):
   allowed_custom_filters = [
     'price',
