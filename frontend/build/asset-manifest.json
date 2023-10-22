@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d729eba8.css",
+    "main.js": "/static/js/main.535cd339.js",
+    "static/media/spray.png": "/static/media/spray.2ad5312cf244781d06ec.png",
+    "static/media/logo.svg": "/static/media/logo.da2620d645f5ecb01771a77d1ca1631d.svg",
+    "static/media/instagram.svg": "/static/media/instagram.bf0c7dc06079286bf35515494e6eb5e2.svg",
+    "static/media/whatsapp.svg": "/static/media/whatsapp.e2a5c1fee6ab4f3b951d148b74d77d60.svg",
+    "static/media/review.svg": "/static/media/review.5154c960ee98c7645f8e3a4f0d5bee39.svg",
+    "static/media/star.svg": "/static/media/star.a4576d3b1d1cdba6031ecc075efbab2a.svg",
+    "static/media/heart.svg": "/static/media/heart.08beaa98287256a23ea31cf81888b99d.svg",
+    "static/media/phone.svg": "/static/media/phone.9ad6660038303ec53c8cfeeb4f19cc60.svg",
+    "static/media/pencil.svg": "/static/media/pencil.ec4635322033730ae2dbf4b3a46ee030.svg",
+    "static/media/long-arrow.svg": "/static/media/long-arrow.d8f93a1a76967788aece31d79df7a4e6.svg",
+    "static/media/arrow.svg": "/static/media/arrow.92b3496c86a301770a205b6c27ffee9b.svg",
+    "static/media/tag.svg": "/static/media/tag.993743e6768920993943635379aa496c.svg",
+    "static/media/filter.svg": "/static/media/filter.0861440fa7f6bd6d3a996a066075dd68.svg",
+    "static/media/shopping-cart.svg": "/static/media/shopping-cart.1e3cb8d2e2cca3f91b35209ad5e2805e.svg",
+    "static/media/search.svg": "/static/media/search.7972145304c198aa3f54525fe41d2b5b.svg",
+    "static/media/cross.svg": "/static/media/cross.643ab0e4508b21a4125b3d6300b446b4.svg",
+    "index.html": "/index.html",
+    "static/media/envelope.svg": "/static/media/envelope.2b105bb6ab6045c43db3fb861b3385c9.svg",
+    "static/media/telegram.svg": "/static/media/telegram.fd72971dd098555254e4e87fc2d54b3f.svg",
+    "static/media/increment.svg": "/static/media/increment.87b3af72797c430148dbcaa1d9ef0b1c.svg",
+    "static/media/vk.svg": "/static/media/vk.2d86b697e1ce0a9f60c842f6838d2f0c.svg",
+    "static/media/location.svg": "/static/media/location.6f03db53b4c2375a30c6d3e0dc4fb6f8.svg",
+    "static/media/decrement.svg": "/static/media/decrement.c320870b64092a331b872ed3bfbac2da.svg",
+    "static/media/check.svg": "/static/media/check.c53d5dce3ade70ba00e17c91b86d7a3e.svg",
+    "main.d729eba8.css.map": "/static/css/main.d729eba8.css.map",
+    "main.535cd339.js.map": "/static/js/main.535cd339.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d729eba8.css",
+    "static/js/main.535cd339.js"
+  ]
+}
