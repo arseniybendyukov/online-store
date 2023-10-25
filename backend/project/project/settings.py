@@ -21,8 +21,11 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS = env.list('CORS_ORIGINS')
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGINS')
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 CORS_ALLOW_CREDENTIALS = True
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 FRONTEND_DOMAIN = env('FRONTEND_DOMAIN')
+FORCE_SCRIPT_NAME = '/api'
 
 
 # Application definition
@@ -135,12 +138,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 # Media files
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/api/media/'
+MEDIA_URL = f'http://{FRONTEND_DOMAIN}/api/media/'
 
 
 # Email config

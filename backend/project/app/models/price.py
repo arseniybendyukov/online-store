@@ -20,7 +20,7 @@ class Price(models.Model):
     return self.actual_price
 
   def __str__(self):
-    return f'{self.actual_price}, {self.variant}'
+    return f'{self.actual_price}'
 
   class Meta:
     verbose_name = 'Цена на товар'
