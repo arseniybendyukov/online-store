@@ -35,7 +35,7 @@ export function getFullName<
 T extends {
   first_name: string;
   last_name: string;
-  patronymic?: string;
+  patronymic?: string | null;
 }>(user: T) {
   let fullName = `${user.first_name} ${user.last_name}`;
 
