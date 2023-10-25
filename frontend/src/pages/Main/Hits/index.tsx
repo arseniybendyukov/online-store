@@ -6,10 +6,8 @@ import { Slider } from '../../../components/Slider';
 import { ProductCard } from '../../../components/ProductCard';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';
 
-const HIT_TAG_ID = 2;
-
 export function Hits() {
-  const { data, isLoading } = useGetProductsQuery({ tag: HIT_TAG_ID });
+  const { data, isLoading } = useGetProductsQuery({ tag: Number(process.env.REACT_APP_HIT_TAG_ID) });
 
   return (
     <section className={css.container}>
@@ -17,7 +15,7 @@ export function Hits() {
         <h2 className='h2'>Хиты продаж</h2>
         <Link
           className='link'
-          to={`${NavPaths.CATALOG}?tag=${HIT_TAG_ID}`}
+          to={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}`}
         >
           Перейти в каталог
         </Link>

@@ -32,7 +32,9 @@ body {
 }
 
 .container {
-  max-width: calc(1300px + 30px); /* padding */
+  /* max-width: calc(1300px + 30px); */
+  width: calc(1300px + 30px); /* todo: fixed container */
+  
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;
