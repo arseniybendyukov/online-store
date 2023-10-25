@@ -41,7 +41,7 @@ export function ProductCard({ product }: Props) {
       </div>
       <img src={product.image} alt='product' />
       <div className={css.text}>
-        <p className={css.name}>{product.name}</p>
+        <p className={css.name}>{product.subcategory.name}, {product.name}</p>
         <p className={css.category}>{product.subcategory.category.name}</p>
       </div>
       <RatingStars
