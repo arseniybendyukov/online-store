@@ -5,7 +5,7 @@ import css from './index.module.css';
 import { Label } from '../Label';
 import { NavPaths } from '../../navigation';
 import { Link } from 'react-router-dom';
-import { formatDate } from '../../utils/data';
+import { formatDate, getFullName } from '../../utils/data';
 import { repeat } from '../../utils/arrays';
 import { useVoteOnReviewMutation } from '../../redux/apis/productsApi';
 import { CircleAvatar } from '../CircleAvatar';
@@ -28,7 +28,7 @@ export function Review({ review }: Props) {
       <div className={css.main}>
         <div className={css.info}>
           <div className={css.row}>
-            <span className={css.user}>Иван Иванов</span>
+            <span className={css.user}>{getFullName(review.user)}</span>
             <span className={css.date}>{formatDate(review.created_at)}</span>
           </div>
           <div className={css.row}>

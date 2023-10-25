@@ -31,7 +31,12 @@ export function getOverallPrice(order: Order) {
   return `${price} ₽`;
 }
 
-export function getFullName(user: User) {
+export function getFullName<
+T extends {
+  first_name: string;
+  last_name: string;
+  patronymic?: string;
+}>(user: T) {
   let fullName = `${user.first_name} ${user.last_name}`;
 
   if (user.patronymic) {
