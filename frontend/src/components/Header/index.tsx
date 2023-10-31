@@ -8,8 +8,10 @@ import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
 import css from './index.module.css';
 import { useGetMyCountsQuery } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
+import { useAppSelector } from '../../redux/store';
 
 export function Header() {
+  const user = useAppSelector((state) => state.userState.user);
   const { data, isLoading } = useGetMyCountsQuery();
 
   return (
@@ -18,12 +20,14 @@ export function Header() {
         <Logo />
         <NavLinks />
         <div className={css.buttons}>
-          <Button
-            path={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`}
-            state={{
-              default: { text: 'Войти', icon: undefined }
-            }}
-          />
+          {!user && (
+            <Button
+              path={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`}
+              state={{
+                default: { text: 'Войти', icon: undefined }
+              }}
+            />
+          )}
           {
             isLoading
             ? <Spinner size={30} thickness={3} />
