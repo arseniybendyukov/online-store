@@ -1,6 +1,7 @@
 .banner {
   height: calc(100vh - 101px); /* header */
   max-height: 800px;
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: flex-start;

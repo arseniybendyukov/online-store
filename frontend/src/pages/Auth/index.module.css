@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   padding: 30px 0;
-  min-width: 1300px; /* todo: fixed container */
+  min-width: 1330px; /* todo: fixed container */
 }
 
 .polygon {

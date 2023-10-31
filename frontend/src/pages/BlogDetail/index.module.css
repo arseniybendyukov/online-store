@@ -1,5 +1,5 @@
 .wrapper {
-  width: 1300px; /* todo: fixed container */
+  min-width: 1330px; /* todo: fixed container */
   display: flex;
   justify-content: center;
 }

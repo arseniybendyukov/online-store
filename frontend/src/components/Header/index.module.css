@@ -1,5 +1,6 @@
 .header {
   border-bottom: 1px solid var(--grey-1);
+  min-width: 1330px; /* todo: fixed container */
 }
 
 .header > div {
