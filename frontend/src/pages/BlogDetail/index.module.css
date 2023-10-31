@@ -1,3 +1,9 @@
+.wrapper {
+  width: 1300px; /* todo: fixed container */
+  display: flex;
+  justify-content: center;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -24,4 +30,8 @@
 .separator {
   height: 1px;
   background: var(--grey-1);
+}
+
+.content {
+  text-align: justify;
 }

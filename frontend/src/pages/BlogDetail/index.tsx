@@ -14,24 +14,26 @@ export function BlogDetail() {
       isLoading
       ? <SpinnerScreen height={500} />
       : blog && (
-        <div className={`container ${css.container}`}>
-          <div className={css.info}>
-            <div className={css.tags}>
-              {blog.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
+        <div className={css.wrapper}>
+          <div className={`container ${css.container}`}>
+            <div className={css.info}>
+              <div className={css.tags}>
+                {blog.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
+              </div>
+
+              <span className={css.date}>{monthAndDayFromDate(blog.created_at)}</span>
             </div>
 
-            <span className={css.date}>{monthAndDayFromDate(blog.created_at)}</span>
+            <h1 className='h1'>{blog.heading}</h1>
+
+            <img src={blog.image} alt='blog' />
+
+            <p>{blog.description}</p>
+
+            <div className={css.separator}></div>
+
+            <p className={css.content}>{blog.text}</p>
           </div>
-
-          <h1 className='h1'>{blog.heading}</h1>
-
-          <img src={blog.image} alt='blog' />
-
-          <p>{blog.description}</p>
-
-          <div className={css.separator}></div>
-
-          <p>{blog.text}</p>
         </div>
       )
     }
