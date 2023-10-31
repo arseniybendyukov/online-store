@@ -3,7 +3,6 @@ import css from './index.module.css';
 import { ReactComponent as VK } from '../../images/social-medias/vk.svg';
 import { ReactComponent as Telegram } from '../../images/social-medias/telegram.svg';
 import { ReactComponent as Whatsapp } from '../../images/social-medias/whatsapp.svg';
-import { ReactComponent as Instagram } from '../../images/social-medias/instagram.svg';
 import { Link } from 'react-router-dom';
 
 interface SocialMedia {
@@ -23,10 +22,6 @@ const socialMedias: SocialMedia[] = [
   {
     path: '#',
     icon: <Whatsapp width={35} height={35} />
-  },
-  {
-    path: '#',
-    icon: <Instagram width={35} height={35} />
   },
 ];
 
