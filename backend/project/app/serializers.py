@@ -221,8 +221,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 
   def get_is_my_vote_positive(self, instance):
     user =  self.context['request'].user
-    vote = Vote.objects.filter(user=user, review=instance).first()
-    return vote.is_positive if vote else None
+    if user.is_authenticated:
+      vote = Vote.objects.filter(user=user, review=instance).first()
+      return vote.is_positive if vote else None
+    return None
 
   class Meta:
     model = Review

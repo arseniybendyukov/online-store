@@ -9,13 +9,34 @@ import { formatDate, getFullName } from '../../utils/data';
 import { repeat } from '../../utils/arrays';
 import { useVoteOnReviewMutation } from '../../redux/apis/productsApi';
 import { CircleAvatar } from '../CircleAvatar';
+import { useAppSelector } from '../../redux/store';
+import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   review: ProductReview | MyReview;
 }
 
 export function Review({ review }: Props) {
+  const user = useAppSelector((state) => state.userState.user);
   const [vote, { isLoading }] = useVoteOnReviewMutation();
+
+  const voteWithRequiredAuth = useCallback(
+    ({
+      is_positive,
+      review,
+    }: {
+      is_positive: boolean;
+      review: number 
+    }) => {
+      if (user) {
+        vote({ is_positive, review });
+      } else {
+        toast('Войдите, чтобы голосовать за отзывы', { type: 'error' });
+      }
+    },
+    [user]
+  );
 
   return (
     <div className={css.container}>
@@ -57,8 +78,8 @@ export function Review({ review }: Props) {
         <VotesCounter
           votes={review.votes}
           isVotePositive={review.is_my_vote_positive}
-          upVote={() => vote({ is_positive: true, review: review.id })}
-          downVote={() => vote({ is_positive: false, review: review.id })}
+          upVote={() => voteWithRequiredAuth({ is_positive: true, review: review.id })}
+          downVote={() => voteWithRequiredAuth({ is_positive: false, review: review.id })}
           isLoading={isLoading}
         />
       </div>
