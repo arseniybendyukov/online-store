@@ -35,6 +35,7 @@ export function ProductDetail() {
   const selectedVariant = product?.variants.filter((variant) => variant.pk === selectedVariantId)[0] || null;
 
   useEffect(() => {
+    setAmount(1);
     if (product && selectedVariantId === null) {
       setSelectedVariantId(product.variants[0].pk);
     }
