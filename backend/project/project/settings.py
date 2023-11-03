@@ -24,8 +24,8 @@ CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGINS')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 CORS_ALLOW_CREDENTIALS = True
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
-FRONTEND_DOMAIN = env('FRONTEND_DOMAIN')
-# FORCE_SCRIPT_NAME = '/api'
+MAIN_DOMAIN = env('MAIN_DOMAIN')
+FORCE_SCRIPT_NAME = '/api'
 
 
 # Application definition
@@ -144,7 +144,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # Media files
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = f'http://{MAIN_DOMAIN}/api/media/'
 
 
 # Email config
