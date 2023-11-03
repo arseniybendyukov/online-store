@@ -29,6 +29,10 @@ class Product(models.Model):
   )
 
   @property
+  def render_name(self):
+    return f'{self.subcategory}, {self.name}, {self.brand.name}'
+
+  @property
   def reviews(self):
     return apps.get_model('app.Review').objects.filter(variant__in=self.variants.all())
 

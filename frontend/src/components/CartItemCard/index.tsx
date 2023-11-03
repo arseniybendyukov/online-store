@@ -24,7 +24,7 @@ export function CartItemCard(cartItem: Props) {
       price,
       product: {
         id: productId,
-        name: productName,
+        render_name: productName,
         is_saved: isSaved,
         image,
       }

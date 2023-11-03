@@ -7,7 +7,7 @@ export interface AppealInput {
 
 export interface ListProduct {
   id: number;
-  name: string;
+  render_name: string;
   image: string;
   brand: Brand;
   subcategory: Subcategory;
@@ -21,7 +21,7 @@ export interface ListProduct {
 
 export interface DetailProduct {
   id: number;
-  name: string;
+  render_name: string;
   description: string;
   image: string;
   brand: Brand;
@@ -107,7 +107,7 @@ export interface CategoryIds extends Category {
 
 export interface SavedProduct {
   id: number;
-  name: string;
+  render_name: string;
   image: string;
   variants: Variant[];
   is_in_cart: boolean;
@@ -152,7 +152,7 @@ interface CartVariant {
 
 interface CartProduct {
   id: number;
-  name: string;
+  render_name: string;
   image: string;
   is_saved: boolean;
 }
@@ -164,7 +164,7 @@ export interface OderedProductInput {
 
 interface OrderedVariantProduct {
   id: number;
-  name: string;
+  render_name: string;
   image: string;
 }
 

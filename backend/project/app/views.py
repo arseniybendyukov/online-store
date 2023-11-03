@@ -65,7 +65,7 @@ class ProductList(generics.ListAPIView):
     filters.SearchFilter,
     ProductCustomOrdering,
   )
-  search_fields = ('name',)
+  search_fields = ('name', 'subcategory__name', 'brand__name', 'subcategory__category__name',)
   filterset_fields = ('tags__id', 'subcategory__id',)
   
   def get_queryset(self):

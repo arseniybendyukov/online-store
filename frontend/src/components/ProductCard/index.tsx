@@ -39,9 +39,9 @@ export function ProductCard({ product }: Props) {
       <div className={css.tags}>
         {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
       </div>
-      <img src={product.image} alt='product' />
+      <img src={product.image} alt={product.render_name} />
       <div className={css.text}>
-        <p className={css.name}>{product.subcategory.name}, {product.name}</p>
+        <p className={css.name}>{product.render_name}</p>
         <p className={css.category}>{product.subcategory.category.name}</p>
       </div>
       <RatingStars
