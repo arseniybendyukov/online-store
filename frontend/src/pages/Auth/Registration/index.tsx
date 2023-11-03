@@ -73,11 +73,11 @@ export function Registration() {
         first_name: values.firstName,
         last_name: values.lastName,
         password: values.password1,
-      })
+      });
 
       if (!('error' in result)) {
         resetForm();
-        navigate(NavPaths.PROFILE);
+        toast('На электронную почту было отправлено письмо, пройдите верификацию!', { type: 'info', autoClose: false });
       }
     }
   });

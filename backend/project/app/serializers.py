@@ -155,6 +155,7 @@ class VariantSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+  render_name = serializers.CharField()
   variants = VariantSerializer(many=True)
   subcategory = SubcategorySerializer()
   brand = BrandSerializer()
@@ -271,6 +272,7 @@ class BrandListSerializer(serializers.ModelSerializer):
 
 
 class SavedProductSerializer(serializers.ModelSerializer):
+  render_name = serializers.CharField()
   variants = VariantSerializer(many=True)
   is_in_cart = serializers.SerializerMethodField()
 
@@ -284,7 +286,7 @@ class SavedProductSerializer(serializers.ModelSerializer):
     model = Product
     fields = (
       'id',
-      'name',
+      'render_name',
       'image',
       'variants',
       'is_in_cart',
@@ -329,6 +331,7 @@ class AddToCartSerializer(serializers.Serializer):
 
 
 class CartProductSerializer(serializers.ModelSerializer):
+  render_name = serializers.CharField()
   is_saved = serializers.SerializerMethodField()
 
   def get_is_saved(self, instance):
@@ -339,7 +342,7 @@ class CartProductSerializer(serializers.ModelSerializer):
     model = Product
     fields = (
       'id',
-      'name',
+      'render_name',
       'image',
       'is_saved',
     )
@@ -431,11 +434,13 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderedVariantProductSerializer(serializers.ModelSerializer):
+  render_name = serializers.CharField()
+
   class Meta:
     model = Product
     fields = (
       'id',
-      'name',
+      'render_name',
       'image',
     )
 

@@ -16,7 +16,7 @@ export function OrderedProductCard({ orderedProduct }: Props) {
       price,
       product: {
         id: productId,
-        name,
+        render_name: name,
         image,
       },
     },

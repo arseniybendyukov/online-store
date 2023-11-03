@@ -58,10 +58,10 @@ export function ProductDetail() {
         <div className={`container ${css.container}`}>
           <div className={css.productDetails}>
             <div className={css.slider}>
-              <img src={product.image} alt={`product ${product.name}`} />
+              <img src={product.image} alt={`product ${product.render_name}`} />
             </div>
             <div className={css.main}>
-              <h1 className='h1'>{product.name}</h1>
+              <h1 className='h1'>{product.render_name}</h1>
               <div className={css.rowStats}>
                 <RatingStars avgRating={product.avg_rating} />
                 <ReadReviews reviewsCount={product.reviews_count} />

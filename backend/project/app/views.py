@@ -65,7 +65,7 @@ class ProductList(generics.ListAPIView):
     filters.SearchFilter,
     ProductCustomOrdering,
   )
-  search_fields = ('name',)
+  search_fields = ('name', 'subcategory__name', 'brand__name', 'subcategory__category__name',)
   filterset_fields = ('tags__id', 'subcategory__id',)
   
   def get_queryset(self):
@@ -318,7 +318,7 @@ class RemoveFromCartView(generics.GenericAPIView):
   def post(self, request, *args, **kwargs):
     CartItem.objects.filter(
       user=request.user,
-      variant__product__id=self.kwargs['pk'],
+      variant__pk=self.kwargs['pk'],
     ).delete()
     return Response(status=status.HTTP_200_OK)
 
