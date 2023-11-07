@@ -23,8 +23,6 @@ export function SavedProductCard({
     e.preventDefault();
     removeFromSaved({ id });
   }
-
-  const price = variants[0].price;
   
   return (
     <Link
@@ -37,14 +35,14 @@ export function SavedProductCard({
       </div>
 
       <AddToCartButton
-        variantId={variants[0].pk}
+        variantId={variants[0].id}
         isInCart={isInCart}
       />
 
       <div className={css.minorInfo}>
         <ProductPrice
-          actualPrice={price.actual_price}
-          salePrice={price.sale_price}
+          actualPrice={variants[0].actual_price}
+          salePrice={variants[0].sale_price}
         />
         
         {

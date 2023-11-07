@@ -1,16 +1,19 @@
 from django.db import models
-from .price import Price
+from app.validators import PERCENTAGE_VALIDATOR
 from .product import Product
 
 
 class Variant(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
-  price = models.OneToOneField(
-    Price,
-    on_delete=models.CASCADE,
-    related_name='variant',
-    primary_key=True, 
-    verbose_name='Цена'
+  actual_price = models.PositiveIntegerField(verbose_name='Цена без скидки')
+  sale_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='Цена со скидкой')
+  percentage = models.DecimalField(
+    max_digits=3,
+    decimal_places=0,
+    validators=PERCENTAGE_VALIDATOR,
+    null=True,
+    blank=True,
+    verbose_name='Процент скидки',
   )
   product = models.ForeignKey(
     Product,
@@ -18,6 +21,11 @@ class Variant(models.Model):
     related_name='variants',
     verbose_name='Товар'
   )
+
+  def get_price(self):
+    if self.sale_price:
+      return self.sale_price
+    return self.actual_price
 
   def __str__(self):
     return f'{self.name}, {self.product}'

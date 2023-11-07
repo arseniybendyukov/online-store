@@ -17,7 +17,7 @@ class ProductCustomOrdering(OrderingFilter):
       if param in ['price', '-price']:
         return sorted(
           queryset,
-          key = lambda o: o.variants.first().price.get_price(),
+          key = lambda o: o.variants.first().get_price(),
           reverse = '-' in param
         )
 

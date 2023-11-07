@@ -32,12 +32,12 @@ export function ProductDetail() {
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   const [amount, setAmount] = useState(1);
 
-  const selectedVariant = product?.variants.filter((variant) => variant.pk === selectedVariantId)[0] || null;
+  const selectedVariant = product?.variants.filter((variant) => variant.id === selectedVariantId)[0] || null;
 
   useEffect(() => {
     setAmount(1);
     if (product && selectedVariantId === null) {
-      setSelectedVariantId(product.variants[0].pk);
+      setSelectedVariantId(product.variants[0].id);
     }
   }, [product]);
 
@@ -70,9 +70,9 @@ export function ProductDetail() {
               {selectedVariant && (
                 <ProductPrice
                   large
-                  actualPrice={selectedVariant.price.actual_price}
-                  salePrice={selectedVariant.price.sale_price}
-                  percentage={selectedVariant.price.percentage}
+                  actualPrice={selectedVariant.actual_price}
+                  salePrice={selectedVariant.sale_price}
+                  percentage={selectedVariant.percentage}
                 />
               )}
               <div className={css.devider}></div>
@@ -93,7 +93,7 @@ export function ProductDetail() {
               </Label>
               <div className={css.buttons}>
                 <AddToCartButton
-                  variantId={selectedVariant?.pk || 0}
+                  variantId={selectedVariant?.id || 0}
                   isInCart={selectedVariant?.is_in_cart ?? false}
                   amount={amount}
                 />

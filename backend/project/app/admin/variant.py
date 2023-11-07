@@ -5,8 +5,8 @@ from app.models import Variant
 
 @admin.register(Variant)
 class VariantAdmin(admin.ModelAdmin):
-  list_display = ('name', 'product', 'actual_price',)
+  list_display = ('product', 'name', 'actual_price',)
 
   @admin.display(description='Цена')
   def actual_price(self, instance):
-    return to_price(instance.price.actual_price)
+    return to_price(instance.actual_price)

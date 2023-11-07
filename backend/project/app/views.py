@@ -13,7 +13,6 @@ from .models import (
   Product,
   ProductTag,
   BlogTag,
-  Price,
   Category,
   Brand,
   Review,
@@ -77,7 +76,7 @@ class ProductList(generics.ListAPIView):
 
     if min_price and max_price:
       filtered_objects = filter(
-        lambda o: int(min_price) <= o.variants.first().price.get_price() <= int(max_price),
+        lambda o: int(min_price) <= o.variants.first().get_price() <= int(max_price),
         queryset
       )
       filtered_objects_ids = [o.id for o in filtered_objects]
@@ -142,7 +141,7 @@ class BlogTagListView(generics.ListAPIView):
 class MinMaxPriceView(views.APIView):
   permission_classes = (permissions.AllowAny,)
   def get(self, request):
-    prices = [price.get_price() for price in Price.objects.all()]
+    prices = [price.get_price() for price in Variant.objects.all()]
     return Response({
       'min': min(prices),
       'max': max(prices),

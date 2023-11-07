@@ -24,7 +24,7 @@ export function monthAndDayFromDate(date: string) {
 
 export function getOverallPrice(order: Order) {
   const price = order.products.reduce((acc, orderedProduct) => {
-    const price = orderedProduct.variant.price.sale_price || orderedProduct.variant.price.actual_price;
+    const price = orderedProduct.variant.sale_price || orderedProduct.variant.actual_price;
     return acc + price * orderedProduct.amount;
   }, 0);
 
