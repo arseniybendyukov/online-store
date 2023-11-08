@@ -13,7 +13,8 @@ export function OrderedProductCard({ orderedProduct }: Props) {
     id: orderedProductId,
     amount,
     variant: {
-      price,
+      actual_price: actualPrice,
+      sale_price: salePrice,
       product: {
         id: productId,
         render_name: name,
@@ -31,8 +32,8 @@ export function OrderedProductCard({ orderedProduct }: Props) {
       <p className={css.name}>{name}</p>
       <div className={css.row}>
         <ProductPrice
-          actualPrice={price.actual_price}
-          salePrice={price.sale_price}
+          actualPrice={actualPrice}
+          salePrice={salePrice}
         />
         <p className={css.amount}>{`${amount} шт.`}</p>
       </div>

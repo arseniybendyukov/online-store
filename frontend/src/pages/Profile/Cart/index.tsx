@@ -19,7 +19,7 @@ export function Cart() {
     e.preventDefault();
     if (data) {
       const result = await createOrder(data.map((cartItem) => ({
-        variant: cartItem.variant.pk,
+        variant: cartItem.variant.id,
         amount: cartItem.amount,
       })));
 
@@ -33,7 +33,7 @@ export function Cart() {
 
   const overallPrice = useMemo(
     () => data?.reduce((accum, cartItem) => {
-      const price = cartItem.variant.price.sale_price || cartItem.variant.price.actual_price;
+      const price = cartItem.variant.sale_price || cartItem.variant.actual_price;
       return accum + price * cartItem.amount;
     }, 0),
     [data]

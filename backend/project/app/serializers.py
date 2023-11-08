@@ -12,7 +12,6 @@ from .models import (
   Subcategory,
   Brand,
   Variant,
-  Price,
   Review,
   User,
   Vote,
@@ -125,14 +124,7 @@ class BrandSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
-class PriceSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Price
-    fields = '__all__'
-
-
 class VariantSerializer(serializers.ModelSerializer):
-  price = PriceSerializer()
   is_in_cart = serializers.SerializerMethodField()
 
   def get_is_in_cart(self, instance):
@@ -140,16 +132,18 @@ class VariantSerializer(serializers.ModelSerializer):
     if user.is_authenticated:
       return CartItem.objects.filter(
         user=self.context['request'].user,
-        variant__pk=instance.pk,
+        variant__id=instance.id,
       ).exists()
     return False
 
   class Meta:
     model = Variant
     fields = (
-      'pk',
+      'id',
+      'actual_price',
+      'sale_price',
+      'percentage',
       'name',
-      'price',
       'is_in_cart',
     )
 
@@ -325,7 +319,7 @@ class AddToCartSerializer(serializers.Serializer):
   def create(self, validated_data):
     return CartItem.objects.create(
       user = self.context['request'].user,
-      variant = Variant.objects.get(pk=validated_data.get('variant_id')),
+      variant = Variant.objects.get(id=validated_data.get('variant_id')),
       amount = validated_data.get('amount'),
     )
 
@@ -349,15 +343,16 @@ class CartProductSerializer(serializers.ModelSerializer):
 
 
 class CartVariantSerializer(serializers.ModelSerializer):
-  price = PriceSerializer()
   product = CartProductSerializer()
 
   class Meta:
     model = Variant
     fields = (
-      'pk',
+      'id',
+      'actual_price',
+      'sale_price',
+      'percentage',
       'name',
-      'price',
       'product',
     )
 
@@ -446,15 +441,16 @@ class OrderedVariantProductSerializer(serializers.ModelSerializer):
 
   
 class OrderedVariantSerializer(serializers.ModelSerializer):
-  price = PriceSerializer()
   product = OrderedVariantProductSerializer()
   
   class Meta:
     model = Variant
     fields = (
-      'pk',
+      'id',
       'name',
-      'price',
+      'actual_price',
+      'sale_price',
+      'percentage',
       'product',
     )
 

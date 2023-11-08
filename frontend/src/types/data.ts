@@ -75,17 +75,12 @@ export interface Tag {
 }
 
 export interface Variant {
-  pk: number;
-  name: string;
-  price: Price;
-  is_in_cart: boolean;
-}
-
-export interface Price {
   id: number;
+  name: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
+  is_in_cart: boolean;
 }
 
 export interface MinMax {
@@ -144,9 +139,11 @@ export interface CartItem {
 }
 
 interface CartVariant {
-  pk: number;
+  id: number;
   name: string;
-  price: Price;
+  actual_price: number;
+  sale_price: number | null;
+  percentage: number | null;
   product: CartProduct;
 }
 
@@ -169,9 +166,11 @@ interface OrderedVariantProduct {
 }
 
 interface OrderedVariant {
-  pk: number;
+  id: number;
   name: string;
-  price: Price;
+  actual_price: number;
+  sale_price: number | null;
+  percentage: number | null;
   product: OrderedVariantProduct;
 }
 

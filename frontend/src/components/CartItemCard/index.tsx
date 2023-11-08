@@ -19,9 +19,11 @@ export function CartItemCard(cartItem: Props) {
     id: cartItemId,
     amount,
     variant: {
-      pk: variantId,
+      id: variantId,
       name: variantName,
-      price,
+      actual_price: actualPrice,
+      sale_price: salePrice,
+      percentage,
       product: {
         id: productId,
         render_name: productName,
@@ -84,8 +86,8 @@ export function CartItemCard(cartItem: Props) {
 
       <div className={css.minorInfo}>
         <ProductPrice
-          actualPrice={price.actual_price * amount}
-          salePrice={price.sale_price ? price.sale_price * amount : null}
+          actualPrice={actualPrice * amount}
+          salePrice={salePrice ? salePrice * amount : null}
         />
 
         <div className={css.buttons}>

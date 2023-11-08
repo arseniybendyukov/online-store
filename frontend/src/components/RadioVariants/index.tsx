@@ -23,8 +23,8 @@ export function RadioVariants({
     <div className={css.container}>
       {options.map((variant) => (
         <div
-          key={variant.price.id}
-          onClick={() => setSelectedVariantId(variant.pk)}
+          key={variant.id}
+          onClick={() => setSelectedVariantId(variant.id)}
           className={`${css.variant} ${variant === selectedVariant ? css.selected : ''}`}
         >
           {variant.name}

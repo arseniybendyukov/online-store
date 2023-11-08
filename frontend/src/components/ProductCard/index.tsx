@@ -29,7 +29,7 @@ export function ProductCard({ product }: Props) {
     }
   }
 
-  const price = product.variants[0].price;
+  const firstVariant = product.variants[0];
 
   return (
     <Link
@@ -49,8 +49,8 @@ export function ProductCard({ product }: Props) {
         reviewsCount={product.reviews_count}
       />
       <ProductPrice
-        actualPrice={price.actual_price}
-        salePrice={price.sale_price}
+        actualPrice={firstVariant.actual_price}
+        salePrice={firstVariant.sale_price}
       />
       <div className={css.buttons}>
         {
@@ -65,7 +65,7 @@ export function ProductCard({ product }: Props) {
         }
 
         <AddToCartButton
-          variantId={product.variants[0].pk}
+          variantId={product.variants[0].id}
           isInCart={product.is_in_cart}
         />
       </div>
