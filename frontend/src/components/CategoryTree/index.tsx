@@ -17,7 +17,7 @@ export function CategoryTree({
   setSelectedId,
 }: Props) {
   const selectedCategory = selectedId ? findCategoryById(categories, selectedId) : null;
-
+  
   let headerCategory: ListCategory | null;
 
   if (selectedCategory) {

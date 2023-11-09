@@ -8,22 +8,21 @@ export function getRootCategory(category: Category): string {
 }
 
 
-export function findCategoryById(categories: ListCategory[], id: number | null): ListCategory | null {
+export function findCategoryById(categories: ListCategory[], id: number | null): ListCategory | undefined {
   if (id === null) {
-    return null;
+    return undefined;
   }
 
   for (let category of categories) {
     if (category.id === id) {
       return category;
     }
-
+    
     if (category.children) {
-      return findCategoryById(category.children, id);
+      const child = findCategoryById(category.children, id);
+      if (child) return child;
     }
   }
-
-  return null;
 }
 
 
@@ -37,11 +36,7 @@ export function getFirstParent(categories: ListCategory[], id: number) {
         category.parents[category.parents.length - 1].id,
       );
     }
-
-    return null;
   }
-  
-  return null;
 }
 
 
