@@ -1,5 +1,11 @@
-import { User } from "../types/auth";
-import { Order } from "../types/data";
+import { Category, Order } from '../types/data';
+
+export function getRootCategory(category: Category): string {
+  if (category.parent) {
+    return getRootCategory(category.parent);
+  }
+  return category.name;
+}
 
 export function formatDate(date: string) {
   const obj = new Intl.DateTimeFormat('ru', {

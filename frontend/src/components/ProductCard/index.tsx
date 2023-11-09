@@ -11,6 +11,7 @@ import { useToggleSaved } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
 import { useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
+import { getRootCategory } from '../../utils/data';
 
 interface Props {
   product: ListProduct;
@@ -42,7 +43,7 @@ export function ProductCard({ product }: Props) {
       <img src={product.image} alt={product.render_name} />
       <div className={css.text}>
         <p className={css.name}>{product.render_name}</p>
-        <p className={css.category}>{product.subcategory.category.name}</p>
+        <p className={css.category}>{getRootCategory(product.category)}</p>
       </div>
       <RatingStars
         avgRating={product.avg_rating}

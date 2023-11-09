@@ -36,11 +36,6 @@ export function Catalog() {
   const debouncedMinPrice = useDebounce(minPrice, 500);
   const debouncedMaxPrice = useDebounce(maxPrice, 500);
 
-  // Подкатегории
-  const [subcategoryIds, setSubcategoryIds] = useState<number[]>(
-    searchParams.getAll('subcategory').map(Number)
-  );
-
   // Бренды
   const [brandIds, setBrandIds] = useState<number[]>(
     searchParams.getAll('brand').map(Number)
@@ -55,7 +50,6 @@ export function Catalog() {
       ['minPrice', debouncedMinPrice],
       ['maxPrice', debouncedMaxPrice],
       ['brand', brandIds],
-      ['subcategory', subcategoryIds],
     ],
     setSearchParams,
   );
@@ -66,7 +60,6 @@ export function Catalog() {
     tag,
     minPrice: debouncedMinPrice,
     maxPrice: debouncedMaxPrice,
-    subcategoryIds,
     brandIds,
   });
 
@@ -81,8 +74,6 @@ export function Catalog() {
             setMinPrice={setMinPrice}
             maxPrice={maxPrice}
             setMaxPrice={setMaxPrice}
-            subcategoryIds={subcategoryIds}
-            setSubcategoryIds={setSubcategoryIds}
             brandIds={brandIds}
             setBrandIds={setBrandIds}
           />

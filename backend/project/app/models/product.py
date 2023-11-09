@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Avg
 from django.apps import apps
-from .subcategory import Subcategory
+from .category import Category
 from .tags import ProductTag
 from .brand import Brand
 
@@ -10,7 +10,7 @@ class Product(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
   description = models.TextField(verbose_name='Описание')
   image = models.ImageField(upload_to='products/', verbose_name='Изображение')
-  subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, verbose_name='Подкатегория')
+  category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
   tags = models.ManyToManyField(ProductTag, blank=True, verbose_name='Теги')
   brand = models.ForeignKey(Brand, on_delete=models.CASCADE, verbose_name='Бренд')
   silimar_products = models.ManyToManyField(
@@ -30,7 +30,7 @@ class Product(models.Model):
 
   @property
   def render_name(self):
-    return f'{self.subcategory}, {self.name}, {self.brand.name}'
+    return f'{self.name}, {self.brand.name}'
 
   @property
   def reviews(self):

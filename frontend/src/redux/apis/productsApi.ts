@@ -34,13 +34,11 @@ export const productsApi = createApi({
         tag,
         minPrice,
         maxPrice,
-        subcategoryIds=[],
         brandIds=[],
         limit,
       }) => {
-        const subcategoryListParams = listQueryParam('subcategory_id[]', subcategoryIds);
         const brandListParams = listQueryParam('brand_id[]', brandIds);
-        const composedParams = composeParams([subcategoryListParams, brandListParams]);
+        const composedParams = composeParams([brandListParams]);
 
         return {
           url: `products/` + composedParams,

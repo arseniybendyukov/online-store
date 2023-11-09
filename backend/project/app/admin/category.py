@@ -4,4 +4,11 @@ from app.models import Category
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ('name',)
+  list_display = ('name', 'parents',)
+
+  @admin.display(description='Родительские категории')
+  def parents(self, instance):
+    return ' → '.join(map(
+      lambda category: category.name,
+      reversed(instance.get_all_parents())
+    ))

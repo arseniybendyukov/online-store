@@ -17,6 +17,7 @@ import { NavTabs } from "../../components/NavTabs";
 import { SpinnerScreen } from "../../components/SpinnerScreen";
 import { useAppSelector } from "../../redux/store";
 import { toast } from "react-toastify";
+import { getRootCategory } from "../../utils/data";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
@@ -77,7 +78,8 @@ export function ProductDetail() {
               )}
               <div className={css.devider}></div>
               <Label label='Бренд'>{product.brand.name}</Label>
-              <Label label='Категория'>{product.subcategory.category.name}</Label>
+              {/* todo: возможно, стоит сюда приделать хлебные крошки */}
+              <Label label='Категория'>{getRootCategory(product.category)}</Label>
               <Label label='Вариант товара'>
                 <RadioVariants
                   options={product.variants}

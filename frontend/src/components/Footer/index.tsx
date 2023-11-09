@@ -67,7 +67,12 @@ export const Footer = () => {
                 path={NavPaths.CATALOG}
                 links={categoryIds.map((category) => ({
                   name: category.name,
+                  path: NavPaths.CATALOG,
+                  /*
+                  todo: починить ссылки в футере
                   path: `${NavPaths.CATALOG}?${listQueryParam('subcategory', category.subcategories)}`,
+                  (старое)
+                  */
                 }))}
               />
             )

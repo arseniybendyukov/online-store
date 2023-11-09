@@ -5,12 +5,18 @@ export interface AppealInput {
   text: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  parent: Category | null;
+}
+
 export interface ListProduct {
   id: number;
   render_name: string;
   image: string;
   brand: Brand;
-  subcategory: Subcategory;
+  category: Category;
   tags: Tag[];
   variants: Variant[];
   avg_rating: number;
@@ -25,7 +31,7 @@ export interface DetailProduct {
   description: string;
   image: string;
   brand: Brand;
-  subcategory: Subcategory;
+  category: Category;
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
@@ -59,15 +65,6 @@ export interface Brand {
   count: number;
 }
 
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface Subcategory extends Category {
-  category: Category;
-}
-
 export interface Tag {
   id: number;
   name: string;
@@ -88,16 +85,16 @@ export interface MinMax {
   max: number;
 }
 
-interface ListSubcategory extends Category {
-  count: number; 
+export interface ListCategory {
+  id: number;
+  name: string;
+  count: number;
+  children: ListCategory[] | null;
 }
 
-export interface ListCategory extends ListSubcategory {
-  subcategories: ListSubcategory[];
-}
-
-export interface CategoryIds extends Category {
-  subcategories: number[];
+export interface CategoryIds {
+  id: number;
+  name: string;
 }
 
 export interface SavedProduct {

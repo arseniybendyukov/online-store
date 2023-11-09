@@ -9,7 +9,6 @@ from .models import (
   ProductTag,
   BlogTag,
   Category,
-  Subcategory,
   Brand,
   Variant,
   Review,
@@ -93,17 +92,17 @@ class ResendActivationSerializer(serializers.Serializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+  parent = serializers.SerializerMethodField()
+
+  def get_parent(self, instance):
+    if instance.parent is not None:
+      return CategorySerializer(instance.parent).data
+    else:
+      return None
+  
   class Meta:
     model = Category
-    fields = '__all__'
-
-
-class SubcategorySerializer(serializers.ModelSerializer):
-  category = CategorySerializer()
-
-  class Meta:
-    model = Subcategory
-    fields = '__all__'
+    fields = ('id', 'name', 'parent')
 
 
 class ProductTagSerializer(serializers.ModelSerializer):
@@ -151,7 +150,7 @@ class VariantSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
   render_name = serializers.CharField()
   variants = VariantSerializer(many=True)
-  subcategory = SubcategorySerializer()
+  category = CategorySerializer()
   brand = BrandSerializer()
   avg_rating = serializers.FloatField()
   reviews_count = serializers.IntegerField(source='reviews.count')
@@ -226,33 +225,33 @@ class ReviewSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
-class SubcategoryListSerializer(serializers.ModelSerializer):
-  count = serializers.SerializerMethodField()
-
-  def get_count(self, instance):
-    return Product.objects.filter(subcategory=instance).count()
-
-  class Meta:
-    model = Subcategory
-    fields = '__all__'
-
-
 class CategoryListSerializer(serializers.ModelSerializer):
-  subcategories = SubcategoryListSerializer(many=True)
+  children = serializers.SerializerMethodField()
   count = serializers.SerializerMethodField()
 
+  def get_children(self, instance):
+    if instance.children.all().count() > 0:
+      return CategoryListSerializer(instance.children, many=True).data
+    else:
+      return None
+
   def get_count(self, instance):
-    return Product.objects.filter(subcategory__category=instance).count()
+    return Product.objects.filter(category__in=[instance, *instance.get_all_children()]).count()
 
   class Meta:
     model = Category
-    fields = '__all__'
+    fields = (
+      'id',
+      'name',
+      'count',
+      'children',
+    )
 
 
 class CategoryIdsSerializer(serializers.ModelSerializer):
   class Meta:
     model = Category
-    fields = ('id', 'name', 'subcategories',)
+    fields = ('id', 'name',)
 
 class BrandListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()

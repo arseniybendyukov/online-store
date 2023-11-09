@@ -4,7 +4,6 @@ export interface CatalogFilters {
   tag?: number;
   minPrice?: number;
   maxPrice?: number;
-  subcategoryIds?: number[];
   brandIds?: number[];
   limit?: number;
 }

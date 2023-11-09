@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/apis/productsApi";
 import { RangeInput } from "../../../components/RangeInput";
-import { CategoryAccordionSelect } from "../../../components/CategoryAccordionSelect";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
@@ -12,8 +11,6 @@ interface Props {
   setMinPrice: SetState<number>;
   maxPrice: number;
   setMaxPrice: SetState<number>;
-  subcategoryIds: number[];
-  setSubcategoryIds: SetState<number[]>;
   brandIds: number[];
   setBrandIds: SetState<number[]>;
 }
@@ -23,8 +20,6 @@ export function SidebarForm({
   setMinPrice,
   maxPrice,
   setMaxPrice,
-  subcategoryIds,
-  setSubcategoryIds,
   brandIds,
   setBrandIds,
 }: Props) {
@@ -70,21 +65,7 @@ export function SidebarForm({
         heading='Категории'
         isLoading={isLoadingCategories}
       >
-        {categories && (
-          <CategoryAccordionSelect
-            selectedIds={subcategoryIds}
-            setSelectedIds={setSubcategoryIds}
-            nodes={categories.map((category) => ({
-              id: category.id,
-              label: `${category.name} (${category.count})`,
-              children: category.subcategories.map((subcategory) => ({
-                id: subcategory.id,
-                label: `${subcategory.name} (${subcategory.count})`,
-              }))
-            }))}
-          />
-          )
-        }
+        {/* todo: место для нового дерева категорий */}
       </SidebarSection>
 
       <SidebarSection
