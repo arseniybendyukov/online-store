@@ -1,0 +1,19 @@
+.container,
+.elem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.breadCrumb {
+  color: var(--grey-1);
+}
+
+.breadCrumb.last {
+  color: black;
+}
+
+.breadCrumb:hover {
+  text-decoration: underline;
+}

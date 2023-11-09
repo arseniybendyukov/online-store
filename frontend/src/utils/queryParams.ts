@@ -1,4 +1,4 @@
-export function optionalWithValue(arg: number | undefined, value: number) {
+export function optionalWithValue(arg: number | undefined | null, value: number | null) {
   return arg !== value ? arg : undefined;
 }
 

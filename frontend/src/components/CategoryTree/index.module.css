@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arrowSVG {
+  transform: rotate(180deg);
+  width: 30px;
+  height: 30px;
+}

@@ -1,0 +1,25 @@
+.category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.category + .category {
+  border-top: 1px solid var(--grey-1);
+}
+
+.category:hover {
+  text-decoration: underline;
+}
+
+.category.selected {
+  color: var(--main-1);
+}
+
+.arrowSVG {
+  transform: rotate(-90deg);
+  width: 25px;
+  height: 25px;
+}

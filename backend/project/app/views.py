@@ -64,30 +64,32 @@ class ProductList(generics.ListAPIView):
     filters.SearchFilter,
     ProductCustomOrdering,
   )
-  search_fields = ('name', 'subcategory__name', 'brand__name', 'subcategory__category__name',)
-  filterset_fields = ('tags__id', 'subcategory__id',)
+  # todo: сделать поиск по категории и ее родителям
+  search_fields = ('name', 'brand__name',)
+  filterset_fields = ('tags__id',)
   
   def get_queryset(self):
     queryset = Product.objects.all()
     
+    # Фильтрация по категории
+    category_id = self.request.query_params.get('category')
+    if category_id:
+      category = Category.objects.get(id=int(category_id))
+      queryset = queryset.filter(category__in=[category, *category.get_all_children()])
+    
+
     # Фильтрация по минимальной и максимальной цене
     min_price = self.request.query_params.get('min_price')
     max_price = self.request.query_params.get('max_price')
 
     if min_price and max_price:
       filtered_objects = filter(
+        # todo: (не только здесь) брать вариант с самой низкой ценой, а не первый в базе, по сути рандомный
         lambda o: int(min_price) <= o.variants.first().get_price() <= int(max_price),
         queryset
       )
       filtered_objects_ids = [o.id for o in filtered_objects]
       queryset = Product.objects.filter(id__in=filtered_objects_ids)
-
-
-    # Фильтрация по подкатегориям
-    subcategory_ids = self.request.query_params.getlist('subcategory_id[]', '')
-    
-    if subcategory_ids:
-      queryset = queryset.filter(subcategory__id__in=map(int, subcategory_ids))
 
 
     # Фильтрация по брендам
@@ -150,13 +152,13 @@ class MinMaxPriceView(views.APIView):
 
 class CategoryListView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
-  queryset = Category.objects.all()
+  queryset = Category.objects.filter(parent=None)
   serializer_class = CategoryListSerializer
 
 
 class CategoryIdsView(generics.ListAPIView):
   permission_classes = (permissions.AllowAny,)
-  queryset = Category.objects.all()
+  queryset = Category.objects.filter(parent=None)
   serializer_class = CategoryIdsSerializer
 
 

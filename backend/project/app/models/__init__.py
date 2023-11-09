@@ -9,7 +9,6 @@ from .order import Order
 from .ordered_product import OrderedProduct
 from .product import Product
 from .review import Review
-from .subcategory import Subcategory
 from .tags import ProductTag, BlogTag
 from .user import User
 from .variant import Variant

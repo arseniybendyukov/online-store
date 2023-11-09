@@ -1,54 +1,46 @@
 import { useEffect } from "react";
 import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/apis/productsApi";
 import { RangeInput } from "../../../components/RangeInput";
-import { CategoryAccordionSelect } from "../../../components/CategoryAccordionSelect";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
-import { Spinner } from "../../../components/Spinner";
+import { CategoryTree } from "../../../components/CategoryTree";
+import { ListCategory, MinMax } from "../../../types/data";
 
 interface Props {
+  categories?: ListCategory[];
+  isLoadingCategories: boolean;
+  selectedCategoryId: number | null;
+  setSelectedCategoryId: SetState<number | null>;
+  minMaxPrice?: MinMax;
+  isLoadingMinMaxPrice: boolean;
   minPrice: number;
   setMinPrice: SetState<number>;
   maxPrice: number;
   setMaxPrice: SetState<number>;
-  subcategoryIds: number[];
-  setSubcategoryIds: SetState<number[]>;
   brandIds: number[];
   setBrandIds: SetState<number[]>;
 }
 
 export function SidebarForm({
+  categories,
+  isLoadingCategories,
+  selectedCategoryId,
+  setSelectedCategoryId,
+  minMaxPrice,
+  isLoadingMinMaxPrice,
   minPrice,
   setMinPrice,
   maxPrice,
   setMaxPrice,
-  subcategoryIds,
-  setSubcategoryIds,
   brandIds,
   setBrandIds,
 }: Props) {
-  const {
-    data: minMaxPrice,
-    isLoading: isLoadingMinMaxPrice,
-  } = useGetMinMaxPriceQuery();
-
-  const {
-    data: categories,
-    isLoading: isLoadingCategories,
-  } = useGetCategoriesQuery();
 
   const {
     data: brands,
     isLoading: isLoadingBrands,
   } = useGetBrandsQuery();
-
-  useEffect(() => {
-    if (minMaxPrice) {
-      setMinPrice(minMaxPrice.min);
-      setMaxPrice(minMaxPrice.max);
-    }
-  }, [minMaxPrice]);
 
   return (
     <div>
@@ -71,20 +63,12 @@ export function SidebarForm({
         isLoading={isLoadingCategories}
       >
         {categories && (
-          <CategoryAccordionSelect
-            selectedIds={subcategoryIds}
-            setSelectedIds={setSubcategoryIds}
-            nodes={categories.map((category) => ({
-              id: category.id,
-              label: `${category.name} (${category.count})`,
-              children: category.subcategories.map((subcategory) => ({
-                id: subcategory.id,
-                label: `${subcategory.name} (${subcategory.count})`,
-              }))
-            }))}
+          <CategoryTree
+            categories={categories}
+            selectedId={selectedCategoryId}
+            setSelectedId={setSelectedCategoryId}
           />
-          )
-        }
+        )}
       </SidebarSection>
 
       <SidebarSection

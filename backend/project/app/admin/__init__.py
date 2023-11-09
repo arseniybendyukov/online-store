@@ -9,7 +9,6 @@ from .order import OrderAdmin
 from .ordered_product import OrderedProductAdmin
 from .product import ProductAdmin
 from .review import ReviewAdmin
-from .subcategory import SubcategoryAdmin
 from .tags import ProductTagAdmin, BlogTagAdmin
 from .user import UserAdmin
 from .variant import VariantAdmin

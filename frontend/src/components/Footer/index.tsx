@@ -7,7 +7,6 @@ import { Copyright } from './Copyright';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 import { useGetCategoryIdsQuery } from '../../redux/apis/productsApi';
-import { listQueryParam } from '../../utils/queryParams';
 import { useGetBlogTagsQuery } from '../../redux/apis/blogApi';
 import { PhoneLink } from '../PhoneLink';
 
@@ -67,7 +66,7 @@ export const Footer = () => {
                 path={NavPaths.CATALOG}
                 links={categoryIds.map((category) => ({
                   name: category.name,
-                  path: `${NavPaths.CATALOG}?${listQueryParam('subcategory', category.subcategories)}`,
+                  path: `${NavPaths.CATALOG}?category=${category.id}`,
                 }))}
               />
             )

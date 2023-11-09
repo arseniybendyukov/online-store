@@ -2,9 +2,9 @@ export interface CatalogFilters {
   search?: string;
   ordering?: CatalogOrdering;
   tag?: number;
+  category?: number | null;
   minPrice?: number;
   maxPrice?: number;
-  subcategoryIds?: number[];
   brandIds?: number[];
   limit?: number;
 }

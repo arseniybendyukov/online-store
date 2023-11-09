@@ -4,15 +4,19 @@ import css from './index.module.css';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { IconField, SelectOption } from '../../components/IconField';
 import { ReactComponent as Tag } from '../../images/tag.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSyncQueryParam } from '../../hooks';
 
 export function Blog() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [tag, setTag] = useState<number>(Number(searchParams.get('tag') || '0'));
+  const queryParamTag = useMemo(() => Number(searchParams.get('tag') || '0'), [searchParams]);
+  const [tag, setTag] = useState<number>(queryParamTag);
   useSyncQueryParam([['tag', tag]], setSearchParams);
+  useEffect(() => {
+    setTag(queryParamTag);
+  }, [queryParamTag]);
 
   const {
     data: tags = [],
