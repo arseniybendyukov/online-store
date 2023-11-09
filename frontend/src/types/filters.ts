@@ -2,6 +2,7 @@ export interface CatalogFilters {
   search?: string;
   ordering?: CatalogOrdering;
   tag?: number;
+  category?: number | null;
   minPrice?: number;
   maxPrice?: number;
   brandIds?: number[];

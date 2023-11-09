@@ -18,6 +18,7 @@ import { SpinnerScreen } from "../../components/SpinnerScreen";
 import { useAppSelector } from "../../redux/store";
 import { toast } from "react-toastify";
 import { getRootCategory } from "../../utils/data";
+import { CategoryBreadCrumps } from "../../components/CategoryBreadCrumps";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
@@ -78,7 +79,6 @@ export function ProductDetail() {
               )}
               <div className={css.devider}></div>
               <Label label='Бренд'>{product.brand.name}</Label>
-              {/* todo: возможно, стоит сюда приделать хлебные крошки */}
               <Label label='Категория'>{getRootCategory(product.category)}</Label>
               <Label label='Вариант товара'>
                 <RadioVariants

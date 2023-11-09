@@ -225,13 +225,27 @@ class ReviewSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
+class CategoryIdsSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Category
+    fields = ('id', 'name',)
+
+
 class CategoryListSerializer(serializers.ModelSerializer):
-  children = serializers.SerializerMethodField()
   count = serializers.SerializerMethodField()
+  children = serializers.SerializerMethodField()
+  parents = serializers.SerializerMethodField()
 
   def get_children(self, instance):
     if instance.children.all().count() > 0:
       return CategoryListSerializer(instance.children, many=True).data
+    else:
+      return None
+  
+  def get_parents(self, instance):
+    parents = instance.get_all_parents()
+    if len(parents) > 0:
+      return CategoryIdsSerializer(reversed(parents), many=True).data
     else:
       return None
 
@@ -245,13 +259,9 @@ class CategoryListSerializer(serializers.ModelSerializer):
       'name',
       'count',
       'children',
+      'parents',
     )
 
-
-class CategoryIdsSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Category
-    fields = ('id', 'name',)
 
 class BrandListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()

@@ -4,9 +4,16 @@ import { RangeInput } from "../../../components/RangeInput";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
-import { Spinner } from "../../../components/Spinner";
+import { CategoryTree } from "../../../components/CategoryTree";
+import { ListCategory, MinMax } from "../../../types/data";
 
 interface Props {
+  categories?: ListCategory[];
+  isLoadingCategories: boolean;
+  selectedCategoryId: number | null;
+  setSelectedCategoryId: SetState<number | null>;
+  minMaxPrice?: MinMax;
+  isLoadingMinMaxPrice: boolean;
   minPrice: number;
   setMinPrice: SetState<number>;
   maxPrice: number;
@@ -16,6 +23,12 @@ interface Props {
 }
 
 export function SidebarForm({
+  categories,
+  isLoadingCategories,
+  selectedCategoryId,
+  setSelectedCategoryId,
+  minMaxPrice,
+  isLoadingMinMaxPrice,
   minPrice,
   setMinPrice,
   maxPrice,
@@ -23,27 +36,11 @@ export function SidebarForm({
   brandIds,
   setBrandIds,
 }: Props) {
-  const {
-    data: minMaxPrice,
-    isLoading: isLoadingMinMaxPrice,
-  } = useGetMinMaxPriceQuery();
-
-  const {
-    data: categories,
-    isLoading: isLoadingCategories,
-  } = useGetCategoriesQuery();
 
   const {
     data: brands,
     isLoading: isLoadingBrands,
   } = useGetBrandsQuery();
-
-  useEffect(() => {
-    if (minMaxPrice) {
-      setMinPrice(minMaxPrice.min);
-      setMaxPrice(minMaxPrice.max);
-    }
-  }, [minMaxPrice]);
 
   return (
     <div>
@@ -65,7 +62,13 @@ export function SidebarForm({
         heading='Категории'
         isLoading={isLoadingCategories}
       >
-        {/* todo: место для нового дерева категорий */}
+        {categories && (
+          <CategoryTree
+            categories={categories}
+            selectedId={selectedCategoryId}
+            setSelectedId={setSelectedCategoryId}
+          />
+        )}
       </SidebarSection>
 
       <SidebarSection

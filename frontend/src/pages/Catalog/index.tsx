@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDebounce, useSyncQueryParam } from '../../hooks';
-import { useGetProductsQuery } from '../../redux/apis/productsApi';
+import { useGetCategoriesQuery, useGetMinMaxPriceQuery, useGetProductsQuery } from '../../redux/apis/productsApi';
 import { SidebarForm } from './SidebarForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';
@@ -8,6 +8,7 @@ import css from './index.module.css';
 import { CatalogOrdering } from '../../types/filters';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { useSearchParams } from 'react-router-dom';
+import { CategoryBreadCrumps } from '../../components/CategoryBreadCrumps';
 
 export function Catalog() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,30 +17,89 @@ export function Catalog() {
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const debouncedSearch = useDebounce(search, 500);
 
-  // Сортировка
-  const queryParamOrdering = searchParams.get('ordering') || '';
-  const validatedQueryParamOrdering = (
-    Object.values<string>(CatalogOrdering).includes(queryParamOrdering)
-    ? queryParamOrdering
-    : CatalogOrdering.RATING_HIGH_LOW
-  ) as CatalogOrdering;
 
-  const [ordering, setOrdering] = useState(validatedQueryParamOrdering);
+  // Сортировка
+  const queryParamOrdering = useMemo(() => {
+    const raw = searchParams.get('ordering') || '';
+    return (
+      Object.values<string>(CatalogOrdering).includes(raw)
+      ? raw
+      : CatalogOrdering.RATING_HIGH_LOW
+    ) as CatalogOrdering;
+  }, [searchParams]);
+
+  const [ordering, setOrdering] = useState(queryParamOrdering);
+
+  useEffect(() => {
+    setOrdering(queryParamOrdering);
+  }, [queryParamOrdering]);
+
 
   // Фильтрация по тегу
-  const [tag, setTag] = useState<number>(Number(searchParams.get('tag') || '0'));
+  const queryParamTag = useMemo(() => Number(searchParams.get('tag') || '0'), [searchParams]);
+
+  const [tag, setTag] = useState<number>(queryParamTag);
+
+  useEffect(() => {
+    setTag(queryParamTag);
+  }, [queryParamTag]);
+
+
+  // Категории
+  const queryParamCategory = useMemo(() => {
+    const raw = searchParams.get('category');
+    return raw !== null
+    ? Number(raw)
+    : null
+  }, [searchParams]);
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(queryParamCategory);
+
+  useEffect(() => {
+    setSelectedCategoryId(queryParamCategory);
+  }, [queryParamCategory]);
+  
 
   // Минимальная и максимальная цена
-  const [minPrice, setMinPrice] = useState(Number(searchParams.get('minPrice') || '0'));
-  const [maxPrice, setMaxPrice] = useState(Number(searchParams.get('maxPrice') || '0'));
+  const queryParamMinPrice = useMemo(() => Number(searchParams.get('minPrice') || '0'), [searchParams]);
+  const queryParamMaxPrice = useMemo(() => Number(searchParams.get('maxPrice') || '0'), [searchParams]);
+
+  const [minPrice, setMinPrice] = useState(queryParamMinPrice);
+  const [maxPrice, setMaxPrice] = useState(queryParamMaxPrice);
 
   const debouncedMinPrice = useDebounce(minPrice, 500);
   const debouncedMaxPrice = useDebounce(maxPrice, 500);
 
+  useEffect(() => {
+    setMinPrice(queryParamMinPrice);
+  }, [queryParamMinPrice]);
+  
+  useEffect(() => {
+    setMaxPrice(queryParamMaxPrice);
+  }, [queryParamMaxPrice]);
+
+  const {
+    data: minMaxPrice,
+    isLoading: isLoadingMinMaxPrice,
+  } = useGetMinMaxPriceQuery();
+
+  useEffect(() => {
+    if (minMaxPrice) {
+      setMinPrice((prevMin) => prevMin ? prevMin : minMaxPrice.min);
+      setMaxPrice((prevMax) => prevMax ? prevMax : minMaxPrice.max);
+    }
+  }, [minMaxPrice]);
+
+
   // Бренды
-  const [brandIds, setBrandIds] = useState<number[]>(
-    searchParams.getAll('brand').map(Number)
-  );
+  const queryParamBrands = useMemo(() => searchParams.getAll('brand').map(Number), [searchParams]);
+
+  const [brandIds, setBrandIds] = useState<number[]>(queryParamBrands);
+
+  useEffect(() => {
+    setBrandIds(queryParamBrands);
+  }, [queryParamBrands]);
+
 
   // Синхронизация состояния с query parameters
   useSyncQueryParam(
@@ -50,26 +110,47 @@ export function Catalog() {
       ['minPrice', debouncedMinPrice],
       ['maxPrice', debouncedMaxPrice],
       ['brand', brandIds],
+      ['category', selectedCategoryId],
     ],
     setSearchParams,
   );
+
 
   const { data, isLoading } = useGetProductsQuery({
     search: debouncedSearch,
     ordering,
     tag,
+    category: selectedCategoryId,
     minPrice: debouncedMinPrice,
     maxPrice: debouncedMaxPrice,
     brandIds,
   });
 
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+  } = useGetCategoriesQuery();
+
   return (
     <main className={`container ${css.container}`}>
+      {categories && (
+        <CategoryBreadCrumps
+          selectedId={selectedCategoryId}
+          categories={categories}
+        />
+      )}
+
       <h1 className={`h1 ${css.h1}`}>Каталог товаров</h1>
+
       <div className={css.content}>
         <aside className={css.aside}>
-          <h3 className='h3'>Фильтры</h3>
           <SidebarForm
+            categories={categories}
+            isLoadingCategories={isLoadingCategories}
+            selectedCategoryId={selectedCategoryId}
+            setSelectedCategoryId={setSelectedCategoryId}
+            minMaxPrice={minMaxPrice}
+            isLoadingMinMaxPrice={isLoadingMinMaxPrice}
             minPrice={minPrice}
             setMinPrice={setMinPrice}
             maxPrice={maxPrice}

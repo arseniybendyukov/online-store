@@ -85,16 +85,17 @@ export interface MinMax {
   max: number;
 }
 
+export interface CategoryIds {
+  id: number;
+  name: string;
+}
+
 export interface ListCategory {
   id: number;
   name: string;
   count: number;
   children: ListCategory[] | null;
-}
-
-export interface CategoryIds {
-  id: number;
-  name: string;
+  parents: CategoryIds[] | null;
 }
 
 export interface SavedProduct {

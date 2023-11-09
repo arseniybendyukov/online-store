@@ -1,4 +1,4 @@
-import { Category, Order } from '../types/data';
+import { Category, ListCategory, Order } from '../types/data';
 
 export function getRootCategory(category: Category): string {
   if (category.parent) {
@@ -6,6 +6,44 @@ export function getRootCategory(category: Category): string {
   }
   return category.name;
 }
+
+
+export function findCategoryById(categories: ListCategory[], id: number | null): ListCategory | null {
+  if (id === null) {
+    return null;
+  }
+
+  for (let category of categories) {
+    if (category.id === id) {
+      return category;
+    }
+
+    if (category.children) {
+      return findCategoryById(category.children, id);
+    }
+  }
+
+  return null;
+}
+
+
+export function getFirstParent(categories: ListCategory[], id: number) {
+  const category = findCategoryById(categories, id);
+
+  if (category) {
+    if (category.parents) {
+      return findCategoryById(
+        categories,
+        category.parents[category.parents.length - 1].id,
+      );
+    }
+
+    return null;
+  }
+  
+  return null;
+}
+
 
 export function formatDate(date: string) {
   const obj = new Intl.DateTimeFormat('ru', {
@@ -19,6 +57,7 @@ export function formatDate(date: string) {
   return obj.format(new Date(date));
 }
 
+
 export function monthAndDayFromDate(date: string) {
   const obj = new Intl.DateTimeFormat('ru', {
     month: 'long',
@@ -28,6 +67,7 @@ export function monthAndDayFromDate(date: string) {
   return obj.format(new Date(date));
 }
 
+
 export function getOverallPrice(order: Order) {
   const price = order.products.reduce((acc, orderedProduct) => {
     const price = orderedProduct.variant.sale_price || orderedProduct.variant.actual_price;
@@ -36,6 +76,7 @@ export function getOverallPrice(order: Order) {
 
   return `${price} ₽`;
 }
+
 
 export function getFullName<
 T extends {

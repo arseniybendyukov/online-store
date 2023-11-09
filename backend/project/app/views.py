@@ -71,6 +71,13 @@ class ProductList(generics.ListAPIView):
   def get_queryset(self):
     queryset = Product.objects.all()
     
+    # Фильтрация по категории
+    category_id = self.request.query_params.get('category')
+    if category_id:
+      category = Category.objects.get(id=int(category_id))
+      queryset = queryset.filter(category__in=[category, *category.get_all_children()])
+    
+
     # Фильтрация по минимальной и максимальной цене
     min_price = self.request.query_params.get('min_price')
     max_price = self.request.query_params.get('max_price')
