@@ -60,7 +60,7 @@ export function ProductDetail() {
         <div className={`container ${css.container}`}>
           <div className={css.productDetails}>
             <div className={css.slider}>
-              <img src={product.image} alt={`product ${product.render_name}`} />
+              <img src={selectedVariant?.image} alt={`product ${product.render_name}`} />
             </div>
             <div className={css.main}>
               <h1 className='h1'>{product.render_name}</h1>

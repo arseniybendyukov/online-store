@@ -139,10 +139,11 @@ class VariantSerializer(serializers.ModelSerializer):
     model = Variant
     fields = (
       'id',
+      'name',
+      'image',
       'actual_price',
       'sale_price',
       'percentage',
-      'name',
       'is_in_cart',
     )
 
@@ -290,7 +291,6 @@ class SavedProductSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'render_name',
-      'image',
       'variants',
       'is_in_cart',
     )
@@ -346,7 +346,6 @@ class CartProductSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'render_name',
-      'image',
       'is_saved',
     )
 
@@ -358,10 +357,11 @@ class CartVariantSerializer(serializers.ModelSerializer):
     model = Variant
     fields = (
       'id',
+      'name',
+      'image',
       'actual_price',
       'sale_price',
       'percentage',
-      'name',
       'product',
     )
 
@@ -445,7 +445,6 @@ class OrderedVariantProductSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'render_name',
-      'image',
     )
 
   
@@ -457,6 +456,7 @@ class OrderedVariantSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'name',
+      'image',
       'actual_price',
       'sale_price',
       'percentage',

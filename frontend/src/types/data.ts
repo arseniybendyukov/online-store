@@ -14,7 +14,6 @@ export interface Category {
 export interface ListProduct {
   id: number;
   render_name: string;
-  image: string;
   brand: Brand;
   category: Category;
   tags: Tag[];
@@ -29,7 +28,6 @@ export interface DetailProduct {
   id: number;
   render_name: string;
   description: string;
-  image: string;
   brand: Brand;
   category: Category;
   variants: Variant[];
@@ -74,6 +72,7 @@ export interface Tag {
 export interface Variant {
   id: number;
   name: string;
+  image: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
@@ -101,7 +100,6 @@ export interface ListCategory {
 export interface SavedProduct {
   id: number;
   render_name: string;
-  image: string;
   variants: Variant[];
   is_in_cart: boolean;
 }
@@ -139,6 +137,7 @@ export interface CartItem {
 interface CartVariant {
   id: number;
   name: string;
+  image: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
@@ -148,7 +147,6 @@ interface CartVariant {
 interface CartProduct {
   id: number;
   render_name: string;
-  image: string;
   is_saved: boolean;
 }
 
@@ -160,12 +158,12 @@ export interface OderedProductInput {
 interface OrderedVariantProduct {
   id: number;
   render_name: string;
-  image: string;
 }
 
 interface OrderedVariant {
   id: number;
   name: string;
+  image: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;

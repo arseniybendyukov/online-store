@@ -21,6 +21,7 @@ export function CartItemCard(cartItem: Props) {
     variant: {
       id: variantId,
       name: variantName,
+      image,
       actual_price: actualPrice,
       sale_price: salePrice,
       percentage,
@@ -28,7 +29,6 @@ export function CartItemCard(cartItem: Props) {
         id: productId,
         render_name: productName,
         is_saved: isSaved,
-        image,
       }
     },
   } = cartItem;

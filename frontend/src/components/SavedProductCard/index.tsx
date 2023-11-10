@@ -12,7 +12,6 @@ interface Props extends SavedProduct {}
 
 export function SavedProductCard({
   id,
-  image,
   render_name,
   variants,
   is_in_cart: isInCart,
@@ -30,7 +29,7 @@ export function SavedProductCard({
       className={css.card}
     >
       <div className={css.majorInfo}>
-        <img src={image} alt='product' className={css.image} />
+        <img src={variants[0]?.image} alt='product' className={css.image} />
         <h4 className='h4'>{render_name}</h4>
       </div>
 

@@ -13,12 +13,12 @@ export function OrderedProductCard({ orderedProduct }: Props) {
     id: orderedProductId,
     amount,
     variant: {
+      image,
       actual_price: actualPrice,
       sale_price: salePrice,
       product: {
         id: productId,
         render_name: name,
-        image,
       },
     },
   } = orderedProduct;
