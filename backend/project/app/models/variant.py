@@ -13,7 +13,7 @@ def get_upload_path(instance, filename):
 
 
 class Variant(models.Model):
-  image = models.ImageField(upload_to=get_upload_path, verbose_name='Изображение')
+  image = models.ImageField(upload_to=get_upload_path, null=True, verbose_name='Изображение')
   name = models.CharField(max_length=100, verbose_name='Название')
   actual_price = models.PositiveIntegerField(verbose_name='Цена без скидки')
   sale_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='Цена со скидкой')
