@@ -21,7 +21,7 @@ export interface User {
 }
 
 export interface UserCounts {
-  saved_products_count: number;
+  saved_product_variants_count: number;
   cart_products_count: number;
 }
 

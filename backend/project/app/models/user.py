@@ -6,7 +6,7 @@ from django.contrib.auth.models import (
 from django.utils import timezone
 from app.validators import PHONE_NUMBER_VALIDATOR
 from app.color import get_random_blue_color
-from .product import Product
+from .variant import Variant
 
 
 class UserManager(BaseUserManager):
@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     blank=True,
     verbose_name='Номер телефона',
   )
-  saved_products = models.ManyToManyField(Product, blank=True, verbose_name='Сохраненные товары')
+  saved_product_variants = models.ManyToManyField(Variant, blank=True, verbose_name='Сохраненные товары')
 
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)

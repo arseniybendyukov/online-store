@@ -1,10 +1,10 @@
-import { useGetSavedProductsQuery } from '../../../redux/apis/productsApi';
-import { SavedProductCard } from '../../../components/SavedProductCard';
+import { useGetSavedProductVariantsQuery } from '../../../redux/apis/productsApi';
+import { SavedProductVariantCard } from '../../../components/SavedProductCard';
 import css from './index.module.css';
 import { ProfileSubpage } from '../common/ProfileSubpage';
 
 export function Saved() {
-  const { data, isLoading } = useGetSavedProductsQuery();
+  const { data, isLoading } = useGetSavedProductVariantsQuery();
 
   return (
     <ProfileSubpage
@@ -15,7 +15,7 @@ export function Saved() {
     >
       {data && (
         <div className={css.products}>
-          {data.map((product) => <SavedProductCard key={product.id} {...product} />)}
+          {data.map((product) => <SavedProductVariantCard key={product.id} {...product} />)}
         </div>
       )}
     </ProfileSubpage>

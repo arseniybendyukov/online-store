@@ -1,5 +1,5 @@
 import { ProductPrice } from '../ProductPrice';
-import { SavedProduct } from '../../types/data';
+import { SavedProductVariant } from '../../types/data';
 import { ReactComponent as Cross } from '../../images/cross.svg';
 import css from './index.module.css';
 import { AddToCartButton } from '../AddToCartButton';
@@ -7,41 +7,64 @@ import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
 import { useRemoveFromSavedMutation } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
+import { Label } from '../Label';
+import { NotInStock } from '../NotInStock';
 
-interface Props extends SavedProduct {}
+interface Props extends SavedProductVariant {}
 
-export function SavedProductCard({
+export function SavedProductVariantCard({
   id,
-  render_name,
-  variants,
+  name,
+  is_in_stock: isInStock,
+  image,
+  actual_price: actualPrice,
+  sale_price: salePrice,
+  percentage,
   is_in_cart: isInCart,
+  product: {
+    id: productId,
+    render_name: renderName,
+  },
 }: Props) {
   const [removeFromSaved, { isLoading }] = useRemoveFromSavedMutation();
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    removeFromSaved({ id });
+    removeFromSaved({ variant_id: id });
   }
   
   return (
     <Link
-      to={`${NavPaths.PRODUCT_DETAIL}/${id}`}
+      to={`${NavPaths.PRODUCT_DETAIL}/${productId}?variant=${id}`}
       className={css.card}
     >
       <div className={css.majorInfo}>
-        <img src={variants[0]?.image} alt='product' className={css.image} />
-        <h4 className='h4'>{render_name}</h4>
+        <img src={image} alt='product' className={`${css.image} ${!isInStock ? 'greyImg' : ''}`} />
+        <div className={css.productProperties}>
+          <h4 className={`h4 ${!isInStock ? css.notInStock : ''}`}>{renderName}</h4>
+          <Label label='Вариант' gap={10}>{name}</Label>
+        </div>
       </div>
 
-      <AddToCartButton
-        variantId={variants[0].id}
-        isInCart={isInCart}
-      />
+      {
+        isInStock
+        ? (
+          <AddToCartButton
+            variantId={id}
+            isInCart={isInCart}
+            isInStock={isInStock}
+          />
+        )
+        : (
+          <NotInStock />
+        )
+      }
 
       <div className={css.minorInfo}>
         <ProductPrice
-          actualPrice={variants[0].actual_price}
-          salePrice={variants[0].sale_price}
+          actualPrice={actualPrice}
+          salePrice={salePrice}
+          isInStock={isInStock}
         />
         
         {

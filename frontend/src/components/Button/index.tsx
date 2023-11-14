@@ -34,7 +34,7 @@ type DefaultButton = CommonButtonProps & {
 }
 
 type ActiveButton = CommonButtonProps & {
-  isActive: boolean;
+  isActive?: boolean;
   state: ActiveState;
 }
 

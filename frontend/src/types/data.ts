@@ -20,8 +20,6 @@ export interface ListProduct {
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
-  is_saved: boolean;
-  is_in_cart: boolean;
 }
 
 export interface DetailProduct {
@@ -35,7 +33,6 @@ export interface DetailProduct {
   reviews_count: number;
   silimar_products: ListProduct[];
   bought_together_products: ListProduct[];
-  is_saved: boolean;
 }
 
 export interface Review {
@@ -72,11 +69,13 @@ export interface Tag {
 export interface Variant {
   id: number;
   name: string;
+  is_in_stock: boolean;
   image: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
   is_in_cart: boolean;
+  is_saved: boolean;
 }
 
 export interface MinMax {
@@ -97,10 +96,15 @@ export interface ListCategory {
   parents: CategoryIds[] | null;
 }
 
-export interface SavedProduct {
+export interface SavedProductVariant {
   id: number;
-  render_name: string;
-  variants: Variant[];
+  name: string;
+  is_in_stock: boolean;
+  image: string;
+  actual_price: number;
+  sale_price: number | null;
+  percentage: number | null;
+  product: VariantProduct;
   is_in_cart: boolean;
 }
 
@@ -128,6 +132,11 @@ export interface Review {
   is_my_vote_positive: boolean | null;
 }
 
+interface VariantProduct {
+  id: number;
+  render_name: string;
+}
+
 export interface CartItem {
   id: number;
   amount: number;
@@ -137,27 +146,18 @@ export interface CartItem {
 interface CartVariant {
   id: number;
   name: string;
+  is_in_stock: boolean;
   image: string;
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
-  product: CartProduct;
-}
-
-interface CartProduct {
-  id: number;
-  render_name: string;
+  product: VariantProduct;
   is_saved: boolean;
 }
 
 export interface OderedProductInput {
   variant: number;
   amount: number;
-}
-
-interface OrderedVariantProduct {
-  id: number;
-  render_name: string;
 }
 
 interface OrderedVariant {
@@ -167,7 +167,7 @@ interface OrderedVariant {
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
-  product: OrderedVariantProduct;
+  product: VariantProduct;
 }
 
 export interface OrderedProduct {

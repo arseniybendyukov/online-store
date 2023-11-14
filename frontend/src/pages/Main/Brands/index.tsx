@@ -26,7 +26,7 @@ export function Brands() {
                 <img
                   src={brand.image}
                   alt={brand.name}
-                  className={css.image}
+                  className={`greyImg ${css.image}`}
                 />
               </Link>
             )))}

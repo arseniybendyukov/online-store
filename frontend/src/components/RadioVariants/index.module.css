@@ -8,8 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 30px;
+  min-width: 50px;
+  padding: 5px 10px;
   border: 1px solid var(--grey-1);
   border-radius: 5px;
   background: #fff;
@@ -21,5 +21,19 @@
   color: var(--main-1);
   border-color: var(--main-1);
   background: var(--main-1-transparent);
+  transition: var(--hover);
+}
+
+.variant.notInStock {
+  color: var(--grey-1);
+  border-color: var(--grey-1);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M100 0 L0 100 ' stroke='black' stroke-width='2'/><path d='M0 0 L100 100 ' stroke='black' stroke-width='2'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%, auto;
+}
+
+.variant.notInStock.selected {
+  background-color: var(--grey-2);
   transition: var(--hover);
 }

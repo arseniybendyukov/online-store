@@ -8,7 +8,7 @@ import {
   DetailProduct,
   Review,
   MyReview,
-  SavedProduct,
+  SavedProductVariant,
   CartItem,
   OderedProductInput,
   Order,
@@ -104,23 +104,34 @@ export const productsApi = createApi({
       providesTags: ['MyReviews'],
     }),
 
-    getSavedProducts: builder.query<SavedProduct[], void>({
+    getSavedProductVariants: builder.query<SavedProductVariant[], void>({
       query: () => `saved-products/`,
       providesTags: ['SavedProduct'],
     }),
 
-    addToSaved: builder.mutation<void, { id: number; }>({
-      query: ({ id }) => ({
-        url: `add-to-saved/${id}`,
-        method: 'POST',
+    addToSaved: builder.mutation<void, { variant_id: number; }>({
+      query: (data) => ({
+        url: `add-to-saved/`,
+        method: 'PATCH',
+        body: data,
       }),
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
 
-    removeFromSaved: builder.mutation<void, { id: number; }>({
-      query: ({ id }) => ({
-        url: `remove-from-saved/${id}`,
-        method: 'POST',
+    removeFromSaved: builder.mutation<void, { variant_id: number; }>({
+      query: (data) => ({
+        url: `remove-from-saved/`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+    }),
+
+    toggleSaved: builder.mutation<void, { variant_id: number; }>({
+      query: (data) => ({
+        url: `toggle-saved/`,
+        method: 'PATCH',
+        body: data,
       }),
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
@@ -139,10 +150,12 @@ export const productsApi = createApi({
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
 
-    removeFromCart: builder.mutation<void, { variantId: number }>({
-      query: ({ variantId }) => ({
-        url: `remove-from-cart/${variantId}`,
-        method: 'POST',
+    // todo: переименовать все входные данные под camelCase
+    removeFromCart: builder.mutation<void, { variant_id: number; }>({
+      query: (data) => ({
+        url: `remove-from-cart/`,
+        method: 'DELETE',
+        body: data,
       }),
       invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
@@ -194,23 +207,6 @@ export const productsApi = createApi({
   }),
 });
 
-export function useToggleSaved(id: number, isSaved: boolean) {
-  const [addToSaved, { isLoading: isAddLoading }] = useAddToSavedMutation();
-  const [removeFromSaved, { isLoading: isRemoveLoading }] = useRemoveFromSavedMutation();
-
-  const isLoading = isAddLoading || isRemoveLoading;
-
-  function toggleSaved() {
-    if (isSaved) {
-      removeFromSaved({ id });
-    } else {
-      addToSaved({ id });
-    }
-  }
-
-  return { toggleSaved, isLoading };
-}
-
 export function useToggleCart({
   variantId,
   isInCart,
@@ -227,7 +223,7 @@ export function useToggleCart({
 
   function toggleCart() {
     if (isInCart) {
-      removeFromCart({ variantId });
+      removeFromCart({ variant_id: variantId });
     } else {
       addToCart({
         variant_id: variantId,
@@ -253,9 +249,10 @@ export const {
   // Profile API
   useGetMyCountsQuery,
   useGetMyReviewsQuery,
-  useGetSavedProductsQuery,
+  useGetSavedProductVariantsQuery,
   useAddToSavedMutation,
   useRemoveFromSavedMutation,
+  useToggleSavedMutation,
   useGetCartQuery,
   useAddToCartMutation,
   useRemoveFromCartMutation,

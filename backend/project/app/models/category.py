@@ -4,7 +4,14 @@ from itertools import chain
 
 class Category(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
-  parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.SET_NULL)
+  parent = models.ForeignKey(
+    'self',
+    blank=True,
+    null=True,
+    related_name='children',
+    on_delete=models.SET_NULL,
+    verbose_name='Родительская категория',
+  )
 
   def get_all_parents(self):
     if self.parent:

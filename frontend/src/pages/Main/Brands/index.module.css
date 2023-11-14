@@ -12,8 +12,6 @@
 
 .image {
   width: 200px;
-  -webkit-filter: grayscale(100%);
-          filter: grayscale(100%);
   transition: var(--hover);
 }
 

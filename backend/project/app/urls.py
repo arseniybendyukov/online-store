@@ -32,15 +32,16 @@ urlpatterns = [
   
   path('my-counts/', views.MyCountsView.as_view()),
   
-  path('saved-products/', views.SavedProductsView.as_view()),
-  path('add-to-saved/<int:pk>', views.AddToSavedView.as_view()),
-  path('remove-from-saved/<int:pk>', views.RemoveFromSavedView.as_view()),
+  path('saved-products/', views.SavedProductVariantsView.as_view()),
+  path('add-to-saved/', views.AddToSavedView.as_view()),
+  path('remove-from-saved/', views.RemoveFromSavedView.as_view()),
+  path('toggle-saved/', views.ToggleSavedView.as_view()),
 
   path('my-reviews/', views.MyReviewsView.as_view()),
 
   path('cart/', views.CartItemListView.as_view()),
   path('add-to-cart/', views.AddToCartView.as_view()),
-  path('remove-from-cart/<int:pk>', views.RemoveFromCartView.as_view()),
+  path('remove-from-cart/', views.RemoveFromCartView.as_view()),
   path('update-cart-amount/<int:pk>', views.UpdateCartAmountView.as_view()),
 
   path('orders/', views.OrderListView.as_view()),

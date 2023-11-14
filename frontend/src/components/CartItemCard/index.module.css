@@ -7,6 +7,10 @@
   border-radius: 5px;
 }
 
+.notInStock {
+  color: var(--grey-1);
+}
+
 .majorInfo {
   width: 450px;
   display: flex;

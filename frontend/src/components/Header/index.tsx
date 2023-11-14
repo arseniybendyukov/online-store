@@ -35,7 +35,7 @@ export function Header() {
               <IconButton
                 icon={<Heart />}
                 path={`${NavPaths.PROFILE}/${ProfileNestedPaths.SAVED}`}
-                counter={data.saved_products_count}
+                counter={data.saved_product_variants_count}
               />
               <IconButton
                 icon={<ShoppingCart />}
