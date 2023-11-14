@@ -156,24 +156,22 @@ interface CartVariant {
 }
 
 export interface OderedProductInput {
-  variant: number;
+  origin_variant: number;
   amount: number;
 }
 
-interface OrderedVariant {
+export interface OrderedProduct {
   id: number;
   name: string;
   image: string;
   actual_price: number;
   sale_price: number | null;
-  percentage: number | null;
-  product: VariantProduct;
-}
-
-export interface OrderedProduct {
-  id: number;
-  variant: OrderedVariant;
+  variant_name: string;
   amount: number;
+  origin_variant: {
+    id: number;
+    product: number;
+  };
 }
 
 interface OrderStageType {

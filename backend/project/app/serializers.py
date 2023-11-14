@@ -398,7 +398,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 class OrderProductSerializer(serializers.ModelSerializer):
   class Meta:
     model = OrderedProduct
-    fields = ('variant', 'amount',)
+    fields = ('origin_variant', 'amount',)
 
 
 class CreateOrderSerializer(serializers.ModelSerializer):
@@ -410,7 +410,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     
     is_every_variant_in_stock = True
     for ordered_product in data['products']:
-      if not ordered_product['variant'].is_in_stock:
+      if not ordered_product['origin_variant'].is_in_stock:
         is_every_variant_in_stock = False
         break
     if not is_every_variant_in_stock:
@@ -425,12 +425,17 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
         order=order,
-        variant=raw['variant'],
         amount=raw['amount'],
+        origin_variant=raw['origin_variant'],
+        name=raw['origin_variant'].product.render_name,
+        image=raw['origin_variant'].image,
+        actual_price=raw['origin_variant'].actual_price,
+        sale_price=raw['origin_variant'].sale_price,
+        variant_name=raw['origin_variant'].name,
       )
 
       CartItem.objects.filter(
-        variant=raw['variant'],
+        variant=raw['origin_variant'],
         user=user,
       ).delete()
 
@@ -447,29 +452,31 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     model = Order
     fields = ('products',)
 
-  
-class OrderedVariantSerializer(serializers.ModelSerializer):
-  product = VariantProductSerializer()
-  
+
+class OrderProductOriginVariantSerializer(serializers.ModelSerializer):
   class Meta:
     model = Variant
+    fields = (
+      'id',
+      'product',
+    )
+
+
+class OrderedProductListSerializer(serializers.ModelSerializer):
+  origin_variant = OrderProductOriginVariantSerializer()
+
+  class Meta:
+    model = OrderedProduct
     fields = (
       'id',
       'name',
       'image',
       'actual_price',
       'sale_price',
-      'percentage',
-      'product',
+      'variant_name',
+      'amount',
+      'origin_variant',
     )
-
-
-class OrderedProductListSerializer(serializers.ModelSerializer):
-  variant = OrderedVariantSerializer()
-
-  class Meta:
-    model = OrderedProduct
-    exclude = ('order',)
 
 
 class OrderListSerializer(serializers.ModelSerializer):

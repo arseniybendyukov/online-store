@@ -24,7 +24,7 @@ export function Cart() {
       if (data) {
         if (!hasNotInStockVariants) {
           const result = await createOrder(data.map((cartItem) => ({
-            variant: cartItem.variant.id,
+            origin_variant: cartItem.variant.id,
             amount: cartItem.amount,
           })));
     

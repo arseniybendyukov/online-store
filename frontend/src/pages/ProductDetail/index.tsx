@@ -41,17 +41,23 @@ export function ProductDetail() {
 
   const selectedVariant = product?.variants.filter((variant) => variant.id === selectedVariantId)[0] || null;
 
+  useEffect(() => {
+    if (selectedVariant === null) {
+      setSelectedVariantId(null);
+    }
+  }, [selectedVariant]);
+
   const [
     toggleSaved,
     { isLoading: isToggleSaveLoading},
   ] = useToggleSavedMutation();
 
   useEffect(() => {
-    setAmount(1);
     if (product && selectedVariantId === null) {
+      setAmount(1);
       setSelectedVariantId(product.variants[0].id);
     }
-  }, [product]);
+  }, [product, selectedVariantId]);
 
   function onSaveButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
