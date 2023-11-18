@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { getRootCategory } from "../../utils/data";
 import { useSyncQueryParam } from "../../hooks";
 import { NotInStock } from "../../components/NotInStock";
+import { Description } from "../../components/Description";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
@@ -98,7 +99,9 @@ export function ProductDetail() {
                 <RatingStars avgRating={product.avg_rating} />
                 <ReadReviews reviewsCount={product.reviews_count} />
               </div>
-              <div className={css.description}>{product.description}</div>
+
+              <Description text={product.description} />
+
               {selectedVariant && (
                 <ProductPrice
                   large
