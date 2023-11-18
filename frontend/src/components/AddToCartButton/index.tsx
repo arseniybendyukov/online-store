@@ -9,12 +9,14 @@ import { toast } from 'react-toastify';
 interface Props {
   variantId: number;
   isInCart: boolean;
+  isInStock: boolean;
   amount?: number;
 }
 
 export function AddToCartButton({
   variantId,
   isInCart,
+  isInStock,
   amount=1,
 }: Props) {
   const {
@@ -25,11 +27,22 @@ export function AddToCartButton({
 
   function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    if (user) {
-      toggleCart();
+
+    if (!isInCart && !isInStock) {
+      toast('Нет в наличии', { type: 'error' });
     } else {
-      toast('Войдите, чтобы пользоваться корзиной', { type: 'error' })
+      if (user) {
+        toggleCart();
+      } else {
+        toast('Войдите, чтобы пользоваться корзиной', { type: 'error' });
+      }
     }
+  }
+
+  if (!isInStock) {
+    return (
+      <span>Невозможно добавить в корзину</span>
+    );
   }
 
   return (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ListProduct } from '../../types/data';
+import { ListProduct, Variant } from '../../types/data';
 import { Tag } from '../Tag';
 import { RatingStars } from '../RatingStars';
 import { ProductPrice } from '../ProductPrice';
@@ -7,30 +7,44 @@ import { HeartButton } from './HeartButton';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 import { AddToCartButton } from '../AddToCartButton';
-import { useToggleSaved } from '../../redux/apis/productsApi';
+import { useToggleSavedMutation } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
 import { useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
 import { getRootCategory } from '../../utils/data';
+import { NotInStock } from '../NotInStock';
 
 interface Props {
   product: ListProduct;
 }
 
 export function ProductCard({ product }: Props) {
-  const { toggleSaved, isLoading } = useToggleSaved(product.id, product.is_saved);
+  // todo: сделать слайдер вариантов, чтобы is_saved и is_in_cart показывались не для всего продукта
+  const [
+    toggleSaved,
+    { isLoading: isToggleSaveLoading},
+  ] = useToggleSavedMutation();
+
   const user = useAppSelector((state) => state.userState.user);
+
+  const inStockVariants = product.variants.filter((variant) => variant.is_in_stock);
+  const isProductInStock = !!inStockVariants.length;
+
+  let shownVariant: Variant
+  if (inStockVariants.length) {
+    shownVariant = inStockVariants[0];
+  } else {
+    shownVariant = product.variants[0];
+  }
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     if (user) {
-      toggleSaved();
+      toggleSaved({ variant_id: shownVariant.id });
     } else {
       toast('Войдите, чтобы сохранять товары', { type: 'error' });
     }
   }
-
-  const firstVariant = product.variants[0];
 
   return (
     <Link
@@ -40,7 +54,7 @@ export function ProductCard({ product }: Props) {
       <div className={css.tags}>
         {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
       </div>
-      <img src={product.variants[0]?.image} alt={product.render_name} />
+      <img src={shownVariant.image} alt={product.render_name} />
       <div className={css.text}>
         <p className={css.name}>{product.render_name}</p>
         <p className={css.category}>{getRootCategory(product.category)}</p>
@@ -50,26 +64,35 @@ export function ProductCard({ product }: Props) {
         reviewsCount={product.reviews_count}
       />
       <ProductPrice
-        actualPrice={firstVariant.actual_price}
-        salePrice={firstVariant.sale_price}
+        actualPrice={shownVariant.actual_price}
+        salePrice={shownVariant.sale_price}
       />
-      <div className={css.buttons}>
-        {
-          isLoading
-          ? <Spinner size={40} thickness={3} />
-          : (
-            <HeartButton
-              onClick={onHeartClick}
-              isActive={product.is_saved}
-            />
-          )
-        }
+      {
+        isProductInStock
+        ? (
+          <div className={css.buttons}>
+            {
+              isToggleSaveLoading
+              ? <Spinner size={40} thickness={3} />
+              : (
+                <HeartButton
+                  onClick={onHeartClick}
+                  isActive={shownVariant.is_saved}
+                />
+              )
+            }
 
-        <AddToCartButton
-          variantId={product.variants[0].id}
-          isInCart={product.is_in_cart}
-        />
-      </div>
+            <AddToCartButton
+              variantId={shownVariant.id}
+              isInCart={shownVariant.is_in_cart}
+              isInStock={shownVariant.is_in_stock}
+            />
+          </div>
+        )
+        : (
+          <NotInStock />
+        )
+      }
     </Link>
   );
 }

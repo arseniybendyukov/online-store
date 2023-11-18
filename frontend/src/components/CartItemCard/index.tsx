@@ -5,12 +5,13 @@ import { ReactComponent as Heart } from '../../images/heart.svg';
 import css from './index.module.css';
 import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
-import { useRemoveFromCartMutation, useToggleSaved, useUpdateCartAmountMutation } from '../../redux/apis/productsApi';
+import { useRemoveFromCartMutation, useToggleSavedMutation, useUpdateCartAmountMutation } from '../../redux/apis/productsApi';
 import { AmountInput } from '../AmountInput';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks';
 import { Spinner } from '../Spinner';
 import { Label } from '../Label';
+import { NotInStock } from '../NotInStock';
 
 interface Props extends CartItem {}
 
@@ -25,10 +26,11 @@ export function CartItemCard(cartItem: Props) {
       actual_price: actualPrice,
       sale_price: salePrice,
       percentage,
+      is_saved: isSaved,
+      is_in_stock: isInStock,
       product: {
         id: productId,
         render_name: productName,
-        is_saved: isSaved,
       }
     },
   } = cartItem;
@@ -49,19 +51,19 @@ export function CartItemCard(cartItem: Props) {
     { isLoading: isRemoveLoading },
   ] = useRemoveFromCartMutation();
 
-  const {
+  const [
     toggleSaved,
-    isLoading: isToggleSaveLoading,
-  } = useToggleSaved(productId, isSaved);
+    { isLoading: isToggleSaveLoading},
+  ] = useToggleSavedMutation();
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    toggleSaved();
+    toggleSaved({ variant_id: variantId });
   }
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    removeFromCart({ variantId });
+    removeFromCart({ variant_id: variantId });
   }
 
   return (
@@ -70,24 +72,31 @@ export function CartItemCard(cartItem: Props) {
       className={css.card}
     >
       <div className={css.majorInfo}>
-        <img src={image} alt='product' className={css.image} />
+        <img src={image} alt='product' className={`${css.image} ${!isInStock ? 'greyImg' : ''}`} />
         <div className={css.productProperties}>
-          <h4 className='h4'>{productName}</h4>
+          <h4 className={`h4 ${!isInStock ? css.notInStock : ''}`}>{productName}</h4>
           <Label label='Вариант' gap={10}>{variantName}</Label>
         </div>
       </div>
 
-      <div onClick={(e) => e.preventDefault()}>
-        <AmountInput
+      {
+        isInStock
+        ? (
+          <AmountInput
           amount={inputAmount}
           setAmount={setInputAmount}
         />
-      </div>
+        )
+        : (
+          <NotInStock />
+        )
+      }
 
       <div className={css.minorInfo}>
         <ProductPrice
-          actualPrice={actualPrice * amount}
-          salePrice={salePrice ? salePrice * amount : null}
+          actualPrice={isInStock ? actualPrice * amount : actualPrice}
+          salePrice={isInStock ? salePrice ? salePrice * amount : null : salePrice}
+          isInStock={isInStock}
         />
 
         <div className={css.buttons}>

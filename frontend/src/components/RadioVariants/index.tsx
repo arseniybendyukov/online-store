@@ -25,7 +25,7 @@ export function RadioVariants({
         <div
           key={variant.id}
           onClick={() => setSelectedVariantId(variant.id)}
-          className={`${css.variant} ${variant === selectedVariant ? css.selected : ''}`}
+          className={`${css.variant} ${variant === selectedVariant ? css.selected : ''} ${!variant.is_in_stock ? css.notInStock : ''}`}
         >
           {variant.name}
         </div>

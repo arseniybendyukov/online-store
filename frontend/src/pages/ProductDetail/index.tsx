@@ -1,12 +1,11 @@
-import { Link, Outlet, useParams } from "react-router-dom";
-import { useGetProductDetailQuery, useToggleSaved } from "../../redux/apis/productsApi";
+import { Link, Outlet, useParams, useSearchParams } from "react-router-dom";
+import { useGetProductDetailQuery, useToggleSavedMutation } from "../../redux/apis/productsApi";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
 import { ProductPrice } from "../../components/ProductPrice";
 import { Label } from "../../components/Label";
 import { RadioVariants } from "../../components/RadioVariants";
-import { useEffect, useState } from "react";
-import { Variant } from "../../types/data";
+import { useEffect, useMemo, useState } from "react";
 import { AmountInput } from "../../components/AmountInput";
 import { AddToCartButton } from "../../components/AddToCartButton";
 import { Button } from "../../components/Button";
@@ -18,39 +17,70 @@ import { SpinnerScreen } from "../../components/SpinnerScreen";
 import { useAppSelector } from "../../redux/store";
 import { toast } from "react-toastify";
 import { getRootCategory } from "../../utils/data";
-import { CategoryBreadCrumps } from "../../components/CategoryBreadCrumps";
+import { useSyncQueryParam } from "../../hooks";
+import { NotInStock } from "../../components/NotInStock";
+import { Description } from "../../components/Description";
 
 export function ProductDetail() {
   const { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const user = useAppSelector((state) => state.userState.user);
 
-  const {
-    toggleSaved,
-    isLoading: isToggleSaveLoading,
-  } = useToggleSaved(product?.id || 0, product?.is_saved || false);
-
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   const [amount, setAmount] = useState(1);
+
+  const queryParamVariant = useMemo(() => {
+    const raw = searchParams.get('variant');
+    return raw !== null
+    ? Number(raw)
+    : null
+  }, [searchParams]);
+
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(queryParamVariant);
 
   const selectedVariant = product?.variants.filter((variant) => variant.id === selectedVariantId)[0] || null;
 
   useEffect(() => {
-    setAmount(1);
+    if (selectedVariant === null) {
+      setSelectedVariantId(null);
+    }
+  }, [selectedVariant]);
+
+  const [
+    toggleSaved,
+    { isLoading: isToggleSaveLoading},
+  ] = useToggleSavedMutation();
+
+  useEffect(() => {
     if (product && selectedVariantId === null) {
+      setAmount(1);
       setSelectedVariantId(product.variants[0].id);
     }
-  }, [product]);
+  }, [product, selectedVariantId]);
 
   function onSaveButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    if (user) {
-      toggleSaved();
+
+    if (selectedVariant) {
+      if (user) {
+        toggleSaved({ variant_id: selectedVariant.id });
+      } else {
+        toast('Войдите, чтобы сохранять товары', { type: 'error' });
+      }
     } else {
-      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+      toast('Ошибка: не выбран вариант товара', { type: 'error' });
     }
   }
+
+  // Синхронизация состояния с query parameters
+  useSyncQueryParam(
+    [
+      ['variant', selectedVariantId],
+    ],
+    setSearchParams,
+  );
 
   return <>
     {
@@ -63,12 +93,15 @@ export function ProductDetail() {
               <img src={selectedVariant?.image} alt={`product ${product.render_name}`} />
             </div>
             <div className={css.main}>
+              {!selectedVariant?.is_in_stock && <NotInStock />}
               <h1 className='h1'>{product.render_name}</h1>
               <div className={css.rowStats}>
                 <RatingStars avgRating={product.avg_rating} />
                 <ReadReviews reviewsCount={product.reviews_count} />
               </div>
-              <div className={css.description}>{product.description}</div>
+
+              <Description text={product.description} />
+
               {selectedVariant && (
                 <ProductPrice
                   large
@@ -87,36 +120,41 @@ export function ProductDetail() {
                   setSelectedVariantId={setSelectedVariantId}
                 />
               </Label>
-              <Label label='Количество'>
-                <AmountInput
-                  amount={amount}
-                  setAmount={setAmount}
-                />
-              </Label>
-              <div className={css.buttons}>
-                <AddToCartButton
-                  variantId={selectedVariant?.id || 0}
-                  isInCart={selectedVariant?.is_in_cart ?? false}
-                  amount={amount}
-                />
+              {selectedVariant?.is_in_stock && (
+                <Label label='Количество'>
+                  <AmountInput
+                    amount={amount}
+                    setAmount={setAmount}
+                  />
+                </Label>
+              )}
+              {selectedVariant && (
+                <div className={css.buttons}>
+                  <AddToCartButton
+                    variantId={selectedVariant.id}
+                    isInCart={selectedVariant.is_in_cart}
+                    isInStock={selectedVariant.is_in_stock}
+                    amount={amount}
+                  />
 
-                <Button
-                  onClick={onSaveButtonClick}
-                  isActive={product.is_saved}
-                  isLoading={isToggleSaveLoading}
-                  color={Colors.RED}
-                  state={{
-                    default: {
-                      text: 'В сохраненное',
-                      icon: <Heart className={css.heartSVG} />,
-                    },
-                    active: {
-                      text: 'Cохранено',
-                      icon: <Heart className={`${css.heartSVG} ${css.active}`} />,
-                    },
-                  }}
-                />
-              </div>
+                  <Button
+                    onClick={onSaveButtonClick}
+                    isActive={selectedVariant.is_saved}
+                    isLoading={isToggleSaveLoading}
+                    color={Colors.RED}
+                    state={{
+                      default: {
+                        text: 'В сохраненное',
+                        icon: <Heart className={css.heartSVG} />,
+                      },
+                      active: {
+                        text: 'Cохранено',
+                        icon: <Heart className={`${css.heartSVG} ${css.active}`} />,
+                      },
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <NavTabs

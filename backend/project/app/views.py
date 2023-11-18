@@ -33,9 +33,10 @@ from .serializers import (
   BrandListSerializer,
   ProductDetailSerializer,
   ReviewSerializer,
-  SavedProductSerializer,
+  SavedProductVariantSerializer,
   MyReviewSerializer,
   AddToCartSerializer,
+  RemoveFromCartSerializer,
   CartItemListSerializer,
   UpdateCartAmountSerializer,
   UpdateUserSerializer,
@@ -50,6 +51,7 @@ from .serializers import (
   ActivateEmailSerializer,
   ResendActivationSerializer,
   UpdateAvatarSerializer,
+  
 )
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -222,8 +224,6 @@ class ResendActivationView(generics.GenericAPIView):
     except Exception as e:
       user = None
 
-    print(user)
-
     if user:
       send_activation_email(user, request)
       return Response(status=status.HTTP_200_OK)
@@ -249,23 +249,23 @@ class MyCountsView(generics.GenericAPIView):
   permission_classes = (permissions.IsAuthenticated,)
 
   def get(self, request, *args, **kwargs):
-    saved_products_count = request.user.saved_products.count()
+    saved_product_variants_count = request.user.saved_product_variants.count()
     cart_products_count = CartItem.objects.filter(user=request.user).count()
 
     data = {
-      'saved_products_count': saved_products_count,
+      'saved_product_variants_count': saved_product_variants_count,
       'cart_products_count': cart_products_count,
     }
 
     return Response(data, status=status.HTTP_200_OK)
 
 
-class SavedProductsView(generics.ListAPIView):
+class SavedProductVariantsView(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
-  serializer_class = SavedProductSerializer
+  serializer_class = SavedProductVariantSerializer
 
   def get_queryset(self):
-    return self.request.user.saved_products
+    return self.request.user.saved_product_variants
 
 
 class MyReviewsView(generics.ListAPIView):
@@ -276,22 +276,44 @@ class MyReviewsView(generics.ListAPIView):
     return Review.objects.filter(user=self.request.user)
 
 
-class AddToSavedView(generics.GenericAPIView):
+class AddToSavedView(generics.UpdateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
 
-  def post(self, request, *args, **kwargs):
-    product = Product.objects.get(id=self.kwargs['pk'])
-    request.user.saved_products.add(product)
-    return Response(status=status.HTTP_200_OK)
+  def update(self, request, *args, **kwargs):
+    variant = Variant.objects.filter(id=request.data['variant_id']).first()
+    if variant:
+      if not request.user.saved_product_variants.filter(id=variant.id).first():
+        request.user.saved_product_variants.add(variant)
+        return Response(status=status.HTTP_200_OK)
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class RemoveFromSavedView(generics.GenericAPIView):
+class RemoveFromSavedView(generics.UpdateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
 
-  def post(self, request, *args, **kwargs):
-    product = Product.objects.get(id=self.kwargs['pk'])
-    request.user.saved_products.remove(product)
-    return Response(status=status.HTTP_200_OK)
+  def patch(self, request, *args, **kwargs):
+    variant = Variant.objects.filter(id=request.data['variant_id']).first()
+    if variant:
+      if request.user.saved_product_variants.filter(id=variant.id).first():
+        request.user.saved_product_variants.remove(variant)
+        return Response(status=status.HTTP_200_OK)
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ToggleSavedView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def patch(self, request, *args, **kwargs):
+    variant = Variant.objects.filter(id=request.data['variant_id']).first()
+    if variant:
+      if request.user.saved_product_variants.filter(id=variant.id).first():
+        request.user.saved_product_variants.remove(variant)
+      else:
+        request.user.saved_product_variants.add(variant)
+      return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class CartItemListView(generics.ListAPIView):
@@ -315,12 +337,19 @@ class AddToCartView(generics.GenericAPIView):
 
 class RemoveFromCartView(generics.GenericAPIView):
   permission_classes = (permissions.IsAuthenticated,)
+  serializer_class = RemoveFromCartSerializer
 
-  def post(self, request, *args, **kwargs):
+  def delete(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    variant_id = serializer.validated_data.get('variant_id')
+
     CartItem.objects.filter(
       user=request.user,
-      variant__pk=self.kwargs['pk'],
+      variant__id=variant_id,
     ).delete()
+
     return Response(status=status.HTTP_200_OK)
 
 

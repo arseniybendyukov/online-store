@@ -5,7 +5,12 @@ from app.models import Variant
 
 @admin.register(Variant)
 class VariantAdmin(admin.ModelAdmin):
-  list_display = ('product', 'name', 'actual_price',)
+  list_display = (
+    'product',
+    'name',
+    'actual_price',
+    'is_in_stock',
+  )
 
   @admin.display(description='Цена')
   def actual_price(self, instance):

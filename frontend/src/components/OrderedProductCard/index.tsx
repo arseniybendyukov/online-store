@@ -9,33 +9,19 @@ interface Props {
 }
 
 export function OrderedProductCard({ orderedProduct }: Props) {
-  const {
-    id: orderedProductId,
-    amount,
-    variant: {
-      image,
-      actual_price: actualPrice,
-      sale_price: salePrice,
-      product: {
-        id: productId,
-        render_name: name,
-      },
-    },
-  } = orderedProduct;
-
   return (
     <Link
-      to={`${NavPaths.PRODUCT_DETAIL}/${productId}`}
+      to={`${NavPaths.PRODUCT_DETAIL}/${orderedProduct.origin_variant.product}?variant=${orderedProduct.origin_variant.id}`}
       className={css.orderedProduct}
     >
-      <img src={image} alt='product' />
-      <p className={css.name}>{name}</p>
+      <img src={orderedProduct.image} alt='product' />
+      <p className={css.name}>{orderedProduct.name}</p>
       <div className={css.row}>
         <ProductPrice
-          actualPrice={actualPrice}
-          salePrice={salePrice}
+          actualPrice={orderedProduct.actual_price}
+          salePrice={orderedProduct.sale_price}
         />
-        <p className={css.amount}>{`${amount} шт.`}</p>
+        <p className={css.amount}>{`${orderedProduct.amount} шт.`}</p>
       </div>
     </Link>
   );

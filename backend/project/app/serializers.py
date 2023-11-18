@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import html
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.db.models import Count
@@ -125,6 +126,7 @@ class BrandSerializer(serializers.ModelSerializer):
 
 class VariantSerializer(serializers.ModelSerializer):
   is_in_cart = serializers.SerializerMethodField()
+  is_saved = serializers.SerializerMethodField()
 
   def get_is_in_cart(self, instance):
     user =  self.context['request'].user
@@ -135,16 +137,24 @@ class VariantSerializer(serializers.ModelSerializer):
       ).exists()
     return False
 
+  def get_is_saved(self, instance):
+    user =  self.context['request'].user
+    if user.is_authenticated:
+      return user.saved_product_variants.filter(id=instance.id).exists()
+    return False
+
   class Meta:
     model = Variant
     fields = (
       'id',
       'name',
+      'is_in_stock',
       'image',
       'actual_price',
       'sale_price',
       'percentage',
       'is_in_cart',
+      'is_saved',
     )
 
 
@@ -155,13 +165,6 @@ class ProductSerializer(serializers.ModelSerializer):
   brand = BrandSerializer()
   avg_rating = serializers.FloatField()
   reviews_count = serializers.IntegerField(source='reviews.count')
-  is_saved = serializers.SerializerMethodField()
-
-  def get_is_saved(self, instance):
-    user =  self.context['request'].user
-    if user.is_authenticated:
-      return user.saved_products.filter(pk=instance.id).exists()
-    return False
 
   class Meta:
     model = Product
@@ -169,16 +172,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(ProductSerializer):
   tags = ProductTagSerializer(many=True)
-  is_in_cart = serializers.SerializerMethodField()
-
-  def get_is_in_cart(self, instance):
-    user =  self.context['request'].user
-    if user.is_authenticated:
-      return CartItem.objects.filter(
-        user=self.context['request'].user,
-        variant__product__id=instance.id,
-      ).exists()
-    return False
 
   class Meta(ProductSerializer.Meta):
     exclude = [
@@ -264,6 +257,17 @@ class CategoryListSerializer(serializers.ModelSerializer):
     )
 
 
+class VariantProductSerializer(serializers.ModelSerializer):
+  render_name = serializers.CharField()
+
+  class Meta:
+    model = Product
+    fields = (
+      'id',
+      'render_name',
+    )
+
+
 class BrandListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()
 
@@ -273,27 +277,6 @@ class BrandListSerializer(serializers.ModelSerializer):
   class Meta:
     model = Brand
     fields = '__all__'
-
-
-class SavedProductSerializer(serializers.ModelSerializer):
-  render_name = serializers.CharField()
-  variants = VariantSerializer(many=True)
-  is_in_cart = serializers.SerializerMethodField()
-
-  def get_is_in_cart(self, instance):
-    return CartItem.objects.filter(
-      user=self.context['request'].user,
-      variant__product__id=instance.id,
-    ).exists()
-
-  class Meta:
-    model = Product
-    fields = (
-      'id',
-      'render_name',
-      'variants',
-      'is_in_cart',
-    )
 
 
 class MyReviewSerializer(serializers.ModelSerializer):
@@ -325,6 +308,18 @@ class AddToCartSerializer(serializers.Serializer):
   variant_id = serializers.IntegerField()
   amount = serializers.IntegerField()
 
+  def validate(self, data):
+    variant = Variant.objects.get(id=data['variant_id'])
+
+    if not variant.is_in_stock:
+      raise serializers.ValidationError('Невозможно добавить в корзину вариант товара, которого нет в наличии')
+
+    cart_item = CartItem.objects.filter(variant=variant).first()
+    if cart_item:
+      raise serializers.ValidationError('Товар уже есть в корзине')
+    
+    return data
+
   def create(self, validated_data):
     return CartItem.objects.create(
       user = self.context['request'].user,
@@ -333,36 +328,44 @@ class AddToCartSerializer(serializers.Serializer):
     )
 
 
-class CartProductSerializer(serializers.ModelSerializer):
-  render_name = serializers.CharField()
+class RemoveFromCartSerializer(serializers.Serializer):
+  variant_id = serializers.IntegerField()
+
+  def validate(self, data):
+    variant = Variant.objects.get(id=data['variant_id'])
+
+    if not variant:
+      raise serializers.ValidationError('Ошибка: такого варианта товара не существует')
+    
+    cart_item = CartItem.objects.filter(variant=variant).first()
+    if not cart_item:
+      raise serializers.ValidationError('Товара нет корзине')
+    
+    return data
+
+
+class CartVariantSerializer(serializers.ModelSerializer):
+  product = VariantProductSerializer()
   is_saved = serializers.SerializerMethodField()
 
   def get_is_saved(self, instance):
     user =  self.context['request'].user
-    return user.saved_products.filter(pk=instance.id).exists()
-
-  class Meta:
-    model = Product
-    fields = (
-      'id',
-      'render_name',
-      'is_saved',
-    )
-
-
-class CartVariantSerializer(serializers.ModelSerializer):
-  product = CartProductSerializer()
+    if user.is_authenticated:
+      return user.saved_product_variants.filter(id=instance.id).exists()
+    return False
 
   class Meta:
     model = Variant
     fields = (
       'id',
       'name',
+      'is_in_stock',
       'image',
       'actual_price',
       'sale_price',
       'percentage',
       'product',
+      'is_saved',
     )
 
 
@@ -396,7 +399,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 class OrderProductSerializer(serializers.ModelSerializer):
   class Meta:
     model = OrderedProduct
-    fields = ('variant', 'amount',)
+    fields = ('origin_variant', 'amount',)
 
 
 class CreateOrderSerializer(serializers.ModelSerializer):
@@ -405,6 +408,15 @@ class CreateOrderSerializer(serializers.ModelSerializer):
   def validate(self, data):
     if len(data['products']) < 1:
       raise serializers.ValidationError('Невозможно создать пустой заказ')
+    
+    is_every_variant_in_stock = True
+    for ordered_product in data['products']:
+      if not ordered_product['origin_variant'].is_in_stock:
+        is_every_variant_in_stock = False
+        break
+    if not is_every_variant_in_stock:
+      raise serializers.ValidationError('Невозможно создать заказ: товара нет в наличии')
+
     return data
 
   def create(self, validated_data):
@@ -414,12 +426,17 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
         order=order,
-        variant=raw['variant'],
         amount=raw['amount'],
+        origin_variant=raw['origin_variant'],
+        name=raw['origin_variant'].product.render_name,
+        image=raw['origin_variant'].image,
+        actual_price=raw['origin_variant'].actual_price,
+        sale_price=raw['origin_variant'].sale_price,
+        variant_name=raw['origin_variant'].name,
       )
 
       CartItem.objects.filter(
-        variant=raw['variant'],
+        variant=raw['origin_variant'],
         user=user,
       ).delete()
 
@@ -437,39 +454,30 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     fields = ('products',)
 
 
-class OrderedVariantProductSerializer(serializers.ModelSerializer):
-  render_name = serializers.CharField()
-
-  class Meta:
-    model = Product
-    fields = (
-      'id',
-      'render_name',
-    )
-
-  
-class OrderedVariantSerializer(serializers.ModelSerializer):
-  product = OrderedVariantProductSerializer()
-  
+class OrderProductOriginVariantSerializer(serializers.ModelSerializer):
   class Meta:
     model = Variant
+    fields = (
+      'id',
+      'product',
+    )
+
+
+class OrderedProductListSerializer(serializers.ModelSerializer):
+  origin_variant = OrderProductOriginVariantSerializer()
+
+  class Meta:
+    model = OrderedProduct
     fields = (
       'id',
       'name',
       'image',
       'actual_price',
       'sale_price',
-      'percentage',
-      'product',
+      'variant_name',
+      'amount',
+      'origin_variant',
     )
-
-
-class OrderedProductListSerializer(serializers.ModelSerializer):
-  variant = OrderedVariantSerializer()
-
-  class Meta:
-    model = OrderedProduct
-    exclude = ('order',)
 
 
 class OrderListSerializer(serializers.ModelSerializer):
@@ -499,6 +507,31 @@ class OrderDetailSerializer(serializers.ModelSerializer):
   class Meta:
     model = Order
     exclude = ('user',)
+
+  
+class SavedProductVariantSerializer(serializers.ModelSerializer):
+  product = VariantProductSerializer()
+  is_in_cart = serializers.SerializerMethodField()
+
+  def get_is_in_cart(self, instance):
+    return CartItem.objects.filter(
+      user=self.context['request'].user,
+      variant__id=instance.id,
+    ).exists()
+
+  class Meta:
+    model = Variant
+    fields = (
+      'id',
+      'name',
+      'is_in_stock',
+      'image',
+      'actual_price',
+      'sale_price',
+      'percentage',
+      'is_in_cart',
+      'product',
+    )
 
 
 class AppealSerializer(serializers.ModelSerializer):
