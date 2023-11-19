@@ -37,7 +37,7 @@ class Product(models.Model):
 
   @property
   def avg_rating(self):
-    raw = self.reviews.all().aggregate(Avg('rating'))['rating__avg'] or 0
+    raw = self.variants.aggregate(rating=Avg('reviews__rating'))['rating'] or 0
     return round(raw, 1)
 
   def __str__(self):

@@ -7,7 +7,7 @@ from .variant import Variant
 
 class Review(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор отзыва')
-  variant = models.ForeignKey(Variant, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Вариант')
+  variant = models.ForeignKey(Variant, related_name='reviews', on_delete=models.CASCADE, verbose_name='Вариант')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   text = models.TextField(verbose_name='Текст')
   rating = models.PositiveSmallIntegerField(

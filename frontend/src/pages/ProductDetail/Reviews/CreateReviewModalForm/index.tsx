@@ -101,8 +101,9 @@ export function CreateReviewModalForm({
             <Label label='Выберите вариант товара' gap={10}>
               <RadioVariants
                 options={variants}
-                selectedVariant={variants.filter((variant) => variant.id === formik.values.variantId)[0] || null}
+                selectedVariantId={formik.values.variantId}
                 setSelectedVariantId={(value) => formik.setFieldValue('variantId', value)}
+                shouldDisplayIsInStock={false}
                 isTouched={formik.touched.variantId}
                 error={formik.errors.variantId}
               />

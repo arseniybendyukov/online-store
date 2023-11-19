@@ -31,6 +31,7 @@ export function ProductDetail() {
 
   const [amount, setAmount] = useState(1);
 
+  // todo: обновлять состояние под это
   const queryParamVariant = useMemo(() => {
     const raw = searchParams.get('variant');
     return raw !== null
@@ -97,7 +98,10 @@ export function ProductDetail() {
               <h1 className='h1'>{product.render_name}</h1>
               <div className={css.rowStats}>
                 <RatingStars avgRating={product.avg_rating} />
-                <ReadReviews reviewsCount={product.reviews_count} />
+
+                {product.avg_rating > 0 && (
+                  <ReadReviews reviewsCount={product.reviews_count} />
+                )}
               </div>
 
               <Description text={product.description} />
@@ -116,7 +120,7 @@ export function ProductDetail() {
               <Label label='Вариант товара'>
                 <RadioVariants
                   options={product.variants}
-                  selectedVariant={selectedVariant}
+                  selectedVariantId={selectedVariantId}
                   setSelectedVariantId={setSelectedVariantId}
                 />
               </Label>

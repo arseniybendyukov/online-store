@@ -16,24 +16,29 @@ export function RatingStars({
   reviewsCount,
 }: Props) {
   return (
-    <div className={css.body}>
-      {!onlyStars && (
-        <span className={css.ratingValue}>{avgRating}</span>
-      )}
-      <div className={css.stars}>
-        <div className={css.uncolored}>
-          {fiveStars}
+    avgRating > 0
+    ? (
+      <div className={css.body}>
+        {!onlyStars && (
+          <span className={css.ratingValue}>{avgRating}</span>
+        )}
+        <div className={css.stars}>
+          <div className={css.uncolored}>
+            {fiveStars}
+          </div>
+          <div
+            className={css.colored}
+            style={{width: `calc(${avgRating} / 5 * 100%)`}}
+          >
+            {fiveStars}
+          </div>
         </div>
-        <div
-          className={css.colored}
-          style={{width: `calc(${avgRating} / 5 * 100%)`}}
-        >
-          {fiveStars}
-        </div>
+        {reviewsCount && (
+          <span className={css.reviewsCount}>({reviewsCount})</span>
+        )}
       </div>
-      {reviewsCount && (
-        <span className={css.reviewsCount}>({reviewsCount})</span>
-      )}
-    </div>
+    ) : (
+      <span className='empty'>Нет отзывов</span>
+    )
   );
 }

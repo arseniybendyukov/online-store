@@ -14,7 +14,7 @@ def get_upload_path(instance, filename):
 class OrderedProduct(models.Model):
   order = models.ForeignKey(Order, related_name='products', on_delete=models.CASCADE, verbose_name='Заказ')
   amount = models.IntegerField(default=1, validators=AMOUNT_VALIDATOR, verbose_name='Количество')
-  origin_variant = models.ForeignKey(Variant, null=True, on_delete=models.SET_NULL, verbose_name='Вариант товара')
+  origin_variant = models.ForeignKey(Variant, null=True, on_delete=models.SET_NULL, verbose_name='Ссылка')
 
   # Поля из Product/Variant, чтобы оставить товар в том состоянии,
   # в котором он был оформлен.
@@ -22,7 +22,7 @@ class OrderedProduct(models.Model):
   image = models.ImageField(upload_to=get_upload_path, verbose_name='Изображение')
   actual_price = models.PositiveIntegerField(verbose_name='Цена без скидки')
   sale_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='Цена со скидкой')
-  variant_name = models.CharField(max_length=100, verbose_name='Название')
+  variant_name = models.CharField(max_length=100, verbose_name='Вариант')
 
   def __str__(self):  
     return f'{self.name}, {self.order}'

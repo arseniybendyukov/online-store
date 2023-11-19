@@ -6,7 +6,7 @@ from app.models import OrderedProduct
 @admin.register(OrderedProduct)
 class OrderedProductAdmin(admin.ModelAdmin):
   list_display = (
-    'product',
+    'name',
     'amount',
     'user',
     'ordered_at',
@@ -15,11 +15,9 @@ class OrderedProductAdmin(admin.ModelAdmin):
   @admin.display(description='Пользователь')
   def user(self, instance):
     return instance.order.user
-
-  @admin.display(description='Товар')
-  def product(self, instance):
-    return instance.variant.product
+  user.admin_order_field = 'order__user__first_name'
 
   @admin.display(description='Дата и время заказа')
   def ordered_at(self, instance):
     return format_datetime(instance.order.created_at)
+  ordered_at.admin_order_field = 'order__created_at'

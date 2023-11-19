@@ -61,7 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first_name', 'last_name']
 
-  def get_fullname(self):
+  @property
+  def fullname(self):
     return f'{self.first_name} {self.last_name}'
 
   def save(self, *args, **kwargs):
@@ -71,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     return self
 
   def __str__(self):
-    return self.get_fullname()
+    return self.fullname
 
   class Meta:
     verbose_name = 'Пользователь'

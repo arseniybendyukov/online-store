@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import css from './index.module.css';
 import { useGetOrderDetailQuery } from '../../../../redux/apis/productsApi';
 import { getOverallPrice, monthAndDayFromDate } from '../../../../utils/data';
@@ -6,10 +6,65 @@ import { OrderStages } from './OrderStages';
 import { Label } from '../../../../components/Label';
 import { OrderedProductCard } from '../../../../components/OrderedProductCard';
 import { SpinnerScreen } from '../../../../components/SpinnerScreen';
+import { OrderIsCancelled } from '../../../../components/OrderIsCancelled';
+import { useEffect, useMemo, useState } from 'react';
+import { useSyncQueryParam } from '../../../../hooks';
+import { Button } from '../../../../components/Button';
+import { CancelOrderButton } from './CancelOrderButton';
 
 export function OrderDetail() {
   const { id = '' } = useParams();
   const { data: order, isLoading } = useGetOrderDetailQuery({ id });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // todo: qp не сохраняется при перезагрузке
+  const queryParamStage = useMemo(() => {
+    const raw = searchParams.get('stage');
+    return raw !== null
+    ? Number(raw)
+    : null
+  }, [searchParams]);
+
+  const [selectedStageId, setSelectedStageId] = useState<number | null>(queryParamStage);
+
+  const selectedStage = useMemo(() => {
+    if (order) {
+      return order.stages.find((stage) => stage.stage_type.id === selectedStageId) || null;
+    } else {
+      return null;
+    }
+  }, [order, selectedStageId]);
+
+  const currentStage = useMemo(() => {
+    if (order) {
+      return order.stages.find((stage) => !stage.is_done) || null;
+    } else {
+      return null;
+    }
+  }, [order, selectedStageId]);
+  
+  useEffect(() => {
+    if (selectedStage === null) {
+      setSelectedStageId(null);
+    }
+  }, [selectedStage]);
+
+  useEffect(() => {
+    if (order && selectedStageId === null) {
+      setSelectedStageId(
+        (order.stages.find((stage) => !stage.is_done) || order.stages[0]).stage_type.id
+      );
+    }
+  }, [order, selectedStageId, setSelectedStageId]);
+
+  // Синхронизация состояния с query parameters
+  useSyncQueryParam(
+    [
+      ['stage', selectedStageId],
+    ],
+    setSearchParams,
+  );
 
   return <>
     {
@@ -29,11 +84,37 @@ export function OrderDetail() {
             )}
           </div>
 
-          <OrderStages stages={order.stages} />
+          {
+            order.is_cancelled
+            ? (
+              <OrderIsCancelled />
+            )
+            : (
+              <OrderStages
+                stages={order.stages}
+                selectedStageId={selectedStageId}
+                setSelectedStageId={setSelectedStageId}
+              />
+            )
+          }
+
+          {selectedStage && !order.is_cancelled && (
+            <div className={css.stageDescription}>
+              <h3 className='h3'>Детали этапа</h3>
+
+              <p>{selectedStage.stage_type.description}</p>
+
+              {selectedStage === currentStage && currentStage?.stage_type.is_payment_stage && (
+                <div className={css.paymentContainer}>
+                  <Button state={{ default: { text: 'Оплатить', icon: undefined } }} />
+                </div>
+              )}
+            </div>
+          )}
 
           <section className={css.productsSection}>
             <div className={css.heading}>
-              <h3 className='h3'>Товары ({order.products.length})</h3>
+              <h3 className='h3'>Товары ({ order.products.length })</h3>
               <Label label='Стоимость'>
                 {getOverallPrice(order)}
               </Label>
@@ -48,6 +129,10 @@ export function OrderDetail() {
               ))}
             </div>
           </section>
+              
+          {!order.is_cancelled && (
+            <CancelOrderButton orderId={order.id} />
+          )}
         </div>
       )
     }

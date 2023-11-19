@@ -10,7 +10,10 @@ interface Props {
 
 export function AmountInput({ amount, setAmount }: Props) {
   return (
-    <div className={css.container}>
+    <div
+      className={css.container}
+      onClick={(e) => e.preventDefault()}
+    >
       <button
         className={css.button}
         onClick={() => setAmount((prevAmount) => Math.max(prevAmount - 1, 1))}

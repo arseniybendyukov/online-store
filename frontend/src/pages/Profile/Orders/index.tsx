@@ -22,7 +22,7 @@ export function Orders() {
           },
           {
             path: OrdersNestedPaths.COMPLETED,
-            name: `Выполненные (${completedOrders.length})`,
+            name: `Не активные (${completedOrders.length})`,
           },
         ]}
       />

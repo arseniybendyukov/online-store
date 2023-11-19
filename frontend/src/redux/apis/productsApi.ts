@@ -25,7 +25,7 @@ import { composeParams, listQueryParam, optionalWithValue } from '../../utils/qu
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order', 'Reviews', 'MyReviews'],
+  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order', 'OrderDetail', 'Reviews', 'MyReviews'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -180,11 +180,20 @@ export const productsApi = createApi({
         method: 'POST',
         body: { products: data },
       }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Order', 'Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
     }),
 
     getOrderDetail: builder.query<OrderDetail, { id: string }>({
       query: ({ id }) => `order/${id}`,
+      providesTags: ['OrderDetail'],
+    }),
+
+    cancelOrder: builder.mutation<void, { id: number }>({
+      query: ({ id }) => ({
+        url: `cancel-order/${id}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['Order', 'OrderDetail'],
     }),
 
     voteOnReview: builder.mutation<void, VoteOnReviewInput>({
@@ -259,6 +268,7 @@ export const {
   useUpdateCartAmountMutation,
   useGetOrdersQuery,
   useCreateOrderMutation,
+  useCancelOrderMutation,
   useGetOrderDetailQuery,
   useCreateReviewMutation,
 } = productsApi;

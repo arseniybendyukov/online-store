@@ -316,6 +316,22 @@ class ToggleSavedView(generics.GenericAPIView):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class CancelOrderView(generics.GenericAPIView):
+  permission_classes = (permissions.IsAuthenticated,)
+
+  def patch(self, request, *args, **kwargs):
+    order = Order.objects.filter(id=self.kwargs['pk']).first()
+    if order:
+      if order.user == request.user:
+        if not order.is_cancelled:
+          order.is_cancelled = True
+          order.save()
+          return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+      return Response(status=status.HTTP_403_FORBIDDEN)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 class CartItemListView(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
   serializer_class = CartItemListSerializer
