@@ -20,3 +20,4 @@ class AppealAdmin(admin.ModelAdmin):
   @admin.display(description='Дата и время создания')
   def formatted_created_at(self, instance):
     return format_datetime(instance.created_at)
+  formatted_created_at.admin_order_field = 'created_at'

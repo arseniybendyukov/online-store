@@ -10,6 +10,21 @@
   gap: 5px;
 }
 
+.stageDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.paymentContainer {
+  display: flex;
+  max-width: 300px;
+}
+
+.paymentContainer > * {
+  flex-grow: 1;
+}
+
 .productsSection {
   display: flex;
   flex-direction: column;

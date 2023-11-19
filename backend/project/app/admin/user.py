@@ -12,4 +12,5 @@ class UserAdmin(admin.ModelAdmin):
 
   @admin.display(description='Имя и фамилия')
   def fullname(self, instance):
-    return instance.get_fullname()
+    return instance.fullname
+  fullname.admin_order_field = 'first_name'

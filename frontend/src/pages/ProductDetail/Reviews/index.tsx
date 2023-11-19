@@ -34,63 +34,70 @@ export function ProductReviews() {
       isLoading
       ? <SpinnerScreen height={300} />
       : reviews && (
-        <div className={css.container}>
-          <CreateReviewModalForm
-            isOpened={isModalOpened}
-            close={() => setIsModalOpened(false)}
-            variants={variants}
-          />
-
-          <div className={css.side}>
-            <RatingStatsBar
-              avgRating={avgRating}
-              ratings={reviews.map((review) => review.rating)}
+        reviews.length > 0
+        ? (
+          <div className={css.container}>
+            <CreateReviewModalForm
+              isOpened={isModalOpened}
+              close={() => setIsModalOpened(false)}
+              variants={variants}
             />
 
-            <Button
-              onClick={() => setIsModalOpened((prev) => !prev)}
-              state={{
-                default: {
-                  text: 'Оставить отзыв',
-                  icon: <ReviewSVG className={css.reviewSVG} />,
-                }
-              }}
-            />
-          </div>
-          <div className={css.main}>
-            <h2 className='h2'>Отзывы</h2>
-            
-            <Label label='Сортировать по' gap={10}>
-              <ArrowOrdering
-                value={ordering}
-                setValue={setOrdering}
-                options={[
-                  {
-                    name: 'Дате',
-                    param: ReviewsOrdering.Date,
-                    isDesc: false,
-                  },
-                  {
-                    name: 'Рейтингу',
-                    param: ReviewsOrdering.Rating,
-                    isDesc: true,
-                  },
-                  {
-                    name: 'Голосам',
-                    param: ReviewsOrdering.Votes,
-                    isDesc: true,
-                  },
-                ]} 
+            <div className={css.side}>
+              <RatingStatsBar
+                avgRating={avgRating}
+                ratings={reviews.map((review) => review.rating)}
               />
-            </Label>
 
-            <div className={css.reviews}>
-              {reviews.map((review) => (
-                <Review key={review.id} review={review} />
-              ))}
+              <Button
+                onClick={() => setIsModalOpened((prev) => !prev)}
+                state={{
+                  default: {
+                    text: 'Оставить отзыв',
+                    icon: <ReviewSVG className={css.reviewSVG} />,
+                  }
+                }}
+              />
+            </div>
+            <div className={css.main}>
+              <h2 className='h2'>Отзывы</h2>
+              
+              <Label label='Сортировать по' gap={10}>
+                <ArrowOrdering
+                  value={ordering}
+                  setValue={setOrdering}
+                  options={[
+                    {
+                      name: 'Дате',
+                      param: ReviewsOrdering.Date,
+                      isDesc: false,
+                    },
+                    {
+                      name: 'Рейтингу',
+                      param: ReviewsOrdering.Rating,
+                      isDesc: true,
+                    },
+                    {
+                      name: 'Голосам',
+                      param: ReviewsOrdering.Votes,
+                      isDesc: true,
+                    },
+                  ]} 
+                />
+              </Label>
+
+              <div className={css.reviews}>
+                {reviews.map((review) => (
+                  <Review key={review.id} review={review} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className='empty' style={{ minHeight: 300 }}>
+            Пока нет ни одного отзыва
+          </div>
+        )
       )
     }
   </>;

@@ -482,6 +482,7 @@ class OrderedProductListSerializer(serializers.ModelSerializer):
 
 class OrderListSerializer(serializers.ModelSerializer):
   products = OrderedProductListSerializer(many=True)
+  is_active = serializers.BooleanField()
 
   class Meta:
     model = Order
@@ -490,14 +491,27 @@ class OrderListSerializer(serializers.ModelSerializer):
       'is_active',
       'products',
       'created_at',
+      'is_cancelled',
+    )
+
+
+class StageTypeSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = OrderStageType
+    fields = (
+      'id',
+      'name',
+      'description',
+      'is_payment_stage',
     )
 
 
 class OrderStageSerializer(serializers.ModelSerializer):
+  stage_type = StageTypeSerializer()
+
   class Meta:
     model = OrderStage
     exclude = ('order',)
-    depth = 1
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):

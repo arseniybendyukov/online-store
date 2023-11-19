@@ -168,7 +168,7 @@ export interface OrderedProduct {
   sale_price: number | null;
   variant_name: string;
   amount: number;
-  origin_variant: {
+  origin_variant: null | {
     id: number;
     product: number;
   };
@@ -177,6 +177,8 @@ export interface OrderedProduct {
 interface OrderStageType {
   id: number;
   name: string;
+  description: string;
+  is_payment_stage: boolean;
 }
 
 export interface OrderStage {
@@ -192,6 +194,7 @@ export interface Order {
   products: OrderedProduct[];
   created_at: string;
   approx_delivery_date: string | null;
+  is_cancelled: boolean;
 }
 
 export interface OrderDetail extends Order {

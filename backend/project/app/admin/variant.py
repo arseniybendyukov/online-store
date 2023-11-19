@@ -15,3 +15,4 @@ class VariantAdmin(admin.ModelAdmin):
   @admin.display(description='Цена')
   def actual_price(self, instance):
     return to_price(instance.actual_price)
+  actual_price.admin_order_field = 'actual_price'

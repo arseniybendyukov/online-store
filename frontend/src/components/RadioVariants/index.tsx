@@ -4,16 +4,18 @@ import css from './index.module.css';
 
 interface Props {
   options: Variant[];
-  selectedVariant: Variant | null;
+  selectedVariantId: number | null;
   setSelectedVariantId: SetState<number | null>;
+  shouldDisplayIsInStock?: boolean;
   isTouched?: boolean;
   error?: string;
 }
 
 export function RadioVariants({
   options,
-  selectedVariant,
+  selectedVariantId,
   setSelectedVariantId,
+  shouldDisplayIsInStock=true,
   isTouched,
   error,
 }: Props) {
@@ -25,7 +27,7 @@ export function RadioVariants({
         <div
           key={variant.id}
           onClick={() => setSelectedVariantId(variant.id)}
-          className={`${css.variant} ${variant === selectedVariant ? css.selected : ''} ${!variant.is_in_stock ? css.notInStock : ''}`}
+          className={`${css.variant} ${variant.id === selectedVariantId ? css.selected : ''} ${shouldDisplayIsInStock && !variant.is_in_stock ? css.notInStock : ''}`}
         >
           {variant.name}
         </div>

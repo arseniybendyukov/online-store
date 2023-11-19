@@ -6,6 +6,7 @@ import { OrderedProductCard } from '../OrderedProductCard';
 import { Slider } from '../Slider';
 import css from './index.module.css';
 import { NavPaths, ProfileNestedPaths } from '../../navigation';
+import { OrderIsCancelled } from '../OrderIsCancelled';
 
 interface Props {
   order: IOrder;
@@ -15,6 +16,7 @@ export function Order({ order }: Props) {
   return (
     <div className={css.order}>
       <div className={css.properties}>
+        {order.is_cancelled && <OrderIsCancelled />}
         <Label label='Создан'>
           {formatDate(order.created_at)}
         </Label>

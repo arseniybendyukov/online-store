@@ -7,8 +7,15 @@ export function BoughtTogetherProducts() {
   const { boughtTogetherProducts } = useOutletContext<ProductDetailOutletContext>();
 
   return (
-    <Slider items={boughtTogetherProducts.map((product) => (
-      <ProductCard key={product.id} product={product} />
-    ))} />
+    boughtTogetherProducts.length > 0
+      ? (
+      <Slider items={boughtTogetherProducts.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))} />
+    ) : (
+      <div className='empty' style={{ minHeight: 300 }}>
+        Нет таких товаров
+      </div>
+    )
   );
 }

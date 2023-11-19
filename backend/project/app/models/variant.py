@@ -32,11 +32,15 @@ class Variant(models.Model):
     related_name='variants',
     verbose_name='Товар'
   )
+  ordering = models.PositiveSmallIntegerField(
+    default=0,
+    blank=False,
+    null=False,
+    verbose_name='Порядок',
+  )
 
   def get_price(self):
-    if self.sale_price:
-      return self.sale_price
-    return self.actual_price
+    return self.sale_price or self.actual_price
 
   def __str__(self):
     return f'{self.name}, {self.product}'
@@ -44,3 +48,4 @@ class Variant(models.Model):
   class Meta:
     verbose_name = 'Вариант товара'
     verbose_name_plural = 'Варианты товара'
+    ordering = ('ordering',)

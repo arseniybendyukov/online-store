@@ -13,3 +13,4 @@ class CartItemAdmin(admin.ModelAdmin):
   @admin.display(description='Товар')
   def product(self, instance):
     return instance.variant.product
+  product.admin_order_field = 'variant__product__name'

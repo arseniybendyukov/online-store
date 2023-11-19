@@ -7,8 +7,15 @@ export function SimilarProducts() {
   const { silimarProducts } = useOutletContext<ProductDetailOutletContext>();
 
   return (
-    <Slider items={silimarProducts.map((product) => (
-      <ProductCard key={product.id} product={product} />
-    ))} />
+    silimarProducts.length > 0
+      ? (
+      <Slider items={silimarProducts.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))} />
+    ) : (
+      <div className='empty' style={{ minHeight: 300 }}>
+        Нет таких товаров
+      </div>
+    )
   );
 }

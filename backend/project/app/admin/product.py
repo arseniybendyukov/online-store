@@ -1,15 +1,17 @@
 from django.contrib import admin
+from adminsortable2.admin import SortableTabularInline, SortableAdminBase
+from django.db.models import Avg, Count
 from app.models import Product, Variant
 from django.utils.html import format_html
 
 
-class VariantInline(admin.TabularInline):
+class VariantInline(SortableTabularInline):
   model = Variant
   extra = 1
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SortableAdminBase, admin.ModelAdmin):
   inlines = [VariantInline]
   list_display = (
     'name',
@@ -18,6 +20,15 @@ class ProductAdmin(admin.ModelAdmin):
     'rating',
     'variants_in_stock',
   )
+
+  # todo: @property (avg_rating) не может использоваться в lookup,
+  # поэтому пришлось переписать его получение через запросы
+  def get_queryset(self, request):
+    queryset = super().get_queryset(request)
+    return queryset.annotate(
+      rating=Avg('variants__reviews__rating'),
+      variants_count=Count('variants'),
+    )
 
   @admin.display(description='Категория')
   def categories_chain(self, instance):
@@ -32,6 +43,7 @@ class ProductAdmin(admin.ModelAdmin):
   @admin.display(description='Ср. рейтинг')
   def rating(self, instance):
     return instance.avg_rating
+  rating.admin_order_field = 'rating'
 
   @admin.display(description='Вариантов в наличии')
   def variants_in_stock(self, instance):
@@ -46,3 +58,4 @@ class ProductAdmin(admin.ModelAdmin):
       variants_in_stock_count,
       variants_total_count,
     )
+  variants_in_stock.admin_order_field = 'variants_count'
