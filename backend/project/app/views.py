@@ -33,12 +33,12 @@ from .serializers import (
   BrandListSerializer,
   ProductDetailSerializer,
   ReviewSerializer,
-  SavedProductVariantSerializer,
+  SavedVariantSerializer,
   MyReviewSerializer,
-  AddToCartSerializer,
-  RemoveFromCartSerializer,
+  CreateCartItemSerializer,
+  DeleteCartItemSerializer,
   CartItemListSerializer,
-  UpdateCartAmountSerializer,
+  UpdateCartItemAmountSerializer,
   UpdateUserSerializer,
   CreateOrderSerializer,
   OrderListSerializer,
@@ -262,7 +262,7 @@ class MyCountsView(generics.GenericAPIView):
 
 class SavedProductVariantsView(generics.ListAPIView):
   permission_classes = (permissions.IsAuthenticated,)
-  serializer_class = SavedProductVariantSerializer
+  serializer_class = SavedVariantSerializer
 
   def get_queryset(self):
     return self.request.user.saved_product_variants
@@ -340,20 +340,14 @@ class CartItemListView(generics.ListAPIView):
     return CartItem.objects.filter(user=self.request.user).order_by('created_at')
 
 
-class AddToCartView(generics.GenericAPIView):
+class AddToCartView(generics.CreateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
-  serializer_class = AddToCartSerializer
-
-  def post(self, request, *args, **kwargs):
-    serializer = self.get_serializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(status=status.HTTP_201_CREATED)
+  serializer_class = CreateCartItemSerializer
 
 
 class RemoveFromCartView(generics.GenericAPIView):
   permission_classes = (permissions.IsAuthenticated,)
-  serializer_class = RemoveFromCartSerializer
+  serializer_class = DeleteCartItemSerializer
 
   def delete(self, request, *args, **kwargs):
     serializer = self.get_serializer(data=request.data)
@@ -371,7 +365,7 @@ class RemoveFromCartView(generics.GenericAPIView):
 
 class UpdateCartAmountView(generics.UpdateAPIView):
   permission_classes = (permissions.IsAuthenticated,)
-  serializer_class = UpdateCartAmountSerializer
+  serializer_class = UpdateCartItemAmountSerializer
 
   def get_queryset(self):
     return CartItem.objects.filter(user=self.request.user)

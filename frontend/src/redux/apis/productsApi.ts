@@ -141,7 +141,7 @@ export const productsApi = createApi({
       providesTags: ['Cart'],
     }),
 
-    addToCart: builder.mutation<void, { variant_id: number; amount: number; }>({
+    addToCart: builder.mutation<void, { variant: number; amount: number; }>({
       query: (data) => ({
         url: `add-to-cart/`,
         method: 'POST',
@@ -235,7 +235,7 @@ export function useToggleCart({
       removeFromCart({ variant_id: variantId });
     } else {
       addToCart({
-        variant_id: variantId,
+        variant: variantId,
         amount,
       });
     }
