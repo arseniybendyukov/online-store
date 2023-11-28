@@ -28,7 +28,11 @@ export const authApi = createApi({
           body: data,
         };
       },
-      invalidatesTags: ['User', 'IsAuthenticated'],
+      invalidatesTags: (result, error) => (
+        error
+        ? ['IsAuthenticated']
+        : ['User', 'IsAuthenticated']
+      ),
       transformResponse: (response: Tokens) => response,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {

@@ -78,6 +78,8 @@ export function Registration() {
       if (!('error' in result)) {
         resetForm();
         toast('На электронную почту было отправлено письмо, пройдите верификацию!', { type: 'info', autoClose: false });
+      } else {
+        toast('Ошибка регистрации', { type: 'error' });
       }
     }
   });
