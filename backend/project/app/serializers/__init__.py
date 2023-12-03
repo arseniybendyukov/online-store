@@ -2,7 +2,7 @@ from .appeal import AppealSerializer
 from .auth import CustomJWTSerializer, ActivateEmailSerializer, ResendActivationSerializer
 from .blog_post import BlogListSerializer, BlogDetailSerializer
 from .brand import BrandSerializer, BrandListSerializer
-from .cart_item import CartItemListSerializer, CreateCartItemSerializer, UpdateCartItemAmountSerializer, DeleteCartItemSerializer
+from .cart_item import CartItemListSerializer, CreateCartItemSerializer, UpdateCartItemAmountSerializer, DeleteCartItemSerializer, CreateCartItemFromLocalOneSerializer, LocalCartItemSerializer
 from .category import CategorySerializer, CategoryListSerializer, CategoryIdsSerializer
 from .order_stage_type import OrderStageTypeSerializer
 from .order_stage import OrderStageSerializer

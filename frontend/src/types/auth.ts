@@ -30,6 +30,7 @@ export interface RegisterInput {
   first_name: string;
   last_name: string;
   password: string;
+  cart_items: { variant: number; amount: number; }[];
 }
 
 export interface LoginInput {

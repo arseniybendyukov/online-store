@@ -51,7 +51,7 @@ export function SavedProductVariantCard({
         ? (
           <AddToCartButton
             variantId={id}
-            isInCart={isInCart}
+            isInRemoteCart={isInCart}
             isInStock={isInStock}
           />
         )

@@ -36,10 +36,6 @@ export function Profile() {
                     path: ProfileNestedPaths.ORDERS,
                   },
                   {
-                    name: 'Корзина',
-                    path: ProfileNestedPaths.CART,
-                  },
-                  {
                     name: 'Сохраненное',
                     path: ProfileNestedPaths.SAVED,
                   },

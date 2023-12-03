@@ -1,0 +1,27 @@
+.container {
+  padding: 20px 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notInStockNotification {
+  color: var(--red);
+}
+
+.empty {
+  height: 400px !important;
+}
+
+.notAuthorizedNotification {
+  text-align: center;
+}

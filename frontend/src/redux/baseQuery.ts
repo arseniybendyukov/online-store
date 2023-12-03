@@ -7,13 +7,14 @@ import type {
 import { refreshToken, logout } from './slices/userSlice';
 import { Mutex } from 'async-mutex';
 import { AccessToken } from '../types/auth';
+import { getTypedStorageItem } from '../localStorageServices';
 
 const mutex = new Mutex();
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
   prepareHeaders: (headers) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getTypedStorageItem('accessToken');
 
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
@@ -40,7 +41,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           {
             url: 'token/refresh/',
             method: 'POST',
-            body: { refresh: localStorage.getItem('refreshToken') },
+            body: { refresh: getTypedStorageItem('refreshToken') },
           },
           api,
           extraOptions,

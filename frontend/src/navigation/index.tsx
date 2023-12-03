@@ -4,6 +4,7 @@ export const enum NavPaths {
   PROFILE = '/profile',
   ABOUT = '/about',
   BLOG = '/blog',
+  CART = 'cart',
   CATALOG = '/catalog',
   CONTACTS = '/contacts',
   HOW_TO_BUY = '/how-to-buy',
@@ -26,7 +27,6 @@ export const enum AuthNestedPaths {
 export const enum ProfileNestedPaths {
   ORDERS = 'orders',
   ORDER_DETAIL = 'order',
-  CART = 'cart',
   SAVED = 'saved',
   REVIEWS = 'reviews',
   PERSONAL_INFO = 'personal-info',

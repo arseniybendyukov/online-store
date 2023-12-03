@@ -51,7 +51,7 @@ from .serializers import (
   ActivateEmailSerializer,
   ResendActivationSerializer,
   UpdateAvatarSerializer,
-  
+  CartVariantSerializer,
 )
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -457,3 +457,16 @@ class BlogDetailView(generics.RetrieveAPIView):
   permission_classes = (permissions.AllowAny,)
   queryset = BlogPost.objects.all()
   serializer_class = BlogDetailSerializer
+
+
+class LocalCartVariantListView(generics.ListAPIView):
+  permission_classes = (permissions.AllowAny,)
+  serializer_class = CartVariantSerializer
+
+  def get_queryset(self):
+    variant_ids = self.request.query_params.getlist('variant_id[]', '')
+    
+    if variant_ids:
+      return Variant.objects.filter(id__in=map(int, variant_ids))
+    
+    return Variant.objects.none()

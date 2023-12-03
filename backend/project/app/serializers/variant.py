@@ -13,7 +13,7 @@ class VariantSerializer(serializers.ModelSerializer):
         user=self.context['request'].user,
         variant__id=instance.id,
       ).exists()
-    return False
+    return None
 
   def get_is_saved(self, instance):
     user =  self.context['request'].user

@@ -1,5 +1,5 @@
 import { ProductPrice } from '../ProductPrice';
-import { CartItem } from '../../types/data';
+import { CartVariant } from '../../types/data';
 import { ReactComponent as Cross } from '../../images/cross.svg';
 import { ReactComponent as Heart } from '../../images/heart.svg';
 import css from './index.module.css';
@@ -12,10 +12,17 @@ import { useDebounce } from '../../hooks';
 import { Spinner } from '../Spinner';
 import { Label } from '../Label';
 import { NotInStock } from '../NotInStock';
+import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../redux/store';
+import { removeFromLocalCart, updateAmountInLocalCart } from '../../redux/slices/localCart';
 
-interface Props extends CartItem {}
+interface Props {
+  id?: number;
+  amount: number;
+  variant: CartVariant;
+}
 
-export function CartItemCard(cartItem: Props) {
+export function CartItemCard(props: Props) {
   const {
     id: cartItemId,
     amount,
@@ -33,16 +40,22 @@ export function CartItemCard(cartItem: Props) {
         render_name: productName,
       }
     },
-  } = cartItem;
+  } = props;
 
   const [inputAmount, setInputAmount] = useState(amount);
   const debouncedAmount = useDebounce(inputAmount, 500);
 
   const [updateCartAmount] = useUpdateCartAmountMutation();
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (inputAmount !== amount) {
-      updateCartAmount({ cartItemId, amount: debouncedAmount });
+    if (cartItemId) {
+      if (inputAmount !== amount) {
+        updateCartAmount({ cartItemId, amount: debouncedAmount });
+      }
+    } else {
+      dispatch(updateAmountInLocalCart({ variantId, amount: debouncedAmount }));
     }
   }, [debouncedAmount]);
 
@@ -58,12 +71,20 @@ export function CartItemCard(cartItem: Props) {
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    toggleSaved({ variant_id: variantId });
+    if (cartItemId) {
+      toggleSaved({ variant_id: variantId });
+    } else {
+      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+    }
   }
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    removeFromCart({ variant_id: variantId });
+    if (cartItemId) {
+      removeFromCart({ variant_id: variantId });
+    } else {
+      dispatch(removeFromLocalCart({ variantId }));
+    }
   }
 
   return (

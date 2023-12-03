@@ -9,6 +9,7 @@ import { useRegisterMutation } from '../../../redux/apis/authApi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { useAppSelector } from '../../../redux/store';
 
 interface FormValues {
   firstName: string;
@@ -57,6 +58,7 @@ function validate(values: FormValues) {
 export function Registration() {
   const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
+  const localCart = useAppSelector((state) => state.localCartState.items);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -73,6 +75,10 @@ export function Registration() {
         first_name: values.firstName,
         last_name: values.lastName,
         password: values.password1,
+        cart_items: localCart.map((item) => ({
+          variant: item.variantId,
+          amount: item.amount,
+        }))
       });
 
       if (!('error' in result)) {
@@ -83,7 +89,7 @@ export function Registration() {
       }
     }
   });
-  
+
   useEffect(() => {
     if (error && 'data' in error) {
       const data = error.data as Record<string, string[]>;

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AccessToken, Tokens, User } from '../../types/auth';
+import { removeTypedStorageItem, setTypedStorageItem } from '../../localStorageServices';
 
 interface State {
   user: User | null;
@@ -18,18 +19,18 @@ export const userSlice = createSlice({
     },
 
     setTokens: (_, action: PayloadAction<Tokens>) => {
-      localStorage.setItem('accessToken', action.payload.access);
-      localStorage.setItem('refreshToken', action.payload.refresh);
+      setTypedStorageItem('accessToken', action.payload.access);
+      setTypedStorageItem('refreshToken', action.payload.refresh);
     },
 
     refreshToken: (_, action: PayloadAction<AccessToken>) => {
-      localStorage.setItem('accessToken', action.payload.access);
+      setTypedStorageItem('accessToken', action.payload.access);
     },
     
     logout: (state) => {
       state.user = null;
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      removeTypedStorageItem('accessToken');
+      removeTypedStorageItem('refreshToken');
     },
   },
 });
