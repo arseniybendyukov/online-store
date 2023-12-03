@@ -4,6 +4,7 @@ import { logout, setTokens, setUser } from '../slices/userSlice';
 import { baseQueryWithReauth } from '../baseQuery';
 import { productsApi } from './productsApi';
 import { toast } from 'react-toastify';
+import { getTypedStorageItem } from '../../localStorageServices';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -28,7 +29,11 @@ export const authApi = createApi({
           body: data,
         };
       },
-      invalidatesTags: ['User', 'IsAuthenticated'],
+      invalidatesTags: (result, error) => (
+        error
+        ? ['IsAuthenticated']
+        : ['User', 'IsAuthenticated']
+      ),
       transformResponse: (response: Tokens) => response,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
@@ -65,7 +70,7 @@ export const authApi = createApi({
         url: 'logout/',
         method: 'POST',
         body: {
-          refresh: localStorage.getItem('refreshToken') || ''
+          refresh: getTypedStorageItem('refreshToken'),
         },
       }),
       invalidatesTags: ['User', 'IsAuthenticated'],

@@ -136,7 +136,7 @@ export function ProductDetail() {
                 <div className={css.buttons}>
                   <AddToCartButton
                     variantId={selectedVariant.id}
-                    isInCart={selectedVariant.is_in_cart}
+                    isInRemoteCart={selectedVariant.is_in_cart}
                     isInStock={selectedVariant.is_in_stock}
                     amount={amount}
                   />

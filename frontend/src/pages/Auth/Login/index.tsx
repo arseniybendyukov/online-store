@@ -51,7 +51,8 @@ export function Login() {
             resetForm();
             navigate(NavPaths.PROFILE);
           }
-        });
+        })
+        .catch((e) => console.error('error'));
     }
   });
 

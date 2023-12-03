@@ -16,11 +16,13 @@ import {
   VoteOnReviewInput,
   ReviewCreationInput,
   CategoryIds,
+  CartVariant,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
 import { UserCounts } from '../../types/auth';
 import { composeParams, listQueryParam, optionalWithValue } from '../../utils/queryParams';
+import { LocalCartItem } from '../slices/localCart';
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
@@ -141,7 +143,7 @@ export const productsApi = createApi({
       providesTags: ['Cart'],
     }),
 
-    addToCart: builder.mutation<void, { variant_id: number; amount: number; }>({
+    addToCart: builder.mutation<void, { variant: number; amount: number; }>({
       query: (data) => ({
         url: `add-to-cart/`,
         method: 'POST',
@@ -213,16 +215,26 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Reviews', 'MyReviews'],
     }),
+
+    getLocalCart: builder.query<CartVariant[], { items: LocalCartItem[] }>({
+      query: ({ items }) => {
+        const variantListParams = listQueryParam('variant_id[]', items.map((item) => item.variantId));
+
+        return {
+          url: `local-cart-variants/?${variantListParams}`,
+        };
+      },
+    }),
   }),
 });
 
-export function useToggleCart({
+export function useToggleRemoteCart({
   variantId,
-  isInCart,
+  isInRemoteCart,
   amount,
 }: {
   variantId: number;
-  isInCart: boolean;
+  isInRemoteCart: boolean | null;
   amount: number;
 }) {
   const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
@@ -231,13 +243,15 @@ export function useToggleCart({
   const isLoading = isAddLoading || isRemoveLoading;
 
   function toggleCart() {
-    if (isInCart) {
-      removeFromCart({ variant_id: variantId });
-    } else {
-      addToCart({
-        variant_id: variantId,
-        amount,
-      });
+    if (isInRemoteCart !== null) {
+      if (isInRemoteCart) {
+        removeFromCart({ variant_id: variantId });
+      } else {
+        addToCart({
+          variant: variantId,
+          amount,
+        });
+      }
     }
   }
 
@@ -254,6 +268,7 @@ export const {
   useGetCategoryIdsQuery,
   useGetBrandsQuery,
   useVoteOnReviewMutation,
+  useGetLocalCartQuery,
 
   // Profile API
   useGetMyCountsQuery,

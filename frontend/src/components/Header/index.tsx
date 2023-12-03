@@ -12,7 +12,23 @@ import { useAppSelector } from '../../redux/store';
 
 export function Header() {
   const user = useAppSelector((state) => state.userState.user);
+  const localCart = useAppSelector((state) => state.localCartState.items);
   const { data, isLoading } = useGetMyCountsQuery();
+
+  let cartCount: number;
+  if (isLoading) {
+    cartCount = 0;
+  } else {
+    if (user) {
+      if (data) {
+        cartCount = data.cart_products_count;
+      } else {
+        cartCount = 0;
+      }
+    } else {
+      cartCount = localCart.length;
+    }
+  }
 
   return (
     <header className={css.header}>
@@ -28,19 +44,22 @@ export function Header() {
               }}
             />
           )}
+
+          <IconButton
+            icon={<ShoppingCart />}
+            path={`${NavPaths.CART}`}
+            counter={cartCount}
+          />
+
           {
             isLoading
             ? <Spinner size={30} thickness={3} />
             : data && <>
+              {/* todo: в header вместо сохраненных показывать профиль */}
               <IconButton
                 icon={<Heart />}
                 path={`${NavPaths.PROFILE}/${ProfileNestedPaths.SAVED}`}
                 counter={data.saved_product_variants_count}
-              />
-              <IconButton
-                icon={<ShoppingCart />}
-                path={`${NavPaths.PROFILE}/${ProfileNestedPaths.CART}`}
-                counter={data.cart_products_count}
               />
             </>
           }

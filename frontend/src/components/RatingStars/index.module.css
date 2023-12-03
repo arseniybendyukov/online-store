@@ -46,3 +46,7 @@
   width: 20px;
   height: 20px;
 }
+
+.noReviews {
+  color: var(--grey-1);
+}

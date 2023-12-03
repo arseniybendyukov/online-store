@@ -20,7 +20,7 @@ import { EmailVerification } from '../pages/Auth/EmailVerification';
 import { Profile } from '../pages/Profile';
 import { Orders } from '../pages/Profile/Orders';
 import { Saved } from '../pages/Profile/Saved';
-import { Cart } from '../pages/Profile/Cart';
+import { Cart } from '../pages/Cart';
 import { PersonalInfo } from '../pages/Profile/PersonalInfo';
 import { Reviews } from '../pages/Profile/Reviews';
 import { Active } from '../pages/Profile/Orders/Active';
@@ -69,10 +69,6 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <Navigate to={ProfileNestedPaths.PERSONAL_INFO} />
-          },
-          {
-            path: ProfileNestedPaths.CART,
-            element: <Cart />,
           },
           {
             path: ProfileNestedPaths.SAVED,
@@ -125,6 +121,10 @@ export const router = createBrowserRouter([
       {
         path: `${NavPaths.BLOG}/:id`,
         element: <BlogDetail />,
+      },
+      {
+        path: NavPaths.CART,
+        element: <Cart />,
       },
       {
         path: NavPaths.CATALOG,

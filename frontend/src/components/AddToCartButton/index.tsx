@@ -2,28 +2,38 @@ import { Button } from '../Button';
 import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
 import { ReactComponent as Check } from '../../images/check.svg';
 import css from './index.module.css';
-import { useToggleCart } from '../../redux/apis/productsApi';
-import { useAppSelector } from '../../redux/store';
+import { useToggleRemoteCart } from '../../redux/apis/productsApi';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
+import { toggleLocalCart } from '../../redux/slices/localCart';
 
 interface Props {
   variantId: number;
-  isInCart: boolean;
+  isInRemoteCart: boolean | null;
   isInStock: boolean;
   amount?: number;
 }
 
 export function AddToCartButton({
   variantId,
-  isInCart,
+  isInRemoteCart,
   isInStock,
   amount=1,
 }: Props) {
   const {
     toggleCart,
     isLoading,
-  } = useToggleCart({ variantId, isInCart, amount });
+  } = useToggleRemoteCart({ variantId, isInRemoteCart, amount });
   const user = useAppSelector((state) => state.userState.user);
+  const localCart = useAppSelector((state) => state.localCartState.items);
+  const dispatch = useAppDispatch();
+
+  let isInCart: boolean;
+  if (isInRemoteCart !== null) {
+    isInCart = isInRemoteCart;
+  } else {
+    isInCart = localCart.some((item) => item.variantId === variantId);
+  }
 
   function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -34,7 +44,7 @@ export function AddToCartButton({
       if (user) {
         toggleCart();
       } else {
-        toast('Войдите, чтобы пользоваться корзиной', { type: 'error' });
+        dispatch(toggleLocalCart({ variantId, amount }));
       }
     }
   }

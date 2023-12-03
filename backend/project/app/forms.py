@@ -4,6 +4,7 @@ from django.forms.widgets import TextInput
 from django.core.exceptions import ValidationError
 from .models import ProductTag, Order
 
+
 class TagForm(ModelForm):
   class Meta:
     model = ProductTag

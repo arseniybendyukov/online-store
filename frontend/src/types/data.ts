@@ -105,7 +105,7 @@ export interface SavedProductVariant {
   sale_price: number | null;
   percentage: number | null;
   product: VariantProduct;
-  is_in_cart: boolean;
+  is_in_cart: boolean | null;
 }
 
 export interface MyReview {
@@ -143,7 +143,7 @@ export interface CartItem {
   variant: CartVariant;
 }
 
-interface CartVariant {
+export interface CartVariant {
   id: number;
   name: string;
   is_in_stock: boolean;

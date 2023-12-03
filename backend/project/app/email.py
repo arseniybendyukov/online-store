@@ -23,7 +23,7 @@ def send_activation_email(user, request):
 
   uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
   token = token_generator.make_token(user)
-  link = f'http://{settings.FRONTEND_DOMAIN}/auth/email-verification?uidb64={uidb64}&token={token}'
+  link = f'http://{settings.MAIN_DOMAIN}/auth/email-verification?uidb64={uidb64}&token={token}'
 
   email_body = render_to_string('app/email_activation.html', {
     'user': user,

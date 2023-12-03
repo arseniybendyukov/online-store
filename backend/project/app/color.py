@@ -1,5 +1,6 @@
 from random import randint
 
+
 def get_random_blue_color():
   r = randint(0, 40)
   g = randint(90, 130)
