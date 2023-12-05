@@ -7,7 +7,7 @@ import css from './index.module.css';
 export const Banner = () => (
   <section className={css.banner}>
     <div className={css.content}>
-      <h1 className={`h1 ${css.h1}`}>Профессинальная химия для&nbsp;химчистки, клининга и дома</h1>
+      <h1 className={`h1 ${css.h1}`}>Профессиональная химия для&nbsp;химчистки, клининга и дома</h1>
       <p className={css.paragraph}>Наша компания предоставляет широкий выбор средств профессиальной химии от известных мировых и российских производителей с доставкой по Новосибирску и всей России</p>
       <div className={css.buttons}>
         <Button
