@@ -8,29 +8,29 @@ import { toast } from 'react-toastify';
 import { toggleLocalCart } from '../../redux/slices/localCart';
 
 interface Props {
+  cartItemId: number | null;
   variantId: number;
-  isInRemoteCart: boolean | null;
   isInStock: boolean;
   amount?: number;
 }
 
-export function AddToCartButton({
+export function ToggleCartButton({
+  cartItemId,
   variantId,
-  isInRemoteCart,
   isInStock,
   amount=1,
 }: Props) {
   const {
     toggleCart,
     isLoading,
-  } = useToggleRemoteCart({ variantId, isInRemoteCart, amount });
+  } = useToggleRemoteCart({ cartItemId, variantId, amount });
   const user = useAppSelector((state) => state.userState.user);
   const localCart = useAppSelector((state) => state.localCartState.items);
   const dispatch = useAppDispatch();
 
   let isInCart: boolean;
-  if (isInRemoteCart !== null) {
-    isInCart = isInRemoteCart;
+  if (user) {
+    isInCart = cartItemId !== null;
   } else {
     isInCart = localCart.some((item) => item.variantId === variantId);
   }

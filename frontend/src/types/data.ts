@@ -14,7 +14,7 @@ export interface Category {
 export interface ListProduct {
   id: number;
   render_name: string;
-  brand: Brand;
+  brand: BrandName;
   category: Category;
   tags: Tag[];
   variants: Variant[];
@@ -26,7 +26,7 @@ export interface DetailProduct {
   id: number;
   render_name: string;
   description: string;
-  brand: Brand;
+  brand: BrandName;
   category: Category;
   variants: Variant[];
   avg_rating: number;
@@ -53,10 +53,19 @@ interface ReviewUser {
   image: string | null;
 }
 
-export interface Brand {
+export interface BrandName {
   id: number;
   name: string;
+}
+
+export interface BrandImage {
+  id: number;
   image: string;
+}
+
+export interface BrandCount {
+  id: number;
+  name: string;
   count: number;
 }
 
@@ -74,7 +83,7 @@ export interface Variant {
   actual_price: number;
   sale_price: number | null;
   percentage: number | null;
-  is_in_cart: boolean;
+  cart_item_id: number | null;
   is_saved: boolean;
 }
 
@@ -105,7 +114,7 @@ export interface SavedProductVariant {
   sale_price: number | null;
   percentage: number | null;
   product: VariantProduct;
-  is_in_cart: boolean | null;
+  cart_item_id: number | null;
 }
 
 export interface MyReview {

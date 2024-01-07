@@ -58,7 +58,7 @@ export const Footer = () => {
 
           {
             isCategoryIdsLoading
-            // todo: skeleton loading
+            // TODO: skeleton loading
             ? 'Загрузка категорий...'
             : categoryIds && (
               <FooterLinksBlock
@@ -74,7 +74,7 @@ export const Footer = () => {
 
           {
             isBlogTagsLoading
-            // todo: skeleton loading
+            // TODO: skeleton loading
             ? 'Загрузка блога...'
             : blogTags && (
               <FooterLinksBlock

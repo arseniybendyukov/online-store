@@ -15,20 +15,20 @@ class CategorySerializer(serializers.ModelSerializer):
     fields = ('id', 'name', 'parent')
 
 
-class CategoryListSerializer(serializers.ModelSerializer):
+class CategoryTreeListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()
   children = serializers.SerializerMethodField()
   parents = serializers.SerializerMethodField()
 
   def get_children(self, instance):
     if instance.children.all().count() > 0:
-      return CategoryListSerializer(instance.children, many=True).data
+      return CategoryTreeListSerializer(instance.children, many=True).data
     return None
 
   def get_parents(self, instance):
     parents = instance.get_all_parents()
     if len(parents) > 0:
-      return CategoryIdsSerializer(reversed(parents), many=True).data
+      return CategoryRootSerializer(reversed(parents), many=True).data
     return None
 
   def get_count(self, instance):
@@ -47,7 +47,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
     )
 
 
-class CategoryIdsSerializer(serializers.ModelSerializer):
+class CategoryRootSerializer(serializers.ModelSerializer):
   class Meta:
     model = Category
     fields = ('id', 'name',)

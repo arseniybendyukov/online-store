@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { useResendActivationMutation } from '../../../redux/apis/authApi';
+import { toast } from 'react-toastify';
 
 interface FormValues {
   email: string;
@@ -39,6 +40,8 @@ export function EmailResend() {
 
       if (!('error' in result)) {
         setIsSubmitted(true);
+      } else {
+        toast('Произошла ошибка', { type: 'error' });
       }
     }
   });

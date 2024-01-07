@@ -1,7 +1,7 @@
 .footer {
   color: #fff;
   background: var(--main-3);
-  min-width: 1330px; /* todo: fixed container */
+  min-width: 1330px; /* TODO: fixed container */
 }
 
 .blocks {

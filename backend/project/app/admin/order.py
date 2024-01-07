@@ -64,7 +64,7 @@ class OrderAdmin(admin.ModelAdmin):
     'is_active',
   )
 
-  # todo: @property (is_active) не может использоваться в lookup,
+  # TODO: @property (is_active) не может использоваться в lookup,
   # поэтому пришлось переписать его получение через запросы
   def get_queryset(self, request):
     queryset = super().get_queryset(request)

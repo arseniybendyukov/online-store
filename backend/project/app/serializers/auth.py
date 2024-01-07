@@ -19,5 +19,5 @@ class ActivateEmailSerializer(serializers.Serializer):
   token = serializers.CharField()
 
 
-class ResendActivationSerializer(serializers.Serializer):
+class ResendEmailActivationSerializer(serializers.Serializer):
   email = serializers.EmailField()

@@ -14,7 +14,7 @@ export const authApi = createApi({
     register: builder.mutation<void, RegisterInput>({
       query(data) {
         return {
-          url: 'register/',
+          url: 'user/register/',
           method: 'POST',
           body: data,
         };
@@ -47,7 +47,7 @@ export const authApi = createApi({
     }),
 
     whoAmI: builder.query<User, void>({
-      query: () => `who-am-i/`,
+      query: () => `user/who-am-i/`,
       providesTags: ['User'],
       transformResponse: (response: User) => response,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -58,11 +58,6 @@ export const authApi = createApi({
           // ...
         }
       },
-    }),
-
-    amIAuthenticated: builder.query<boolean, void>({
-      query: () => `am-i-authenticated/`,
-      providesTags: ['IsAuthenticated'],
     }),
 
     logout: builder.mutation<void, void>({
@@ -82,7 +77,7 @@ export const authApi = createApi({
 
     updateMe: builder.mutation<void, UpdateMeInput>({
       query: (data) => ({
-        url: `update-me/`,
+        url: `user/`,
         method: 'PATCH',
         body: data,
       }),
@@ -91,7 +86,7 @@ export const authApi = createApi({
 
     updateAvatar: builder.mutation<void, FormData>({
       query: (data) => ({
-        url: `update-avatar/`,
+        url: `user/update-avatar/`,
         method: 'PATCH',
         body: data,
         formData: true,
@@ -101,7 +96,7 @@ export const authApi = createApi({
 
     activateEmail: builder.mutation<void, ActivateEmailInput>({
       query: (data) => ({
-        url: `activate-email/`,
+        url: `email/activate/`,
         method: 'POST',
         body: data,
       }),
@@ -109,7 +104,7 @@ export const authApi = createApi({
 
     resendActivation: builder.mutation<void, { email: string }>({
       query: (data) => ({
-        url: `resend-activation/`,
+        url: `email/resend/`,
         method: 'POST',
         body: data,
       }),
@@ -121,7 +116,6 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useWhoAmIQuery,
-  useAmIAuthenticatedQuery,
   useLogoutMutation,
   useUpdateMeMutation,
   useUpdateAvatarMutation,

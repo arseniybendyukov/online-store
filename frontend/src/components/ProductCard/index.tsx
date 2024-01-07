@@ -6,7 +6,7 @@ import { ProductPrice } from '../ProductPrice';
 import { HeartButton } from './HeartButton';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
-import { AddToCartButton } from '../AddToCartButton';
+import { ToggleCartButton } from '../ToggleCartButton';
 import { useToggleSavedMutation } from '../../redux/apis/productsApi';
 import { Spinner } from '../Spinner';
 import { useAppSelector } from '../../redux/store';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export function ProductCard({ product }: Props) {
-  // todo: сделать слайдер вариантов, чтобы is_saved и is_in_cart показывались не для всего продукта
+  // TODO: ?сделать слайдер вариантов?
   const [
     toggleSaved,
     { isLoading: isToggleSaveLoading},
@@ -27,20 +27,12 @@ export function ProductCard({ product }: Props) {
 
   const user = useAppSelector((state) => state.userState.user);
 
-  const inStockVariants = product.variants.filter((variant) => variant.is_in_stock);
-  const isProductInStock = !!inStockVariants.length;
-
-  let shownVariant: Variant
-  if (inStockVariants.length) {
-    shownVariant = inStockVariants[0];
-  } else {
-    shownVariant = product.variants[0];
-  }
+  const shownVariant = product.variants[0];
 
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     if (user) {
-      toggleSaved({ variant_id: shownVariant.id });
+      toggleSaved({ variantId: shownVariant.id });
     } else {
       toast('Войдите, чтобы сохранять товары', { type: 'error' });
     }
@@ -68,7 +60,7 @@ export function ProductCard({ product }: Props) {
         salePrice={shownVariant.sale_price}
       />
       {
-        isProductInStock
+        shownVariant.is_in_stock
         ? (
           <div className={css.buttons}>
             {
@@ -82,9 +74,9 @@ export function ProductCard({ product }: Props) {
               )
             }
 
-            <AddToCartButton
+            <ToggleCartButton
+              cartItemId={shownVariant.cart_item_id}
               variantId={shownVariant.id}
-              isInRemoteCart={shownVariant.is_in_cart}
               isInStock={shownVariant.is_in_stock}
             />
           </div>

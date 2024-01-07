@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
   TokenObtainPairView,
   TokenRefreshView,
@@ -7,53 +8,40 @@ from rest_framework_simplejwt.views import (
 from .serializers import CustomJWTSerializer
 from app import views
 
+
+router = DefaultRouter()
+router.register(r'blogs', views.BlogViewSet, basename='blog')
+router.register(r'brands', views.BrandViewSet, basename='brand')
+router.register(r'categories', views.CategoryViewSet, basename='category')
+router.register(r'orders', views.OrderViewSet, basename='order')
+router.register(r'cart-items', views.CartItemViewSet, basename='cart-item')
+router.register(r'private-reviews', views.PrivateReviewViewSet, basename='private-review')
+router.register(r'saved-variants', views.SavedVariantViewSet, basename='saved-variant')
+router.register(r'user', views.UserViewSet, basename='user')
+router.register(r'email', views.EmailViewSet, basename='email')
+router.register(r'tags', views.TagViewSet, basename='tag')
+
+
 urlpatterns = [
-  path('create-appeal/', views.CreateAppealView.as_view()),
+  path('', include(router.urls)),
 
-  path('register/', views.UserRegisterView.as_view()),
-  path('token/obtain/', TokenObtainPairView.as_view(serializer_class=CustomJWTSerializer)),
-  path('token/refresh/', TokenRefreshView.as_view()),
-  path('who-am-i/', views.WhoAmIView.as_view()),
-  path('am-i-authenticated/', views.AmIAuthenticated.as_view()),
-  path('logout/', TokenBlacklistView.as_view()),
-  path('update-me/', views.UpdateUserView.as_view()),
-  path('update-avatar/', views.UpdateAvatarView.as_view()),
-  path('activate-email/', views.ActivateEmailView.as_view()),
-  path('resend-activation/', views.ResendActivationView.as_view()),
-
-  path('products/', views.ProductList.as_view()),
-  path('product/<int:pk>', views.ProductDetailView.as_view()),
-  path('reviews/<int:pk>', views.ReviewListView.as_view()),
-  path('product-tags/', views.ProductTagListView.as_view()),
+  # Каталог
+  path('products/', views.ProductListView.as_view()),
+  path('products/<int:pk>', views.ProductDetailView.as_view()),
   path('min-max-price/', views.MinMaxPriceView.as_view()),
-  path('categories/', views.CategoryListView.as_view()),
-  path('category-ids/', views.CategoryIdsView.as_view()),
-  path('brands/', views.BrandListView.as_view()),
-  
-  path('my-counts/', views.MyCountsView.as_view()),
-  
-  path('saved-products/', views.SavedProductVariantsView.as_view()),
-  path('add-to-saved/', views.AddToSavedView.as_view()),
-  path('remove-from-saved/', views.RemoveFromSavedView.as_view()),
-  path('toggle-saved/', views.ToggleSavedView.as_view()),
 
-  path('my-reviews/', views.MyReviewsView.as_view()),
+  # Отзывы
+  path('public-reviews/<int:pk>', views.PublicReviewListView.as_view()),
+  path('create-vote/', views.CreateVoteView.as_view()),
 
-  path('cart/', views.CartItemListView.as_view()),
-  path('add-to-cart/', views.AddToCartView.as_view()),
-  path('remove-from-cart/', views.RemoveFromCartView.as_view()),
-  path('update-cart-amount/<int:pk>', views.UpdateCartAmountView.as_view()),
+  # Корзина
   path('local-cart-variants/', views.LocalCartVariantListView().as_view()),
 
-  path('orders/', views.OrderListView.as_view()),
-  path('create-order/', views.CreateOrderView.as_view()),
-  path('order/<int:pk>', views.OrderDetail.as_view()),
-  path('cancel-order/<int:pk>', views.CancelOrderView.as_view()),
+  # Контакты
+  path('create-appeal/', views.CreateAppealView.as_view()),
 
-  path('vote/', views.VoteView.as_view()),
-  path('create-review/', views.CreateReviewView.as_view()),
-
-  path('blog/', views.BlogListView.as_view()),
-  path('blog/<int:pk>', views.BlogDetailView.as_view()),
-  path('blog-tags/', views.BlogTagListView.as_view()),
+  # Система аутентификации
+  path('token/obtain/', TokenObtainPairView.as_view(serializer_class=CustomJWTSerializer)),
+  path('token/refresh/', TokenRefreshView.as_view()),
+  path('logout/', TokenBlacklistView.as_view()),
 ]

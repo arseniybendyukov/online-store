@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useGetBrandsQuery } from '../../../redux/apis/productsApi';
+import { useGetBrandImagesQuery } from '../../../redux/apis/productsApi';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { Slider } from '../../../components/Slider';
 
 export function Brands() {
-  const { data=[], isLoading } = useGetBrandsQuery();
+  const { data=[], isLoading } = useGetBrandImagesQuery();
 
   return (
     <section>
@@ -25,7 +25,7 @@ export function Brands() {
               >
                 <img
                   src={brand.image}
-                  alt={brand.name}
+                  alt={`brand ${brand.id}`}
                   className={`greyImg ${css.image}`}
                 />
               </Link>
