@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import Review
+from app.models import Review, Vote
 from .user import UserSmallSerializer
 
 
@@ -21,7 +21,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
-class MyReviewSerializer(serializers.ModelSerializer):
+class UserReviewSerializer(serializers.ModelSerializer):
   user = UserSmallSerializer()
   votes = serializers.ListField(source='get_votes')
   product = serializers.IntegerField(source='variant.product.id')

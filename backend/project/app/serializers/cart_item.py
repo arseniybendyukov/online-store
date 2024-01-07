@@ -56,20 +56,3 @@ class UpdateCartItemAmountSerializer(serializers.ModelSerializer):
   class Meta:
     model = CartItem
     fields = ('amount',)
-
-
-# todo: у create и delete разные подходы
-class DeleteCartItemSerializer(serializers.Serializer):
-  variant_id = serializers.IntegerField()
-
-  def validate(self, data):
-    variant = Variant.objects.get(id=data['variant_id'])
-
-    if not variant:
-      raise serializers.ValidationError('Ошибка: такого варианта товара не существует')
-    
-    cart_item = CartItem.objects.filter(variant=variant).first()
-    if not cart_item:
-      raise serializers.ValidationError('Товара нет корзине')
-    
-    return data

@@ -18,10 +18,6 @@ export interface User {
   image: string | null;
   birthdate: string  | null;
   phone_number: string  | null;
-}
-
-export interface UserCounts {
-  saved_product_variants_count: number;
   cart_products_count: number;
 }
 

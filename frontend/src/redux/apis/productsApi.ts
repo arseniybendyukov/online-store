@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import {
-  Brand,
+  BrandImage,
+  BrandCount,
   ListCategory,
   MinMax,
   ListProduct,
@@ -20,14 +21,13 @@ import {
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
-import { UserCounts } from '../../types/auth';
 import { composeParams, listQueryParam, optionalWithValue } from '../../utils/queryParams';
 import { LocalCartItem } from '../slices/localCart';
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart', 'Order', 'OrderDetail', 'Reviews', 'MyReviews'],
+  tagTypes: ['Product', 'SavedProduct', 'ProductDetail', 'Cart', 'Order', 'OrderDetail', 'Reviews', 'MyReviews'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -40,6 +40,7 @@ export const productsApi = createApi({
         brandIds=[],
         limit,
       }) => {
+        // TODO: реорганизовать query params
         const brandListParams = listQueryParam('brand_id[]', brandIds);
         const composedParams = composeParams([brandListParams]);
 
@@ -50,6 +51,7 @@ export const productsApi = createApi({
             ordering,
             tags__id: optionalWithValue(tag, 0),
             category: optionalWithValue(category, null),
+            // TODO: minPrice и maxPrice НЕ должны пропадать при нуле
             min_price: optionalWithValue(minPrice, 0),
             max_price: optionalWithValue(maxPrice, 0),
             limit,
@@ -60,7 +62,7 @@ export const productsApi = createApi({
     }),
 
     getProductDetail: builder.query<DetailProduct, { id: string }>({
-      query: ({ id }) => `product/${id}`,
+      query: ({ id }) => `products/${id}`,
       providesTags: ['ProductDetail'],
     }),
 
@@ -69,106 +71,96 @@ export const productsApi = createApi({
       ordering: string,
     }>({
       query: ({ id, ordering }) => ({
-        url: `reviews/${id}`,
+        url: `public-reviews/${id}`,
         params: { ordering },
       }),
       providesTags: ['Reviews'],
     }),
 
     getTags: builder.query<Tag[], void>({
-      query: () => `product-tags/`,
+      query: () => `tags/product/`,
     }),
 
+    // TODO: !работает неправильно: цены должны браться соответственно показанным товарам; перенести лошику на фронт!
     getMinMaxPrice: builder.query<MinMax, void>({
       query: () => `min-max-price/`,
     }),
 
+    // TODO: соответственно переименовать url
     getCategories: builder.query<ListCategory[], void>({
-      query: () => `categories/`,
+      query: () => `categories/tree/`,
     }),
 
     getCategoryIds: builder.query<CategoryIds[], void>({
-      query: () => `category-ids/`,
+      query: () => `categories/roots/`,
     }),
 
-    getBrands: builder.query<Brand[], void>({
-      query: () => `brands/`,
+    getBrandImages: builder.query<BrandImage[], void>({
+      query: () => `brands/images/`,
+    }),
+
+    getBrandCounts: builder.query<BrandCount[], void>({
+      query: () => `brands/counts/`,
     }),
 
     // Profile API
-    getMyCounts: builder.query<UserCounts, void>({
-      query: () => `my-counts/`,
-      providesTags: ['MyCounts'],
-    }),
-
     getMyReviews: builder.query<MyReview[], void>({
-      query: () => `my-reviews/`,
+      query: () => `private-reviews/`,
       providesTags: ['MyReviews'],
     }),
 
     getSavedProductVariants: builder.query<SavedProductVariant[], void>({
-      query: () => `saved-products/`,
+      query: () => `saved-variants/`,
       providesTags: ['SavedProduct'],
     }),
 
-    addToSaved: builder.mutation<void, { variant_id: number; }>({
-      query: (data) => ({
-        url: `add-to-saved/`,
+    removeFromSaved: builder.mutation<void, { variantId: number; }>({
+      query: ({ variantId }) => ({
+        url: `saved-variants/${variantId}/remove/`,
         method: 'PATCH',
-        body: data,
       }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
     }),
 
-    removeFromSaved: builder.mutation<void, { variant_id: number; }>({
-      query: (data) => ({
-        url: `remove-from-saved/`,
+    toggleSaved: builder.mutation<void, { variantId: number; }>({
+      query: ({ variantId }) => ({
+        url: `saved-variants/${variantId}/toggle/`,
         method: 'PATCH',
-        body: data,
       }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
-    }),
-
-    toggleSaved: builder.mutation<void, { variant_id: number; }>({
-      query: (data) => ({
-        url: `toggle-saved/`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
     }),
 
     getCart: builder.query<CartItem[], void>({
-      query: () => `cart/`,
+      query: () => `cart-items/`,
       providesTags: ['Cart'],
     }),
 
     addToCart: builder.mutation<void, { variant: number; amount: number; }>({
       query: (data) => ({
-        url: `add-to-cart/`,
+        url: `cart-items/`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
-    }),
-
-    // todo: переименовать все входные данные под camelCase
-    removeFromCart: builder.mutation<void, { variant_id: number; }>({
-      query: (data) => ({
-        url: `remove-from-cart/`,
-        method: 'DELETE',
-        body: data,
-      }),
-      invalidatesTags: ['Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
+      // TODO: update User (cart items count)
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
     }),
 
     updateCartAmount: builder.mutation<void, { cartItemId: number; amount: number; }>({
       query: ({ cartItemId, amount }) => ({
-        url: `update-cart-amount/${cartItemId}`,
+        url: `cart-items/${cartItemId}/`,
         method: 'PATCH',
         body: { amount },
       }),
       invalidatesTags: ['Cart'],
+    }),
+
+    // TODO: переименовать все входные данные под camelCase
+    removeFromCart: builder.mutation<void, { id: number; }>({
+      query: ({ id }) => ({
+        url: `cart-items/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
     }),
 
     getOrders: builder.query<Order[], void>({
@@ -176,23 +168,23 @@ export const productsApi = createApi({
       providesTags: ['Order'],
     }),
 
+    getOrderDetail: builder.query<OrderDetail, { id: string }>({
+      query: ({ id }) => `orders/${id}/`,
+      providesTags: ['OrderDetail'],
+    }),
+
     createOrder: builder.mutation<{ id: number }, OderedProductInput[]>({
       query: (data) => ({
-        url: `create-order/`,
+        url: `orders/`,
         method: 'POST',
         body: { products: data },
       }),
-      invalidatesTags: ['Order', 'Product', 'SavedProduct', 'MyCounts', 'ProductDetail', 'Cart'],
-    }),
-
-    getOrderDetail: builder.query<OrderDetail, { id: string }>({
-      query: ({ id }) => `order/${id}`,
-      providesTags: ['OrderDetail'],
+      invalidatesTags: ['Order', 'Product', 'SavedProduct', 'ProductDetail', 'Cart'],
     }),
 
     cancelOrder: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({
-        url: `cancel-order/${id}`,
+        url: `orders/${id}/cancel/`,
         method: 'PATCH',
       }),
       invalidatesTags: ['Order', 'OrderDetail'],
@@ -200,7 +192,7 @@ export const productsApi = createApi({
 
     voteOnReview: builder.mutation<void, VoteOnReviewInput>({
       query: (data) => ({
-        url: 'vote/',
+        url: 'create-vote/',
         method: 'POST',
         body: data,
       }),
@@ -209,7 +201,7 @@ export const productsApi = createApi({
 
     createReview: builder.mutation<void, ReviewCreationInput>({
       query: (data) => ({
-        url: 'create-review/',
+        url: 'private-reviews/',
         method: 'POST',
         body: data,
       }),
@@ -229,12 +221,12 @@ export const productsApi = createApi({
 });
 
 export function useToggleRemoteCart({
+  cartItemId,
   variantId,
-  isInRemoteCart,
   amount,
 }: {
+  cartItemId: number | null;
   variantId: number;
-  isInRemoteCart: boolean | null;
   amount: number;
 }) {
   const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
@@ -243,15 +235,13 @@ export function useToggleRemoteCart({
   const isLoading = isAddLoading || isRemoveLoading;
 
   function toggleCart() {
-    if (isInRemoteCart !== null) {
-      if (isInRemoteCart) {
-        removeFromCart({ variant_id: variantId });
-      } else {
-        addToCart({
-          variant: variantId,
-          amount,
-        });
-      }
+    if (cartItemId !== null) {
+      removeFromCart({ id: cartItemId });
+    } else {
+      addToCart({
+        variant: variantId,
+        amount,
+      });
     }
   }
 
@@ -266,15 +256,14 @@ export const {
   useGetMinMaxPriceQuery,
   useGetCategoriesQuery,
   useGetCategoryIdsQuery,
-  useGetBrandsQuery,
+  useGetBrandImagesQuery,
+  useGetBrandCountsQuery,
   useVoteOnReviewMutation,
   useGetLocalCartQuery,
 
   // Profile API
-  useGetMyCountsQuery,
   useGetMyReviewsQuery,
   useGetSavedProductVariantsQuery,
-  useAddToSavedMutation,
   useRemoveFromSavedMutation,
   useToggleSavedMutation,
   useGetCartQuery,

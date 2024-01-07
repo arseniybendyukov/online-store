@@ -1,6 +1,6 @@
 .header {
   border-bottom: 1px solid var(--grey-1);
-  min-width: 1330px; /* todo: fixed container */
+  min-width: 1330px; /* TODO: fixed container */
 }
 
 .header > div {
@@ -14,4 +14,9 @@
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+.userSVG {
+  width: 40px;
+  height: 40px;
 }

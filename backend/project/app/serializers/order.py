@@ -18,7 +18,7 @@ class OrderListSerializer(serializers.ModelSerializer):
       'is_cancelled',
     )
 
-  
+
 class OrderDetailSerializer(serializers.ModelSerializer):
   products = OrderedProductListSerializer(many=True)
   stages = OrderStageSerializer(many=True)
@@ -78,3 +78,9 @@ class CreateOrderSerializer(serializers.ModelSerializer):
   class Meta:
     model = Order
     fields = ('products',)
+
+
+class CancelOrderSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Order
+    fields = ('id',)

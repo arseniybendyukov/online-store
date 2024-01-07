@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useGetBrandsQuery, useGetCategoriesQuery, useGetMinMaxPriceQuery } from "../../../redux/apis/productsApi";
+import { useGetBrandCountsQuery } from "../../../redux/apis/productsApi";
 import { RangeInput } from "../../../components/RangeInput";
 import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
@@ -40,7 +39,7 @@ export function SidebarForm({
   const {
     data: brands,
     isLoading: isLoadingBrands,
-  } = useGetBrandsQuery();
+  } = useGetBrandCountsQuery();
 
   return (
     <div>

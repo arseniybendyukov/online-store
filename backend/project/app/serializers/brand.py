@@ -2,13 +2,19 @@ from rest_framework import serializers
 from app.models import Brand, Product
 
 
-class BrandSerializer(serializers.ModelSerializer):
+class BrandNameSerializer(serializers.ModelSerializer):
   class Meta:
     model = Brand
-    fields = '__all__'
+    fields = ('id', 'name',)
 
 
-class BrandListSerializer(serializers.ModelSerializer):
+class BrandImageListSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Brand
+    fields = ('id', 'image',)
+
+
+class BrandCountListSerializer(serializers.ModelSerializer):
   count = serializers.SerializerMethodField()
 
   def get_count(self, instance):
@@ -16,4 +22,4 @@ class BrandListSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Brand
-    fields = '__all__'
+    fields = ('id', 'name', 'count',)

@@ -2,7 +2,7 @@ import { ProductPrice } from '../ProductPrice';
 import { SavedProductVariant } from '../../types/data';
 import { ReactComponent as Cross } from '../../images/cross.svg';
 import css from './index.module.css';
-import { AddToCartButton } from '../AddToCartButton';
+import { ToggleCartButton } from '../ToggleCartButton';
 import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
 import { useRemoveFromSavedMutation } from '../../redux/apis/productsApi';
@@ -20,7 +20,7 @@ export function SavedProductVariantCard({
   actual_price: actualPrice,
   sale_price: salePrice,
   percentage,
-  is_in_cart: isInCart,
+  cart_item_id: cartItemId,
   product: {
     id: productId,
     render_name: renderName,
@@ -30,7 +30,7 @@ export function SavedProductVariantCard({
 
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    removeFromSaved({ variant_id: id });
+    removeFromSaved({ variantId: id });
   }
   
   return (
@@ -49,9 +49,9 @@ export function SavedProductVariantCard({
       {
         isInStock
         ? (
-          <AddToCartButton
+          <ToggleCartButton
+            cartItemId={cartItemId}
             variantId={id}
-            isInRemoteCart={isInCart}
             isInStock={isInStock}
           />
         )

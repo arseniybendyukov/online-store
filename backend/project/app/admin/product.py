@@ -21,7 +21,7 @@ class ProductAdmin(SortableAdminBase, admin.ModelAdmin):
     'variants_in_stock',
   )
 
-  # todo: @property (avg_rating) не может использоваться в lookup,
+  # TODO: @property (avg_rating) не может использоваться в lookup,
   # поэтому пришлось переписать его получение через запросы
   def get_queryset(self, request):
     queryset = super().get_queryset(request)

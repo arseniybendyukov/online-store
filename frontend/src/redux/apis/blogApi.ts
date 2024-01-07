@@ -9,7 +9,7 @@ export const blogApi = createApi({
   endpoints: (builder) => ({
     getBlogs: builder.query<BlogList[], { tag?: number }>({
       query: ({ tag }) => ({
-        url: `blog/`,
+        url: `blogs/`,
         params: {
           tags__id: optionalWithValue(tag, 0),
         },
@@ -17,11 +17,11 @@ export const blogApi = createApi({
     }),
 
     getBlogDetail: builder.query<BlogDetail, { id: string }>({
-      query: ({ id }) => `blog/${id}`,
+      query: ({ id }) => `blogs/${id}/`,
     }),
 
     getBlogTags: builder.query<Tag[], void>({
-      query: () => `blog-tags/`,
+      query: () => `tags/blog/`,
     }),
   }),
 });

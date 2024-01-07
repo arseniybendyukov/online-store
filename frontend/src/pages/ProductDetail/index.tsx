@@ -7,7 +7,7 @@ import { Label } from "../../components/Label";
 import { RadioVariants } from "../../components/RadioVariants";
 import { useEffect, useMemo, useState } from "react";
 import { AmountInput } from "../../components/AmountInput";
-import { AddToCartButton } from "../../components/AddToCartButton";
+import { ToggleCartButton } from "../../components/ToggleCartButton";
 import { Button } from "../../components/Button";
 import { Colors } from "../../types/common";
 import { ReactComponent as Heart } from '../../images/heart.svg';
@@ -31,7 +31,7 @@ export function ProductDetail() {
 
   const [amount, setAmount] = useState(1);
 
-  // todo: обновлять состояние под это
+  // TODO: обновлять состояние под это
   const queryParamVariant = useMemo(() => {
     const raw = searchParams.get('variant');
     return raw !== null
@@ -66,7 +66,7 @@ export function ProductDetail() {
 
     if (selectedVariant) {
       if (user) {
-        toggleSaved({ variant_id: selectedVariant.id });
+        toggleSaved({ variantId: selectedVariant.id });
       } else {
         toast('Войдите, чтобы сохранять товары', { type: 'error' });
       }
@@ -134,9 +134,9 @@ export function ProductDetail() {
               )}
               {selectedVariant && (
                 <div className={css.buttons}>
-                  <AddToCartButton
+                  <ToggleCartButton
+                    cartItemId={selectedVariant.cart_item_id}
                     variantId={selectedVariant.id}
-                    isInRemoteCart={selectedVariant.is_in_cart}
                     isInStock={selectedVariant.is_in_stock}
                     amount={amount}
                   />

@@ -6,7 +6,7 @@ from .user import User
 
 class CartItem(models.Model):
   variant = models.ForeignKey(Variant, on_delete=models.CASCADE, verbose_name='Вариант товара')
-  user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items', verbose_name='Пользователь')
   amount = models.IntegerField(default=1, validators=AMOUNT_VALIDATOR, verbose_name='Количество')
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
 

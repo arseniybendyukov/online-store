@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from app.models import User
+from app.models import User, CartItem
 from .cart_item import LocalCartItemSerializer, CreateCartItemFromLocalOneSerializer
 
 
-class UserRegisterationSerializer(serializers.ModelSerializer):
+class RegisterUserSerializer(serializers.ModelSerializer):
   cart_items = LocalCartItemSerializer(many=True)
 
   class Meta:
     model = User
-    fields = ('id', 'first_name', 'last_name', 'email', 'password', 'cart_items')
+    fields = ('id', 'first_name', 'last_name', 'email', 'password', 'cart_items',)
     extra_kwargs = {'password': {'write_only': True}}
 
   def create(self, validated_data):
@@ -31,6 +31,11 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+  cart_products_count = serializers.SerializerMethodField()
+
+  def get_cart_products_count(self, instance):
+    return CartItem.objects.filter(user=instance).count()
+
   class Meta:
     model = User
     fields = (
@@ -42,6 +47,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
       'patronymic',
       'birthdate',
       'phone_number',
+      'cart_products_count',
     )
 
 
@@ -66,7 +72,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
       'patronymic',
       'birthdate',
       'phone_number',
-      'image',
     )
 
 

@@ -1,49 +1,37 @@
 from rest_framework.filters import OrderingFilter
 from .models import Product
 
-# todo: навести порядок в этом файле
-class ProductCustomOrdering(OrderingFilter):
-  allowed_custom_filters = [
+
+def create_custom_ordering_filter(filter_objects):
+  class CustomOrdering(OrderingFilter):
+    def filter_queryset(self, request, queryset, view):
+      param = request.query_params.get(self.ordering_param)
+      for [filter_object_param, filter_object_callback] in filter_objects:
+        if param in [filter_object_param, f'-{filter_object_param}']:
+          return sorted(
+            queryset,
+            key = filter_object_callback,
+            reverse = '-' in param,
+          )
+      return queryset
+  return CustomOrdering
+
+
+ProductCustomOrdering = create_custom_ordering_filter([
+  ['rating', lambda instance: instance.avg_rating],
+  [
     'price',
-    '-price',
-    'rating',
-    '-rating',
-  ]
+    lambda instance: instance.variants.annotate(
+      price=Min(Case(
+        When(sale_price__isnull=False, then=F('sale_price')),
+        default=F('actual_price'),
+        output_field=PositiveIntegerField(),
+      ))
+    ).price
+  ],
+])
 
-  def filter_queryset(self, request, queryset, view):
-    param = request.query_params.get(self.ordering_param)
-    
-    if param in self.allowed_custom_filters:
-      if param in ['price', '-price']:
-        return sorted(
-          queryset,
-          key = lambda o: o.variants.first().get_price(),
-          reverse = '-' in param
-        )
 
-      if param in ['rating', '-rating']:
-        return sorted(
-          queryset,
-          key = lambda o: o.avg_rating,
-          reverse = '-' in param
-        )
-
-    return queryset
-
-class ReviewCustomOrdering(OrderingFilter):
-  allowed_custom_filters = [
-    'votes',
-    '-votes',
-  ]
-
-  def filter_queryset(self, request, queryset, view):
-    param = request.query_params.get(self.ordering_param)
-    
-    if param in self.allowed_custom_filters:
-      return sorted(
-        queryset,
-        key = lambda o: o.votes_count,
-        reverse = '-' in param
-      )
-
-    return queryset
+ReviewCustomOrdering = create_custom_ordering_filter([
+  ['votes', lambda instance: instance.votes_count]
+])

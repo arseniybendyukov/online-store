@@ -72,7 +72,7 @@ export function CartItemCard(props: Props) {
   function onHeartClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     if (cartItemId) {
-      toggleSaved({ variant_id: variantId });
+      toggleSaved({ variantId: variantId });
     } else {
       toast('Войдите, чтобы сохранять товары', { type: 'error' });
     }
@@ -81,7 +81,7 @@ export function CartItemCard(props: Props) {
   function onCrossClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     if (cartItemId) {
-      removeFromCart({ variant_id: variantId });
+      removeFromCart({ id: cartItemId });
     } else {
       dispatch(removeFromLocalCart({ variantId }));
     }

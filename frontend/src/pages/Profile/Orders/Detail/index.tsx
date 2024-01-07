@@ -18,7 +18,7 @@ export function OrderDetail() {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // todo: qp не сохраняется при перезагрузке
+  // TODO: qp не сохраняется при перезагрузке
   const queryParamStage = useMemo(() => {
     const raw = searchParams.get('stage');
     return raw !== null
