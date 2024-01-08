@@ -4,10 +4,10 @@ import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
 import { CategoryTree } from "../../../components/CategoryTree";
-import { ListCategory, MinMax } from "../../../types/data";
+import { TreeCategory, MinMax } from "../../../types/data";
 
 interface Props {
-  categories?: ListCategory[];
+  categories?: TreeCategory[];
   isLoadingCategories: boolean;
   selectedCategoryId: number | null;
   setSelectedCategoryId: SetState<number | null>;

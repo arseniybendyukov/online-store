@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   BrandImage,
   BrandCount,
-  ListCategory,
+  TreeCategory,
   MinMax,
   ListProduct,
   Tag,
@@ -51,7 +51,7 @@ export const productsApi = createApi({
             ordering,
             tags__id: optionalWithValue(tag, 0),
             category: optionalWithValue(category, null),
-            // TODO: minPrice и maxPrice НЕ должны пропадать при нуле
+            // TODO: !minPrice и maxPrice НЕ должны пропадать при нуле!
             min_price: optionalWithValue(minPrice, 0),
             max_price: optionalWithValue(maxPrice, 0),
             limit,
@@ -81,13 +81,13 @@ export const productsApi = createApi({
       query: () => `tags/product/`,
     }),
 
-    // TODO: !работает неправильно: цены должны браться соответственно показанным товарам; перенести лошику на фронт!
+    // TODO: !работает неправильно: цены должны браться соответственно показанным товарам; перенести логику на фронт!
     getMinMaxPrice: builder.query<MinMax, void>({
       query: () => `min-max-price/`,
     }),
 
     // TODO: соответственно переименовать url
-    getCategories: builder.query<ListCategory[], void>({
+    getCategories: builder.query<TreeCategory[], void>({
       query: () => `categories/tree/`,
     }),
 

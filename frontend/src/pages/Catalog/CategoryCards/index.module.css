@@ -1,0 +1,39 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  border: 1px solid var(--grey-1);
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.name {
+  text-align: center;
+}
+
+.count {
+  color: var(--grey-1);
+}

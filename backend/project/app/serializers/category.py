@@ -41,6 +41,7 @@ class CategoryTreeListSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'name',
+      'image',
       'count',
       'children',
       'parents',

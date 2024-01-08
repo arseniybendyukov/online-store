@@ -11,6 +11,8 @@ export function PrivateRoute({ children }: Props) {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.userState.user);
 
+  // TODO: !не работает: пользователя всегда выкидывает на /login!
+
   useEffect(() => {
     if (!user) {
       navigate(`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`);

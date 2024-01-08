@@ -1,4 +1,4 @@
-import { Category, ListCategory, Order } from '../types/data';
+import { Category, TreeCategory, Order } from '../types/data';
 
 export function getRootCategory(category: Category): string {
   if (category.parent) {
@@ -8,7 +8,7 @@ export function getRootCategory(category: Category): string {
 }
 
 
-export function findCategoryById(categories: ListCategory[], id: number | null): ListCategory | undefined {
+export function findCategoryById(categories: TreeCategory[], id: number | null): TreeCategory | undefined {
   if (id === null) {
     return undefined;
   }
@@ -26,7 +26,7 @@ export function findCategoryById(categories: ListCategory[], id: number | null):
 }
 
 
-export function getFirstParent(categories: ListCategory[], id: number) {
+export function getFirstParent(categories: TreeCategory[], id: number) {
   const category = findCategoryById(categories, id);
 
   if (category) {
