@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from 'react';
+import { useAmIAuthenticatedQuery } from '../../redux/apis/authApi';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store';
@@ -9,15 +10,14 @@ interface Props {
 
 export function PrivateRoute({ children }: Props) {
   const navigate = useNavigate();
+  const { data: isAuthenticated } = useAmIAuthenticatedQuery();
   const user = useAppSelector((state) => state.userState.user);
 
-  // TODO: !не работает: пользователя всегда выкидывает на /login!
-
   useEffect(() => {
-    if (!user) {
+    if (isAuthenticated === false) {
       navigate(`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`);
     }
-  }, [user]);
+  }, [isAuthenticated, user]);
 
   return <>{children}</>;
 }

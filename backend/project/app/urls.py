@@ -44,4 +44,5 @@ urlpatterns = [
   path('token/obtain/', TokenObtainPairView.as_view(serializer_class=CustomJWTSerializer)),
   path('token/refresh/', TokenRefreshView.as_view()),
   path('logout/', TokenBlacklistView.as_view()),
+  path('am-i-authenticated/', views.AmIAuthenticated.as_view()),
 ]

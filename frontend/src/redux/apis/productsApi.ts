@@ -3,7 +3,6 @@ import {
   BrandImage,
   BrandCount,
   TreeCategory,
-  MinMax,
   ListProduct,
   Tag,
   DetailProduct,
@@ -18,6 +17,7 @@ import {
   ReviewCreationInput,
   CategoryIds,
   CartVariant,
+  MinMax,
 } from '../../types/data';
 import { CatalogFilters } from '../../types/filters';
 import { baseQueryWithReauth } from '../baseQuery';
@@ -51,9 +51,8 @@ export const productsApi = createApi({
             ordering,
             tags__id: optionalWithValue(tag, 0),
             category: optionalWithValue(category, null),
-            // TODO: !minPrice и maxPrice НЕ должны пропадать при нуле!
-            min_price: optionalWithValue(minPrice, 0),
-            max_price: optionalWithValue(maxPrice, 0),
+            min_price: optionalWithValue(minPrice, null),
+            max_price: optionalWithValue(maxPrice, null),
             limit,
           }
         }
@@ -81,7 +80,6 @@ export const productsApi = createApi({
       query: () => `tags/product/`,
     }),
 
-    // TODO: !работает неправильно: цены должны браться соответственно показанным товарам; перенести логику на фронт!
     getMinMaxPrice: builder.query<MinMax, void>({
       query: () => `min-max-price/`,
     }),

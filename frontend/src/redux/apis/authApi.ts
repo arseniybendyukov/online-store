@@ -109,6 +109,11 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+
+    amIAuthenticated: builder.query<boolean, void>({
+      query: () => `am-i-authenticated/`,
+      providesTags: ['IsAuthenticated'],
+    }),
   }),
 });
 
@@ -121,4 +126,5 @@ export const {
   useUpdateAvatarMutation,
   useActivateEmailMutation,
   useResendActivationMutation,
+  useAmIAuthenticatedQuery,
 } = authApi;

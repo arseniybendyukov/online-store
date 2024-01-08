@@ -62,22 +62,11 @@ export function Catalog() {
   
 
   // Минимальная и максимальная цена
-  const queryParamMinPrice = useMemo(() => Number(searchParams.get('minPrice') || '0'), [searchParams]);
-  const queryParamMaxPrice = useMemo(() => Number(searchParams.get('maxPrice') || '0'), [searchParams]);
-
-  const [minPrice, setMinPrice] = useState(queryParamMinPrice);
-  const [maxPrice, setMaxPrice] = useState(queryParamMaxPrice);
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
 
   const debouncedMinPrice = useDebounce(minPrice, 500);
   const debouncedMaxPrice = useDebounce(maxPrice, 500);
-
-  useEffect(() => {
-    setMinPrice(queryParamMinPrice);
-  }, [queryParamMinPrice]);
-  
-  useEffect(() => {
-    setMaxPrice(queryParamMaxPrice);
-  }, [queryParamMaxPrice]);
 
   const {
     data: minMaxPrice,
@@ -108,8 +97,6 @@ export function Catalog() {
       ['search', debouncedSearch],
       ['ordering', ordering],
       ['tag', tag],
-      ['minPrice', debouncedMinPrice],
-      ['maxPrice', debouncedMaxPrice],
       ['brand', brandIds],
       ['category', selectedCategoryId],
     ],
@@ -167,7 +154,6 @@ export function Catalog() {
               isLoadingCategories={isLoadingCategories}
               selectedCategoryId={selectedCategoryId}
               setSelectedCategoryId={setSelectedCategoryId}
-              minMaxPrice={minMaxPrice}
               isLoadingMinMaxPrice={isLoadingMinMaxPrice}
               minPrice={minPrice}
               setMinPrice={setMinPrice}

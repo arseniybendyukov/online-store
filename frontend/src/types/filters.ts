@@ -3,8 +3,8 @@ export interface CatalogFilters {
   ordering?: CatalogOrdering;
   tag?: number;
   category?: number | null;
-  minPrice?: number;
-  maxPrice?: number;
+  minPrice?: number | null;
+  maxPrice?: number | null;
   brandIds?: number[];
   limit?: number;
 }

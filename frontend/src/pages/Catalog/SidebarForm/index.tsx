@@ -4,19 +4,18 @@ import { CheckboxSelect } from "../../../components/CheckboxSelect";
 import { SidebarSection } from "./SidebarSection";
 import { SetState } from "../../../types/common";
 import { CategoryTree } from "../../../components/CategoryTree";
-import { TreeCategory, MinMax } from "../../../types/data";
+import { TreeCategory } from "../../../types/data";
 
 interface Props {
   categories?: TreeCategory[];
   isLoadingCategories: boolean;
   selectedCategoryId: number | null;
   setSelectedCategoryId: SetState<number | null>;
-  minMaxPrice?: MinMax;
   isLoadingMinMaxPrice: boolean;
-  minPrice: number;
-  setMinPrice: SetState<number>;
-  maxPrice: number;
-  setMaxPrice: SetState<number>;
+  minPrice: number | null;
+  setMinPrice: SetState<number | null>;
+  maxPrice: number | null;
+  setMaxPrice: SetState<number | null>;
   brandIds: number[];
   setBrandIds: SetState<number[]>;
 }
@@ -26,7 +25,6 @@ export function SidebarForm({
   isLoadingCategories,
   selectedCategoryId,
   setSelectedCategoryId,
-  minMaxPrice,
   isLoadingMinMaxPrice,
   minPrice,
   setMinPrice,
@@ -47,14 +45,12 @@ export function SidebarForm({
         heading='Цена'
         isLoading={isLoadingMinMaxPrice}
       >
-        {minMaxPrice && (
-          <RangeInput
-            min={minPrice}
-            max={maxPrice}
-            setMin={setMinPrice}
-            setMax={setMaxPrice}
-          />
-        )}
+        <RangeInput
+          min={minPrice}
+          max={maxPrice}
+          setMin={setMinPrice}
+          setMax={setMaxPrice}
+        />
       </SidebarSection>
       
       <SidebarSection
