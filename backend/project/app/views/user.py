@@ -1,4 +1,4 @@
-from rest_framework import viewsets, mixins
+from rest_framework import generics, viewsets, mixins
 from app.mixins import MultiSerializerViewSetMixin
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -104,3 +104,10 @@ class EmailViewSet(MultiSerializerViewSetMixin,
       return Response(status=status.HTTP_200_OK)
     
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class AmIAuthenticated(generics.GenericAPIView):
+  permission_classes = (permissions.AllowAny,)
+  
+  def get(self, request):
+    return Response(request.user.is_authenticated)

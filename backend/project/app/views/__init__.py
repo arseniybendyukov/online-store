@@ -7,7 +7,7 @@ from .order import OrderViewSet
 from .product import ProductListView, ProductDetailView
 from .review import PublicReviewListView, PrivateReviewViewSet
 from .tags import TagViewSet
-from .user import UserViewSet, EmailViewSet
+from .user import UserViewSet, EmailViewSet, AmIAuthenticated
 from .variant import (
   SavedVariantViewSet,
   LocalCartVariantListView,
