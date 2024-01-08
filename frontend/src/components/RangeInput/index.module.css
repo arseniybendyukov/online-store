@@ -1,21 +1,32 @@
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  align-items: end;
 }
 
-.devider {
-  flex-shrink: 0;
-  display: block;
-  width: 50px;
-  height: 2px;
-  background: var(--grey-1);
+.label {
+  padding: 0 0 5px 0;
+  color: var(--grey-1);
 }
 
-.input {
-  width: 110px;
+.input,
+.empty {
   border: 1px solid var(--grey-1);
-  text-align: center;
   padding: 5px;
-  border-radius: 5px;
+}
+
+.input:first-of-type,
+.empty:first-of-type {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+
+.input:last-of-type,
+.empty:last-of-type {
+  border-radius: 0 5px 5px 0;
+}
+
+.empty {
+  height: 30px;
 }

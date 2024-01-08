@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
 
-export function useDebounce<V extends string | number>(value: V, delay: number) {
+export function useDebounce<V extends string | number | null>(value: V, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {

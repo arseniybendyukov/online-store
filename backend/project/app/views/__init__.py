@@ -14,4 +14,3 @@ from .variant import (
   MinMaxPriceView,
 )
 from .vote import CreateVoteView
-
