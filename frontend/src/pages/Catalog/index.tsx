@@ -9,6 +9,7 @@ import { CatalogOrdering } from '../../types/filters';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { useSearchParams } from 'react-router-dom';
 import { CategoryBreadCrumps } from '../../components/CategoryBreadCrumps';
+import { CategoryCards } from './CategoryCards';
 
 export function Catalog() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -141,44 +142,62 @@ export function Catalog() {
       )}
 
       <h1 className={`h1 ${css.h1}`}>Каталог товаров</h1>
+      
+      {
+        isLoadingCategories
+        ? (
+          // TODO: skeleton loading
+          <>Загрузка...</>
+        ) : (
+          categories && (
+            <CategoryCards
+              categories={categories}
+              selectedId={selectedCategoryId}
+              setSelectedId={setSelectedCategoryId}
+            />
+          )
+        )
+      }
 
-      <div className={css.content}>
-        <aside className={css.aside}>
-          <SidebarForm
-            categories={categories}
-            isLoadingCategories={isLoadingCategories}
-            selectedCategoryId={selectedCategoryId}
-            setSelectedCategoryId={setSelectedCategoryId}
-            minMaxPrice={minMaxPrice}
-            isLoadingMinMaxPrice={isLoadingMinMaxPrice}
-            minPrice={minPrice}
-            setMinPrice={setMinPrice}
-            maxPrice={maxPrice}
-            setMaxPrice={setMaxPrice}
-            brandIds={brandIds}
-            setBrandIds={setBrandIds}
-          />
-        </aside>
-        <div className={css.main}>
-          <CatalogRowForm
-            search={search}
-            setSearch={setSearch}
-            ordering={ordering}
-            setOrdering={setOrdering}
-            tag={tag}
-            setTag={setTag}
-          />
-          {
-            isLoading
-            ? <SpinnerScreen />
-            : data && (
-              <div className={css.products}>
-                {data?.map((product) => <ProductCard key={product.id} product={product} />)}
-              </div>
-            )
-          }
+      {selectedCategoryId && (
+        <div className={css.content}>
+          <aside className={css.aside}>
+            <SidebarForm
+              categories={categories}
+              isLoadingCategories={isLoadingCategories}
+              selectedCategoryId={selectedCategoryId}
+              setSelectedCategoryId={setSelectedCategoryId}
+              minMaxPrice={minMaxPrice}
+              isLoadingMinMaxPrice={isLoadingMinMaxPrice}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              brandIds={brandIds}
+              setBrandIds={setBrandIds}
+            />
+          </aside>
+          <div className={css.main}>
+            <CatalogRowForm
+              search={search}
+              setSearch={setSearch}
+              ordering={ordering}
+              setOrdering={setOrdering}
+              tag={tag}
+              setTag={setTag}
+            />
+            {
+              isLoading
+              ? <SpinnerScreen />
+              : data && (
+                <div className={css.products}>
+                  {data?.map((product) => <ProductCard key={product.id} product={product} />)}
+                </div>
+              )
+            }
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 }

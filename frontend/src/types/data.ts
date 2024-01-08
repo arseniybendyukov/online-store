@@ -97,11 +97,12 @@ export interface CategoryIds {
   name: string;
 }
 
-export interface ListCategory {
+export interface TreeCategory {
   id: number;
   name: string;
+  image: string | null;
   count: number;
-  children: ListCategory[] | null;
+  children: TreeCategory[] | null;
   parents: CategoryIds[] | null;
 }
 

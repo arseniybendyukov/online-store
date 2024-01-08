@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ListCategory } from '../../types/data';
+import { TreeCategory } from '../../types/data';
 import { findCategoryById } from '../../utils/data';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 
 interface Props {
   selectedId: number | null;
-  categories: ListCategory[];
+  categories: TreeCategory[];
 }
 
 export function CategoryBreadCrumps({

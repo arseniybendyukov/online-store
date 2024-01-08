@@ -1,9 +1,11 @@
 from django.db import models
 from itertools import chain
+import os
 
 
 class Category(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
+  image = models.ImageField(null=True, blank=True, upload_to='categories', verbose_name='Изображение')
   parent = models.ForeignKey(
     'self',
     blank=True,

@@ -1,12 +1,12 @@
 import { SetState } from '../../types/common';
-import { ListCategory } from '../../types/data';
+import { TreeCategory } from '../../types/data';
 import { Category } from './Category';
 import { ReactComponent as LongArrow } from '../../images/long-arrow.svg';
 import css from './index.module.css';
 import { findCategoryById, getFirstParent } from '../../utils/data';
 
 interface Props {
-  categories: ListCategory[];
+  categories: TreeCategory[];
   selectedId: number | null;
   setSelectedId: SetState<number | null>;
 }
@@ -18,14 +18,14 @@ export function CategoryTree({
 }: Props) {
   const selectedCategory = selectedId ? findCategoryById(categories, selectedId) : null;
   
-  let headerCategory: ListCategory | null;
+  let headerCategory: TreeCategory | null;
 
   if (selectedCategory) {
     if (selectedCategory.children) {
       headerCategory = selectedCategory;
     } else {
       if (selectedCategory.parents) {
-        headerCategory = getFirstParent(categories, selectedCategory.id) as ListCategory;
+        headerCategory = getFirstParent(categories, selectedCategory.id) as TreeCategory;
       } else {
         headerCategory = null;
       }
@@ -39,7 +39,7 @@ export function CategoryTree({
       if (categories.includes(headerCategory)) {
         setSelectedId(null)
       } else {
-        setSelectedId((getFirstParent(categories, headerCategory.id) as ListCategory).id)
+        setSelectedId((getFirstParent(categories, headerCategory.id) as TreeCategory).id)
       }
     }
   }
