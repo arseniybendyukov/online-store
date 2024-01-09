@@ -25,6 +25,12 @@ export function Hits() {
         ? <SpinnerScreen height='300px' />
         : data && (
           <Slider
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              630: { slidesPerView: 2 },
+              930: { slidesPerView: 3 },
+              1220: { slidesPerView: 4 },
+            }}
             items={data.slice(0, 4).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

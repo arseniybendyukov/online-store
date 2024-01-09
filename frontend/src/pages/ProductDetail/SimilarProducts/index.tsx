@@ -9,9 +9,17 @@ export function SimilarProducts() {
   return (
     silimarProducts.length > 0
       ? (
-      <Slider items={silimarProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))} />
+      <Slider
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          510: { slidesPerView: 2 },
+          890: { slidesPerView: 3 },
+          1170: { slidesPerView: 4 },
+        }}
+        items={silimarProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      />
     ) : (
       <div className='empty' style={{ minHeight: 300 }}>
         Нет таких товаров

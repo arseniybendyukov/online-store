@@ -41,3 +41,26 @@
 .arrowSVG path {
   fill: var(--grey-1);
 }
+
+@media (max-width: 1200px) {
+  .field {
+    height: 40px;
+  }
+  
+  .icon {
+    width: 40px;
+  }
+  
+  .input {
+    padding: 0 8px;
+  }
+  
+  .select {
+    padding: 0 30px 0 8px;
+  }
+  
+  .arrowSVG {
+    width: 20px;
+    height: 20px;
+  }
+}

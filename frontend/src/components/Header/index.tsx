@@ -1,4 +1,4 @@
-import { AuthNestedPaths, NavPaths, ProfileNestedPaths } from '../../navigation';
+import { AuthNestedPaths, NavPaths } from '../../navigation';
 import { Logo } from '../Logo';
 import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
@@ -8,6 +8,7 @@ import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
 import css from './index.module.css';
 import { useAppSelector } from '../../redux/store';
 import { Link } from 'react-router-dom';
+import { Burger } from './Burger';
 
 export function Header() {
   const user = useAppSelector((state) => state.userState.user);
@@ -47,6 +48,8 @@ export function Header() {
               />
             )
           }
+
+          <Burger />
         </div>
       </div>
     </header>

@@ -43,3 +43,46 @@
   border-color: transparent transparent var(--main-1) transparent;
   z-index: 0;
 }
+
+@media (max-width: 1200px) {
+  .spray {
+    display: none;
+  }
+}
+
+@media (max-width: 1110px) {
+  .polygon {
+    display: none;
+  }
+
+  .banner {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .content {
+    max-width: 520px;
+    gap: 15px;
+  }
+
+  .paragraph {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 580px) {
+  .content {
+    max-width: 400px;
+    gap: 10px;
+  }
+
+  .buttons {
+    display: inline-flex;
+    gap: 5px;
+  }
+
+  .button {
+    font-size: 14px !important;
+  }
+}

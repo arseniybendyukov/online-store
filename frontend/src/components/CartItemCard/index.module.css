@@ -14,7 +14,8 @@
 .majorInfo {
   width: 450px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding: 0 20px 0 0;
   gap: 10px;
 }
 
@@ -35,6 +36,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  padding: 0 0 0 20px;
 }
 
 .buttons {
@@ -64,4 +66,64 @@
 
 .heartSVG.active path {
   fill: var(--red);
+}
+
+@media (max-width: 850px) {
+  .name {
+    font-size: 16px;
+  }
+  
+  .card {
+    padding: 5px;
+  }
+
+  .majorInfo {
+    width: 450px;
+    gap: 5px;
+  }
+
+  .image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .minorInfo {
+    width: 170px;
+  }
+
+  .crossSVG {
+    width: 15px;
+    height: 15px;
+  }
+
+  .heartSVG {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 750px) {
+  .image {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 650px) {
+  .stockState {
+    display: none;
+  }
+
+  .majorInfo {
+    padding-right: 10px;
+  }
+
+  .minorInfo {
+    width: 135px;
+    padding: 0;
+  }
+
+  .oldPrice {
+    display: none;
+  }
 }

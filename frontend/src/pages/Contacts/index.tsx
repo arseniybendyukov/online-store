@@ -7,7 +7,7 @@ import css from './index.module.css';
 export function Contacts() {
   return (
     <div className={css.wrapper}>
-      <div className={css.container}>
+      <div className={`container ${css.container}`}>
         <div className={css.polygon}></div>
 
         <div className={css.modal}>

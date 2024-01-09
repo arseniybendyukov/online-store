@@ -16,7 +16,15 @@ export function Brands() {
         : (
           <Slider
             insideArrows
-            slidesPerView={6}
+            slidesPerView={2}
+            className={css.slider}
+            breakpoints={{
+              0: { slidesPerView: 2 },
+              600: { slidesPerView: 3 },
+              750: { slidesPerView: 4 },
+              950: { slidesPerView: 5 },
+              1200: { slidesPerView: 6 },
+            }}
             items={data.map(((brand) => (
               <Link
                 key={brand.id}
@@ -26,7 +34,7 @@ export function Brands() {
                 <img
                   src={brand.image}
                   alt={`brand ${brand.id}`}
-                  className={`greyImg ${css.image}`}
+                  className={css.image}
                 />
               </Link>
             )))}

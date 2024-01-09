@@ -7,15 +7,18 @@
 }
 
 .tabLink {
+  display: flex;
   flex: 1 1 0;
 }
 
 .horizontalTab {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 20px 0;
+  width: 100%;
+  padding: 20px 10px;
   box-shadow: 0px -2px 0px var(--grey-1) inset;
-  font-size: 20px;
   color: var(--grey-1);
   transition: var(--hover);
 }
@@ -36,4 +39,10 @@
   text-decoration: underline;
   background: var(--grey-2);
   transition: var(--hover);
+}
+
+@media (max-width: 600px) {
+  .tabs {
+    font-size: 14px;
+  }
 }

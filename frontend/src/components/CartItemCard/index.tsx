@@ -95,29 +95,32 @@ export function CartItemCard(props: Props) {
       <div className={css.majorInfo}>
         <img src={image} alt='product' className={`${css.image} ${!isInStock ? 'greyImg' : ''}`} />
         <div className={css.productProperties}>
-          <h4 className={`h4 ${!isInStock ? css.notInStock : ''}`}>{productName}</h4>
+          <h4 className={`h4 ${css.name} ${!isInStock ? css.notInStock : ''}`}>{productName}</h4>
           <Label label='Вариант' gap={10}>{variantName}</Label>
         </div>
       </div>
 
-      {
-        isInStock
-        ? (
-          <AmountInput
-          amount={inputAmount}
-          setAmount={setInputAmount}
-        />
-        )
-        : (
-          <NotInStock />
-        )
-      }
+      <div className={css.stockState}>
+        {
+          isInStock
+          ? (
+            <AmountInput
+            amount={inputAmount}
+            setAmount={setInputAmount}
+          />
+          )
+          : (
+            <NotInStock />
+          )
+        }
+      </div>
 
       <div className={css.minorInfo}>
         <ProductPrice
           actualPrice={isInStock ? actualPrice * amount : actualPrice}
           salePrice={isInStock ? salePrice ? salePrice * amount : null : salePrice}
           isInStock={isInStock}
+          oldPriceClassName={css.oldPrice}
         />
 
         <div className={css.buttons}>

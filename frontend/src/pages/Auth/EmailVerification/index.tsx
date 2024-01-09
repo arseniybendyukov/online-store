@@ -47,8 +47,8 @@ const Error = () => (
     <p><span className={css.error}>Произошла ошибка!</span> Возможные причины:</p>
 
     <ul className={css.list}>
-      <li>Истёк срок действия ссылки-активации. <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Выслать еще раз</Link>?</li>
-      <li>Ссылка-активация уже была исользована. Попробуйте <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войти</Link> в аккаунт.</li>
+      <li><p>Истёк срок действия ссылки-активации. <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Выслать еще раз</Link>?</p></li>
+      <li><p>Ссылка-активация уже была исользована. Попробуйте <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войти</Link> в аккаунт.</p></li>
     </ul>
   </div>
 );

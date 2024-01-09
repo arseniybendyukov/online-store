@@ -12,7 +12,7 @@ interface SocialMedia {
 
 const socialMedias: SocialMedia[] = [
   {
-    path: '#',
+    path: 'https://vk.com/proffcleanmarket',
     icon: <VK width={40} height={40} />
   },
   {

@@ -14,3 +14,9 @@
   color: var(--main-1);
   transition: var(--hover);
 }
+
+@media (max-width: 800px) {
+  .links {
+    display: none;
+  }
+}

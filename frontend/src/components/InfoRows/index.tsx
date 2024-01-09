@@ -13,10 +13,11 @@ interface Row {
 
 interface RowsProps {
   rows: Row[];
+  className?: string;
 }
 
-const Rows = ({ rows }: RowsProps) => (
-  <div className={css.rows}>
+const Rows = ({ rows, className }: RowsProps) => (
+  <div className={`${css.rows} ${className ? className : ''}`}>
     {rows.map((row, index) => (
       <div key={index} className={css.row}>
         <div className={css.rowIcon}>{row.icon}</div>
@@ -26,8 +27,13 @@ const Rows = ({ rows }: RowsProps) => (
   </div>
 );
 
-export const InfoRows = () => (
+interface InfoRowsProps {
+  className?: string;
+}
+
+export const InfoRows = ({ className }: InfoRowsProps) => (
   <Rows
+    className={className}
     rows={[
       {
         icon: <Location width={20} heigth={20} />,

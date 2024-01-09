@@ -6,6 +6,7 @@ interface Props {
   salePrice: number | null;
   percentage?: number | null;
   isInStock?: boolean;
+  oldPriceClassName?: number;
 }
 
 export function ProductPrice({
@@ -14,6 +15,7 @@ export function ProductPrice({
   salePrice,
   percentage,
   isInStock=true,
+  oldPriceClassName,
 }: Props) {
   const priceClassName = salePrice === null
     ? css.actualPrice
@@ -25,7 +27,9 @@ export function ProductPrice({
         {salePrice !== null ? salePrice : actualPrice} ₽
       </p>
       {isInStock && salePrice !== null && (
-        <p className={css.oldPrice}>{actualPrice} ₽</p>
+        <p className={`${css.oldPrice} ${oldPriceClassName ? oldPriceClassName : ''}`}>
+          {actualPrice} ₽
+        </p>
       )}
       {isInStock && percentage && (
         <p className={css.percentage}>-{percentage}%</p>

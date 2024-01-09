@@ -31,7 +31,6 @@ export function ProductDetail() {
 
   const [amount, setAmount] = useState(1);
 
-  // TODO: обновлять состояние под это
   const queryParamVariant = useMemo(() => {
     const raw = searchParams.get('variant');
     return raw !== null
@@ -48,6 +47,10 @@ export function ProductDetail() {
       setSelectedVariantId(null);
     }
   }, [selectedVariant]);
+
+  useEffect(() => {
+    setSelectedVariantId(queryParamVariant);
+  }, [queryParamVariant]);
 
   const [
     toggleSaved,
@@ -90,9 +93,12 @@ export function ProductDetail() {
       : product && (
         <div className={`container ${css.container}`}>
           <div className={css.productDetails}>
-            <div className={css.slider}>
-              <img src={selectedVariant?.image} alt={`product ${product.render_name}`} />
-            </div>
+            <ProductImage
+              image={selectedVariant?.image}
+              name={product.render_name}
+              className={css.desktopImage}
+            />
+
             <div className={css.main}>
               {!selectedVariant?.is_in_stock && <NotInStock />}
               <h1 className='h1'>{product.render_name}</h1>
@@ -105,6 +111,12 @@ export function ProductDetail() {
               </div>
 
               <Description text={product.description} />
+
+              <ProductImage
+                image={selectedVariant?.image}
+                name={product.render_name}
+                className={css.mobileImage}
+              />
 
               {selectedVariant && (
                 <ProductPrice
@@ -193,6 +205,21 @@ export function ProductDetail() {
     }
   </>;
 }
+
+interface ProductImageProps {
+  image?: string,
+  name: string,
+  className?: string,
+}
+
+const ProductImage = ({ image, name, className }: ProductImageProps) => (
+  <img
+    className={`${css.image} ${className ? className : ''}`}
+    src={image}
+    alt={`product ${name}`}
+  />
+);
+
 
 interface ReadReviewsProps {
   reviewsCount: number;

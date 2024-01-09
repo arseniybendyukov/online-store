@@ -24,7 +24,7 @@ import { Cart } from '../pages/Cart';
 import { PersonalInfo } from '../pages/Profile/PersonalInfo';
 import { Reviews } from '../pages/Profile/Reviews';
 import { Active } from '../pages/Profile/Orders/Active';
-import { Completed } from '../pages/Profile/Orders/Completed';
+import { NotActive } from '../pages/Profile/Orders/NotActive';
 import { OrderDetail } from '../pages/Profile/Orders/Detail';
 import { Contacts } from '../pages/Contacts';
 import { Blog } from '../pages/Blog';
@@ -99,8 +99,8 @@ export const router = createBrowserRouter([
                 element: <Active />,
               },
               {
-                path: OrdersNestedPaths.COMPLETED,
-                element: <Completed />,
+                path: OrdersNestedPaths.NOT_ACTIVE,
+                element: <NotActive />,
               },
             ],
           },

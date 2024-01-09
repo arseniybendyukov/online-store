@@ -42,7 +42,7 @@
 }
 
 .next.outside {
-  right: -20px;
+  right: -10px;
 }
 
 .next.inside {
@@ -54,7 +54,7 @@
 }
 
 .prev.outside {
-  left: -20px;
+  left: -10px;
 }
 
 .prev.inside {

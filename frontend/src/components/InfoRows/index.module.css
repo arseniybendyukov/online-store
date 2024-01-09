@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .rowIcon {
@@ -18,6 +19,7 @@
   height: 40px;
   border-radius: 50%;
   border: 2px solid var(--main-1);
+  flex-shrink: 0;
 }
 
 .rowIcon svg path {
