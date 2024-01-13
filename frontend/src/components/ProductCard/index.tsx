@@ -47,7 +47,11 @@ export function ProductCard({ product }: Props) {
         {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
       </div>
 
-      <img src={shownVariant.image} alt={product.render_name} />
+      <img
+        className={css.image}
+        src={shownVariant.image}
+        alt={product.render_name}
+      />
 
       <div className={css.text}>
         <p className={css.name}>{product.render_name}</p>

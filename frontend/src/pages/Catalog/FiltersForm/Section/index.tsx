@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode;
 }
 
-export function SidebarSection({
+export function Section({
   heading,
   isLoading=false,
   children,

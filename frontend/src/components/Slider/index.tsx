@@ -14,6 +14,7 @@ interface Props extends SwiperProps {
 export function Slider({
   items,
   slidesPerView=4,
+  slidesPerGroup=4,
   insideArrows=false,
   className,
   ...props
@@ -26,7 +27,7 @@ export function Slider({
       <Swiper
         className={css.swiper}
         slidesPerView={slidesPerView}
-        slidesPerGroup={4}
+        slidesPerGroup={slidesPerGroup}
         spaceBetween={10}
         modules={[Navigation]}
         navigation={{

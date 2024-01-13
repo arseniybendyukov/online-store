@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useGetProductsQuery } from '../../../redux/apis/productsApi';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
-import { useGetProductsQuery } from '../../../redux/apis/productsApi';
-import { Slider } from '../../../components/Slider';
-import { ProductCard } from '../../../components/ProductCard';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';
+import { ProductSlider } from '../../../components/ProductSlider';
 
 export function Hits() {
   const { data, isLoading } = useGetProductsQuery({ tag: Number(process.env.REACT_APP_HIT_TAG_ID) });
@@ -23,19 +22,7 @@ export function Hits() {
       {
         isLoading
         ? <SpinnerScreen height='300px' />
-        : data && (
-          <Slider
-            breakpoints={{
-              0: { slidesPerView: 1 },
-              630: { slidesPerView: 2 },
-              930: { slidesPerView: 3 },
-              1220: { slidesPerView: 4 },
-            }}
-            items={data.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          />
-        )
+        : data && <ProductSlider products={data} />
       }
     </section>
   );

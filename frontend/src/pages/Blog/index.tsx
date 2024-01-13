@@ -2,7 +2,7 @@ import { useGetBlogTagsQuery, useGetBlogsQuery } from '../../redux/apis/blogApi'
 import { BlogCard } from '../../components/BlogCard';
 import css from './index.module.css';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
-import { IconField, SelectOption } from '../../components/IconField';
+import { IconFormElement, SelectOption } from '../../components/IconFormElement';
 import { ReactComponent as Tag } from '../../images/tag.svg';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -43,7 +43,7 @@ export function Blog() {
       <div className={css.header}>
         <h1 className='h1'>Блог</h1>
 
-        <IconField
+        <IconFormElement
           icon={<Tag className={css.tagSVG} />}
           as='select'
           id='tag'

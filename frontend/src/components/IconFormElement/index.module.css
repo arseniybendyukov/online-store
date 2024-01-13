@@ -1,4 +1,4 @@
-.field {
+.container {
   position: relative;
   display: flex;
   height: 50px;
@@ -13,6 +13,12 @@
   flex-shrink: 0;
   width: 50px;
   border-right: 1px solid var(--grey-1);
+}
+
+.input,
+.select,
+.button {
+  flex-grow: 1;
 }
 
 .input {
@@ -42,8 +48,17 @@
   fill: var(--grey-1);
 }
 
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  cursor: pointer;
+  color: var(--grey-1);
+}
+
 @media (max-width: 1200px) {
-  .field {
+  .container {
     height: 40px;
   }
   

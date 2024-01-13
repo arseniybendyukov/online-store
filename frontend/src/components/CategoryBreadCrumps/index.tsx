@@ -24,8 +24,7 @@ export function CategoryBreadCrumps({
   return <>
     {selectedCategory && (
       <div className={css.container}>
-        {breadCrumbs.map((breadCrumb, index) => (
-          <div key={breadCrumb.id} className={css.elem}>
+        {breadCrumbs.map((breadCrumb, index) => <>
             <Link
               to={`${NavPaths.CATALOG}/?category=${breadCrumb.id}`}
               className={`${css.breadCrumb} ${index === breadCrumbs.length - 1 ? css.last : ''}`}
@@ -36,8 +35,8 @@ export function CategoryBreadCrumps({
             {index < breadCrumbs.length - 1 && (
               <span className={css.separator}>/</span>
             )}
-          </div>
-        ))}
+          </>
+        )}
       </div>
     )}
   </>;

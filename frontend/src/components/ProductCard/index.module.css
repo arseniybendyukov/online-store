@@ -16,6 +16,12 @@ TODO: сделать адаптив карточки товара
   height: 100%;
 }
 
+.image {
+  display: block;
+  max-height: 275px;
+  align-self: center;
+}
+
 .text {
   display: flex;
   flex-direction: column;
@@ -36,7 +42,7 @@ TODO: сделать адаптив карточки товара
 
 .buttons {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
 }
 
