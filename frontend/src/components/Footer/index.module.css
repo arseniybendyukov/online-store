@@ -1,12 +1,11 @@
 .footer {
   color: #fff;
   background: var(--main-3);
-  min-width: 1330px; /* TODO: fixed container */
 }
 
 .blocks {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(4, min-content);
   justify-content: space-between;
   padding: 30px 0;
 }
@@ -22,14 +21,40 @@
   flex-direction: column;
   gap: 5px;
   color: rgba(255, 255, 255, .5);
+  white-space: nowrap;
 }
 
 .link {
   color:rgba(255, 255, 255, .6);
   transition: var(--hover);
+  white-space: nowrap;
 }
 
 .link:hover {
   color: #fff;
   transition: var(--hover);
 }
+
+@media (max-width: 1100px) {
+  .blocks {
+    grid-template-columns: repeat(2, min-content);
+    justify-content: start;
+    row-gap: 30px;
+    column-gap: 100px;
+  }
+}
+
+@media (max-width: 800px) {
+  .blocks {
+    row-gap: 30px;
+    column-gap: 50px;
+  }
+}
+
+@media (max-width: 700px) {
+  .blocks {
+    grid-template-columns: min-content;
+    justify-content: center;
+  }
+}
+

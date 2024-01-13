@@ -4,8 +4,8 @@ import { OrdersOutletContext } from '../types';
 import { Order } from '../../../../components/Order';
 import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 
-export function Completed() {
-  const { completedOrders, isLoading } = useOutletContext<OrdersOutletContext>();
+export function NotActive() {
+  const { notActiveOrders, isLoading } = useOutletContext<OrdersOutletContext>();
 
   return <>
     {
@@ -14,9 +14,9 @@ export function Completed() {
       : (
         <div className={css.items}>
           {
-            completedOrders.length > 0
-            ? completedOrders.map((order) => <Order key={order.id} order={order} />)
-            : <div className='empty'>Нет выполненных заказов</div>
+            notActiveOrders.length > 0
+            ? notActiveOrders.map((order) => <Order key={order.id} order={order} />)
+            : <div className='empty'>Нет неактивных заказов</div>
           }
         </div>
       )

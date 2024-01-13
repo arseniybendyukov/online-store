@@ -31,7 +31,6 @@ export function ProductDetail() {
 
   const [amount, setAmount] = useState(1);
 
-  // TODO: обновлять состояние под это
   const queryParamVariant = useMemo(() => {
     const raw = searchParams.get('variant');
     return raw !== null
@@ -48,6 +47,10 @@ export function ProductDetail() {
       setSelectedVariantId(null);
     }
   }, [selectedVariant]);
+
+  useEffect(() => {
+    setSelectedVariantId(queryParamVariant);
+  }, [queryParamVariant]);
 
   const [
     toggleSaved,
@@ -90,9 +93,12 @@ export function ProductDetail() {
       : product && (
         <div className={`container ${css.container}`}>
           <div className={css.productDetails}>
-            <div className={css.slider}>
-              <img src={selectedVariant?.image} alt={`product ${product.render_name}`} />
-            </div>
+            <ProductImage
+              image={selectedVariant?.image}
+              name={product.render_name}
+              className={css.desktopImage}
+            />
+
             <div className={css.main}>
               {!selectedVariant?.is_in_stock && <NotInStock />}
               <h1 className='h1'>{product.render_name}</h1>
@@ -106,6 +112,12 @@ export function ProductDetail() {
 
               <Description text={product.description} />
 
+              <ProductImage
+                image={selectedVariant?.image}
+                name={product.render_name}
+                className={css.mobileImage}
+              />
+
               {selectedVariant && (
                 <ProductPrice
                   large
@@ -116,7 +128,15 @@ export function ProductDetail() {
               )}
               <div className={css.devider}></div>
               <Label label='Бренд'>{product.brand.name}</Label>
+              {product.brand.manufacturer_country && (
+                <Label label='Страна производитель'>
+                  {product.brand.manufacturer_country.name}
+                </Label>
+              )}
               <Label label='Категория'>{getRootCategory(product.category)}</Label>
+              {product.ph_level && (
+                <Label label='Уровень pH'>{product.ph_level}</Label>
+              )}
               <Label label='Вариант товара'>
                 <RadioVariants
                   options={product.variants}
@@ -193,6 +213,21 @@ export function ProductDetail() {
     }
   </>;
 }
+
+interface ProductImageProps {
+  image?: string,
+  name: string,
+  className?: string,
+}
+
+const ProductImage = ({ image, name, className }: ProductImageProps) => (
+  <img
+    className={`${css.image} ${className ? className : ''}`}
+    src={image}
+    alt={`product ${name}`}
+  />
+);
+
 
 interface ReadReviewsProps {
   reviewsCount: number;

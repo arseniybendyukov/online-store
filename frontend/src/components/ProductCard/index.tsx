@@ -46,19 +46,28 @@ export function ProductCard({ product }: Props) {
       <div className={css.tags}>
         {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
       </div>
-      <img src={shownVariant.image} alt={product.render_name} />
+
+      <img
+        className={css.image}
+        src={shownVariant.image}
+        alt={product.render_name}
+      />
+
       <div className={css.text}>
         <p className={css.name}>{product.render_name}</p>
         <p className={css.category}>{getRootCategory(product.category)}</p>
       </div>
+
       <RatingStars
         avgRating={product.avg_rating}
         reviewsCount={product.reviews_count}
       />
+
       <ProductPrice
         actualPrice={shownVariant.actual_price}
         salePrice={shownVariant.sale_price}
       />
+      
       {
         shownVariant.is_in_stock
         ? (

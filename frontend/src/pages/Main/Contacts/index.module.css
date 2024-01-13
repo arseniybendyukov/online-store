@@ -25,3 +25,26 @@
   align-items: center;
   justify-content: space-between;
 }
+
+@media (max-width: 1000px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .infoRows {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 850px) {
+  .infoRows {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 850px) {
+  .infoRows {
+    grid-template-columns: 1fr !important;
+  }
+}

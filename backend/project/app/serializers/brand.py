@@ -2,10 +2,11 @@ from rest_framework import serializers
 from app.models import Brand, Product
 
 
-class BrandNameSerializer(serializers.ModelSerializer):
+class BrandSerializer(serializers.ModelSerializer):
   class Meta:
     model = Brand
-    fields = ('id', 'name',)
+    fields = ('id', 'name', 'manufacturer_country',)
+    depth = 1
 
 
 class BrandImageListSerializer(serializers.ModelSerializer):

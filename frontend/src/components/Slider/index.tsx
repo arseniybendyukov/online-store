@@ -1,30 +1,33 @@
 import { ReactNode, useId } from 'react';
 import css from './index.module.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, SwiperProps } from 'swiper/react';
 import { Navigation } from 'swiper';
 import 'swiper/swiper-bundle.css';
 import { ReactComponent as Arrow } from '../../images/arrow.svg';
 
-interface Props {
+interface Props extends SwiperProps {
   items: ReactNode[];
-  slidesPerView?: number;
   insideArrows?: boolean;
+  className?: string;
 }
 
 export function Slider({
   items,
   slidesPerView=4,
+  slidesPerGroup=4,
   insideArrows=false,
+  className,
+  ...props
 }: Props) {
   const nextArrowId = useId();
   const prevArrowId = useId();
 
   return (
-    <div className={`${css.wrapper} ${insideArrows ? css.inside : ''}`}>
+    <div className={`${css.wrapper} ${insideArrows ? css.inside : ''} ${className ? className : ''}`}>
       <Swiper
         className={css.swiper}
         slidesPerView={slidesPerView}
-        slidesPerGroup={4}
+        slidesPerGroup={slidesPerGroup}
         spaceBetween={10}
         modules={[Navigation]}
         navigation={{
@@ -32,6 +35,7 @@ export function Slider({
           prevEl: `[id="${prevArrowId}"]`,
           disabledClass: css.disabled,
         }}
+        {...props}
       >
         {items.map((item, index) => (
           <SwiperSlide key={index}>{item}</SwiperSlide>

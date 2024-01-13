@@ -1,14 +1,14 @@
 .wrapper {
   overflow: hidden;
-  min-width: 1330px; /* TODO: fixed container */
+  position: relative;
 }
 
 .container {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .polygon {
@@ -24,7 +24,7 @@
 }
 
 .modal {
-  width: 1100px;
+  max-width: 1100px;
   border-radius: 10px;
   box-shadow: var(--shadow);
   background: #FFF;
@@ -32,7 +32,7 @@
 
 .main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px;
 }
@@ -58,6 +58,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 30px;
   border-top: 1px solid var(--grey-1);
   padding: 20px;
+}
+
+@media (max-width: 1050px) {
+  .main {
+    grid-template-columns: 1fr 400px;
+  }
+}
+
+@media (max-width: 850px) {
+  .main {
+    grid-template-columns: 1fr 350px;
+  }
+}
+
+@media (max-width: 750px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .footer {
+    display: none;
+  }
 }

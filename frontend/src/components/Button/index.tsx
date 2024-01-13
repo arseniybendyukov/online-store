@@ -66,13 +66,21 @@ export function Button({
   if (props.path) {
     return (
       <Link to={props.path}>
-        <Content color={color} outlineColor={outlineColor} {...props} />
+        <Content
+          color={color}
+          outlineColor={outlineColor}
+          {...props}
+        />
       </Link>
     );
   } else {
     return (
       <button onClick={props.onClick} type={props.type} disabled={!!props.isLoading}>
-        <Content color={color} outlineColor={outlineColor} {...props} />
+        <Content
+          color={color}
+          outlineColor={outlineColor}
+          {...props}
+        />
       </button>
     );
   }
@@ -118,13 +126,9 @@ function Content(props: Props & { color: Colors, outlineColor: Colors }) {
       </div>
 
       {!props.isLoading && (
-        <div className={css.icon}>
-          {
-            props.isActive
-            ? props.state.active.icon
-            : props.state.default.icon
-          }
-        </div>
+        (props.isActive && props.state.active.icon) ? <div className={css.icon}>{props.state.active.icon}</div>
+        : (!props.isActive && props.state.default.icon) ? <div className={css.icon}>{props.state.default.icon}</div>
+        : undefined
       )}
     </div>
   );

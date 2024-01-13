@@ -1,8 +1,9 @@
 import { ChangeEvent } from 'react';
 import { useGetTagsQuery } from '../../../redux/apis/productsApi';
-import { IconField, SelectOption } from '../../../components/IconField';
+import { IconFormElement, SelectOption } from '../../../components/IconFormElement';
 import { ReactComponent as Search } from '../../../images/search.svg';
 import { ReactComponent as Filter } from '../../../images/filter.svg';
+import { ReactComponent as Sort } from '../../../images/sort.svg';
 import { ReactComponent as Tag } from '../../../images/tag.svg';
 import css from './index.module.css';
 import { SetState } from '../../../types/common';
@@ -28,6 +29,7 @@ const orderingOptions: SelectOption<CatalogOrdering>[] = [
 ];
 
 interface Props {
+  openFilters: () => void;
   search: string;
   setSearch: SetState<string>;
   ordering: CatalogOrdering;
@@ -37,6 +39,7 @@ interface Props {
 }
 
 export function CatalogRowForm({
+  openFilters,
   search,
   setSearch,
   ordering,
@@ -59,38 +62,47 @@ export function CatalogRowForm({
 
   return (
     <form className={css.form} onSubmit={(e) => e.preventDefault()}>
-      <IconField
+      <IconFormElement
         as='input'
-        icon={<Search className={css.svg} />}
         className={css.search}
+        icon={<Search className={css.svg} />}
         id='search'
         name='search'
-        type='text'
-        placeholder='Найти товар по названию'
-        value={search}
         onChange={(e: ChangeEvent<HTMLInputElement>) => (
           setSearch(e.target.value)
         )}
+        placeholder='Найти товар по названию'
+        type='text'
+        value={search}
       />
 
-      <IconField
-        icon={<Filter className={`${css.svg} ${isReversedOrdering ? css.reversed : ''}`} />}
+      <IconFormElement
+        as='button'
+        className={css.filter}
+        icon={<Filter className={css.svg} />}
+        onClick={openFilters}
+        text='Фильтры'
+      />
+
+      <IconFormElement
         as='select'
+        className={css.ordering}
+        icon={<Sort className={`${css.svg} ${isReversedOrdering ? css.reversed : ''}`} />}
         id='ordering'
         name='ordering'
         options={orderingOptions}
-        value={ordering}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => (
           setOrdering(e.target.value as CatalogOrdering)
         )}
+        value={ordering}
       />
 
-      <IconField
-        icon={<Tag className={css.tagSVG} />}
+      <IconFormElement
         as='select'
+        className={css.tag}
+        icon={<Tag className={css.tagSVG} />}
         id='tag'
         name='tag'
-        value={tag}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => (
           setTag(Number(e.target.value))
         )}
@@ -99,6 +111,7 @@ export function CatalogRowForm({
           ? [{ label: 'Загрузка...', value: '0' }]
           : tagOptions
         }
+        value={tag}
       />
     </form>
   );

@@ -1,5 +1,6 @@
 from rest_framework.filters import OrderingFilter
 from .models import Product
+from django.db.models import Min, Case, When, F, PositiveIntegerField
 
 
 def create_custom_ordering_filter(filter_objects):
@@ -21,13 +22,13 @@ ProductCustomOrdering = create_custom_ordering_filter([
   ['rating', lambda instance: instance.avg_rating],
   [
     'price',
-    lambda instance: instance.variants.annotate(
+    lambda instance: instance.variants.aggregate(
       price=Min(Case(
         When(sale_price__isnull=False, then=F('sale_price')),
         default=F('actual_price'),
         output_field=PositiveIntegerField(),
       ))
-    ).price
+    )['price']
   ],
 ])
 

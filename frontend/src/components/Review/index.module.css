@@ -43,3 +43,7 @@
 .starSVG path {
   stroke: var(--main-1);
 }
+
+.reviewText {
+  word-break: break-word;
+}

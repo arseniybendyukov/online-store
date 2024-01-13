@@ -2,8 +2,9 @@
 .elem {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 5px;
-  margin-bottom: 5px;
+  row-gap: 2px;
 }
 
 .breadCrumb {

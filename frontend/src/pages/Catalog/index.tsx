@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDebounce, useSyncQueryParam } from '../../hooks';
 import { useGetCategoriesQuery, useGetMinMaxPriceQuery, useGetProductsQuery } from '../../redux/apis/productsApi';
-import { SidebarForm } from './SidebarForm';
+import { FiltersForm } from './FiltersForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';
 import css from './index.module.css';
@@ -12,6 +12,7 @@ import { CategoryBreadCrumps } from '../../components/CategoryBreadCrumps';
 import { CategoryCards } from './CategoryCards';
 
 export function Catalog() {
+  const [isFormOpened, setIsFormOpened] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Поиск
@@ -148,23 +149,24 @@ export function Catalog() {
 
       {selectedCategoryId && (
         <div className={css.content}>
-          <aside className={css.aside}>
-            <SidebarForm
-              categories={categories}
-              isLoadingCategories={isLoadingCategories}
-              selectedCategoryId={selectedCategoryId}
-              setSelectedCategoryId={setSelectedCategoryId}
-              isLoadingMinMaxPrice={isLoadingMinMaxPrice}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-              brandIds={brandIds}
-              setBrandIds={setBrandIds}
-            />
-          </aside>
+          <FiltersForm
+            isOpened={isFormOpened}
+            close={() => setIsFormOpened(false)}
+            categories={categories}
+            isLoadingCategories={isLoadingCategories}
+            selectedCategoryId={selectedCategoryId}
+            setSelectedCategoryId={setSelectedCategoryId}
+            isLoadingMinMaxPrice={isLoadingMinMaxPrice}
+            minPrice={minPrice}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            brandIds={brandIds}
+            setBrandIds={setBrandIds}
+          />
           <div className={css.main}>
             <CatalogRowForm
+              openFilters={() => setIsFormOpened(true)}
               search={search}
               setSearch={setSearch}
               ordering={ordering}

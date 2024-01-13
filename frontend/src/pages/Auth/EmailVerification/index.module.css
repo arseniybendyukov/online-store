@@ -14,9 +14,15 @@
   color: var(--green);
 }
 
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .list li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
 }
 
@@ -26,4 +32,6 @@
   height: 5px;
   border-radius: 50%;
   background: black;
+  flex-shrink: 0;
+  transform: translateY(5px);
 }

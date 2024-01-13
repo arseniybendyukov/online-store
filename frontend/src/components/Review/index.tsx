@@ -73,7 +73,7 @@ export function Review({ review }: Props) {
           </div>
         </div>
 
-        <p>{review.text}</p>
+        <p className={css.reviewText}>{review.text}</p>
 
         <VotesCounter
           votes={review.votes}

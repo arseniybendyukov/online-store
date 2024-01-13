@@ -10,6 +10,9 @@ export function Map({ className }: Props) {
     <YMap
       width={'auto'}
       height={'auto'}
+      style={{
+        minHeight: 230
+      }}
       defaultState={{
         center: MAP_COORDS,
         zoom: MAP_ZOOM,

@@ -62,7 +62,7 @@ export function ProductReviews() {
             <div className={css.main}>
               <h2 className='h2'>Отзывы</h2>
               
-              <Label label='Сортировать по' gap={10}>
+              <Label label='Сортировка по' gap={10}>
                 <ArrowOrdering
                   value={ordering}
                   setValue={setOrdering}

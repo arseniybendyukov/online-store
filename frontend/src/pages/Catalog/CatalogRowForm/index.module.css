@@ -1,11 +1,16 @@
 .form {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .search {
   width: 100%;
+}
+
+.filter {
+  display: none;
+  width: 131px;
 }
 
 .svg {
@@ -29,4 +34,49 @@
 .tagSVG path {
   stroke: var(--grey-1);
   stroke-width: 5px;
+}
+
+@media (max-width: 1080px) {
+  .form {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .search {
+    width: calc(100% - 137px);
+  }
+
+  .filter {
+    display: flex;
+  }
+
+  .ordering {
+    width: calc(60% - 3px);
+  }
+
+  .tag {
+    width: calc(40% - 3px);
+  }
+}
+
+@media (max-width: 490px) {
+  .search {
+    width: 100%;
+    order: 1;
+  }
+
+  .filter {
+    display: flex;
+    order: 2;
+  }
+
+  .ordering {
+    width: calc(100%);
+    order: 3;
+  }
+  
+  .tag {
+    width: calc(100% - 137px);
+    order: 2;
+  }
 }

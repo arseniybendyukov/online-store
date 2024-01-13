@@ -8,7 +8,7 @@ export function Orders() {
   const { data = [], isLoading } = useGetOrdersQuery();
   
   const activeOrders = data.filter((order) => order.is_active);
-  const completedOrders = data.filter((order) => !order.is_active);
+  const notActiveOrders = data.filter((order) => !order.is_active);
 
   return (
     <div className={css.content}>
@@ -21,8 +21,8 @@ export function Orders() {
             name: `Активные (${activeOrders.length})`,
           },
           {
-            path: OrdersNestedPaths.COMPLETED,
-            name: `Не активные (${completedOrders.length})`,
+            path: OrdersNestedPaths.NOT_ACTIVE,
+            name: `Неактивные (${notActiveOrders.length})`,
           },
         ]}
       />
@@ -30,7 +30,7 @@ export function Orders() {
       <Outlet
         context={{
           activeOrders,
-          completedOrders,
+          notActiveOrders,
           isLoading,
         }}
       />

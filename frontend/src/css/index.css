@@ -32,9 +32,7 @@ body {
 }
 
 .container {
-  /* max-width: calc(1300px + 30px); */
-  width: calc(1300px + 30px); /* TODO: fixed container */
-  
+  max-width: calc(1300px + 30px);
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -86,7 +84,7 @@ button {
 .ibg {
   position: relative;
   overflow: hidden;
-  background: var(--grey-1); /* default color */
+  background: #fff; /* default color */
 }
 
 .ibg img {
@@ -101,4 +99,56 @@ button {
 .greyImg {
   -webkit-filter: grayscale(100%);
           filter: grayscale(100%);
+}
+
+@media (max-width: 1270px) {
+  body {
+    font-size: 16px;
+  }
+
+  .h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+  
+  .h2 {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .h3 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  
+  .h4 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 800px) {
+  body {
+    font-size: 15px;
+  }
+
+  .h1 {
+    font-size: 33px;
+    font-weight: 700;
+  }
+  
+  .h2 {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  
+  .h3 {
+    font-size: 21px;
+    font-weight: 700;
+  }
+  
+  .h4 {
+    font-size: 18px;
+    font-weight: 700;
+  }
 }

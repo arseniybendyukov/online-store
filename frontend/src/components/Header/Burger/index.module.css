@@ -1,0 +1,99 @@
+.burger {
+  display: flex;
+  --transition: all 0.3s ease-in;
+}
+
+.buttonPlaceholder {
+  display: none;
+  width: 40px;
+  height: 30px;
+}
+
+.button {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  padding: 5px;
+  box-sizing: content-box;
+  z-index: 101;
+}
+
+.burger.opened .button {
+  position: fixed;
+  top: 25px;
+  right: 15px;
+}
+
+.burger.opened .buttonPlaceholder {
+  display: block;
+}
+
+.button span {
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 2px;
+  border-radius: 5px;
+  background: #000;
+  transition: var(--transition);
+}
+
+.button span:first-of-type {
+  top: 5px;
+}
+
+.burger.opened .button span:first-of-type {
+  background: #fff;
+  transform: rotate(45deg);
+  top: 14px;
+  transition: var(--transition);
+}
+
+.button span:nth-of-type(2) {
+  top: 14px;
+}
+
+.burger.opened .button span:nth-of-type(2) {
+  transform: scale(0);
+  transition: var(--transition);
+}
+
+.button span:last-of-type {
+  bottom: 5px;
+}
+
+.burger.opened .button span:last-of-type {
+  background: #fff;
+  transform: rotate(-45deg);
+  bottom: 14px;
+  transition: var(--transition);
+}
+
+.burgerLinks {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100vw;
+  height: 100vh;
+  top: -100vh;
+  left: 0;
+  background: rgba(0, 0, 0, .9);
+  color: #fff;
+  font-size: 24px;
+  z-index: 100;
+  transition: var(--transition);
+}
+
+.burger.opened .burgerLinks {
+  top: 0;
+  transition: var(--transition);
+}
+
+@media (min-width: 800px) {
+  .burger {
+    display: none;
+  }
+}

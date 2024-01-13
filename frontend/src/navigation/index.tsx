@@ -1,3 +1,5 @@
+import { NamedLink } from "../types/common";
+
 export const enum NavPaths {
   MAIN = '/',
   AUTH = '/auth',
@@ -34,5 +36,28 @@ export const enum ProfileNestedPaths {
 
 export const enum OrdersNestedPaths {
   ACTIVE = 'active',
-  COMPLETED = 'completed',
+  NOT_ACTIVE = 'not-active',
 }
+
+export const headerLinks: NamedLink<NavPaths>[] = [
+  {
+    path: NavPaths.ABOUT,
+    name: 'О нас',
+  },
+  {
+    path: NavPaths.BLOG,
+    name: 'Блог',
+  },
+  {
+    path: NavPaths.CATALOG,
+    name: 'Каталог',
+  },
+  {
+    path: NavPaths.CONTACTS,
+    name: 'Контакты',
+  },
+  {
+    path: NavPaths.HOW_TO_BUY,
+    name: 'Как купить',
+  },
+];
