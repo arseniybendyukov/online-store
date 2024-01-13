@@ -3,14 +3,14 @@ from django.db.models import Case, When, F, PositiveIntegerField
 from app.models import Product
 from .variant import VariantSerializer
 from .category import CategorySerializer
-from .brand import BrandNameSerializer
+from .brand import BrandSerializer
 from .tags import ProductTagSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
   render_name = serializers.CharField()
   category = CategorySerializer()
-  brand = BrandNameSerializer()
+  brand = BrandSerializer()
   avg_rating = serializers.FloatField()
   reviews_count = serializers.IntegerField(source='reviews.count')
 

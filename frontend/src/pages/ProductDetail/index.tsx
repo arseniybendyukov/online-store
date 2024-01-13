@@ -128,7 +128,15 @@ export function ProductDetail() {
               )}
               <div className={css.devider}></div>
               <Label label='Бренд'>{product.brand.name}</Label>
+              {product.brand.manufacturer_country && (
+                <Label label='Страна производитель'>
+                  {product.brand.manufacturer_country.name}
+                </Label>
+              )}
               <Label label='Категория'>{getRootCategory(product.category)}</Label>
+              {product.ph_level && (
+                <Label label='Уровень pH'>{product.ph_level}</Label>
+              )}
               <Label label='Вариант товара'>
                 <RadioVariants
                   options={product.variants}

@@ -26,6 +26,13 @@ class Product(models.Model):
     blank=True,
     verbose_name='Товары, покупаемые с вместе этим'
   )
+  ph_level = models.DecimalField(
+    null=True,
+    blank=True,
+    max_digits=3,
+    decimal_places=1,
+    verbose_name='Уровень pH',
+  )
 
   @property
   def render_name(self):

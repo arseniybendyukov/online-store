@@ -3,6 +3,7 @@ from .blog_post import BlogPost
 from .brand import Brand
 from .cart_item import CartItem
 from .category import Category
+from .manufacturer_country import ManufacturerCountry
 from .order_stage_type import OrderStageType
 from .order_stage import OrderStage
 from .order import Order

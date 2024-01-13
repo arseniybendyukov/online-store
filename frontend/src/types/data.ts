@@ -14,7 +14,7 @@ export interface Category {
 export interface ListProduct {
   id: number;
   render_name: string;
-  brand: BrandName;
+  brand: Brand;
   category: Category;
   tags: Tag[];
   variants: Variant[];
@@ -26,8 +26,9 @@ export interface DetailProduct {
   id: number;
   render_name: string;
   description: string;
-  brand: BrandName;
+  brand: Brand;
   category: Category;
+  ph_level: number | null;
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
@@ -53,9 +54,12 @@ interface ReviewUser {
   image: string | null;
 }
 
-export interface BrandName {
+export interface Brand {
   id: number;
   name: string;
+  manufacturer_country: null | {
+    name: string;
+  };
 }
 
 export interface BrandImage {
