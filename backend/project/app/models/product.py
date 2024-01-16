@@ -33,6 +33,12 @@ class Product(models.Model):
     decimal_places=1,
     verbose_name='Уровень pH',
   )
+  article = models.CharField(
+    max_length=50,
+    null=True,
+    blank=True,
+    verbose_name='Артикул',
+  )
 
   @property
   def render_name(self):

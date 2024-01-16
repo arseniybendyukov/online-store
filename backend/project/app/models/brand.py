@@ -4,7 +4,12 @@ from .manufacturer_country import ManufacturerCountry
 
 class Brand(models.Model):
   name = models.CharField(max_length=100, verbose_name='Название')
-  image = models.ImageField(upload_to='brands/', verbose_name='Изображение')
+  image = models.ImageField(
+    upload_to='brands/',
+    null=True,
+    blank=True,
+    verbose_name='Изображение'
+  )
   manufacturer_country = models.ForeignKey(
     ManufacturerCountry,
     on_delete=models.SET_NULL,

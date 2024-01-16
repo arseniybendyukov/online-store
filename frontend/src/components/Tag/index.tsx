@@ -3,10 +3,18 @@ import css from './index.module.css';
 interface Props {
   name: string;
   color: string;
+  willBecomeMobile?: boolean;
 }
 
-export const Tag = ({ name, color }: Props) => (
-  <div className={css.tag} style={{ background: color }}>
+export const Tag = ({
+  name,
+  color,
+  willBecomeMobile=false,
+}: Props) => (
+  <div
+    className={`${css.tag} ${willBecomeMobile ? css.mobile : ''}`}
+    style={{ background: color }}
+  >
     {name}
   </div>
 );

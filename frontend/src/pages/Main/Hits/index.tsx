@@ -14,7 +14,7 @@ export function Hits() {
         <h2 className='h2'>Хиты продаж</h2>
         <Link
           className='link'
-          to={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}`}
+          to={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}&show-all=true`}
         >
           Перейти в каталог
         </Link>

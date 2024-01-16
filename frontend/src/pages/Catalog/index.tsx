@@ -10,10 +10,21 @@ import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { useSearchParams } from 'react-router-dom';
 import { CategoryBreadCrumps } from '../../components/CategoryBreadCrumps';
 import { CategoryCards } from './CategoryCards';
+import { Button } from '../../components/Button';
+import { ReactComponent as ArrowDown } from '../../images/arrow.svg';
 
 export function Catalog() {
   const [isFormOpened, setIsFormOpened] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Все продукты
+  const queryParamAreProductsShown = useMemo(() => !!searchParams.get('show-all'), [searchParams]);
+  const [areProductsShown, setAreProductsShown] = useState(queryParamAreProductsShown);
+
+  useEffect(() => {
+    setAreProductsShown(areProductsShown);
+  }, [areProductsShown]);
+
 
   // Поиск
   const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -100,6 +111,7 @@ export function Catalog() {
       ['tag', tag],
       ['brand', brandIds],
       ['category', selectedCategoryId],
+      ['show-all', areProductsShown],
     ],
     setSearchParams,
   );
@@ -147,7 +159,20 @@ export function Catalog() {
         )
       }
 
-      {selectedCategoryId && (
+      {!selectedCategoryId && !areProductsShown && (
+        <Button
+          className={css.showAllButton}
+          onClick={() => setAreProductsShown(true)}
+          state={{
+            default: {
+              text: 'Все товары',
+              icon: <ArrowDown className={css.arrowDownSVG} width={30} height={30} />,
+            }
+          }}
+        />
+      )}
+
+      {(selectedCategoryId || areProductsShown) && (
         <div className={css.content}>
           <FiltersForm
             isOpened={isFormOpened}
@@ -179,7 +204,13 @@ export function Catalog() {
               ? <SpinnerScreen />
               : data && (
                 <div className={css.products}>
-                  {data?.map((product) => <ProductCard key={product.id} product={product} />)}
+                  {data?.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      willBecomeMobile
+                    />
+                  ))}
                 </div>
               )
             }

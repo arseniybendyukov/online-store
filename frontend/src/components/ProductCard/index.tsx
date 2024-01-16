@@ -16,9 +16,13 @@ import { NotInStock } from '../NotInStock';
 
 interface Props {
   product: ListProduct;
+  willBecomeMobile?: boolean;
 }
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({
+  product,
+  willBecomeMobile=false,
+}: Props) {
   // TODO: ?сделать слайдер вариантов?
   const [
     toggleSaved,
@@ -41,10 +45,17 @@ export function ProductCard({ product }: Props) {
   return (
     <Link
       to={`${NavPaths.PRODUCT_DETAIL}/${product.id}`}
-      className={css.product}
+      className={`${css.product} ${willBecomeMobile ? css.mobile : ''}`}
     >
       <div className={css.tags}>
-        {product.tags.map((tag) => <Tag key={tag.id} name={tag.name} color={tag.color} />)}
+        {product.tags.map((tag) => (
+          <Tag
+            key={tag.id}
+            name={tag.name}
+            color={tag.color}
+            willBecomeMobile
+          />
+        ))}
       </div>
 
       <img
@@ -61,11 +72,13 @@ export function ProductCard({ product }: Props) {
       <RatingStars
         avgRating={product.avg_rating}
         reviewsCount={product.reviews_count}
+        className={css.stars}
       />
 
       <ProductPrice
         actualPrice={shownVariant.actual_price}
         salePrice={shownVariant.sale_price}
+        className={css.price}
       />
       
       {

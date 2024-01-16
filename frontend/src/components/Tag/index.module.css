@@ -3,3 +3,10 @@
   border-radius: 25px;
   color: #fff;
 }
+
+@media (max-width: 500px) {
+  .tag.mobile {
+    padding: 3px 8px;
+    font-size: 13px;
+  }
+}

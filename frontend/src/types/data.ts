@@ -29,6 +29,7 @@ export interface DetailProduct {
   brand: Brand;
   category: Category;
   ph_level: number | null;
+  article: string | null;
   variants: Variant[];
   avg_rating: number;
   reviews_count: number;
