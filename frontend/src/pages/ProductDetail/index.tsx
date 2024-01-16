@@ -128,6 +128,9 @@ export function ProductDetail() {
               )}
               <div className={css.devider}></div>
               <Label label='Бренд'>{product.brand.name}</Label>
+              {product.article && (
+                <Label label='Артикул'>{product.article}</Label>
+              )}
               {product.brand.manufacturer_country && (
                 <Label label='Страна производитель'>
                   {product.brand.manufacturer_country.name}

@@ -6,6 +6,7 @@ interface Props {
   onlyStars?: boolean;
   avgRating: number;
   reviewsCount?: number;
+  className?: string;
 }
 
 const fiveStars = repeat(5, () => <Star className={css.starSVG} />);
@@ -14,31 +15,36 @@ export function RatingStars({
   onlyStars=false,
   avgRating,
   reviewsCount,
+  className,
 }: Props) {
   return (
-    avgRating > 0
-    ? (
-      <div className={css.body}>
-        {!onlyStars && (
-          <span className={css.ratingValue}>{avgRating}</span>
-        )}
-        <div className={css.stars}>
-          <div className={css.uncolored}>
-            {fiveStars}
+    <div className={className ? className : ''}>
+      {
+        avgRating > 0
+        ? (
+          <div className={css.body}>
+            {!onlyStars && (
+              <span className={css.ratingValue}>{avgRating}</span>
+            )}
+            <div className={css.stars}>
+              <div className={css.uncolored}>
+                {fiveStars}
+              </div>
+              <div
+                className={css.colored}
+                style={{width: `calc(${avgRating} / 5 * 100%)`}}
+              >
+                {fiveStars}
+              </div>
+            </div>
+            {reviewsCount && (
+              <span className={css.reviewsCount}>({reviewsCount})</span>
+            )}
           </div>
-          <div
-            className={css.colored}
-            style={{width: `calc(${avgRating} / 5 * 100%)`}}
-          >
-            {fiveStars}
-          </div>
-        </div>
-        {reviewsCount && (
-          <span className={css.reviewsCount}>({reviewsCount})</span>
-        )}
-      </div>
-    ) : (
-      <span className={css.noReviews}>Нет отзывов</span>
-    )
+        ) : (
+          <span className={css.noReviews}>Нет отзывов</span>
+        )
+      }
+    </div>
   );
 }

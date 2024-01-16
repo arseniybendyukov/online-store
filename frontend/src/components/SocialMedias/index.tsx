@@ -17,7 +17,7 @@ const socialMedias: SocialMedia[] = [
   },
   {
     path: '#',
-    icon: <Telegram width={30} height={30} />
+    icon: <Telegram width={30} height={30} style={{ transform: 'translate(-2px, 0)' }} />
   },
   {
     path: '#',

@@ -44,7 +44,7 @@ export function Brands() {
               <Link
                 key={brand.id}
                 className={css.link}
-                to={`${NavPaths.CATALOG}?brand=${brand.id}`}
+                to={`${NavPaths.CATALOG}?brand=${brand.id}&show-all=true`}
               >
                 <img
                   src={brand.image}

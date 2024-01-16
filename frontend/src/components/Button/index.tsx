@@ -54,6 +54,7 @@ type LinkProps = CommonProps & {
 type CommonProps = {
   color?: Colors;
   outlineColor?: Colors;
+  className?: string;
 }
 
 type Props = ButtonProps | LinkProps;
@@ -61,11 +62,12 @@ type Props = ButtonProps | LinkProps;
 export function Button({
   color = Colors.BLUE,
   outlineColor = Colors.WHITE,
+  className,
   ...props
 }: Props) {  
   if (props.path) {
     return (
-      <Link to={props.path}>
+      <Link to={props.path} className={className}>
         <Content
           color={color}
           outlineColor={outlineColor}
@@ -75,7 +77,12 @@ export function Button({
     );
   } else {
     return (
-      <button onClick={props.onClick} type={props.type} disabled={!!props.isLoading}>
+      <button
+        onClick={props.onClick}
+        type={props.type}
+        disabled={!!props.isLoading}
+        className={className}
+      >
         <Content
           color={color}
           outlineColor={outlineColor}

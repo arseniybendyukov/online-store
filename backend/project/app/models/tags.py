@@ -14,8 +14,8 @@ class CommonTag(models.Model):
 
 class ProductTag(CommonTag):
   class Meta:
-    verbose_name = 'Тег продукта'
-    verbose_name_plural = 'Теги продукта'
+    verbose_name = 'Тег товара'
+    verbose_name_plural = 'Теги товара'
 
   
 class BlogTag(CommonTag):

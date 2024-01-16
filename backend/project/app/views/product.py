@@ -16,7 +16,7 @@ class ProductListView(generics.ListAPIView):
     ProductCustomOrdering,
   )
   # TODO: ?сделать поиск по категории и ее родителям?
-  search_fields = ('name', 'brand__name',)
+  search_fields = ('name', 'brand__name', 'article',)
   filterset_fields = ('tags__id',)
 
   def _filter_by_category(self, queryset, category_id):
