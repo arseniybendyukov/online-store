@@ -10,7 +10,6 @@ class BrandViewSet(MultiSerializerViewSetMixin,
                    mixins.ListModelMixin,
                    viewsets.GenericViewSet):
   permission_classes = (permissions.AllowAny,)
-  queryset = Brand.objects.all()
   serializer_action_classes = {
     'images': BrandImageListSerializer,
     'counts': BrandCountListSerializer,
