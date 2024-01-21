@@ -17,7 +17,7 @@ class BrandViewSet(MultiSerializerViewSetMixin,
 
   def get_queryset(self):
     if self.action == 'images':
-      return Brand.objects.filter(image__isnull=False)
+      return Brand.objects.exclude(image='')
     return Brand.objects.all()
 
   @action(detail=False)
