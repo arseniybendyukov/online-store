@@ -5,7 +5,7 @@ import css from './index.module.css';
 import { ToggleCartButton } from '../ToggleCartButton';
 import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
-import { useRemoveFromSavedMutation } from '../../redux/apis/productsApi';
+import { useRemoveFromSavedMutation } from '../../redux/api';
 import { Spinner } from '../Spinner';
 import { Label } from '../Label';
 import { NotInStock } from '../NotInStock';

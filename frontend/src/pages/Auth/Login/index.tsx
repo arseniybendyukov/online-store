@@ -5,7 +5,7 @@ import { ModalTemplate } from '../ModalTemplate';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { useLoginMutation } from '../../../redux/apis/authApi';
+import { useLoginMutation } from '../../../redux/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 

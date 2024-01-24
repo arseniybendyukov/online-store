@@ -2,7 +2,7 @@ import { Button } from '../Button';
 import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
 import { ReactComponent as Check } from '../../images/check.svg';
 import css from './index.module.css';
-import { useToggleRemoteCart } from '../../redux/apis/productsApi';
+import { useToggleRemoteCart } from '../../redux/api';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
 import { toggleLocalCart } from '../../redux/slices/localCart';

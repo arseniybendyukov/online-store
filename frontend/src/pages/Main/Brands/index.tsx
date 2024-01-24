@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useGetBrandImagesQuery } from '../../../redux/apis/productsApi';
+import { useGetBrandImagesQuery } from '../../../redux/api';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { Slider } from '../../../components/Slider';

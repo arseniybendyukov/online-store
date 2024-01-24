@@ -1,4 +1,4 @@
-import { useGetBlogTagsQuery, useGetBlogsQuery } from '../../redux/apis/blogApi';
+import { useGetBlogTagsQuery, useGetBlogsQuery } from '../../redux/api';
 import { BlogCard } from '../../components/BlogCard';
 import css from './index.module.css';
 import { SpinnerScreen } from '../../components/SpinnerScreen';

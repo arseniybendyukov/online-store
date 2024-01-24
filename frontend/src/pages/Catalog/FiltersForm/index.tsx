@@ -1,4 +1,4 @@
-import { useGetBrandCountsQuery } from '../../../redux/apis/productsApi';
+import { useGetBrandCountsQuery } from '../../../redux/api';
 import { RangeInput } from '../../../components/RangeInput';
 import { CheckboxSelect } from '../../../components/CheckboxSelect';
 import { Section } from './Section';

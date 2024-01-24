@@ -1,5 +1,5 @@
 import { Review } from '../../../components/Review';
-import { useGetMyReviewsQuery } from '../../../redux/apis/productsApi';
+import { useGetMyReviewsQuery } from '../../../redux/api';
 import { ProfileSubpage } from '../common/ProfileSubpage';
 import css from './index.module.css';
 

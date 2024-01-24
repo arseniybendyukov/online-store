@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { getFullName } from '../../../utils/data';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { useCreateAppealMutation } from '../../../redux/apis/appealsApi';
+import { useCreateAppealMutation } from '../../../redux/api';
 import { toast } from 'react-toastify';
 
 interface FormValues {

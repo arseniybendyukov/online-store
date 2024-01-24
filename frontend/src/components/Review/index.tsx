@@ -7,7 +7,7 @@ import { NavPaths } from '../../navigation';
 import { Link } from 'react-router-dom';
 import { formatDate, getFullName } from '../../utils/data';
 import { repeat } from '../../utils/arrays';
-import { useVoteOnReviewMutation } from '../../redux/apis/productsApi';
+import { useVoteOnReviewMutation } from '../../redux/api';
 import { CircleAvatar } from '../CircleAvatar';
 import { useAppSelector } from '../../redux/store';
 import { useCallback } from 'react';

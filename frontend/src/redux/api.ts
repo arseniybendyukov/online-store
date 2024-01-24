@@ -18,16 +18,23 @@ import {
   CategoryIds,
   CartVariant,
   MinMax,
-} from '../../types/data';
-import { CatalogFilters } from '../../types/filters';
-import { baseQueryWithReauth } from '../baseQuery';
-import { composeParams, listQueryParam, optionalWithValue } from '../../utils/queryParams';
-import { LocalCartItem } from '../slices/localCart';
+  BlogList,
+  BlogDetail,
+  AppealInput,
+} from '../types/data';
+import { CatalogFilters } from '../types/filters';
+import { baseQueryWithReauth } from './baseQuery';
+import { composeParams, listQueryParam, optionalWithValue } from '../utils/queryParams';
+import { LocalCartItem } from './slices/localCart';
+import { ActivateEmailInput, LoginInput, RegisterInput, Tokens, UpdateMeInput, User } from '../types/auth';
+import { logout, setTokens, setUser } from './slices/userSlice';
+import { toast } from 'react-toastify';
+import { getTypedStorageItem } from '../localStorageServices';
 
-export const productsApi = createApi({
-  reducerPath: 'productsApi',
+export const api = createApi({
+  reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Product', 'SavedProduct', 'ProductDetail', 'Cart', 'Order', 'OrderDetail', 'Reviews', 'MyReviews'],
+  tagTypes: ['Product', 'SavedProduct', 'ProductDetail', 'Cart', 'Order', 'OrderDetail', 'Reviews', 'MyReviews', 'User', 'IsAuthenticated'],
   endpoints: (builder) => ({
     getProducts: builder.query<ListProduct[], CatalogFilters>({
       query: ({
@@ -139,8 +146,7 @@ export const productsApi = createApi({
         method: 'POST',
         body: data,
       }),
-      // TODO: update User (cart items count)
-      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart', 'User'],
     }),
 
     updateCartAmount: builder.mutation<void, { cartItemId: number; amount: number; }>({
@@ -158,7 +164,7 @@ export const productsApi = createApi({
         url: `cart-items/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Product', 'SavedProduct', 'ProductDetail', 'Cart', 'User'],
     }),
 
     getOrders: builder.query<Order[], void>({
@@ -177,7 +183,7 @@ export const productsApi = createApi({
         method: 'POST',
         body: { products: data },
       }),
-      invalidatesTags: ['Order', 'Product', 'SavedProduct', 'ProductDetail', 'Cart'],
+      invalidatesTags: ['Order', 'Product', 'SavedProduct', 'ProductDetail', 'Cart', 'User'],
     }),
 
     cancelOrder: builder.mutation<void, { id: number }>({
@@ -214,6 +220,137 @@ export const productsApi = createApi({
           url: `local-cart-variants/?${variantListParams}`,
         };
       },
+    }),
+
+    // Auth
+    register: builder.mutation<void, RegisterInput>({
+      query(data) {
+        return {
+          url: 'user/register/',
+          method: 'POST',
+          body: data,
+        };
+      },
+    }),
+
+    login: builder.mutation<Tokens, LoginInput>({
+      query(data) {
+        return {
+          url: 'token/obtain/',
+          method: 'POST',
+          body: data,
+        };
+      },
+      invalidatesTags: (result, error) => (
+        error
+        ? ['IsAuthenticated']
+        : ['User', 'IsAuthenticated']
+      ),
+      transformResponse: (response: Tokens) => response,
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setTokens(data));
+          dispatch(api.util.resetApiState());
+        } catch (error) {
+          toast('Произошла ошибка авторизации!', { type: 'error' });
+        }
+      },
+    }),
+
+    whoAmI: builder.query<User, void>({
+      query: () => `user/who-am-i/`,
+      providesTags: ['User'],
+      transformResponse: (response: User) => response,
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data));
+        } catch (error) {
+          // ...
+        }
+      },
+    }),
+
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: 'logout/',
+        method: 'POST',
+        body: {
+          refresh: getTypedStorageItem('refreshToken'),
+        },
+      }),
+      invalidatesTags: ['User', 'IsAuthenticated'],
+      async onQueryStarted(_, { dispatch }) {
+        dispatch(logout());
+        dispatch(api.util.resetApiState());
+      },
+    }),
+
+    updateMe: builder.mutation<void, UpdateMeInput>({
+      query: (data) => ({
+        url: `user/`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    updateAvatar: builder.mutation<void, FormData>({
+      query: (data) => ({
+        url: `user/update-avatar/`,
+        method: 'PATCH',
+        body: data,
+        formData: true,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    activateEmail: builder.mutation<void, ActivateEmailInput>({
+      query: (data) => ({
+        url: `email/activate/`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    resendActivation: builder.mutation<void, { email: string }>({
+      query: (data) => ({
+        url: `email/resend/`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    amIAuthenticated: builder.query<boolean, void>({
+      query: () => `am-i-authenticated/`,
+      providesTags: ['IsAuthenticated'],
+    }),
+
+    createAppeal: builder.mutation<void, AppealInput>({
+      query: (data) => ({
+        url: `create-appeal/`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    // Blog
+    getBlogs: builder.query<BlogList[], { tag?: number }>({
+      query: ({ tag }) => ({
+        url: `blogs/`,
+        params: {
+          tags__id: optionalWithValue(tag, 0),
+        },
+      }),
+    }),
+
+    getBlogDetail: builder.query<BlogDetail, { id: string }>({
+      query: ({ id }) => `blogs/${id}/`,
+    }),
+
+    getBlogTags: builder.query<Tag[], void>({
+      query: () => `tags/blog/`,
     }),
   }),
 });
@@ -273,4 +410,21 @@ export const {
   useCancelOrderMutation,
   useGetOrderDetailQuery,
   useCreateReviewMutation,
-} = productsApi;
+
+  // Auth
+  useRegisterMutation,
+  useLoginMutation,
+  useWhoAmIQuery,
+  useLogoutMutation,
+  useUpdateMeMutation,
+  useUpdateAvatarMutation,
+  useActivateEmailMutation,
+  useResendActivationMutation,
+  useAmIAuthenticatedQuery,
+  useCreateAppealMutation,
+
+  // Blog
+  useGetBlogsQuery,
+  useGetBlogDetailQuery,
+  useGetBlogTagsQuery,
+} = api;

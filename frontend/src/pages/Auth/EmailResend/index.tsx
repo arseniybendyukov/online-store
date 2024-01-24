@@ -5,7 +5,7 @@ import css from './index.module.css';
 import { useFormik } from 'formik';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { useResendActivationMutation } from '../../../redux/apis/authApi';
+import { useResendActivationMutation } from '../../../redux/api';
 import { toast } from 'react-toastify';
 
 interface FormValues {

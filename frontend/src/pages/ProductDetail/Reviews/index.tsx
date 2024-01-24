@@ -1,4 +1,4 @@
-import { useGetReviewsByIdQuery } from '../../../redux/apis/productsApi';
+import { useGetReviewsByIdQuery } from '../../../redux/api';
 import { Review } from '../../../components/Review';
 import { RatingStatsBar } from '../../../components/RatingStatsBar';
 import { Label } from '../../../components/Label';

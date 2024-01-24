@@ -5,7 +5,7 @@ import { ReactComponent as Heart } from '../../images/heart.svg';
 import css from './index.module.css';
 import { Link } from 'react-router-dom';
 import { NavPaths } from '../../navigation';
-import { useRemoveFromCartMutation, useToggleSavedMutation, useUpdateCartAmountMutation } from '../../redux/apis/productsApi';
+import { useRemoveFromCartMutation, useToggleSavedMutation, useUpdateCartAmountMutation } from '../../redux/api';
 import { AmountInput } from '../AmountInput';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks';

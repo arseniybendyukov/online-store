@@ -3,7 +3,7 @@ import { ReactComponent as Cross } from '../../../../images/cross.svg';
 import { useFormik } from 'formik';
 import { Variant } from '../../../../types/data';
 import { useDisableScroll } from '../../../../hooks';
-import { useCreateReviewMutation } from '../../../../redux/apis/productsApi';
+import { useCreateReviewMutation } from '../../../../redux/api';
 import { toast } from 'react-toastify';
 import { Label } from '../../../../components/Label';
 import { RadioVariants } from '../../../../components/RadioVariants';

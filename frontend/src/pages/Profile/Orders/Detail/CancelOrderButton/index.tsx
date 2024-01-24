@@ -1,5 +1,5 @@
 import { Spinner } from '../../../../../components/Spinner';
-import { useCancelOrderMutation } from '../../../../../redux/apis/productsApi';
+import { useCancelOrderMutation } from '../../../../../redux/api';
 import css from './index.module.css';
 
 interface Props {

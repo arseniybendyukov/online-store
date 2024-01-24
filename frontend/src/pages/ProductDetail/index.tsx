@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams, useSearchParams } from "react-router-dom";
-import { useGetProductDetailQuery, useToggleSavedMutation } from "../../redux/apis/productsApi";
+import { useGetProductDetailQuery, useToggleSavedMutation } from "../../redux/api";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
 import { ProductPrice } from "../../components/ProductPrice";
