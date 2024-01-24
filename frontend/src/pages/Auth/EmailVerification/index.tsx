@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import css from './index.module.css';
 import { useEffect } from 'react';
-import { useActivateEmailMutation } from '../../../redux/apis/authApi';
+import { useActivateEmailMutation } from '../../../redux/api';
 import { ModalTemplate } from '../ModalTemplate';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';

@@ -11,18 +11,12 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { productsApi } from './apis/productsApi';
-import { appealsApi } from './apis/appealsApi';
-import { authApi } from './apis/authApi';
-import { blogApi } from './apis/blogApi';
+import { api } from './api';
 import { userSlice } from './slices/userSlice';
 import { localCartSlice } from './slices/localCart';
 
 const rootReducer = combineReducers({
-  [appealsApi.reducerPath]: appealsApi.reducer,
-  [authApi.reducerPath]: authApi.reducer,
-  [productsApi.reducerPath]: productsApi.reducer,
-  [blogApi.reducerPath]: blogApi.reducer,
+  [api.reducerPath]: api.reducer,
   userState: userSlice.reducer,
   localCartState: localCartSlice.reducer,
 });
@@ -43,10 +37,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat([
-      appealsApi.middleware,
-      authApi.middleware,
-      productsApi.middleware,
-      blogApi.middleware,
+      api.middleware,
     ]),
 });
 

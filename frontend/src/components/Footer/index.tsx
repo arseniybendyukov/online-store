@@ -6,8 +6,8 @@ import { SocialMedias } from '../SocialMedias';
 import { Copyright } from './Copyright';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
-import { useGetCategoryIdsQuery } from '../../redux/apis/productsApi';
-import { useGetBlogTagsQuery } from '../../redux/apis/blogApi';
+import { useGetCategoryIdsQuery } from '../../redux/api';
+import { useGetBlogTagsQuery } from '../../redux/api';
 import { PhoneLink } from '../PhoneLink';
 
 const companyLinks: NamedLink[] = [

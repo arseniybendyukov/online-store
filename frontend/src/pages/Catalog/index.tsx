@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDebounce, useSyncQueryParam } from '../../hooks';
-import { useGetCategoriesQuery, useGetMinMaxPriceQuery, useGetProductsQuery } from '../../redux/apis/productsApi';
+import { useGetCategoriesQuery, useGetMinMaxPriceQuery, useGetProductsQuery } from '../../redux/api';
 import { FiltersForm } from './FiltersForm';
 import { CatalogRowForm } from './CatalogRowForm';
 import { ProductCard } from '../../components/ProductCard';

@@ -1,7 +1,7 @@
 import css from './index.module.css';
 import { useEffect, useState } from 'react';
 import { ReactComponent as Pencil } from '../../../../images/pencil.svg';
-import { useUpdateAvatarMutation } from '../../../../redux/apis/authApi';
+import { useUpdateAvatarMutation } from '../../../../redux/api';
 import { Spinner } from '../../../../components/Spinner';
 import { CircleAvatar } from '../../../../components/CircleAvatar';
 

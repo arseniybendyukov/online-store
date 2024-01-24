@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import css from './index.module.css';
-import { useGetOrderDetailQuery } from '../../../../redux/apis/productsApi';
+import { useGetOrderDetailQuery } from '../../../../redux/api';
 import { getOverallPrice, monthAndDayFromDate } from '../../../../utils/data';
 import { OrderStages } from './OrderStages';
 import { Label } from '../../../../components/Label';

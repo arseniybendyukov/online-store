@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import css from './index.module.css';
 import { NavTabs } from '../../components/NavTabs';
 import { ProfileNestedPaths } from '../../navigation';
-import { useLogoutMutation } from '../../redux/apis/authApi';
+import { useLogoutMutation } from '../../redux/api';
 import { useAppSelector } from '../../redux/store';
 import { PrivateRoute } from '../../components/PrivateRoute';
 import { CircleAvatar } from '../../components/CircleAvatar';

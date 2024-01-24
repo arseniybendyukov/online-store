@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useGetProductsQuery } from '../../../redux/apis/productsApi';
+import { useGetProductsQuery } from '../../../redux/api';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';

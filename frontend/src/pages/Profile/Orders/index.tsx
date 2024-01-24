@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import css from './index.module.css';
 import { NavTabs } from '../../../components/NavTabs';
 import { OrdersNestedPaths } from '../../../navigation';
-import { useGetOrdersQuery } from '../../../redux/apis/productsApi';
+import { useGetOrdersQuery } from '../../../redux/api';
 
 export function Orders() {
   const { data = [], isLoading } = useGetOrdersQuery();

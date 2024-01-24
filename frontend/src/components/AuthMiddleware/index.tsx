@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useWhoAmIQuery } from '../../redux/apis/authApi';
+import { useWhoAmIQuery } from '../../redux/api';
 import { SpinnerScreen } from '../SpinnerScreen';
 
 interface Props {

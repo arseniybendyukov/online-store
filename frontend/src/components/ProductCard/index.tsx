@@ -7,7 +7,7 @@ import { HeartButton } from './HeartButton';
 import css from './index.module.css';
 import { NavPaths } from '../../navigation';
 import { ToggleCartButton } from '../ToggleCartButton';
-import { useToggleSavedMutation } from '../../redux/apis/productsApi';
+import { useToggleSavedMutation } from '../../redux/api';
 import { Spinner } from '../Spinner';
 import { useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';

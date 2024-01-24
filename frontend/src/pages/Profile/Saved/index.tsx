@@ -1,4 +1,4 @@
-import { useGetSavedProductVariantsQuery } from '../../../redux/apis/productsApi';
+import { useGetSavedProductVariantsQuery } from '../../../redux/api';
 import { SavedProductVariantCard } from '../../../components/SavedProductCard';
 import css from './index.module.css';
 import { ProfileSubpage } from '../common/ProfileSubpage';

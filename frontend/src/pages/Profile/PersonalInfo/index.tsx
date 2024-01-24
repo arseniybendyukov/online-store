@@ -5,7 +5,7 @@ import { useAppSelector } from '../../../redux/store';
 import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import { INVALID_PHONE_NUMBER, isPhoneNumberValid } from '../../../utils/forms';
-import { useUpdateMeMutation } from '../../../redux/apis/authApi';
+import { useUpdateMeMutation } from '../../../redux/api';
 import { Avatar } from './Avatar';
 
 interface FormValues {

@@ -1,5 +1,5 @@
 import css from './index.module.css';
-import { useCreateOrderMutation, useGetCartQuery, useGetLocalCartQuery } from '../../redux/apis/productsApi';
+import { useCreateOrderMutation, useGetCartQuery, useGetLocalCartQuery } from '../../redux/api';
 import { CartItemCard } from '../../components/CartItemCard';
 import { Button } from '../../components/Button';
 import { useCallback, useMemo } from 'react';

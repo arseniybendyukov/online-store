@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useGetBlogDetailQuery } from '../../redux/apis/blogApi';
+import { useGetBlogDetailQuery } from '../../redux/api';
 import css from './index.module.css';
 import { Tag } from '../../components/Tag';
 import { monthAndDayFromDate } from '../../utils/data';

@@ -5,7 +5,7 @@ import { Button } from '../../../components/Button';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';
 import { ModalTemplate } from '../ModalTemplate';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
-import { useRegisterMutation } from '../../../redux/apis/authApi';
+import { useRegisterMutation } from '../../../redux/api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';

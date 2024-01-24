@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { useAmIAuthenticatedQuery } from '../../redux/apis/authApi';
+import { useAmIAuthenticatedQuery } from '../../redux/api';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store';
