@@ -4,19 +4,11 @@ import css from './index.module.css';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { IconFormElement, SelectOption } from '../../components/IconFormElement';
 import { ReactComponent as Tag } from '../../images/tag.svg';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useSyncQueryParam } from '../../hooks';
+import { ChangeEvent } from 'react';
+import { useSearchParamsState } from '../../hooks';
 
 export function Blog() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const queryParamTag = useMemo(() => Number(searchParams.get('tag') || '0'), [searchParams]);
-  const [tag, setTag] = useState<number>(queryParamTag);
-  useSyncQueryParam([['tag', tag]], setSearchParams);
-  useEffect(() => {
-    setTag(queryParamTag);
-  }, [queryParamTag]);
+  const [tag, setTag] = useSearchParamsState('tag', '0');
 
   const {
     data: tags = [],
@@ -36,7 +28,7 @@ export function Blog() {
   const {
     data: blogs,
     isLoading: isBlogsLoading,
-  } = useGetBlogsQuery({ tag });
+  } = useGetBlogsQuery({ tag: Number(tag) });
 
   return (
     <div className={`container ${css.container}`}>
@@ -50,7 +42,7 @@ export function Blog() {
           name='tag'
           value={tag}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => (
-            setTag(Number(e.target.value))
+            setTag(e.target.value)
           )}
           options={
             isTagsLoading
