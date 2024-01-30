@@ -15,7 +15,7 @@ import { ReactComponent as ArrowDown } from '../../images/arrow.svg';
 export function Catalog() {
   const [isFormOpened, setIsFormOpened] = useState(false);
 
-  // Все продукты
+  // Все товары
   const [areProductsShown, setAreProductsShown] = useSearchParamsState(
     'show-all',
     (searchParams) => !!searchParams.get('show-all'),

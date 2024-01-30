@@ -67,7 +67,7 @@ export function Review({ review }: Props) {
                 to={`${NavPaths.PRODUCT_DETAIL}/${review.product}`}
                 className='link'
               >
-                Перейти к продукту
+                Перейти к товару
               </Link>
             )}
           </div>

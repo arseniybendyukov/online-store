@@ -44,10 +44,11 @@ export const headerLinks: NamedLink<NavPaths>[] = [
     path: NavPaths.ABOUT,
     name: 'О нас',
   },
-  {
-    path: NavPaths.BLOG,
-    name: 'Блог',
-  },
+  // TODO: !!СКРЫТЫЙ БЛОГ!!
+  // {
+  //   path: NavPaths.BLOG,
+  //   name: 'Блог',
+  // },
   {
     path: NavPaths.CATALOG,
     name: 'Каталог',
