@@ -72,7 +72,8 @@ export const Footer = () => {
             )
           }
 
-          {
+          {/* TODO: !!СКРЫТЫЙ БЛОГ!! */}
+          {/* {
             isBlogTagsLoading
             // TODO: skeleton loading
             ? 'Загрузка блога...'
@@ -86,7 +87,7 @@ export const Footer = () => {
                 }))}
               />
             )
-          }
+          } */}
 
           <FooterLinksBlock
             heading='Компания'

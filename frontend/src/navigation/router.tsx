@@ -143,10 +143,6 @@ export const router = createBrowserRouter([
         element: <ProductDetail />,
         children: [
           {
-            index: true,
-            element: <Navigate to={ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS} />
-          },
-          {
             path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
             element: <BoughtTogetherProducts />,
           },

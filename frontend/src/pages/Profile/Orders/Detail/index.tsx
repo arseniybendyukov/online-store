@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import css from './index.module.css';
 import { useGetOrderDetailQuery } from '../../../../redux/api';
 import { getOverallPrice, monthAndDayFromDate } from '../../../../utils/data';
@@ -7,8 +7,8 @@ import { Label } from '../../../../components/Label';
 import { OrderedProductCard } from '../../../../components/OrderedProductCard';
 import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 import { OrderIsCancelled } from '../../../../components/OrderIsCancelled';
-import { useEffect, useMemo, useState } from 'react';
-import { useSyncQueryParam } from '../../../../hooks';
+import { useEffect, useMemo } from 'react';
+import { useSearchParamsState } from '../../../../hooks';
 import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 
@@ -16,17 +16,15 @@ export function OrderDetail() {
   const { id = '' } = useParams();
   const { data: order, isLoading } = useGetOrderDetailQuery({ id });
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // TODO: qp не сохраняется при перезагрузке
-  const queryParamStage = useMemo(() => {
-    const raw = searchParams.get('stage');
-    return raw !== null
-    ? Number(raw)
-    : null
-  }, [searchParams]);
-
-  const [selectedStageId, setSelectedStageId] = useState<number | null>(queryParamStage);
+  const [selectedStageId, setSelectedStageId] = useSearchParamsState(
+    'stage',
+    (searchParams) => {
+      const raw = searchParams.get('stage');
+      return raw !== null
+      ? Number(raw)
+      : null
+    },
+  );
 
   const selectedStage = useMemo(() => {
     if (order) {
@@ -43,12 +41,6 @@ export function OrderDetail() {
       return null;
     }
   }, [order, selectedStageId]);
-  
-  useEffect(() => {
-    if (selectedStage === null) {
-      setSelectedStageId(null);
-    }
-  }, [selectedStage]);
 
   useEffect(() => {
     if (order && selectedStageId === null) {
@@ -58,13 +50,6 @@ export function OrderDetail() {
     }
   }, [order, selectedStageId, setSelectedStageId]);
 
-  // Синхронизация состояния с query parameters
-  useSyncQueryParam(
-    [
-      ['stage', selectedStageId],
-    ],
-    setSearchParams,
-  );
 
   return <>
     {

@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
-import { SetURLSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export function useDebounce<V extends string | number | null>(value: V, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -27,20 +27,27 @@ export function useDisableScroll(flag: boolean) {
   }, [flag]);
 }
 
-export function useSyncQueryParam(
-  params: [string, any][],
-  setSearchParams: SetURLSearchParams,
-) {
-  const memorizedParams = useMemo<[string, any][]>(
-    () => params,
-    params.map(([_, value]) => value),
-  );
+export function useSearchParamsState(
+  searchParamName: string,
+  getDefaultValue: (params: URLSearchParams) => any,
+): readonly [
+  searchParamsState: any,
+  setSearchParamsState: (newState: any) => void
+] {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    setSearchParams(
-      Object.fromEntries(
-        memorizedParams.filter(([_, value]) => value)
-      )
-    );
-  }, [memorizedParams, setSearchParams]);
+  const value = getDefaultValue(searchParams);
+
+  const setSearchParamsState = (newState: any) => {
+      const next = Object.assign(
+          {},
+          [...searchParams.entries()].reduce(
+              (o, [key, value]) => ({ ...o, [key]: value }),
+              {}
+          ),
+          { [searchParamName]: newState }
+      );
+      setSearchParams(next);
+  };
+  return [value, setSearchParamsState];
 }
