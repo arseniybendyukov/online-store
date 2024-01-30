@@ -1,11 +1,11 @@
-import { Link, Outlet, useParams, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useGetProductDetailQuery, useToggleSavedMutation } from "../../redux/api";
 import css from './index.module.css';
 import { RatingStars } from "../../components/RatingStars";
 import { ProductPrice } from "../../components/ProductPrice";
 import { Label } from "../../components/Label";
 import { RadioVariants } from "../../components/RadioVariants";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { AmountInput } from "../../components/AmountInput";
 import { ToggleCartButton } from "../../components/ToggleCartButton";
 import { Button } from "../../components/Button";
@@ -17,7 +17,6 @@ import { SpinnerScreen } from "../../components/SpinnerScreen";
 import { useAppSelector } from "../../redux/store";
 import { toast } from "react-toastify";
 import { getRootCategory } from "../../utils/data";
-import { useSyncQueryParam } from "../../hooks";
 import { NotInStock } from "../../components/NotInStock";
 import { Description } from "../../components/Description";
 
@@ -25,20 +24,11 @@ export function ProductDetail() {
   const { id = '' } = useParams();
   const { data: product, isLoading } = useGetProductDetailQuery({ id });
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const user = useAppSelector((state) => state.userState.user);
 
   const [amount, setAmount] = useState(1);
 
-  const queryParamVariant = useMemo(() => {
-    const raw = searchParams.get('variant');
-    return raw !== null
-    ? Number(raw)
-    : null
-  }, [searchParams]);
-
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(queryParamVariant);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
 
   const selectedVariant = product?.variants.filter((variant) => variant.id === selectedVariantId)[0] || null;
 
@@ -47,10 +37,6 @@ export function ProductDetail() {
       setSelectedVariantId(null);
     }
   }, [selectedVariant]);
-
-  useEffect(() => {
-    setSelectedVariantId(queryParamVariant);
-  }, [queryParamVariant]);
 
   const [
     toggleSaved,
@@ -77,14 +63,6 @@ export function ProductDetail() {
       toast('Ошибка: не выбран вариант товара', { type: 'error' });
     }
   }
-
-  // Синхронизация состояния с query parameters
-  useSyncQueryParam(
-    [
-      ['variant', selectedVariantId],
-    ],
-    setSearchParams,
-  );
 
   return <>
     {

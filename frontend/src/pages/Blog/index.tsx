@@ -8,7 +8,7 @@ import { ChangeEvent } from 'react';
 import { useSearchParamsState } from '../../hooks';
 
 export function Blog() {
-  const [tag, setTag] = useSearchParamsState('tag', '0');
+  const [tag, setTag] = useSearchParamsState('tag', (searchParams) => searchParams.get('tag') ?? '0');
 
   const {
     data: tags = [],

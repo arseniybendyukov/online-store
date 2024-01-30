@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { ListProduct, Variant } from '../../types/data';
+import { ListProduct } from '../../types/data';
 import { Tag } from '../Tag';
 import { RatingStars } from '../RatingStars';
 import { ProductPrice } from '../ProductPrice';
 import { HeartButton } from './HeartButton';
 import css from './index.module.css';
-import { NavPaths } from '../../navigation';
+import { NavPaths, ProductDetailNestedPaths } from '../../navigation';
 import { ToggleCartButton } from '../ToggleCartButton';
 import { useToggleSavedMutation } from '../../redux/api';
 import { Spinner } from '../Spinner';
@@ -44,7 +44,7 @@ export function ProductCard({
 
   return (
     <Link
-      to={`${NavPaths.PRODUCT_DETAIL}/${product.id}`}
+      to={`${NavPaths.PRODUCT_DETAIL}/${product.id}/${ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS}`}
       className={`${css.product} ${willBecomeMobile ? css.mobile : ''}`}
     >
       <div className={css.tags}>

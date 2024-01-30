@@ -19,13 +19,11 @@ export function CheckboxSelect({
   options,
 }: Props) {
   function inputOnChange(id: number) {
-    setSelectedIds((prevIds) => {
-      if (prevIds.includes(id)) {
-        return prevIds.filter((selectedId) => selectedId !== id);
-      } else {
-        return [...prevIds, id]
-      }
-    });
+    setSelectedIds(
+      selectedIds.includes(id)
+      ? selectedIds.filter((selectedId) => selectedId !== id)
+      : [...selectedIds, id]
+    );
   }
   
   return (
