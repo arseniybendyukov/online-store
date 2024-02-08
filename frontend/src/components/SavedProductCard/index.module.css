@@ -1,33 +1,45 @@
 .card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 30px 10px 10px;
+  gap: 10px;
+  padding: 10px 20px 10px 10px;
   border: 1px solid var(--grey-1);
   border-radius: 5px;
+}
+
+.major {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+.minor {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 40px;
+}
+
+.stockState,
+.priceAndButton {
+  flex-shrink: 0;
 }
 
 .notInStock {
   color: var(--grey-1);
 }
 
-.majorInfo {
-  width: 450px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .image {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
 }
 
-.minorInfo {
-  width: 200px;
+.priceAndButton {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
   gap: 10px;
 }
 
@@ -44,4 +56,66 @@
 
 .crossSVG path {
   fill: var(--grey-1);
+}
+
+@media (max-width: 1100px) {
+  .card {
+    align-items: flex-start;
+  }
+  
+  .major {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 10px;
+  }
+
+  .minor {
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
+
+  .oldPrice {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .card {
+    gap: 5px;
+    padding: 10px 20px 10px 10px;
+  }
+  
+  .priceAndButton {
+    gap: 5px;
+  }
+
+  .heartSVG {
+    width: 30px;
+    height: 30px;
+  }
+
+  .crossSVG {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 460px) {
+  .image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .price p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .price p {
+    font-size: 16px;
+  }
 }

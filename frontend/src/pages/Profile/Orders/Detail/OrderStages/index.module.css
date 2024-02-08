@@ -13,7 +13,7 @@
   flex-grow: 1;
 }
 
-.bar {
+.horizontalBar {
   position: absolute;
   top: 25px;
   width: calc(100% - 100px);
@@ -22,7 +22,43 @@
   z-index: -1;
 }
 
-.progress {
+.horizontalProgress {
   height: 5px;
   background: var(--main-1);
+}
+
+.verticalBar {
+  display: none;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  transform: translateX(-50%);
+  width: 5px;
+  height: calc(100% - 50px);
+  background: var(--grey-2);
+  z-index: -1;
+}
+
+.verticalProgress {
+  width: 5px;
+  background: var(--main-1);
+}
+
+@media (max-width: 660px) {
+  .container {
+    padding: 0;
+  }
+
+  .stages {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .horizontalBar {
+    display: none;
+  }
+  
+  .verticalBar {
+    display: block;
+  }
 }

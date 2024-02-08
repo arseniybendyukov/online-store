@@ -1,4 +1,5 @@
 .orderedProduct {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -11,9 +12,16 @@
 
 .row {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.oldPrice {
+  display: none;
 }
 
 .amount {
+  white-space: nowrap;
   color: var(--grey-1);
 }

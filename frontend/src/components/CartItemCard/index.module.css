@@ -1,27 +1,39 @@
 .card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
+  gap: 10px;
+  padding: 10px 20px 10px 10px;
   border: 1px solid var(--grey-1);
   border-radius: 5px;
+}
+
+.major {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+.minor {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 40px;
+}
+
+.stockState,
+.priceAndButtons {
+  flex-shrink: 0;
 }
 
 .notInStock {
   color: var(--grey-1);
 }
 
-.majorInfo {
-  width: 450px;
-  display: flex;
-  align-items: flex-start;
-  padding: 0 20px 0 0;
-  gap: 10px;
-}
-
 .image {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
 }
 
 .productProperties {
@@ -30,13 +42,10 @@
   gap: 5px;
 }
 
-.minorInfo {
-  width: 200px;
+.priceAndButtons {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  padding: 0 0 0 20px;
+  align-items: flex-end;
 }
 
 .buttons {
@@ -68,62 +77,86 @@
   fill: var(--red);
 }
 
-@media (max-width: 850px) {
-  .name {
-    font-size: 16px;
+@media (max-width: 800px) {
+  .card {
+    align-items: flex-start;
   }
   
-  .card {
-    padding: 5px;
+  .major {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 5px;
   }
 
-  .majorInfo {
-    width: 450px;
+  .minor {
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .oldPrice {
+    display: none;
+  }
+
+  .priceAndButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .priceAndButtons {
     gap: 5px;
   }
-
-  .image {
-    width: 100px;
-    height: 100px;
-  }
-
-  .minorInfo {
-    width: 170px;
-  }
-
-  .crossSVG {
-    width: 15px;
-    height: 15px;
+  
+  .buttons {
+    gap: 5px;
   }
 
   .heartSVG {
     width: 30px;
     height: 30px;
   }
+
+  .crossSVG {
+    width: 15px;
+    height: 15px;
+  }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 460px) {
   .image {
     width: 80px;
     height: 80px;
   }
+
+  .price p {
+    font-size: 18px;
+  }
 }
 
-@media (max-width: 650px) {
-  .stockState {
-    display: none;
+@media (max-width: 400px) {
+  .price p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .priceAndButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
   }
 
-  .majorInfo {
-    padding-right: 10px;
+  .minor {
+    align-items: flex-end;
+    width: 100%;
   }
 
-  .minorInfo {
-    width: 135px;
-    padding: 0;
-  }
-
-  .oldPrice {
-    display: none;
+  .price p {
+    font-size: 18px;
   }
 }
