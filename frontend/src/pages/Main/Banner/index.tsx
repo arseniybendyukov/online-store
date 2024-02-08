@@ -19,6 +19,7 @@ export const Banner = () => (
           state={{ default: { text: 'Задать вопрос', icon: undefined } }}
           color={Colors.WHITE}
           outlineColor={Colors.BLUE}
+          coloredBorder
         />
       </div>
     </div>

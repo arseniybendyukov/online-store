@@ -54,6 +54,7 @@ type LinkProps = CommonProps & {
 type CommonProps = {
   color?: Colors;
   outlineColor?: Colors;
+  coloredBorder?: boolean;
   className?: string;
 }
 
@@ -62,6 +63,7 @@ type Props = ButtonProps | LinkProps;
 export function Button({
   color = Colors.BLUE,
   outlineColor = Colors.WHITE,
+  coloredBorder = false,
   className,
   ...props
 }: Props) {  
@@ -71,6 +73,7 @@ export function Button({
         <Content
           color={color}
           outlineColor={outlineColor}
+          coloredBorder={coloredBorder}
           {...props}
         />
       </Link>
@@ -86,6 +89,7 @@ export function Button({
         <Content
           color={color}
           outlineColor={outlineColor}
+          coloredBorder={coloredBorder}
           {...props}
         />
       </button>
@@ -93,7 +97,7 @@ export function Button({
   }
 }
 
-function Content(props: Props & { color: Colors, outlineColor: Colors }) {
+function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBorder: boolean }) {
   let mainColor;
   let secondaryColor;
 
@@ -110,7 +114,7 @@ function Content(props: Props & { color: Colors, outlineColor: Colors }) {
       className={css.button}
       style={{
         background: mainColor,
-        borderColor: secondaryColor,
+        borderColor: !props.coloredBorder ? props.color : secondaryColor,
       }}
     >
       <div

@@ -62,3 +62,22 @@ export const headerLinks: NamedLink<NavPaths>[] = [
     name: 'Как купить',
   },
 ];
+
+export const profileLinks: NamedLink<ProfileNestedPaths>[] = [
+  {
+    name: 'Заказы',
+    path: ProfileNestedPaths.ORDERS,
+  },
+  {
+    name: 'Сохраненное',
+    path: ProfileNestedPaths.SAVED,
+  },
+  {
+    name: 'Мои отзывы',
+    path: ProfileNestedPaths.REVIEWS,
+  },
+  {
+    name: 'Личные данные',
+    path: ProfileNestedPaths.PERSONAL_INFO,
+  },
+];

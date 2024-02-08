@@ -6,5 +6,7 @@
 
 .properties {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 5px;
 }

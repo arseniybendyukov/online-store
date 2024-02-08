@@ -16,7 +16,9 @@
 .row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  row-gap: 0;
 }
 
 .user {
@@ -26,6 +28,11 @@
 
 .date {
   color: var(--grey-1);
+  white-space: nowrap;
+}
+
+.user {
+  word-break: break-word;
 }
 
 .stars {

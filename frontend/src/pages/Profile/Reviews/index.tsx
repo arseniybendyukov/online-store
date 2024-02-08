@@ -8,7 +8,7 @@ export function Reviews() {
 
   return (
     <ProfileSubpage
-      heading='Отзывы на товары'
+      heading='Мои отзывы'
       empty='Нет отзывов'
       itemsCount={data?.length}
       isLoading={isLoading}

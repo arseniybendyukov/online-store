@@ -92,57 +92,62 @@ export function CartItemCard(props: Props) {
       to={`${NavPaths.PRODUCT_DETAIL}/${productId}`}
       className={css.card}
     >
-      <div className={css.majorInfo}>
-        <img src={image} alt='product' className={`${css.image} ${!isInStock ? 'greyImg' : ''}`} />
+      <img src={image} alt='product' className={`${css.image} ${!isInStock ? 'greyImg' : ''}`} />
+
+      <div className={css.major}>
         <div className={css.productProperties}>
           <h4 className={`h4 ${css.name} ${!isInStock ? css.notInStock : ''}`}>{productName}</h4>
           <Label label='Вариант' gap={10}>{variantName}</Label>
         </div>
-      </div>
 
-      <div className={css.stockState}>
-        {
-          isInStock
-          ? (
-            <AmountInput
-            amount={inputAmount}
-            setAmount={setInputAmount}
-          />
-          )
-          : (
-            <NotInStock />
-          )
-        }
-      </div>
+        <div className={css.minor}>
+          <div className={css.stockState}>
+            {
+              isInStock
+              ? (
+                <AmountInput
+                  amount={inputAmount}
+                  setAmount={setInputAmount}
+                />
+              )
+              : (
+                <NotInStock />
+              )
+            }
+          </div>
 
-      <div className={css.minorInfo}>
-        <ProductPrice
-          actualPrice={isInStock ? actualPrice * amount : actualPrice}
-          salePrice={isInStock ? salePrice ? salePrice * amount : null : salePrice}
-          isInStock={isInStock}
-          oldPriceClassName={css.oldPrice}
-        />
 
-        <div className={css.buttons}>
-          {
-            isToggleSaveLoading
-            ? <Spinner size={40} thickness={3} />
-            : (
-              <button onClick={onHeartClick}>
-                <Heart className={`${css.heartSVG} ${isSaved ? css.active : ''}`} />
-              </button>
-            )
-          }
+          <div className={css.priceAndButtons}>
+            <ProductPrice
+              actualPrice={isInStock ? actualPrice * amount : actualPrice}
+              salePrice={isInStock ? salePrice ? salePrice * amount : null : salePrice}
+              isInStock={isInStock}
+              oldPriceClassName={css.oldPrice}
+              className={css.price}
+            />
 
-          {
-            isRemoveLoading
-            ? <Spinner size={20} thickness={2} />
-            : (
-              <button onClick={onCrossClick}>
-                <Cross className={css.crossSVG} />
-              </button>
-            )
-          }
+            <div className={css.buttons}>
+              {
+                isToggleSaveLoading
+                ? <Spinner size={40} thickness={3} />
+                : (
+                  <button onClick={onHeartClick}>
+                    <Heart className={`${css.heartSVG} ${isSaved ? css.active : ''}`} />
+                  </button>
+                )
+              }
+
+              {
+                isRemoveLoading
+                ? <Spinner size={20} thickness={2} />
+                : (
+                  <button onClick={onCrossClick}>
+                    <Cross className={css.crossSVG} />
+                  </button>
+                )
+              }
+            </div>
+          </div>
         </div>
       </div>
     </Link>

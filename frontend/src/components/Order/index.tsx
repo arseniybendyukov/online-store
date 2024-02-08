@@ -17,22 +17,38 @@ export function Order({ order }: Props) {
     <div className={css.order}>
       <div className={css.properties}>
         {order.is_cancelled && <OrderIsCancelled />}
+
         <Label label='Создан'>
           {formatDate(order.created_at)}
         </Label>
+
         <Label label='Стоимость заказа'>
           {getOverallPrice(order)}
         </Label>
-        <Link
-          className='link'
-          to={`${NavPaths.PROFILE}/${ProfileNestedPaths.ORDER_DETAIL}/${order.id}`}
-        >
-          Перейти к деталям
-        </Link>
       </div>
-      <Slider items={order.products.map((orderedProduct) => (
-        <OrderedProductCard key={orderedProduct.id} orderedProduct={orderedProduct} />
-      ))} />
+      <Link to={`${NavPaths.PROFILE}/${ProfileNestedPaths.ORDER_DETAIL}/${order.id}`}>
+        <Slider
+          breakpoints={{
+            0: {
+              slidesPerView: 2,
+              slidesPerGroup: 2,
+            },
+            550: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
+            1230: {
+              slidesPerView: 4,
+              slidesPerGroup: 4,
+            },
+          }}
+          items={
+            order.products.map((orderedProduct) => (
+              <OrderedProductCard key={orderedProduct.id} orderedProduct={orderedProduct} />
+            ))
+          }
+        />
+      </Link>
     </div>
   );
 }

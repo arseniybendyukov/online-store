@@ -1,40 +1,22 @@
-import { Link } from 'react-router-dom';
 import { OrderedProduct } from '../../types/data';
 import css from './index.module.css';
-import { NavPaths } from '../../navigation';
 import { ProductPrice } from '../ProductPrice';
 
 interface Props {
   orderedProduct: OrderedProduct;
 }
 
-export function OrderedProductCard({ orderedProduct }: Props) {
-  if (orderedProduct.origin_variant) {
-    return (
-      <Link
-        to={`${NavPaths.PRODUCT_DETAIL}/${orderedProduct.origin_variant.product}?variant=${orderedProduct.origin_variant.id}`}
-        className={css.orderedProduct}
-      >
-        <Content orderedProduct={orderedProduct} />
-      </Link>
-    );
-  } else {
-    return (
-      <div className={css.orderedProduct}>
-        <Content orderedProduct={orderedProduct} />
-      </div>
-    );
-  }
-}
-
-const Content = ({ orderedProduct }: Props) => <>
-  <img src={orderedProduct.image} alt='product' />
-  <p className={css.name}>{orderedProduct.name}</p>
-  <div className={css.row}>
-    <ProductPrice
-      actualPrice={orderedProduct.actual_price}
-      salePrice={orderedProduct.sale_price}
-    />
-    <p className={css.amount}>{`${orderedProduct.amount} шт.`}</p>
+export const OrderedProductCard = ({ orderedProduct }: Props) => (
+  <div className={css.orderedProduct}>
+    <img src={orderedProduct.image} alt='product' />
+    <p className={css.name}>{orderedProduct.name}</p>
+    <div className={css.row}>
+      <ProductPrice
+        actualPrice={orderedProduct.actual_price}
+        salePrice={orderedProduct.sale_price}
+        oldPriceClassName={css.oldPrice}
+      />
+      <p className={css.amount}>{`${orderedProduct.amount} шт.`}</p>
+    </div>
   </div>
-</>;
+);

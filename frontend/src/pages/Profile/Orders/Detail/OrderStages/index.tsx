@@ -29,10 +29,18 @@ export function OrderStages({
           />
         ))}
       </div>
-      <div className={css.bar}>
+      
+      <div className={css.horizontalBar}>
         <div
-          className={css.progress}
+          className={css.horizontalProgress}
           style={{ width: `${percentage}%` }}
+        />
+      </div>
+
+      <div className={css.verticalBar}>
+        <div
+          className={css.verticalProgress}
+          style={{ height: `${percentage}%` }}
         />
       </div>
     </div>

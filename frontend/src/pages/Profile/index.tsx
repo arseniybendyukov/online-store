@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import css from './index.module.css';
 import { NavTabs } from '../../components/NavTabs';
-import { ProfileNestedPaths } from '../../navigation';
+import { profileLinks } from '../../navigation';
 import { useLogoutMutation } from '../../redux/api';
 import { useAppSelector } from '../../redux/store';
 import { PrivateRoute } from '../../components/PrivateRoute';
-import { CircleAvatar } from '../../components/CircleAvatar';
+import { UserInfo } from '../../components/UserInfo';
 
 export function Profile() {
   const user = useAppSelector((state) => state.userState.user);
@@ -28,27 +28,7 @@ export function Profile() {
             />
 
             <div className={css.tabs}>
-              <NavTabs
-                vertical
-                options={[
-                  {
-                    name: 'Заказы',
-                    path: ProfileNestedPaths.ORDERS,
-                  },
-                  {
-                    name: 'Сохраненное',
-                    path: ProfileNestedPaths.SAVED,
-                  },
-                  {
-                    name: 'Отзывы на товары',
-                    path: ProfileNestedPaths.REVIEWS,
-                  },
-                  {
-                    name: 'Личные данные',
-                    path: ProfileNestedPaths.PERSONAL_INFO,
-                  },
-                ]}
-              />
+              <NavTabs vertical options={profileLinks} />
 
               <button onClick={logoutButtonOnClick} className={css.logoutButton}>
                 Выйти из аккаунта
@@ -61,27 +41,5 @@ export function Profile() {
         </div>
       )}
     </PrivateRoute>
-  );
-}
-
-function UserInfo({ firstName, lastName, color, image }: {
-  firstName: string;
-  lastName: string;
-  color: string;
-  image: string | null;
-}) {
-  return (
-    <div className={css.userInfo}>
-      <CircleAvatar
-        sizeType='medium'
-        image={image}
-        initials={firstName[0] + lastName[0]}
-        color={color}
-      />
-
-      <h3 className={`h3 ${css.fullname}`}>
-        {`${firstName} ${lastName}`}
-      </h3>
-    </div>
   );
 }
