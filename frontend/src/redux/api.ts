@@ -289,7 +289,8 @@ export const api = createApi({
 
     updateMe: builder.mutation<void, UpdateMeInput>({
       query: (data) => ({
-        url: `user/`,
+        // 0 затычка. Пользователь берется из request.user
+        url: `user/${0}/`,
         method: 'PATCH',
         body: data,
       }),

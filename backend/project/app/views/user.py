@@ -53,7 +53,7 @@ class UserViewSet(MultiSerializerViewSetMixin,
   def who_am_i(self, request):
     return super().retrieve(request)
 
-  @action(detail=False, url_path='update-avatar')
+  @action(detail=False, methods=['patch'], url_path='update-avatar')
   def update_avatar(self, request):
     return super().partial_update(request)
 

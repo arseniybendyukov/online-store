@@ -65,7 +65,7 @@ export function Header() {
 
                     <ul className={css.profileLinks}>
                       {profileLinks.map((link) => (
-                        <li onClick={() => setIsProifleModalOpened(false)}>
+                        <li key={link.path} onClick={() => setIsProifleModalOpened(false)}>
                           <Link to={`${NavPaths.PROFILE}/${link.path}`}>
                             {link.name}
                           </Link>
