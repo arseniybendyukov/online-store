@@ -3,9 +3,9 @@ import css from './index.module.css';
 import { headerLinks } from "../../../navigation";
 
 export const NavLinks = () => (
-  <div className={css.links}>
+  <nav className={css.links}>
     {headerLinks.map(({ path, name }) => (
       <Link key={path} className={css.link} to={path}>{name}</Link>
     ))}
-  </div>
+  </nav>
 );

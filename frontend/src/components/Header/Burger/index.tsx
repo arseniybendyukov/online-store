@@ -19,23 +19,25 @@ export function Burger() {
 
       <div className={css.buttonPlaceholder} />
 
-      <ul className={css.burgerLinks}>
-        {
-          [
-            {
-              path: '/',
-              name: 'Главная',
-            },
-            ...headerLinks,
-          ].map((link) => (
-            <li key={link.path} onClick={() => setIsOpened(false)}>
-              <Link to={link.path}>
-                {link.name}
-              </Link>
-            </li>
-          ))
-        }
-      </ul>
+      <nav>
+        <ul className={css.burgerLinks}>
+          {
+            [
+              {
+                path: '/',
+                name: 'Главная',
+              },
+              ...headerLinks,
+            ].map((link) => (
+              <li key={link.path} onClick={() => setIsOpened(false)}>
+                <Link to={link.path}>
+                  {link.name}
+                </Link>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </div>
   );
 };
