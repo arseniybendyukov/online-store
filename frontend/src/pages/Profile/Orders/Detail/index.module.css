@@ -35,6 +35,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1230px) {
