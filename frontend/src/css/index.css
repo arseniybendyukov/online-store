@@ -26,9 +26,15 @@
 }
 
 body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   color: #000;
+}
+
+html {
+  height: -webkit-fill-available;
 }
 
 .container {
