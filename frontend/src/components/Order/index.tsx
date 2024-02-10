@@ -44,7 +44,11 @@ export function Order({ order }: Props) {
           }}
           items={
             order.products.map((orderedProduct) => (
-              <OrderedProductCard key={orderedProduct.id} orderedProduct={orderedProduct} />
+              <OrderedProductCard
+                key={orderedProduct.id}
+                orderedProduct={orderedProduct}
+                className={css.heightCard}
+              />
             ))
           }
         />
