@@ -1,4 +1,4 @@
-import { AuthNestedPaths, NavPaths, profileLinks } from '../../navigation';
+import { AuthNestedPaths, NavPaths, ProfileNestedPaths, profileLinks } from '../../navigation';
 import { Logo } from '../Logo';
 import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
@@ -41,7 +41,7 @@ export function Header() {
           {
             user
             ? <>
-              <Link className={css.linkOnProfile} to={NavPaths.PROFILE}>
+              <Link className={css.linkOnProfile} to={`${NavPaths.PROFILE}/${ProfileNestedPaths.PERSONAL_INFO}`}>
                 <User className={css.userSVG} />
               </Link>
 

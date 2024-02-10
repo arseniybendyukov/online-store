@@ -63,10 +63,10 @@ export const headerLinks: NamedLink<NavPaths>[] = [
   },
 ];
 
-export const profileLinks: NamedLink<ProfileNestedPaths>[] = [
+export const profileLinks: NamedLink[] = [
   {
     name: 'Заказы',
-    path: ProfileNestedPaths.ORDERS,
+    path: `${ProfileNestedPaths.ORDERS}/${OrdersNestedPaths.ACTIVE}`,
   },
   {
     name: 'Сохраненное',

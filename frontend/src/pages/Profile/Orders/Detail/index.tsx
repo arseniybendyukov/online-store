@@ -7,8 +7,7 @@ import { Label } from '../../../../components/Label';
 import { OrderedProductCard } from '../../../../components/OrderedProductCard';
 import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 import { OrderIsCancelled } from '../../../../components/OrderIsCancelled';
-import { useEffect, useMemo } from 'react';
-import { useSearchParamsState } from '../../../../hooks';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 
@@ -16,15 +15,7 @@ export function OrderDetail() {
   const { id = '' } = useParams();
   const { data: order, isLoading } = useGetOrderDetailQuery({ id });
 
-  const [selectedStageId, setSelectedStageId] = useSearchParamsState(
-    'stage',
-    (searchParams) => {
-      const raw = searchParams.get('stage');
-      return raw !== null
-      ? Number(raw)
-      : null
-    },
-  );
+  const [selectedStageId, setSelectedStageId] = useState<number | null>(null);
 
   const selectedStage = useMemo(() => {
     if (order) {
