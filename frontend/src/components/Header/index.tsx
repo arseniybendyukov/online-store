@@ -12,6 +12,7 @@ import { Burger } from './Burger';
 import { useState } from 'react';
 import { ReactComponent as Cross } from '../../images/cross.svg';
 import { UserInfo } from '../UserInfo';
+import { CircleAvatar } from '../CircleAvatar';
 
 export function Header() {
   const user = useAppSelector((state) => state.userState.user);
@@ -56,11 +57,11 @@ export function Header() {
                   </button>
 
                   <div className={css.modalMain}>
-                    <UserInfo
-                      firstName={user.first_name}
-                      lastName={user.last_name}
-                      color={user.color}
+                    <CircleAvatar
+                      size='medium'
                       image={user.image}
+                      initials={user.first_name[0] + user.last_name[0]}
+                      color={user.color}
                     />
 
                     <ul className={css.profileLinks}>

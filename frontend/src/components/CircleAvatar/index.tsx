@@ -1,26 +1,26 @@
 import css from './index.module.css';
 
 interface Props {
-  sizeType: 'small' | 'medium' | 'large';
+  size: 'small' | 'medium' | 'large';
   image: string | null;
   initials: string;
   color: string;
 }
 
-export function CircleAvatar({ sizeType, image, initials, color }: Props) {
-  let size;
+export function CircleAvatar({ size, image, initials, color }: Props) {
+  let circleSize;
   let fontSize;
-  switch (sizeType) {
+  switch (size) {
     case 'small':
-      size = 50;
+      circleSize = 50;
       fontSize = 18;
       break;
     case 'medium':
-      size = 100;
+      circleSize = 100;
       fontSize = 36;
       break;
     case 'large':
-      size = 190;
+      circleSize = 190;
       fontSize = 56;
       break;
   }
@@ -30,8 +30,8 @@ export function CircleAvatar({ sizeType, image, initials, color }: Props) {
       className={`ibg ${css.circle}`}
       style={{
         background: color,
-        width: size,
-        height: size,
+        width: circleSize,
+        height: circleSize,
       }}
     >
       {
@@ -42,7 +42,7 @@ export function CircleAvatar({ sizeType, image, initials, color }: Props) {
             className={css.initials}
             style={{ fontSize }}
           >
-            {initials}
+            {initials.toUpperCase()}
           </span>
         )
       }
