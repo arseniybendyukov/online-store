@@ -292,7 +292,10 @@ export const api = createApi({
         // 0 затычка. Пользователь берется из request.user
         url: `user/${0}/`,
         method: 'PATCH',
-        body: data,
+        body: {
+          ...data,
+          birthdate: data.birthdate === '' ? null : data.birthdate,
+        },
       }),
       invalidatesTags: ['User'],
     }),
