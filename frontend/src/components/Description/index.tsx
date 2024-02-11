@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import css from './index.module.css';
 
 interface Props {
@@ -7,13 +7,23 @@ interface Props {
 
 export function Description({ text }: Props) {
   const [isOpened, setIsOpened] = useState(false);
+  const [height, setHeight] = useState(0)
+  const ref = useRef<HTMLParagraphElement>(null)
+  
+  const MAX_HEIGHT = 120;
+
+  useLayoutEffect(() => {
+    setHeight(ref.current ? ref.current.clientHeight : 0)
+  }, [])
 
   return (
     <div className={css.container}>
-      <p className={`${css.description} ${!isOpened ? css.truncate : ''}`}>
+      <p ref={ref} className={`${css.description} ${height >= MAX_HEIGHT && !isOpened ? css.truncate : ''}`}>
         {text}
       </p>
-      <button
+
+      {height >= MAX_HEIGHT && (
+        <button
         className={css.button}
         onClick={() => setIsOpened((prevIsOpened) => !prevIsOpened)}
       >
@@ -23,6 +33,7 @@ export function Description({ text }: Props) {
           : 'Подробнее...'
         }
       </button>
+      )}
     </div>
   );
 }
