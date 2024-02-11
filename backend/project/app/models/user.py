@@ -44,8 +44,6 @@ class User(AbstractBaseUser, PermissionsMixin):
   phone_number = models.CharField(
     max_length=17,
     validators=[PHONE_NUMBER_VALIDATOR],
-    null=True,
-    blank=True,
     verbose_name='Номер телефона',
   )
   saved_product_variants = models.ManyToManyField(Variant, blank=True, verbose_name='Сохраненные товары')

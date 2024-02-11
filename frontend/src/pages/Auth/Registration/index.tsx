@@ -4,9 +4,8 @@ import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { AuthNestedPaths, NavPaths } from '../../../navigation';
 import { ModalTemplate } from '../ModalTemplate';
-import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
+import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isEmailValid, isPhoneNumberValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/api';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useAppSelector } from '../../../redux/store';
@@ -15,6 +14,7 @@ interface FormValues {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   password1: string;
   password2: string;
 }
@@ -40,6 +40,12 @@ function validate(values: FormValues) {
     errors.email = INVALID_EMAIL;
   }
 
+  if (!values.phoneNumber) {
+    errors.phoneNumber = REQUIRED_FIELD;
+  } else if (values.phoneNumber && !isPhoneNumberValid(values.phoneNumber)) {
+    errors.phoneNumber = INVALID_PHONE_NUMBER;
+  }
+
   if (!values.password1) {
     errors.password1 = REQUIRED_FIELD;
   }
@@ -56,7 +62,6 @@ function validate(values: FormValues) {
 }
 
 export function Registration() {
-  const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
   const localCart = useAppSelector((state) => state.localCartState.items);
 
@@ -65,6 +70,7 @@ export function Registration() {
       firstName: '',
       lastName: '',
       email: '',
+      phoneNumber: '',
       password1: '',
       password2: '',
     },
@@ -75,6 +81,7 @@ export function Registration() {
         first_name: values.firstName,
         last_name: values.lastName,
         password: values.password1,
+        phone_number: values.phoneNumber,
         cart_items: localCart.map((item) => ({
           variant: item.variantId,
           amount: item.amount,
@@ -138,6 +145,15 @@ export function Registration() {
           value={formik.values.email}
           isTouched={formik.touched.email}
           error={formik.errors.email}
+        />
+
+        <Input
+          label='Номер телефона'
+          name='phoneNumber'
+          onChange={formik.handleChange}
+          value={formik.values.phoneNumber}
+          isTouched={formik.touched.phoneNumber}
+          error={formik.errors.phoneNumber}
         />
 
         <Input
