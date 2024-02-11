@@ -32,7 +32,7 @@ export function ProductReviews() {
   return <>
     {
       isLoading
-      ? <SpinnerScreen height={300} />
+      ? <SpinnerScreen />
       : reviews && (
         reviews.length > 0
         ? (
