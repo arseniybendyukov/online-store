@@ -17,21 +17,12 @@
   min-width: 0;
 }
 
-/* Пока дублируется, но, возможно, класс нужен будет в адаптивах */
 .reviews {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.reviewSVG {
-  width: 25px;
-  height: 25px;
-}
-
-.reviewSVG path {
-  fill: #FFF;
-}
 
 @media (max-width: 800px) {
   .container {

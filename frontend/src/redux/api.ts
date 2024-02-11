@@ -209,7 +209,7 @@ export const api = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Reviews', 'MyReviews'],
+      invalidatesTags: ['Reviews', 'MyReviews', 'Order', 'OrderDetail'],
     }),
 
     getLocalCart: builder.query<CartVariant[], { items: LocalCartItem[] }>({

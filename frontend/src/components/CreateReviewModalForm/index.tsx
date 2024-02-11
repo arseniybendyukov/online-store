@@ -1,20 +1,17 @@
 import css from './index.module.css';
-import { ReactComponent as Cross } from '../../../../images/cross.svg';
+import { ReactComponent as Cross } from '../../images/cross.svg';
 import { useFormik } from 'formik';
-import { Variant } from '../../../../types/data';
-import { useDisableScroll } from '../../../../hooks';
-import { useCreateReviewMutation } from '../../../../redux/api';
+import { useDisableScroll } from '../../hooks';
+import { useCreateReviewMutation } from '../../redux/api';
 import { toast } from 'react-toastify';
-import { Label } from '../../../../components/Label';
-import { RadioVariants } from '../../../../components/RadioVariants';
-import { RadioStars } from '../../../../components/RadioStars';
-import { Input } from '../../../../components/Input';
-import { Button } from '../../../../components/Button';
-import { REQUIRED_FIELD } from '../../../../utils/forms';
+import { Label } from '../Label';
+import { RadioStars } from '../RadioStars';
+import { Input } from '../Input';
+import { Button } from '../Button';
+import { REQUIRED_FIELD } from '../../utils/forms';
 
 interface FormValues {
   rating: number;
-  variantId: number | null;
   text: string;
 }
 
@@ -23,10 +20,6 @@ function validate(values: FormValues) {
 
   if (values.rating === 0) {
     errors.rating = 'Укажите оценку товара!';
-  }
-
-  if (values.variantId === null) {
-    errors.variantId = 'Выберите вариант товара!';
   }
 
   if (!values.text) {
@@ -39,13 +32,13 @@ function validate(values: FormValues) {
 interface Props {
   isOpened: boolean;
   close: () => void;
-  variants: Variant[];
+  variantId: number;
 }
 
 export function CreateReviewModalForm({
   isOpened,
   close,
-  variants,
+  variantId,
 }: Props) {
   const [
     createReview,
@@ -57,25 +50,22 @@ export function CreateReviewModalForm({
   const formik = useFormik<FormValues>({
     initialValues: {
       rating: 0,
-      variantId: null,
       text: '',
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      if (values.variantId) {
-        const result = await createReview({
-          rating: values.rating,
-          text: values.text,
-          variant: values.variantId,
-        });
+      const result = await createReview({
+        rating: values.rating,
+        text: values.text,
+        variant: variantId,
+      });
 
-        if ('error' in result) {
-          toast('Произошла ошибка создания отзыва!', { type: 'error' });
-        } else {
-          toast('Благодарим за оставленный отзыв!', { type: 'success' });
-          resetForm();
-          close();
-        }
+      if ('error' in result) {
+        toast('Произошла ошибка создания отзыва!', { type: 'error' });
+      } else {
+        toast('Благодарим за оставленный отзыв!', { type: 'success' });
+        resetForm();
+        close();
       }
     },
   });
@@ -98,17 +88,6 @@ export function CreateReviewModalForm({
 
         <form className={css.form} onSubmit={formik.handleSubmit}>
           <div className={css.labeled}>
-            <Label label='Выберите вариант товара' gap={10}>
-              <RadioVariants
-                options={variants}
-                selectedVariantId={formik.values.variantId}
-                setSelectedVariantId={(value) => formik.setFieldValue('variantId', value)}
-                shouldDisplayIsInStock={false}
-                isTouched={formik.touched.variantId}
-                error={formik.errors.variantId}
-              />
-            </Label>
-
             <Label label='Оцените товар' gap={10}>
               <RadioStars
                 selectedRating={formik.values.rating}
