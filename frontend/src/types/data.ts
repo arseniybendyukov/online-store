@@ -183,6 +183,7 @@ export interface OrderedProduct {
   sale_price: number | null;
   variant_name: string;
   amount: number;
+  is_review_allowed: boolean;
   origin_variant: null | {
     id: number;
     product: number;

@@ -8,21 +8,16 @@ import { useOutletContext } from 'react-router-dom';
 import { ReviewsOrdering } from '../../../types/filters';
 import { useState } from 'react';
 import { ArrowOrdering, OrderingParam, paramToString } from '../../../components/ArrowOrdering';
-import { Button } from '../../../components/Button';
-import { ReactComponent as ReviewSVG } from '../../../images/review.svg';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';
-import { CreateReviewModalForm } from './CreateReviewModalForm';
 
 export function ProductReviews() {
-  const [isModalOpened, setIsModalOpened] = useState(false);
-
   const [ordering, setOrdering] = useState<OrderingParam<ReviewsOrdering>>({
     param: ReviewsOrdering.Date,
     isReversed: false,
     isDesc: false,
   });
 
-  const { reviews: { id, avgRating, variants } } = useOutletContext<ProductDetailOutletContext>();
+  const { reviews: { id, avgRating } } = useOutletContext<ProductDetailOutletContext>();
   
   const { data: reviews, isLoading } = useGetReviewsByIdQuery({
     id,
@@ -37,28 +32,11 @@ export function ProductReviews() {
         reviews.length > 0
         ? (
           <div className={css.container}>
-            <CreateReviewModalForm
-              isOpened={isModalOpened}
-              close={() => setIsModalOpened(false)}
-              variants={variants}
-            />
-
             <div className={css.side}>
               <RatingStatsBar
                 avgRating={avgRating}
                 ratings={reviews.map((review) => review.rating)}
-              />
-
-              <Button
-                onClick={() => setIsModalOpened((prev) => !prev)}
-                state={{
-                  default: {
-                    text: 'Оставить отзыв',
-                    icon: <ReviewSVG className={css.reviewSVG} />,
-                  }
-                }}
-              />
-            </div>
+              />            </div>
             <div className={css.main}>
               <h2 className='h2'>Отзывы</h2>
               

@@ -101,6 +101,7 @@ export function OrderDetail() {
                 <OrderedProductCard
                   key={orderedProduct.id}
                   orderedProduct={orderedProduct}
+                  showCreateReviewButton
                 />
               ))}
             </div>
