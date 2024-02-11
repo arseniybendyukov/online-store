@@ -9,6 +9,7 @@ class UserAdmin(admin.ModelAdmin):
     'email',
     'phone_number',
   )
+  search_fields = ('first_name', 'last_name', 'email', 'phone_number',)
 
   @admin.display(description='Имя и фамилия')
   def fullname(self, instance):

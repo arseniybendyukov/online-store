@@ -13,6 +13,7 @@ class VariantInline(SortableTabularInline):
 @admin.register(Product)
 class ProductAdmin(SortableAdminBase, admin.ModelAdmin):
   inlines = [VariantInline]
+  search_fields = ('name',)
   list_display = (
     'name',
     'brand',
