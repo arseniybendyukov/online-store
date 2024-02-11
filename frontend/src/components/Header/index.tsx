@@ -11,12 +11,14 @@ import { Link } from 'react-router-dom';
 import { Burger } from './Burger';
 import { useState } from 'react';
 import { ReactComponent as Cross } from '../../images/cross.svg';
-import { UserInfo } from '../UserInfo';
 import { CircleAvatar } from '../CircleAvatar';
+import { useLogoutMutation } from '../../redux/api';
 
 export function Header() {
   const user = useAppSelector((state) => state.userState.user);
   const localCart = useAppSelector((state) => state.localCartState.items);
+
+  const [logout] = useLogoutMutation();
 
   const [isProifleModalOpened, setIsProifleModalOpened] = useState(false);
 
@@ -72,6 +74,12 @@ export function Header() {
                           </Link>
                         </li>
                       ))}
+
+                      <li>
+                        <button onClick={() => logout()} className={css.logoutButton}>
+                          Выйти из аккаунта
+                        </button>
+                      </li>
                     </ul>
                   </div>
                 </div>
