@@ -16,7 +16,7 @@ export function NotActive() {
           {
             notActiveOrders.length > 0
             ? notActiveOrders.map((order) => <Order key={order.id} order={order} />)
-            : <div className='empty'>Нет неактивных заказов</div>
+            : <div className='empty' style={{ minHeight: 300 }}>Нет неактивных заказов</div>
           }
         </div>
       )

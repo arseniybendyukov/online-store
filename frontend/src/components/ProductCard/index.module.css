@@ -23,6 +23,10 @@
   gap: 5px;
 }
 
+.name {
+  word-break: break-word;
+}
+
 .category {
   color: var(--grey-1);
 }

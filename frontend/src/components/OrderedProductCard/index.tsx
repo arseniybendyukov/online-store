@@ -4,10 +4,11 @@ import { ProductPrice } from '../ProductPrice';
 
 interface Props {
   orderedProduct: OrderedProduct;
+  className?: string;
 }
 
-export const OrderedProductCard = ({ orderedProduct }: Props) => (
-  <div className={css.orderedProduct}>
+export const OrderedProductCard = ({ orderedProduct, className }: Props) => (
+  <div className={`${css.orderedProduct} ${className ? className : ''}`}>
     <img src={orderedProduct.image} alt='product' />
     <p className={css.name}>{orderedProduct.name}</p>
     <div className={css.row}>

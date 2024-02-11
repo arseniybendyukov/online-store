@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { INVALID_EMAIL, REQUIRED_FIELD, isEmailValid } from '../../../utils/forms';
-import { AuthNestedPaths, NavPaths } from '../../../navigation';
+import { AuthNestedPaths, NavPaths, ProfileNestedPaths } from '../../../navigation';
 import { ModalTemplate } from '../ModalTemplate';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
@@ -49,7 +49,7 @@ export function Login() {
         .then((result) => {
           if (!('error' in result)) {
             resetForm();
-            navigate(NavPaths.PROFILE);
+            navigate(`${NavPaths.PROFILE}/${ProfileNestedPaths.PERSONAL_INFO}`);
           }
         })
         .catch((e) => console.error('error'));

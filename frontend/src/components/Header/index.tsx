@@ -1,4 +1,4 @@
-import { AuthNestedPaths, NavPaths, profileLinks } from '../../navigation';
+import { AuthNestedPaths, NavPaths, ProfileNestedPaths, profileLinks } from '../../navigation';
 import { Logo } from '../Logo';
 import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
@@ -11,11 +11,14 @@ import { Link } from 'react-router-dom';
 import { Burger } from './Burger';
 import { useState } from 'react';
 import { ReactComponent as Cross } from '../../images/cross.svg';
-import { UserInfo } from '../UserInfo';
+import { CircleAvatar } from '../CircleAvatar';
+import { useLogoutMutation } from '../../redux/api';
 
 export function Header() {
   const user = useAppSelector((state) => state.userState.user);
   const localCart = useAppSelector((state) => state.localCartState.items);
+
+  const [logout] = useLogoutMutation();
 
   const [isProifleModalOpened, setIsProifleModalOpened] = useState(false);
 
@@ -41,7 +44,7 @@ export function Header() {
           {
             user
             ? <>
-              <Link className={css.linkOnProfile} to={NavPaths.PROFILE}>
+              <Link className={css.linkOnProfile} to={`${NavPaths.PROFILE}/${ProfileNestedPaths.PERSONAL_INFO}`}>
                 <User className={css.userSVG} />
               </Link>
 
@@ -56,11 +59,11 @@ export function Header() {
                   </button>
 
                   <div className={css.modalMain}>
-                    <UserInfo
-                      firstName={user.first_name}
-                      lastName={user.last_name}
-                      color={user.color}
+                    <CircleAvatar
+                      size='medium'
                       image={user.image}
+                      initials={user.first_name[0] + user.last_name[0]}
+                      color={user.color}
                     />
 
                     <ul className={css.profileLinks}>
@@ -71,6 +74,12 @@ export function Header() {
                           </Link>
                         </li>
                       ))}
+
+                      <li>
+                        <button onClick={() => logout()} className={css.logoutButton}>
+                          Выйти из аккаунта
+                        </button>
+                      </li>
                     </ul>
                   </div>
                 </div>

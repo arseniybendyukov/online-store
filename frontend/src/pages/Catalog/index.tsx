@@ -21,11 +21,9 @@ export function Catalog() {
     (searchParams) => !!searchParams.get('show-all'),
   );
 
-
   // Поиск
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500);
-
 
   // Сортировка
   const [ordering, setOrdering] = useSearchParamsState(
@@ -40,13 +38,11 @@ export function Catalog() {
     },
   );
 
-
   // Фильтрация по тегу
   const [tag, setTag] = useSearchParamsState(
     'tag',
     (searchParams) => Number(searchParams.get('tag') || '0'),
   );
-
 
   // Категории
   const [selectedCategoryId, setSelectedCategoryId] = useSearchParamsState(
@@ -59,7 +55,6 @@ export function Catalog() {
     },
   );
   
-
   // Минимальная и максимальная цена
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
@@ -78,7 +73,6 @@ export function Catalog() {
       setMaxPrice((prevMax) => prevMax ? prevMax : minMaxPrice.max);
     }
   }, [minMaxPrice]);
-
 
   // Бренды
   const [brandIds, setBrandIds] = useSearchParamsState(
@@ -158,6 +152,7 @@ export function Catalog() {
             brandIds={brandIds}
             setBrandIds={setBrandIds}
           />
+
           <div className={css.main}>
             <CatalogRowForm
               openFilters={() => setIsFormOpened(true)}
@@ -168,19 +163,27 @@ export function Catalog() {
               tag={tag}
               setTag={setTag}
             />
+
             {
               isLoading
               ? <SpinnerScreen />
               : data && (
-                <div className={css.products}>
-                  {data?.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      willBecomeMobile
-                    />
-                  ))}
-                </div>
+                data.length > 0
+                ? (
+                  <div className={css.products}>
+                    {data?.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        willBecomeMobile
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className='empty' style={{ minHeight: 300 }}>
+                    Нет товаров
+                  </div>
+                )
               )
             }
           </div>

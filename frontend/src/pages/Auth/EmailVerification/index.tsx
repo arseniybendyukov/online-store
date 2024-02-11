@@ -26,7 +26,7 @@ export function EmailVerification() {
     >
       {
         isLoading
-        ? <SpinnerScreen height={300} />
+        ? <SpinnerScreen />
         : isSuccess
         ? <Success />
         : <Error />

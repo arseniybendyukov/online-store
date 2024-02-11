@@ -103,7 +103,7 @@ export function Cart() {
     <div className={`container ${css.container}`}>
       {
         isLoading
-        ? <SpinnerScreen />
+        ? <SpinnerScreen height={400} />
         : (
           <>
             {

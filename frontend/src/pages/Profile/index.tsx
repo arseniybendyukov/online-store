@@ -11,10 +11,6 @@ export function Profile() {
   const user = useAppSelector((state) => state.userState.user);
   const [logout] = useLogoutMutation();
 
-  const logoutButtonOnClick = async () => {
-    await logout();
-  }
-
   return (
     <PrivateRoute>
       {user && (
@@ -30,7 +26,7 @@ export function Profile() {
             <div className={css.tabs}>
               <NavTabs vertical options={profileLinks} />
 
-              <button onClick={logoutButtonOnClick} className={css.logoutButton}>
+              <button onClick={() => logout()} className={css.logoutButton}>
                 Выйти из аккаунта
               </button>
             </div>

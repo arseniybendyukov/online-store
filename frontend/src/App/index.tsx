@@ -4,13 +4,18 @@ import { Footer } from '../components/Footer';
 import css from './index.module.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from '../components/ScrollToTop';
 
-export const App = () => (
+export const App = () => <>
+  <ScrollToTop />
+
   <div className={css.app}>
     <Header />
+
     <main className={css.main}>
       <Outlet />
     </main>
+    
     <Footer />
 
     <ToastContainer
@@ -20,4 +25,4 @@ export const App = () => (
       hideProgressBar
     />
   </div>
-);
+</>;

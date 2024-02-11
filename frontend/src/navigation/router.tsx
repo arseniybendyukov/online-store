@@ -41,10 +41,6 @@ export const router = createBrowserRouter([
         element: <Auth />,
         children: [
           {
-            index: true,
-            element: <Navigate to={AuthNestedPaths.LOGIN} />
-          },
-          {
             path: AuthNestedPaths.LOGIN,
             element: <Login />
           },
@@ -67,10 +63,6 @@ export const router = createBrowserRouter([
         element: <Profile />,
         children: [
           {
-            index: true,
-            element: <Navigate to={ProfileNestedPaths.PERSONAL_INFO} />
-          },
-          {
             path: ProfileNestedPaths.SAVED,
             element: <Saved />,
           },
@@ -90,10 +82,6 @@ export const router = createBrowserRouter([
             path: ProfileNestedPaths.ORDERS,
             element: <Orders />,
             children: [
-              {
-                index: true,
-                element: <Navigate to={OrdersNestedPaths.ACTIVE} />
-              },
               {
                 path: OrdersNestedPaths.ACTIVE,
                 element: <Active />,

@@ -26,6 +26,7 @@ export function CategoryBreadCrumps({
       <div className={css.container}>
         {breadCrumbs.map((breadCrumb, index) => <>
             <Link
+              key={breadCrumb.id}
               to={`${NavPaths.CATALOG}/?category=${breadCrumb.id}`}
               className={`${css.breadCrumb} ${index === breadCrumbs.length - 1 ? css.last : ''}`}
             >

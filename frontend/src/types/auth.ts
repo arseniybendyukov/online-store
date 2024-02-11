@@ -17,7 +17,7 @@ export interface User {
   color: string;
   image: string | null;
   birthdate: string  | null;
-  phone_number: string  | null;
+  phone_number: string;
   cart_products_count: number;
 }
 
@@ -26,6 +26,7 @@ export interface RegisterInput {
   first_name: string;
   last_name: string;
   password: string;
+  phone_number: string;
   cart_items: { variant: number; amount: number; }[];
 }
 

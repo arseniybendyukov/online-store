@@ -41,7 +41,7 @@ export function Review({ review }: Props) {
   return (
     <div className={css.container}>
       <CircleAvatar
-        sizeType='small'
+        size='small'
         image={review.user.image}
         initials={review.user.first_name[0] + review.user.last_name[0]}
         color={review.user.color}

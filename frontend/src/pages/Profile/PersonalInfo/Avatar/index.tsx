@@ -47,7 +47,7 @@ export function Avatar({ initials, color, image }: Props) {
       )}
 
       <CircleAvatar
-        sizeType='large'
+        size='large'
         image={image}
         initials={initials}
         color={color}

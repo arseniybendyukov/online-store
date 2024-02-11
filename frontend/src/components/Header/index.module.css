@@ -76,6 +76,10 @@
   gap: 10px;
 }
 
+.logoutButton {
+  color: var(--red);
+}
+
 @media (max-width: 1200px) {
   .header > div {
     height: 80px;

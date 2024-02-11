@@ -9,7 +9,7 @@ interface Props extends SpinnerProps {
 
 export function SpinnerScreen({
   width='auto',
-  height='100%',
+  height='300px',
   ...props
 }: Props) {
   return (

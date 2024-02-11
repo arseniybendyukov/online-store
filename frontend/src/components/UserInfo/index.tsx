@@ -11,7 +11,7 @@ interface Props {
 export const UserInfo = ({ firstName, lastName, color, image }: Props) => (
   <div className={css.userInfo}>
     <CircleAvatar
-      sizeType='medium'
+      size='medium'
       image={image}
       initials={firstName[0] + lastName[0]}
       color={color}

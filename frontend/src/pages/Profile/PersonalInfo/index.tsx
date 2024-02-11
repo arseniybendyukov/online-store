@@ -4,7 +4,7 @@ import { Input } from '../../../components/Input';
 import { useAppSelector } from '../../../redux/store';
 import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
-import { INVALID_PHONE_NUMBER, isPhoneNumberValid } from '../../../utils/forms';
+import { INVALID_PHONE_NUMBER, REQUIRED_FIELD, isPhoneNumberValid } from '../../../utils/forms';
 import { useUpdateMeMutation } from '../../../redux/api';
 import { Avatar } from './Avatar';
 
@@ -19,7 +19,9 @@ interface FormValues {
 function validate(values: FormValues) {
   const errors: Partial<FormValues> = {};
 
-  if (values.phoneNumber && !isPhoneNumberValid(values.phoneNumber)) {
+  if (!values.phoneNumber) {
+    errors.phoneNumber = REQUIRED_FIELD;
+  } else if (values.phoneNumber && !isPhoneNumberValid(values.phoneNumber)) {
     errors.phoneNumber = INVALID_PHONE_NUMBER;
   }
 
@@ -56,7 +58,7 @@ export function PersonalInfo() {
       formik.setFieldValue('lastName', user.last_name);
       formik.setFieldValue('patronymic', user.patronymic ?? '');
       formik.setFieldValue('birthdate', user.birthdate ?? '');
-      formik.setFieldValue('phoneNumber', user.phone_number ?? '');
+      formik.setFieldValue('phoneNumber', user.phone_number);
     }
   }, [user]);
 
