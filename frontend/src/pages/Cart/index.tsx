@@ -102,6 +102,17 @@ export function Cart() {
     [data]
   );
 
+  const overallWeight = useMemo(
+    () => data.reduce((accum, cartItem) => {
+      if (cartItem.variant.is_in_stock) {
+        return accum + cartItem.variant.weight;
+      } else {
+        return accum;
+      }
+    }, 0),
+    [data]
+  );
+
   return (
     <div className={`container ${css.container}`}>
       {
@@ -138,6 +149,7 @@ export function Cart() {
 
                         <CreateOrderModal
                           overallPrice={overallPrice}
+                          overallWeight={overallWeight}
                           onCreateOrderClick={onCreateOrderClick}
                           isOrderCreationLoading={isOrderCreationLoading}
                           isOpened={isModalOpened}

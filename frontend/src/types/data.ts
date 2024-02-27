@@ -168,6 +168,7 @@ export interface CartVariant {
   percentage: number | null;
   product: VariantProduct;
   is_saved: boolean;
+  weight: number;
 }
 
 export interface OderedProductInput {

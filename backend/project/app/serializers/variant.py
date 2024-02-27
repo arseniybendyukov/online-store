@@ -62,6 +62,7 @@ class CartVariantSerializer(serializers.ModelSerializer):
       'percentage',
       'product',
       'is_saved',
+      'weight',
     )
 
 

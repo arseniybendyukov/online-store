@@ -63,13 +63,16 @@ export function monthAndDayFromDate(date: string) {
 }
 
 
+export const toCurrency = (money: number) => `${money} ₽`;
+
+
 export function getOverallPrice(order: Order) {
   const price = order.products.reduce((acc, orderedProduct) => {
     const price = orderedProduct.sale_price || orderedProduct.actual_price;
     return acc + price * orderedProduct.amount;
   }, 0);
 
-  return `${price} ₽`;
+  return toCurrency(price);
 }
 
 
@@ -87,3 +90,6 @@ T extends {
 
   return fullName;
 }
+
+
+export const toKilos = (grams: number) => `${grams / 1000} кг`
