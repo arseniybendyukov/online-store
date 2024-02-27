@@ -2,16 +2,19 @@ import css from './index.module.css';
 import { useCreateOrderMutation, useGetCartQuery, useGetLocalCartQuery } from '../../redux/api';
 import { CartItemCard } from '../../components/CartItemCard';
 import { Button } from '../../components/Button';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../../redux/store';
 import { CartItem } from '../../types/data';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { Link } from 'react-router-dom';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
+import { CreateOrderModal } from './CreateOrderModal';
 
 export function Cart() {
   const user = useAppSelector((state) => state.userState.user);
+
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   const localCart = useAppSelector((state) => state.localCartState.items);
   const {
@@ -59,7 +62,7 @@ export function Cart() {
     [data]
   );
 
-  const onOrderButtonClick = useCallback(
+  const onCreateOrderClick = useCallback(
     async function(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
       e.preventDefault();
 
@@ -124,13 +127,23 @@ export function Cart() {
 
                     {
                       user
-                      ? (overallPrice > 0 && (
+                      ? (overallPrice > 0 && <>
                         <Button
-                          onClick={onOrderButtonClick}
-                          isLoading={isOrderCreationLoading}
-                          state={{ default: { text: `Оформить заказ (${overallPrice} ₽)`, icon: undefined } }}
+                          state={{ default: { text: 'Оформить заказ', icon: undefined } }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsModalOpened(true)
+                          }}
                         />
-                      )) : (
+
+                        <CreateOrderModal
+                          overallPrice={overallPrice}
+                          onCreateOrderClick={onCreateOrderClick}
+                          isOrderCreationLoading={isOrderCreationLoading}
+                          isOpened={isModalOpened}
+                          close={() => setIsModalOpened(false)}
+                        />
+                      </>) : (
                         <p className={css.notAuthorizedNotification}>
                           Чтобы создать заказ, <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войдите</Link> или <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`} className='link'>зарегистрируйтесь</Link>.
                         </p>
