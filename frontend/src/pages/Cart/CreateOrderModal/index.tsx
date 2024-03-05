@@ -4,7 +4,8 @@ import { Modal } from '../../../components/Modal';
 import { toCurrency, toKilos } from '../../../utils/data';
 import css from './index.module.css';
 
-const DELIVERY_WEIGHT_COEFFICIENT = 0.5
+const DELIVERY_WEIGHT_COEFFICIENT = 0.5;
+const PAYMENT_METHOD = 'наличными или картой при получении';
 
 interface Props {
   overallPrice: number;
@@ -64,7 +65,7 @@ export function CreateOrderModal({
               </div>
             ))}
           </div>
-          <Information text='Способ оплаты: наличными или картой при получении' />
+          <Information text={`Способ оплаты: ${PAYMENT_METHOD}`} />
         </div>
       </div>
 
