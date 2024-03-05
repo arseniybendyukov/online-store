@@ -14,6 +14,10 @@ class VariantInline(SortableTabularInline):
 class ProductAdmin(SortableAdminBase, admin.ModelAdmin):
   inlines = [VariantInline]
   search_fields = ('name',)
+  filter_horizontal = (
+    'silimar_products',
+    'bought_together_products',
+  )
   list_display = (
     'name',
     'brand',
