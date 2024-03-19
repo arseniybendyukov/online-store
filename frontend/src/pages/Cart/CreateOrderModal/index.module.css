@@ -3,6 +3,10 @@
   grid-template-columns: 1fr 300px;
 }
 
+.content {
+  padding: 10px;
+}
+
 .side {
   display: flex;
   flex-direction: column;

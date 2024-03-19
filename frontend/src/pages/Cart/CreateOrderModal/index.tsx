@@ -24,6 +24,15 @@ export function CreateOrderModal({
   isOpened,
   close,
 }: Props) {
+  // @ts-ignore
+  const widjet = new ISDEKWidjet({
+    defaultCity: 'Уфа',
+    cityFrom: 'Омск',
+    link: 'forpvz',
+    path: 'https://widget.cdek.ru/widget/scripts/',
+    servicepath: 'https://widget.cdek.ru/widget/scripts/service.php'
+  });
+
   const price = overallPrice + overallWeight * DELIVERY_WEIGHT_COEFFICIENT;
   
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
@@ -54,7 +63,9 @@ export function CreateOrderModal({
       close={close}
     >
       <div className={css.wrapper}>
-        <div className={css.content}></div>
+        <div className={css.content}>
+          <div id="forpvz" style={{height: '450px'}}></div>
+        </div>
         <div className={css.side}>
           <div className={css.properties}>
             {properties.map(({ label, value, isBold }) => (

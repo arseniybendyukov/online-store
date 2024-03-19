@@ -115,6 +115,8 @@ export function Cart() {
 
   return (
     <div className={`container ${css.container}`}>
+      
+
       {
         isLoading
         ? <SpinnerScreen height={400} />
