@@ -18,6 +18,7 @@ class Variant(models.Model):
   is_in_stock = models.BooleanField(default=True, verbose_name='Есть ли в наличии')
   actual_price = models.PositiveIntegerField(verbose_name='Цена без скидки')
   sale_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='Цена со скидкой')
+  weight = models.PositiveSmallIntegerField(default=0, verbose_name='Вес в граммах')
   percentage = models.DecimalField(
     max_digits=3,
     decimal_places=0,

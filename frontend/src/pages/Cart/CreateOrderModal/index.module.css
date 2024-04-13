@@ -1,0 +1,35 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+}
+
+.content {
+  padding: 10px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.properties {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.property {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.property.bold {
+  font-weight: 700;
+}
+
+.filler {
+  flex-grow: 1;
+  border-bottom: 1px dotted var(--grey-1);
+}

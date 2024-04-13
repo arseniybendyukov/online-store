@@ -42,7 +42,7 @@ export function OrderedProductCard({
           }}
           onClick={(e) => {
             e.preventDefault();
-            setIsModalOpened((prev) => !prev)
+            setIsModalOpened(true)
           }}
         />
       )}
