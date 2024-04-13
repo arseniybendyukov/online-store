@@ -25,14 +25,14 @@ export function CreateOrderModal({
   close,
 }: Props) {
   // @ts-ignore
-  const widjet = new ISDEKWidjet({
-    defaultCity: 'Уфа',
-    cityFrom: 'Омск',
-    link: 'forpvz',
-    path: 'https://widget.cdek.ru/widget/scripts/',
-    servicepath: 'https://widget.cdek.ru/widget/scripts/service.php'
+  new window.CDEKWidget({
+    from: 'Новосибирск',
+    root: 'cdek-map',
+    apiKey: 'a63e0ddc-38ce-43b0-9d4e-d302c296712a',
+    servicePath: 'http://proffclean.market/service.php',
+    defaultLocation: 'Новосибирск'
   });
-
+  
   const price = overallPrice + overallWeight * DELIVERY_WEIGHT_COEFFICIENT;
   
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
@@ -64,7 +64,7 @@ export function CreateOrderModal({
     >
       <div className={css.wrapper}>
         <div className={css.content}>
-          <div id="forpvz" style={{height: '450px'}}></div>
+          <div id="cdek-map" style={{ width: 600, height: 600 }} />
         </div>
         <div className={css.side}>
           <div className={css.properties}>
