@@ -28,7 +28,7 @@ export function CreateOrderModal({
   new window.CDEKWidget({
     from: 'Новосибирск',
     root: 'cdek-map',
-    apiKey: 'a63e0ddc-38ce-43b0-9d4e-d302c296712a',
+    apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
     defaultLocation: 'Новосибирск'
   });
