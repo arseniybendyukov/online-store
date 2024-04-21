@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
@@ -30,7 +31,7 @@ export function CreateOrderModal({
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
-    defaultLocation: 'Новосибирск'
+    defaultLocation: 'Новосибирск',
   });
   
   const price = overallPrice + overallWeight * DELIVERY_WEIGHT_COEFFICIENT;
@@ -55,6 +56,13 @@ export function CreateOrderModal({
     },
   ];
 
+  // Без этого внизу страницы спавнятся виджеты
+  useEffect(() => {
+    for (let el of document.getElementsByClassName('cdek-map')) {
+      el.remove();
+    }
+  }, []);
+
   return (
     <Modal
       heading='Оформление заказа'
@@ -64,7 +72,7 @@ export function CreateOrderModal({
     >
       <div className={css.wrapper}>
         <div className={css.content}>
-          <div id="cdek-map" style={{ width: 600, height: 600 }} />
+          <div id="cdek-map" style={{ height: 500 }} />
         </div>
         <div className={css.side}>
           <div className={css.properties}>
