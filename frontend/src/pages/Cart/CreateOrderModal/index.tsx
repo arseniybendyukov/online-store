@@ -47,18 +47,14 @@ export function CreateOrderModal({
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
-    hideDeliveryOptions: {
-      pickup: true,
-    },
     goods,
     defaultLocation: 'Новосибирск',
     tariffs: {
       office: [234, 136],
       door: [233],
     },
-    onCalculate(...args: any[]) {
-      console.log('Расчет стоимости доставки произведен');
-      console.log(args);
+    forceFilters: {
+      type: 'PVZ',
     },
     onChoose(...args: any[]) {
       console.log('Доставка выбрана');
@@ -94,19 +90,6 @@ export function CreateOrderModal({
       el.remove();
     }
   }, []);
-
-  useEffect(() => {
-    widget.resetParcels();
-    widget.addParcel((remoteCartData || []).map((parcel) => ({
-      width: 10,
-      height: 10,
-      length: 10,
-      weight: parcel.variant.weight || 1500,
-    })));
-    console.log('updated!', widget.getParcels())
-  }, [widget, remoteCartData]);
-
-  console.log(widget.getParcels())
 
   return (
     <Modal
