@@ -30,36 +30,12 @@ export function CreateOrderModal({
 }: Props) {
   // @ts-ignore
   const widget = new window.CDEKWidget({
-    // from: {
-    //   country_code: 'RU',
-    //   city: 'Новосибирск',
-    //   postal_code: 630091,
-    //   code: 270,
-    //   address: 'ул. Советская, д. 36/1',
-    // },
-    // root: 'cdek-map',
-    // apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
-    // servicePath: 'http://proffclean.market/service.php',
-    // tariffs: {
-    //   office: [234, 136],
-    //   door: [233],
-    // },
-    // defaultLocation: 'Новосибирск',
-    // onCalculate(...args: any[]) {
-    //   console.log('Расчет стоимости доставки произведен');
-    //   console.log(args);
-    // },
-    // onChoose(...args: any[]) {
-    //   console.log('Доставка выбрана');
-    //   console.log(args);
-    // },
-
     from: {
       country_code: 'RU',
       city: 'Новосибирск',
-      postal_code: 630009,
+      postal_code: 630091,
       code: 270,
-      address: 'ул. Большевистская, д. 101',
+      address: 'ул. Советская, д. 36/1',
     },
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
@@ -84,21 +60,20 @@ export function CreateOrderModal({
         weight: 10,
       },
     ],
-    defaultLocation: [55.0415, 82.9346],
+    defaultLocation: 'Новосибирск',
     lang: 'rus',
     currency: 'RUB',
     tariffs: {
-      office: [234, 136, 138],
-      door: [233, 137, 139],
+      office: [234, 136],
+      door: [233],
     },
-    onReady() {
-      alert('Виджет загружен');
+    onCalculate(...args: any[]) {
+      console.log('Расчет стоимости доставки произведен');
+      console.log(args);
     },
-    onCalculate() {
-      alert('Расчет стоимости доставки произведен');
-    },
-    onChoose() {
-      alert('Доставка выбрана');
+    onChoose(...args: any[]) {
+      console.log('Доставка выбрана');
+      console.log(args);
     },
   });
   
@@ -140,6 +115,8 @@ export function CreateOrderModal({
       weight: parcel.variant.weight || 1500,
     })));
   }, [remoteCartData]);
+
+  console.log(widget.getParcels())
 
   return (
     <Modal
