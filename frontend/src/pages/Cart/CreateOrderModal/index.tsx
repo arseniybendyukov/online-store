@@ -30,7 +30,13 @@ export function CreateOrderModal({
 }: Props) {
   // @ts-ignore
   const widget = new window.CDEKWidget({
-    from: 'Новосибирск',
+    from: {
+      country_code: 'RU',
+      city: 'Новосибирск',
+      postal_code: 630091,
+      code: 270,
+      address: 'ул. Советская, д. 36/1',
+    },
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
