@@ -5,8 +5,8 @@ import { Modal } from '../../../components/Modal';
 import { toCurrency, toKilos } from '../../../utils/data';
 import css from './index.module.css';
 import { CartItem } from '../../../types/data';
+import { DeliveryType, Tariff, OfficeAddress, DoorAddress } from '../../../types/cdek';
 
-const DELIVERY_WEIGHT_COEFFICIENT = 0.5;
 const PAYMENT_METHOD = 'наличными или картой при получении';
 
 interface Props {
@@ -29,10 +29,10 @@ export function CreateOrderModal({
   remoteCartData,
 }: Props) {
   const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
-    width: 10,
-    height: 10,
-    length: 10,
-    weight: parcel.variant.weight || 1500,
+    width: parcel.variant.weight,
+    height: parcel.variant.height,
+    length: parcel.variant.length,
+    weight: parcel.variant.weight,
   })), [remoteCartData]);
 
   // @ts-ignore
@@ -51,19 +51,27 @@ export function CreateOrderModal({
     defaultLocation: 'Новосибирск',
     tariffs: {
       office: [234, 136],
-      door: [233],
+      door: [233, 137],
     },
     forceFilters: {
       type: 'PVZ',
     },
-    onChoose(...args: any[]) {
-      console.log('Доставка выбрана');
-      console.log(args);
+    onChoose<T extends DeliveryType>(
+      deliveryType: T,
+      tariff: Tariff,
+      address: T extends DeliveryType.OFFICE ? OfficeAddress : DoorAddress,
+    ) {
+      console.log(deliveryType, tariff, address);
+
+      switch (deliveryType) {
+        case 'office':
+          break;
+        case 'door':
+          break;
+      }
     },
   });
-  
-  const price = overallPrice + overallWeight * DELIVERY_WEIGHT_COEFFICIENT;
-  
+
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
     {
       label: 'Товары',
@@ -75,11 +83,11 @@ export function CreateOrderModal({
     },
     {
       label: 'Доставка',
-      value: toCurrency(overallWeight * DELIVERY_WEIGHT_COEFFICIENT),
+      value: '?',
     },
     {
       label: 'Итого',
-      value: toCurrency(price),
+      value: toCurrency(overallPrice),
       isBold: true,
     },
   ];
@@ -118,7 +126,7 @@ export function CreateOrderModal({
 
       <Button
         isLoading={isOrderCreationLoading}
-        state={{ default: { text: `Оформить заказ (${toCurrency(price)})`, icon: undefined } }}
+        state={{ default: { text: `Оформить заказ (${toCurrency(overallPrice)})`, icon: undefined } }}
         onClick={onCreateOrderClick}
       />
     </Modal>

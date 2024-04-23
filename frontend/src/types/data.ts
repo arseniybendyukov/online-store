@@ -169,6 +169,9 @@ export interface CartVariant {
   product: VariantProduct;
   is_saved: boolean;
   weight: number;
+  width: number;
+  height: number;
+  length: number;
 }
 
 export interface OderedProductInput {
