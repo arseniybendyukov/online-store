@@ -30,28 +30,75 @@ export function CreateOrderModal({
 }: Props) {
   // @ts-ignore
   const widget = new window.CDEKWidget({
+    // from: {
+    //   country_code: 'RU',
+    //   city: 'Новосибирск',
+    //   postal_code: 630091,
+    //   code: 270,
+    //   address: 'ул. Советская, д. 36/1',
+    // },
+    // root: 'cdek-map',
+    // apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
+    // servicePath: 'http://proffclean.market/service.php',
+    // tariffs: {
+    //   office: [234, 136],
+    //   door: [233],
+    // },
+    // defaultLocation: 'Новосибирск',
+    // onCalculate(...args: any[]) {
+    //   console.log('Расчет стоимости доставки произведен');
+    //   console.log(args);
+    // },
+    // onChoose(...args: any[]) {
+    //   console.log('Доставка выбрана');
+    //   console.log(args);
+    // },
+
     from: {
       country_code: 'RU',
       city: 'Новосибирск',
-      postal_code: 630091,
+      postal_code: 630009,
       code: 270,
-      address: 'ул. Советская, д. 36/1',
+      address: 'ул. Большевистская, д. 101',
     },
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
+    canChoose: true,
     servicePath: 'http://proffclean.market/service.php',
+    hideFilters: {
+      have_cashless: false,
+      have_cash: false,
+      is_dressing_room: false,
+      type: false,
+    },
+    hideDeliveryOptions: {
+      office: false,
+      door: false,
+    },
+    debug: false,
+    goods: [
+      {
+        width: 10,
+        height: 10,
+        length: 10,
+        weight: 10,
+      },
+    ],
+    defaultLocation: [55.0415, 82.9346],
+    lang: 'rus',
+    currency: 'RUB',
     tariffs: {
-      office: [234, 136],
-      door: [233],
+      office: [234, 136, 138],
+      door: [233, 137, 139],
     },
-    defaultLocation: 'Новосибирск',
-    onCalculate(...args: any[]) {
-      console.log('Расчет стоимости доставки произведен');
-      console.log(args);
+    onReady() {
+      alert('Виджет загружен');
     },
-    onChoose(...args: any[]) {
-      console.log('Доставка выбрана');
-      console.log(args);
+    onCalculate() {
+      alert('Расчет стоимости доставки произведен');
+    },
+    onChoose() {
+      alert('Доставка выбрана');
     },
   });
   
