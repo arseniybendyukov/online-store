@@ -34,6 +34,10 @@ export function CreateOrderModal({
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
+    tariffs: {
+      office: [234, 136],
+      door: [233],
+    },
     defaultLocation: 'Новосибирск',
     onCalculate(...args: any[]) {
       console.log('Расчет стоимости доставки произведен');
