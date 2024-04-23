@@ -174,9 +174,17 @@ export interface CartVariant {
   length: number;
 }
 
-export interface OderedProductInput {
-  origin_variant: number;
-  amount: number;
+export interface DeliveryInfo {
+  address: string;
+  delivery_sum: number;
+  tariff: string;
+}
+
+export interface OderedProductInput extends DeliveryInfo {
+  products: {
+    origin_variant: number;
+    amount: number;
+  }[];
 }
 
 export interface OrderedProduct {

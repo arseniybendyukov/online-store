@@ -4,8 +4,9 @@ import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
 import { toCurrency, toKilos } from '../../../utils/data';
 import css from './index.module.css';
-import { CartItem } from '../../../types/data';
+import { CartItem, DeliveryInfo } from '../../../types/data';
 import { DeliveryType, Tariff, OfficeAddress, DoorAddress } from '../../../types/cdek';
+import { SetState } from '../../../types/common';
 
 const PAYMENT_METHOD = 'наличными или картой при получении';
 
@@ -17,6 +18,8 @@ interface Props {
   isOpened: boolean;
   close: () => void;
   remoteCartData: CartItem[] | undefined;
+  deliveryInfo: DeliveryInfo | null;
+  setDeliveryInfo: SetState<DeliveryInfo | null>;
 }
 
 export function CreateOrderModal({
@@ -27,9 +30,11 @@ export function CreateOrderModal({
   isOpened,
   close,
   remoteCartData,
+  deliveryInfo,
+  setDeliveryInfo,
 }: Props) {
   const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
-    width: parcel.variant.weight,
+    width: parcel.variant.width,
     height: parcel.variant.height,
     length: parcel.variant.length,
     weight: parcel.variant.weight,
@@ -61,18 +66,21 @@ export function CreateOrderModal({
       tariff: Tariff,
       address: T extends DeliveryType.OFFICE ? OfficeAddress : DoorAddress,
     ) {
-      console.log(deliveryType, tariff, address);
+      let formattedAddress: string;
 
-      switch (deliveryType) {
-        case 'office':
-          break;
-        case 'door':
-          break;
+      if (deliveryType === 'office') {
+        formattedAddress = `${address.city}, ${address.address!}`;
+      } else {
+        formattedAddress = address.formatted!;
       }
+
+      setDeliveryInfo({
+        tariff: tariff.tariff_name,
+        delivery_sum: tariff.delivery_sum,
+        address: formattedAddress,
+      });
     },
   });
-
-  console.log(goods, widget.getParcels())
 
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
     {

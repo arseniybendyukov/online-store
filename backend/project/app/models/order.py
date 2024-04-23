@@ -8,8 +8,11 @@ class Order(models.Model):
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   approx_delivery_date = models.DateField(blank=True, null=True, verbose_name='Примерная дата доставки')
   is_cancelled = models.BooleanField(default=False, verbose_name='Отменен ли')
+  address = models.CharField(max_length=256, verbose_name='Адрес')
+  delivery_sum = models.PositiveIntegerField(verbose_name='Стоимость доставки')
+  tariff = models.CharField(max_length=256, verbose_name='Тариф')
 
-  @property
+  @property 
   def is_active(self):
     if self.is_cancelled:
       return False

@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../../redux/store';
-import { CartItem } from '../../types/data';
+import { CartItem, DeliveryInfo } from '../../types/data';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { Link } from 'react-router-dom';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
@@ -26,6 +26,8 @@ export function Cart() {
     data: remoteCartData,
     isLoading: isRemoteCartLoading,
   } = useGetCartQuery();
+
+  const [deliveryInfo, setDeliveryInfo] = useState<DeliveryInfo | null>(null);
 
   let data: (CartItem | Omit<CartItem, 'id'>)[];
   if (user) {
@@ -69,16 +71,23 @@ export function Cart() {
       if (user) {
         if (remoteCartData) {
           if (!hasNotInStockVariants) {
-            const result = await createOrder(remoteCartData.map((cartItem) => ({
-              origin_variant: cartItem.variant.id,
-              amount: cartItem.amount,
-            })));
-      
-            if ('error' in result) {
-              toast('Произошла ошибка при создании заказа', { type: 'error' });
+            if (!deliveryInfo) {
+              toast('Выберите способ и адрес доставки', { type: 'error' });
             } else {
-              toast('Заказ создан!', { type: 'success' });
-            }
+              const result = await createOrder({
+                ...deliveryInfo,
+                products: remoteCartData.map((cartItem) => ({
+                  origin_variant: cartItem.variant.id,
+                  amount: cartItem.amount,
+                })),
+              });            
+        
+              if ('error' in result) {
+                toast('Произошла ошибка при создании заказа', { type: 'error' });
+              } else {
+                toast('Заказ создан!', { type: 'success' });
+              }
+            }            
           } else {
             toast('В корзине есть товары, которых нет в наличии', { type: 'error' });
           }
@@ -157,6 +166,8 @@ export function Cart() {
                           isOpened={isModalOpened}
                           close={() => setIsModalOpened(false)}
                           remoteCartData={remoteCartData}
+                          deliveryInfo={deliveryInfo}
+                          setDeliveryInfo={setDeliveryInfo}
                         />
                       </>) : (
                         <p className={css.notAuthorizedNotification}>

@@ -177,11 +177,11 @@ export const api = createApi({
       providesTags: ['OrderDetail'],
     }),
 
-    createOrder: builder.mutation<{ id: number }, OderedProductInput[]>({
+    createOrder: builder.mutation<{ id: number }, OderedProductInput>({
       query: (data) => ({
         url: `orders/`,
         method: 'POST',
-        body: { products: data },
+        body: data,
       }),
       invalidatesTags: ['Order', 'Product', 'SavedProduct', 'ProductDetail', 'Cart', 'User'],
     }),

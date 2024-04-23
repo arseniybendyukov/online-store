@@ -28,6 +28,11 @@ export type OfficeAddress = {
   address: string;
   work_time: string;
   location: number[];
+
+  position?: never;
+  kind?: never;
+  precision?: never;
+  formatted?: never;
 }
 
 export type DoorAddress = {
@@ -39,4 +44,15 @@ export type DoorAddress = {
   kind: string;
   precision: string;
   formatted: string;
+
+  city_code?: never;
+  type?: never;
+  have_cashless?: never;
+  have_cash?: never;
+  allowed_cod?: never;
+  is_dressing_room?: never;
+  code?: never;
+  address?: never;
+  work_time?: never;
+  location?: never;
 }

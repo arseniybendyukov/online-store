@@ -47,7 +47,12 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
     user = self.context['request'].user
-    order = Order.objects.create(user=user)
+    order = Order.objects.create(
+      user=user,
+      address=validated_data['address'],
+      delivery_sum=validated_data['delivery_sum'],
+      tariff=validated_data['tariff'],
+    )
 
     for raw in validated_data['products']:
       OrderedProduct.objects.create(
@@ -77,7 +82,12 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Order
-    fields = ('products',)
+    fields = (
+      'products',
+      'address',
+      'delivery_sum',
+      'tariff',
+    )
 
 
 class CancelOrderSerializer(serializers.ModelSerializer):
