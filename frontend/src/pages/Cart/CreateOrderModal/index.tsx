@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Button } from '../../../components/Button';
 import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
@@ -28,6 +28,13 @@ export function CreateOrderModal({
   close,
   remoteCartData,
 }: Props) {
+  const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
+    width: 10,
+    height: 10,
+    length: 10,
+    weight: parcel.variant.weight || 1500,
+  })), [remoteCartData]);
+
   // @ts-ignore
   const widget = new window.CDEKWidget({
     from: {
@@ -39,30 +46,12 @@ export function CreateOrderModal({
     },
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
-    canChoose: true,
     servicePath: 'http://proffclean.market/service.php',
-    hideFilters: {
-      have_cashless: false,
-      have_cash: false,
-      is_dressing_room: false,
-      type: false,
-    },
     hideDeliveryOptions: {
-      office: false,
-      door: false,
+      pickup: true,
     },
-    debug: false,
-    goods: [
-      {
-        width: 10,
-        height: 10,
-        length: 10,
-        weight: 10,
-      },
-    ],
+    goods,
     defaultLocation: 'Новосибирск',
-    lang: 'rus',
-    currency: 'RUB',
     tariffs: {
       office: [234, 136],
       door: [233],
@@ -114,7 +103,8 @@ export function CreateOrderModal({
       length: 10,
       weight: parcel.variant.weight || 1500,
     })));
-  }, [remoteCartData]);
+    console.log('updated!', widget.getParcels())
+  }, [widget, remoteCartData]);
 
   console.log(widget.getParcels())
 
