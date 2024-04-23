@@ -72,6 +72,8 @@ export function CreateOrderModal({
     },
   });
 
+  console.log(goods, widget.getParcels())
+
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
     {
       label: 'Товары',
