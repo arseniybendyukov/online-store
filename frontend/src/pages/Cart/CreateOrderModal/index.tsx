@@ -4,6 +4,7 @@ import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
 import { toCurrency, toKilos } from '../../../utils/data';
 import css from './index.module.css';
+import { CartItem } from '../../../types/data';
 
 const DELIVERY_WEIGHT_COEFFICIENT = 0.5;
 const PAYMENT_METHOD = 'наличными или картой при получении';
@@ -15,6 +16,7 @@ interface Props {
   isOrderCreationLoading: boolean;
   isOpened: boolean;
   close: () => void;
+  remoteCartData: CartItem[] | undefined;
 }
 
 export function CreateOrderModal({
@@ -24,14 +26,23 @@ export function CreateOrderModal({
   isOrderCreationLoading,
   isOpened,
   close,
+  remoteCartData,
 }: Props) {
   // @ts-ignore
-  new window.CDEKWidget({
+  const widget = new window.CDEKWidget({
     from: 'Новосибирск',
     root: 'cdek-map',
     apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
     servicePath: 'http://proffclean.market/service.php',
     defaultLocation: 'Новосибирск',
+    onCalculate(...args: any[]) {
+      console.log('Расчет стоимости доставки произведен');
+      console.log(args);
+    },
+    onChoose(...args: any[]) {
+      console.log('Доставка выбрана');
+      console.log(args);
+    },
   });
   
   const price = overallPrice + overallWeight * DELIVERY_WEIGHT_COEFFICIENT;
@@ -62,6 +73,16 @@ export function CreateOrderModal({
       el.remove();
     }
   }, []);
+
+  useEffect(() => {
+    widget.resetParcels();
+    widget.addParcel((remoteCartData || []).map((parcel) => ({
+      width: 10,
+      height: 10,
+      length: 10,
+      weight: parcel.variant.weight || 1500,
+    })));
+  }, [remoteCartData]);
 
   return (
     <Modal

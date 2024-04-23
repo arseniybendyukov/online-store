@@ -156,6 +156,7 @@ export function Cart() {
                           isOrderCreationLoading={isOrderCreationLoading}
                           isOpened={isModalOpened}
                           close={() => setIsModalOpened(false)}
+                          remoteCartData={remoteCartData}
                         />
                       </>) : (
                         <p className={css.notAuthorizedNotification}>
