@@ -96,7 +96,7 @@ export function Cart() {
         toast('Войдите, чтобы сделать заказ', { type: 'error' });
       }
     },
-    [remoteCartData],
+    [user, hasNotInStockVariants, remoteCartData, deliveryInfo],
   );
 
   const overallPrice = useMemo(
