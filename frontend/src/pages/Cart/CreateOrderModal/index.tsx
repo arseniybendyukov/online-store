@@ -103,7 +103,7 @@ export function CreateOrderModal({
       value: toCurrency(overallPrice),
       isBold: true,
     },
-  ], [goodsPrice]);
+  ], [goodsPrice, goodsWeight, deliverySum]);
 
   // Без этого внизу страницы спавнятся виджеты
   useEffect(() => {
