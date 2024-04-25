@@ -11,8 +11,8 @@ import { SetState } from '../../../types/common';
 const PAYMENT_METHOD = 'наличными или картой при получении';
 
 interface Props {
-  overallPrice: number;
-  overallWeight: number;
+  goodsPrice: number;
+  goodsWeight: number;
   onCreateOrderClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   isOrderCreationLoading: boolean;
   isOpened: boolean;
@@ -23,8 +23,8 @@ interface Props {
 }
 
 export function CreateOrderModal({
-  overallPrice,
-  overallWeight,
+  goodsPrice,
+  goodsWeight,
   onCreateOrderClick,
   isOrderCreationLoading,
   isOpened,
@@ -33,6 +33,9 @@ export function CreateOrderModal({
   deliveryInfo,
   setDeliveryInfo,
 }: Props) {
+  const deliverySum = deliveryInfo?.delivery_sum;
+  const overallPrice = goodsPrice + (deliverySum || 0);
+  
   const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
     width: parcel.variant.width,
     height: parcel.variant.height,
@@ -82,25 +85,25 @@ export function CreateOrderModal({
     },
   });
 
-  const properties: Array<{ label: string, value: string, isBold?: boolean }> = [
+  const properties: Array<{ label: string, value: string, isBold?: boolean }> = useMemo(() => [
     {
       label: 'Товары',
-      value: toCurrency(overallPrice),
+      value: toCurrency(goodsPrice),
     },
     {
       label: 'Общий вес',
-      value: toKilos(overallWeight),
+      value: toKilos(goodsWeight),
     },
     {
       label: 'Доставка',
-      value: '?',
+      value: deliverySum ? toCurrency(deliverySum) : '-',
     },
     {
       label: 'Итого',
       value: toCurrency(overallPrice),
       isBold: true,
     },
-  ];
+  ], [goodsPrice]);
 
   // Без этого внизу страницы спавнятся виджеты
   useEffect(() => {
@@ -118,7 +121,7 @@ export function CreateOrderModal({
     >
       <div className={css.wrapper}>
         <div className={css.content}>
-          <div id="cdek-map" style={{ height: 500 }} />
+          <div id='cdek-map' style={{ height: 500 }} />
         </div>
         <div className={css.side}>
           <div className={css.properties}>

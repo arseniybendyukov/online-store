@@ -72,7 +72,7 @@ export function Cart() {
         if (remoteCartData) {
           if (!hasNotInStockVariants) {
             if (!deliveryInfo) {
-              toast('Выберите способ и адрес доставки', { type: 'error' });
+              toast('Выберите адрес и способ доставки', { type: 'error' });
             } else {
               const result = await createOrder({
                 ...deliveryInfo,
@@ -99,7 +99,7 @@ export function Cart() {
     [user, hasNotInStockVariants, remoteCartData, deliveryInfo],
   );
 
-  const overallPrice = useMemo(
+  const goodsPrice = useMemo(
     () => data.reduce((accum, cartItem) => {
       if (cartItem.variant.is_in_stock) {
         const price = cartItem.variant.sale_price || cartItem.variant.actual_price;
@@ -111,7 +111,7 @@ export function Cart() {
     [data]
   );
 
-  const overallWeight = useMemo(
+  const goodsWeight = useMemo(
     () => data.reduce((accum, cartItem) => {
       if (cartItem.variant.is_in_stock) {
         return accum + cartItem.variant.weight;
@@ -149,7 +149,7 @@ export function Cart() {
 
                     {
                       user
-                      ? (overallPrice > 0 && <>
+                      ? (goodsPrice > 0 && <>
                         <Button
                           state={{ default: { text: 'Оформить заказ', icon: undefined } }}
                           onClick={(e) => {
@@ -159,8 +159,8 @@ export function Cart() {
                         />
 
                         <CreateOrderModal
-                          overallPrice={overallPrice}
-                          overallWeight={overallWeight}
+                          goodsPrice={goodsPrice}
+                          goodsWeight={goodsWeight}
                           onCreateOrderClick={onCreateOrderClick}
                           isOrderCreationLoading={isOrderCreationLoading}
                           isOpened={isModalOpened}
