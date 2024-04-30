@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import {
   AuthNestedPaths,
   NavPaths,
@@ -30,6 +30,8 @@ import { Contacts } from '../pages/Contacts';
 import { Blog } from '../pages/Blog';
 import { BlogDetail } from '../pages/BlogDetail';
 import { EmailResend } from '../pages/Auth/EmailResend';
+import { About } from '../pages/About';
+import { HowToBuy } from '../pages/HowToBuy';
 
 export const router = createBrowserRouter([
   {
@@ -100,7 +102,7 @@ export const router = createBrowserRouter([
       },
       {
         path: NavPaths.ABOUT,
-        element: 'about page',
+        element: <About />,
       },
       {
         path: NavPaths.BLOG,
@@ -124,7 +126,7 @@ export const router = createBrowserRouter([
       },
       {
         path: NavPaths.HOW_TO_BUY,
-        element: 'how to buy page',
+        element: <HowToBuy />,
       },
       {
         path: `${NavPaths.PRODUCT_DETAIL}/:id`,

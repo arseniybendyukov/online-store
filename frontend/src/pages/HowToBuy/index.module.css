@@ -1,0 +1,30 @@
+.container {
+  max-width: 800px !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.heading {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.heading:nth-child(1) {
+  margin-top: 0;
+}
+
+.deliveryMethods {
+  list-style-type: decimal;
+}
+
+.deliveryMethods li + li {
+  margin-top: 10px;
+}
+
+.strong {
+  display: inline-block;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+
