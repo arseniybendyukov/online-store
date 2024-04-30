@@ -159,7 +159,7 @@ button {
 }
 
 @media (max-width: 625px) {
-  .mobile div:nth-child(2) {
+  .mobile > div:nth-child(2) {
     height: calc(100% - 5.375rem) !important;
   }
 }
