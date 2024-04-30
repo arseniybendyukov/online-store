@@ -21,14 +21,16 @@ export function Modal({ heading, width, isOpened, close, children }: Props) {
         className={css.container}
         style={{ width }}
       >
-        <div className={css.heading}>
-          <h2 className='h2'>{heading}</h2>
-          <button onClick={close}>
-            <Cross className={css.crossSVG} />
-          </button>
-        </div>
+        <div className={css.content}>
+          <div className={css.heading}>
+            <h2 className='h2'>{heading}</h2>
+            <button onClick={close}>
+              <Cross className={css.crossSVG} />
+            </button>
+          </div>
 
-        {children}
+          {children}
+        </div>
       </div>
     </div>
   );

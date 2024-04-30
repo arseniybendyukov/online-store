@@ -121,7 +121,7 @@ export function CreateOrderModal({
     >
       <div className={css.wrapper}>
         <div className={css.content}>
-          <div id='cdek-map' style={{ height: 500 }} />
+          <div id='cdek-map' className={css.cdek} />
         </div>
         <div className={css.side}>
           <div className={css.properties}>

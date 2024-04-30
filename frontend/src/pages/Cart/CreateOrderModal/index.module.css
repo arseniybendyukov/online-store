@@ -30,3 +30,22 @@
   flex-grow: 1;
   border-bottom: 1px dotted var(--grey-1);
 }
+
+.cdek {
+  height: 60vh;
+  max-height: 500px;
+  min-height: 200px;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .side {
+    max-width: 400px;
+    align-self: center;
+  }
+}
