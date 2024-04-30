@@ -51,7 +51,7 @@
 }
 
 @media (max-width: 625px) {
-  #cdek-map div div:nth-child(1) {
+  #cdek-map div div:nth-child(2) {
     height: calc(100% - 5.375rem) !important;
   }
 }
