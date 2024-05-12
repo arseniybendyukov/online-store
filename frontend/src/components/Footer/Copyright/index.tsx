@@ -6,7 +6,7 @@ export function Copyright() {
   return (
     <div className={css.container}>
       <span>© Proff Clean Market, 2020 — 2024</span>
-      <Link to={PDFDocumentsPaths.PRIVACY_POLICY}>Политика конфиденциальности</Link>
+      <a href={PDFDocumentsPaths.PRIVACY_POLICY}>Политика конфиденциальности</a>
     </div>
   );
 }

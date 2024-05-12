@@ -145,7 +145,7 @@ export function CreateOrderModal({
       <Checkbox
         label={
           <span>
-            Я принимаю условия <Link to={PDFDocumentsPaths.OFERTA} className='link'>оферты</Link>
+            Я принимаю условия <a href={PDFDocumentsPaths.OFERTA} className='link'>оферты</a>
           </span>
         }
         checked={agreed}

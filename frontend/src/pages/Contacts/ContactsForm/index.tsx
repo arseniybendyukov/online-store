@@ -124,7 +124,7 @@ export function ContactsForm() {
       <Checkbox
         label={
           <span>
-            Я даю согласие на <Link to={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</Link>
+            Я даю согласие на <a href={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</a>
           </span>
         }
         checked={agreed}
