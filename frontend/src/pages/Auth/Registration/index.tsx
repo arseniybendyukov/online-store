@@ -2,13 +2,15 @@ import { useFormik } from 'formik';
 import css from './index.module.css';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { AuthNestedPaths, NavPaths } from '../../../navigation';
+import { AuthNestedPaths, NavPaths, PDFDocumentsPaths } from '../../../navigation';
 import { ModalTemplate } from '../ModalTemplate';
 import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isEmailValid, isPhoneNumberValid } from '../../../utils/forms';
 import { useRegisterMutation } from '../../../redux/api';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../redux/store';
+import { Checkbox } from '../../../components/Checkbox';
+import { Link } from 'react-router-dom';
 
 interface FormValues {
   firstName: string;
@@ -64,6 +66,8 @@ function validate(values: FormValues) {
 export function Registration() {
   const [register, { isLoading, error }] = useRegisterMutation();
   const localCart = useAppSelector((state) => state.localCartState.items);
+
+  const [agreed, setArgeed] = useState(true);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -176,10 +180,21 @@ export function Registration() {
           error={formik.errors.password2}
         />
 
+        <Checkbox
+          label={
+            <span>
+              Я даю согласие на <Link to={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</Link>
+            </span>
+          }
+          checked={agreed}
+          onChange={() => setArgeed((prev) => !prev)}
+        />
+
         <Button
           type='submit'
           isLoading={isLoading}
           state={{ default: { text: 'Зарегистрироваться', icon: undefined } }}
+          disabled={!agreed}
         />
       </form>
     </ModalTemplate>

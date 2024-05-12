@@ -1,6 +1,5 @@
 import { SetState } from "../../types/common";
-import { ReactComponent as Check } from '../../images/check.svg';
-import css from './index.module.css';
+import { Checkbox } from "../Checkbox";
 
 interface CheckboxSelectOption {
   id: number;
@@ -29,20 +28,11 @@ export function CheckboxSelect({
   return (
     <div>
       {options.map((option) => (
-        <label key={option.id} className={css.label}>
-          <div className={css.checkboxWrapper}>
-            <input
-              className={css.checkbox}
-              checked={selectedIds.includes(option.id)}
-              onChange={() => inputOnChange(option.id)}
-              value={option.id}
-              name='checkbox'
-              type='checkbox'
-            />
-            <Check className={css.checkSVG} />
-          </div>
-          {option.label}
-        </label>
+        <Checkbox
+          label={option.label}
+          checked={selectedIds.includes(option.id)}
+          onChange={() => inputOnChange(option.id)}
+        />
       ))}
     </div>
   );

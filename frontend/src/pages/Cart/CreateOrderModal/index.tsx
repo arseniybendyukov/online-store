@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../components/Button';
 import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
@@ -7,6 +7,9 @@ import css from './index.module.css';
 import { CartItem, DeliveryInfo } from '../../../types/data';
 import { DeliveryType, Tariff, OfficeAddress, DoorAddress } from '../../../types/cdek';
 import { SetState } from '../../../types/common';
+import { Link } from 'react-router-dom';
+import { PDFDocumentsPaths } from '../../../navigation';
+import { Checkbox } from '../../../components/Checkbox';
 
 const PAYMENT_METHOD = 'наличными или картой при получении';
 
@@ -33,6 +36,8 @@ export function CreateOrderModal({
   deliveryInfo,
   setDeliveryInfo,
 }: Props) {
+  const [agreed, setArgeed] = useState(true);
+
   const deliverySum = deliveryInfo?.delivery_sum;
   const overallPrice = goodsPrice + (deliverySum || 0);
   
@@ -137,9 +142,20 @@ export function CreateOrderModal({
         </div>
       </div>
 
+      <Checkbox
+        label={
+          <span>
+            Я принимаю условия <Link to={PDFDocumentsPaths.OFERTA} className='link'>оферты</Link>
+          </span>
+        }
+        checked={agreed}
+        onChange={() => setArgeed((prev) => !prev)}
+      />
+
       <Button
         isLoading={isOrderCreationLoading}
         state={{ default: { text: `Оформить заказ (${toCurrency(overallPrice)})`, icon: undefined } }}
+        disabled={!agreed}
         onClick={onCreateOrderClick}
       />
     </Modal>

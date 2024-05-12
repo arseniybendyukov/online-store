@@ -24,6 +24,7 @@ type ActiveState = {
 type CommonButtonProps = {
   path?: never;
   isLoading?: boolean;
+  disabled?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'submit' | 'reset' | 'button' | undefined;
 }
@@ -46,6 +47,7 @@ type LinkProps = CommonProps & {
   state: DefaultState;
   path: string;
   isLoading?: never;
+  disabled?: never;
   onClick?: never;
   type?: never;
 }
@@ -64,6 +66,7 @@ export function Button({
   color = Colors.BLUE,
   outlineColor = Colors.WHITE,
   coloredBorder = false,
+  disabled = false,
   className,
   ...props
 }: Props) {  
@@ -83,7 +86,7 @@ export function Button({
       <button
         onClick={props.onClick}
         type={props.type}
-        disabled={!!props.isLoading}
+        disabled={disabled || !!props.isLoading}
         className={className}
       >
         <Content

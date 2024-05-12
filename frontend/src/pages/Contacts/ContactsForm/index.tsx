@@ -2,12 +2,15 @@ import { useFormik } from 'formik';
 import css from './index.module.css';
 import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isEmailValid, isPhoneNumberValid } from '../../../utils/forms';
 import { useAppSelector } from '../../../redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getFullName } from '../../../utils/data';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 import { useCreateAppealMutation } from '../../../redux/api';
 import { toast } from 'react-toastify';
+import { Checkbox } from '../../../components/Checkbox';
+import { Link } from 'react-router-dom';
+import { PDFDocumentsPaths } from '../../../navigation';
 
 interface FormValues {
   fullName: string;
@@ -43,6 +46,8 @@ function validate(values: FormValues) {
 export function ContactsForm() {
   const user = useAppSelector((state) => state.userState.user);
   const [createAppeal, { isLoading }] = useCreateAppealMutation();
+
+  const [agreed, setArgeed] = useState(true);
   
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -116,10 +121,21 @@ export function ContactsForm() {
         error={formik.errors.text}
       />
 
+      <Checkbox
+        label={
+          <span>
+            Я даю согласие на <Link to={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</Link>
+          </span>
+        }
+        checked={agreed}
+        onChange={() => setArgeed((prev) => !prev)}
+      />
+
       <Button
         type='submit'
         isLoading={isLoading}
         state={{ default: { text: 'Отправить сообщение', icon: undefined } }}
+        disabled={!agreed}
       />
     </form>
   );
