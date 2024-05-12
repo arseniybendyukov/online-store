@@ -1,9 +1,9 @@
 import { NamedLink } from "../types/common";
 
 export const enum PDFDocumentsPaths {
-  PRIVACY_POLICY = 'privacy_policy',
-  OFERTA = 'oferta',
-  DATA_PROCESSING = 'data_processing',
+  PRIVACY_POLICY = 'privacy_policy/',
+  OFERTA = 'oferta/',
+  DATA_PROCESSING = 'data_processing/',
 }
 
 export const enum NavPaths {
