@@ -2,15 +2,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 50px;
   padding: 20px 0;
   border-top: 1px solid rgba(255, 255, 255, .5);
   font-size: 16px;
   color: rgba(255, 255, 255, .5);
 }
 
+.infos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 5px;
+  max-width: 700px;
+}
+
+.infos span {
+  flex-shrink: 0;
+}
+
 @media (max-width: 700px) {
   .container {
     flex-direction: column;
     gap: 5px;
+  }
+
+  .infos {
+    flex-direction: column;
   }
 }

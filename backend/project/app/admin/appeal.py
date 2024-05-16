@@ -7,7 +7,6 @@ from app.models import Appeal
 class AppealAdmin(admin.ModelAdmin):
   list_display = (
     'full_name',
-    'email',
     'phone_number',
     'appeal_starts_with',
     'formatted_created_at',

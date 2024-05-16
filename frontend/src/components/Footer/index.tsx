@@ -23,10 +23,6 @@ const companyLinks: NamedLink[] = [
     path: NavPaths.HOW_TO_BUY,
     name: 'Купить',
   },
-  {
-    path: '#',
-    name: 'Часто задаваемые вопросы',
-  },
 ];
 
 export const Footer = () => {

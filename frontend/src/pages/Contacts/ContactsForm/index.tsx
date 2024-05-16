@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import css from './index.module.css';
-import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isEmailValid, isPhoneNumberValid } from '../../../utils/forms';
+import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isPhoneNumberValid } from '../../../utils/forms';
 import { useAppSelector } from '../../../redux/store';
 import { useEffect, useState } from 'react';
 import { getFullName } from '../../../utils/data';
@@ -14,7 +14,6 @@ import { PDFDocumentsPaths } from '../../../navigation';
 
 interface FormValues {
   fullName: string;
-  email: string;
   phoneNumber: string;
   text: string;
 }
@@ -24,12 +23,6 @@ function validate(values: FormValues) {
 
   if (!values.fullName) {
     errors.fullName = REQUIRED_FIELD;
-  }
-
-  if (!values.email) {
-    errors.email = REQUIRED_FIELD;
-  } else if (!isEmailValid(values.email)) {
-    errors.email = INVALID_EMAIL;
   }
 
   if (values.phoneNumber && !isPhoneNumberValid(values.phoneNumber)) {
@@ -52,7 +45,6 @@ export function ContactsForm() {
   const formik = useFormik<FormValues>({
     initialValues: {
       fullName: '',
-      email: '',
       phoneNumber: '',
       text: '',
     },
@@ -60,7 +52,6 @@ export function ContactsForm() {
     onSubmit: async (values) => {
       const result = await createAppeal({
         full_name: values.fullName,
-        email: values.email,
         phone_number: values.phoneNumber,
         text: values.text,
       });
@@ -76,7 +67,6 @@ export function ContactsForm() {
   useEffect(() => {
     if (user) {
       formik.setFieldValue('fullName', getFullName(user));
-      formik.setFieldValue('email', user.email);
       formik.setFieldValue('phoneNumber', user.phone_number ?? '');
     }
   }, [user]);
@@ -90,15 +80,6 @@ export function ContactsForm() {
         value={formik.values.fullName}
         isTouched={formik.touched.fullName}
         error={formik.errors.fullName}
-      />
-
-      <Input
-        label='Электронная почта'
-        name='email'
-        onChange={formik.handleChange}
-        value={formik.values.email}
-        isTouched={formik.touched.email}
-        error={formik.errors.email}
       />
 
       <Input

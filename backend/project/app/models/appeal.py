@@ -5,7 +5,6 @@ from app.utils import format_datetime
 
 class Appeal(models.Model):
   full_name = models.CharField(max_length=100, verbose_name='Полное имя')
-  email = models.EmailField(max_length=40, verbose_name='Электронная почта')
   phone_number = models.CharField(
     max_length=17,
     validators=[PHONE_NUMBER_VALIDATOR],
@@ -16,7 +15,7 @@ class Appeal(models.Model):
 
   def __str__(self):
     created_at = format_datetime(self.created_at)
-    return f'{self.full_name}, {self.email}, {self.phone_number}, {created_at}'
+    return f'{self.full_name}, {self.phone_number}, {created_at}'
 
   class Meta:
     verbose_name = 'Обращение по форме'
