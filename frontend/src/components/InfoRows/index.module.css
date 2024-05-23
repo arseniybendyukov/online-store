@@ -1,14 +1,18 @@
 .rows {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 }
 
 .row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   flex-shrink: 0;
+}
+
+.row:not(:first-child) {
+  text-decoration: underline;
 }
 
 .rowIcon {
@@ -17,11 +21,11 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--main-1);
+  border-radius: 5px;
+  background: var(--main-1);
   flex-shrink: 0;
 }
 
 .rowIcon svg path {
-  fill: var(--main-1);
+  fill: #fff;
 }

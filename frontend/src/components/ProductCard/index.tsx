@@ -69,12 +69,6 @@ export function ProductCard({
         <p className={css.category}>{getRootCategory(product.category)}</p>
       </div>
 
-      <RatingStars
-        avgRating={product.avg_rating}
-        reviewsCount={product.reviews_count}
-        className={css.stars}
-      />
-
       <ProductPrice
         actualPrice={shownVariant.actual_price}
         salePrice={shownVariant.sale_price}
@@ -85,6 +79,12 @@ export function ProductCard({
         shownVariant.is_in_stock
         ? (
           <div className={css.buttons}>
+            <ToggleCartButton
+              cartItemId={shownVariant.cart_item_id}
+              variantId={shownVariant.id}
+              isInStock={shownVariant.is_in_stock}
+            />
+
             {
               isToggleSaveLoading
               ? <Spinner size={40} thickness={3} />
@@ -95,12 +95,6 @@ export function ProductCard({
                 />
               )
             }
-
-            <ToggleCartButton
-              cartItemId={shownVariant.cart_item_id}
-              variantId={shownVariant.id}
-              isInStock={shownVariant.is_in_stock}
-            />
           </div>
         )
         : (

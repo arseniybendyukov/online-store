@@ -13,7 +13,7 @@ export const Tag = ({
 }: Props) => (
   <div
     className={`${css.tag} ${willBecomeMobile ? css.mobile : ''}`}
-    style={{ background: color }}
+    style={{ color: color, borderColor: color }}
   >
     {name}
   </div>

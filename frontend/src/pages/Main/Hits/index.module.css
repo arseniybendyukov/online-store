@@ -1,11 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 }
 
-.row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.button {
+  align-self: flex-start;
 }

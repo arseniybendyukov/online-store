@@ -4,7 +4,7 @@ import { NavLinks } from './NavLinks';
 import { Button } from '../Button';
 import { IconButton } from './IconButton';
 import { ReactComponent as User } from '../../images/user.svg';
-import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
+import { ReactComponent as ShoppingCart } from '../../images/shopping-cart-2.svg';
 import css from './index.module.css';
 import { useAppSelector } from '../../redux/store';
 import { Link } from 'react-router-dom';

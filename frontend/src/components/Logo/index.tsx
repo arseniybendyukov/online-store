@@ -6,6 +6,6 @@ import css from './index.module.css';
 export const Logo = () => (
   <Link to={NavPaths.MAIN} className={css.logo}>
     <img className={css.img} src={logo} alt='PROFF CLEAN MARKET' />
-    <span className={css.text}>PROFF CLEAN MARKET</span>
+    <span className={css.text}>PROFF <br/> CLEAN MARKET</span>
   </Link>
 );

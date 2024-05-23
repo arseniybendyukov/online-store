@@ -13,6 +13,7 @@ export function PhoneLink({ className }: Props) {
     <a
       href={`tel:+${formatPhoneNumber(PHONE_NUMBER)}`}
       className={className}
+      style={{ textDecoration: 'underline' }}
     >
       {PHONE_NUMBER}
     </a>

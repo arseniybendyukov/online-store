@@ -1,31 +1,30 @@
 .footer {
   color: #fff;
-  background: var(--main-3);
+  background: var(--main-dark);
+  font-size: 20px;
 }
 
 .blocks {
   display: grid;
   grid-template-columns: repeat(4, min-content);
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 100px 0 50px 0;
 }
 
 .block {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .addressAndSchedule {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  color: rgba(255, 255, 255, .5);
+  gap: 10px;
   white-space: nowrap;
 }
 
 .link {
-  color:rgba(255, 255, 255, .6);
   transition: var(--hover);
   white-space: nowrap;
 }

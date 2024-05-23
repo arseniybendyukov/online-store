@@ -1,29 +1,27 @@
-import { Link } from 'react-router-dom';
 import { useGetProductsQuery } from '../../../redux/api';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { SpinnerScreen } from '../../../components/SpinnerScreen';
 import { ProductSlider } from '../../../components/ProductSlider';
+import { Button } from '../../../components/Button';
 
 export function Hits() {
   const { data, isLoading } = useGetProductsQuery({ tag: Number(process.env.REACT_APP_HIT_TAG_ID) });
 
   return (
     <section className={css.container}>
-      <div className={css.row}>
-        <h2 className='h2'>Хиты продаж</h2>
-        <Link
-          className='link'
-          to={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}&show-all=true`}
-        >
-          Перейти в каталог
-        </Link>
-      </div>
+      <h2 className='h2'>Хиты продаж</h2>
       {
         isLoading
         ? <SpinnerScreen height='300px' />
         : data && <ProductSlider products={data} />
       }
+      <Button
+        path={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}&show-all=true`}
+        state={{ default: { text: 'Перейти в каталог', icon: undefined } }}
+        className={css.button}
+        isBig
+      />
     </section>
   );
 }

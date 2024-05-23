@@ -1,7 +1,4 @@
 import { Button } from '../Button';
-import { ReactComponent as ShoppingCart } from '../../images/shopping-cart.svg';
-import { ReactComponent as Check } from '../../images/check.svg';
-import css from './index.module.css';
 import { useToggleRemoteCart } from '../../redux/api';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
@@ -63,11 +60,11 @@ export function ToggleCartButton({
       state={{
         default: {
           text: 'В корзину',
-          icon: <ShoppingCart className={css.shoppingCartSVG} />,
+          icon: undefined,
         },
         active: {
           text: 'Добавлено',
-          icon: <Check className={css.checkSVG} />,
+          icon: undefined,
         },
       }}
     />

@@ -58,18 +58,20 @@ type CommonProps = {
   outlineColor?: Colors;
   coloredBorder?: boolean;
   className?: string;
+  isBig?: boolean;
 }
 
 type Props = ButtonProps | LinkProps;
 
 export function Button({
-  color = Colors.BLUE,
+  color = Colors.DARK_BLUE,
   outlineColor = Colors.WHITE,
   coloredBorder = false,
   disabled = false,
+  isBig = false,
   className,
   ...props
-}: Props) {  
+}: Props) {
   if (props.path) {
     return (
       <Link to={props.path} className={className}>
@@ -77,6 +79,7 @@ export function Button({
           color={color}
           outlineColor={outlineColor}
           coloredBorder={coloredBorder}
+          isBig={isBig}
           {...props}
         />
       </Link>
@@ -93,6 +96,7 @@ export function Button({
           color={color}
           outlineColor={outlineColor}
           coloredBorder={coloredBorder}
+          isBig={isBig}
           {...props}
         />
       </button>
@@ -118,6 +122,7 @@ function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBo
       style={{
         background: mainColor,
         borderColor: !props.coloredBorder ? props.color : secondaryColor,
+        height: props.isBig ? 'auto' : '50px',
       }}
     >
       <div

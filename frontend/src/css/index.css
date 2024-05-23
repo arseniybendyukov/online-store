@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
 
 :root {
   --container: 1300px;
@@ -6,7 +6,10 @@
   --long: all 0.3s ease;
   --shadow: 10px 10px 50px 5px rgba(14, 42, 71, .3);
 
-  --main-1: #0753A1;
+  --main-1: #2F7DF2;
+  --main-dark: #3174D8;
+  --main-light-1: #F0F6FF;
+  --main-light-2: #9DC4FE;
   --main-2: #C7E0FA;
   --main-3: #092B4D;
   --main-1-transparent: rgba(7, 83, 161, .2);
@@ -28,9 +31,9 @@
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 18px;
-  color: #000;
+  color: #313131;
 }
 
 html {
@@ -45,12 +48,12 @@ html {
 }
 
 .h1 {
-  font-size: 40px;
-  font-weight: 700;
+  font-size: 42px;
+  font-weight: 600;
 }
 
 .h2 {
-  font-size: 32px;
+  font-size: 38px;
   font-weight: 700;
 }
 
