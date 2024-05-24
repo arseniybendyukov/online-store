@@ -8,7 +8,7 @@ export function Brands() {
   const { data=[], isLoading } = useGetBrandImagesQuery();
 
   return (
-    <section>
+    <section className={css.container}>
       <h2 className='h2'>Бренды</h2>
       {
         isLoading

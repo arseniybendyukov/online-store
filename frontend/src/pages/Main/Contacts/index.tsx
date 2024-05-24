@@ -19,6 +19,7 @@ export function Contacts() {
             <Button
               path={NavPaths.CONTACTS}
               state={{ default: { text: 'Связаться с нами', icon: undefined } }}
+              isBig
             />
 
             <SocialMedias dark />

@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .image {
   width: 200px;
   transition: var(--hover);
@@ -22,3 +28,10 @@
     transition: var(--hover);
   }
 }
+
+@media (max-width: 800px) {
+  .container {
+    gap: 15px;
+  }
+}
+

@@ -1,12 +1,12 @@
 .header {
-  border-bottom: 1px solid var(--grey-1);
+  background: var(--main-light-1);
 }
 
 .header > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100px;
+  height: 150px;
 }
 
 .profileButton {

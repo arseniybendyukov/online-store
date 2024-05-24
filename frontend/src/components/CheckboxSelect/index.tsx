@@ -29,6 +29,7 @@ export function CheckboxSelect({
     <div>
       {options.map((option) => (
         <Checkbox
+          key={option.id}
           label={option.label}
           checked={selectedIds.includes(option.id)}
           onChange={() => inputOnChange(option.id)}

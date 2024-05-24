@@ -1,7 +1,11 @@
 .tag {
-  padding: 5px 15px;
-  border-radius: 25px;
-  color: #fff;
+  padding: 2px 15px;
+  font-size: 22px;
+  font-weight: 500;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  background: white;
 }
 
 @media (max-width: 500px) {

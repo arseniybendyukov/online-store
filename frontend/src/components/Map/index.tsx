@@ -11,7 +11,9 @@ export function Map({ className }: Props) {
       width={'auto'}
       height={'auto'}
       style={{
-        minHeight: 230
+        minHeight: 230,
+        borderRadius: 10,
+        overflow: 'hidden'
       }}
       defaultState={{
         center: MAP_COORDS,

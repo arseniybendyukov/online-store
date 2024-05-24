@@ -1,7 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 50px;
+  color: black;
 }
 
 .main {
@@ -13,17 +14,14 @@
 .info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.paragraph {
-  color: var(--grey-1);
+  gap: 30px;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 20px;
 }
 
 @media (max-width: 1000px) {
@@ -46,5 +44,20 @@
 @media (max-width: 850px) {
   .infoRows {
     grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    gap: 15px;
+  }
+
+  .info {
+    gap: 20px;
+  }
+
+  .buttons {
+    gap: 10px;
+    flex-wrap: wrap;
   }
 }

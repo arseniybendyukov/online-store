@@ -5,6 +5,7 @@ import { ReactComponent as Phone } from '../../images/phone.svg';
 import { ReactComponent as Envelope } from '../../images/envelope.svg';
 import css from './index.module.css';
 import { PhoneLink } from "../PhoneLink";
+import { useActivateEmailMutation } from "../../redux/api";
 
 interface Row {
   icon: ReactNode;
@@ -36,16 +37,16 @@ export const InfoRows = ({ className }: InfoRowsProps) => (
     className={className}
     rows={[
       {
-        icon: <Location width={20} heigth={20} />,
+        icon: <Location width={25} heigth={25} />,
         text: ADDRESS,
       },
       {
-        icon: <Phone width={16} heigth={16} />,
+        icon: <Phone width={20} heigth={20} />,
         text: <PhoneLink />,
       },
       {
-        icon: <Envelope width={17} heigth={17} />,
-        text: EMAIL,
+        icon: <Envelope width={20} heigth={20} />,
+        text: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>,
       },
     ]}
   />

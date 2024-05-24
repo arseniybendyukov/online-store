@@ -1,9 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .container > section {
-  padding-bottom: 20px;
+  padding-bottom: 90px;
+}
+
+@media (max-width: 800px) {
+  .container > section {
+    padding-bottom: 40px;
+  }
 }

@@ -17,8 +17,8 @@ export function FooterBlock({
     <div className={css.block}>
       {
         path
-        ? <Link to={path} className={`h3 ${css.heading}`}>{heading}</Link>
-        : <h3 className={`h3 ${css.heading}`}>{heading}</h3>
+        ? <Link to={path} className={`h2 ${css.heading}`}>{heading}</Link>
+        : <h3 className={`h2 ${css.heading}`}>{heading}</h3>
       }
       {children}
     </div>

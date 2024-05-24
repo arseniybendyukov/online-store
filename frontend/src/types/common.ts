@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 
 export const enum Colors {
-  BLUE = 'var(--main-1)',
+  DARK_BLUE = 'var(--main-dark)',
   RED = 'var(--red)',
   WHITE = '#fff',
 }

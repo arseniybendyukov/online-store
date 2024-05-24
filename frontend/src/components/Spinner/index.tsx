@@ -11,7 +11,7 @@ export interface Props {
 export function Spinner({
   size=60,
   thickness=5,
-  color=Colors.BLUE,
+  color=Colors.DARK_BLUE,
 }: Props) {
   return (
     <div
