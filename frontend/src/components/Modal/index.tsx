@@ -13,7 +13,7 @@ interface Props {
 export function Modal({ heading, width, isOpened, close, children }: Props) {
   return (
     <div
-      onClick={close}
+      onClick={(e) => {e.preventDefault(); close()}}
       className={`${css.wrapper} ${isOpened ? css.opened : ''}`}
     >
       <div

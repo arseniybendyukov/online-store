@@ -72,6 +72,8 @@ export function Button({
   className,
   ...props
 }: Props) {
+  const isBlue = color == Colors.DARK_BLUE || outlineColor == Colors.DARK_BLUE;
+  
   if (props.path) {
     return (
       <Link to={props.path} className={className}>
@@ -80,6 +82,7 @@ export function Button({
           outlineColor={outlineColor}
           coloredBorder={coloredBorder}
           isBig={isBig}
+          isBlue={isBlue}
           {...props}
         />
       </Link>
@@ -97,6 +100,7 @@ export function Button({
           outlineColor={outlineColor}
           coloredBorder={coloredBorder}
           isBig={isBig}
+          isBlue={isBlue}
           {...props}
         />
       </button>
@@ -104,7 +108,7 @@ export function Button({
   }
 }
 
-function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBorder: boolean }) {
+function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBorder: boolean, isBlue: boolean }) {
   let mainColor;
   let secondaryColor;
 
@@ -118,7 +122,7 @@ function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBo
 
   return (
     <div
-      className={css.button}
+      className={`${css.button} ${props.isBlue ? css.blue : ''}`}
       style={{
         background: mainColor,
         borderColor: !props.coloredBorder ? props.color : secondaryColor,

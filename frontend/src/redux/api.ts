@@ -359,34 +359,6 @@ export const api = createApi({
   }),
 });
 
-export function useToggleRemoteCart({
-  cartItemId,
-  variantId,
-  amount,
-}: {
-  cartItemId: number | null;
-  variantId: number;
-  amount: number;
-}) {
-  const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
-  const [removeFromCart, { isLoading: isRemoveLoading }] = useRemoveFromCartMutation();
-
-  const isLoading = isAddLoading || isRemoveLoading;
-
-  function toggleCart() {
-    if (cartItemId !== null) {
-      removeFromCart({ id: cartItemId });
-    } else {
-      addToCart({
-        variant: variantId,
-        amount,
-      });
-    }
-  }
-
-  return { toggleCart, isLoading };
-}
-
 export const {
   useGetProductsQuery,
   useGetProductDetailQuery,

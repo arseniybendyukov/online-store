@@ -10,17 +10,17 @@
   justify-content: center;
   min-width: 50px;
   padding: 5px 10px;
-  border: 1px solid var(--grey-1);
+  border: 1px solid transparent;
+  background: #F0F6FF;
   border-radius: 5px;
-  background: #fff;
   cursor: pointer;
   transition: var(--hover);
+  font-weight: 500;
 }
 
 .variant.selected {
-  color: var(--main-1);
-  border-color: var(--main-1);
-  background: var(--main-1-transparent);
+  color: #fff;
+  background: var(--main-1);
   transition: var(--hover);
 }
 

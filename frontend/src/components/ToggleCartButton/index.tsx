@@ -1,29 +1,33 @@
 import { Button } from '../Button';
-import { useToggleRemoteCart } from '../../redux/api';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
-import { toggleLocalCart } from '../../redux/slices/localCart';
+import { addToLocalCart, removeFromLocalCart, toggleLocalCart } from '../../redux/slices/localCart';
+import { useState } from 'react';
+import { AmountModal } from './AmountModal';
+import { useAddToCartMutation, useRemoveFromCartMutation } from '../../redux/api';
 
 interface Props {
   cartItemId: number | null;
   variantId: number;
   isInStock: boolean;
-  amount?: number;
 }
 
 export function ToggleCartButton({
   cartItemId,
   variantId,
   isInStock,
-  amount=1,
 }: Props) {
-  const {
-    toggleCart,
-    isLoading,
-  } = useToggleRemoteCart({ cartItemId, variantId, amount });
+  const [addToCart, { isLoading: isAddLoading }] = useAddToCartMutation();
+  const [removeFromCart, { isLoading: isRemoveLoading }] = useRemoveFromCartMutation();
+
+  const isLoading = isAddLoading || isRemoveLoading;
+  
   const user = useAppSelector((state) => state.userState.user);
   const localCart = useAppSelector((state) => state.localCartState.items);
   const dispatch = useAppDispatch();
+
+  const [amount, setAmount] = useState(1);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   let isInCart: boolean;
   if (user) {
@@ -32,18 +36,31 @@ export function ToggleCartButton({
     isInCart = localCart.some((item) => item.variantId === variantId);
   }
 
-  function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function onModalOpen(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
     if (!isInCart && !isInStock) {
       toast('Нет в наличии', { type: 'error' });
     } else {
-      if (user) {
-        toggleCart();
+      if (!isInCart) {
+        setIsModalOpened(true);
       } else {
-        dispatch(toggleLocalCart({ variantId, amount }));
+        if (user) {
+          removeFromCart({ id: cartItemId! });
+        } else {
+          dispatch(removeFromLocalCart({ variantId }));
+        }
       }
     }
+  }
+
+  function onAdd() {
+    if (user) {
+      addToCart({ variant: variantId, amount });
+    } else {
+      dispatch(addToLocalCart({ variantId, amount }));
+    }
+    setIsModalOpened(false);
   }
 
   if (!isInStock) {
@@ -52,9 +69,9 @@ export function ToggleCartButton({
     );
   }
 
-  return (
+  return <>
     <Button
-      onClick={onClick}
+      onClick={onModalOpen}
       isLoading={isLoading}
       isActive={isInCart}
       state={{
@@ -68,5 +85,13 @@ export function ToggleCartButton({
         },
       }}
     />
-  );
+
+    <AmountModal
+      isOpened={isModalOpened}
+      close={() => setIsModalOpened(false)}
+      amount={amount}
+      setAmount={setAmount}
+      onClick={onAdd}
+    />
+  </>;
 }

@@ -26,8 +26,6 @@ export function ProductDetail() {
 
   const user = useAppSelector((state) => state.userState.user);
 
-  const [amount, setAmount] = useState(1);
-
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
 
   const selectedVariant = product?.variants.filter((variant) => variant.id === selectedVariantId)[0] || null;
@@ -45,7 +43,6 @@ export function ProductDetail() {
 
   useEffect(() => {
     if (product && selectedVariantId === null) {
-      setAmount(1);
       setSelectedVariantId(product.variants[0].id);
     }
   }, [product, selectedVariantId]);
@@ -78,68 +75,45 @@ export function ProductDetail() {
             />
 
             <div className={css.main}>
-              {!selectedVariant?.is_in_stock && <NotInStock />}
-              <h1 className='h1'>{product.render_name}</h1>
-              <div className={css.rowStats}>
-                <RatingStars avgRating={product.avg_rating} />
+              <div className={css.nameAndRating}>
+                {!selectedVariant?.is_in_stock && <NotInStock />}
+                <h1 className='h3'>{product.render_name}</h1>
 
-                {product.avg_rating > 0 && (
-                  <ReadReviews reviewsCount={product.reviews_count} />
-                )}
+
+                <div className={css.rowStats}>
+                  <RatingStars avgRating={product.avg_rating} />
+
+                  {product.avg_rating > 0 && (
+                    <ReadReviews reviewsCount={product.reviews_count} />
+                  )}
+                </div>
               </div>
 
-              <Description text={product.description} />
+              <div className={css.priceAndVariants}>
+                {selectedVariant && (
+                  <ProductPrice
+                    large
+                    actualPrice={selectedVariant.actual_price}
+                    salePrice={selectedVariant.sale_price}
+                    percentage={selectedVariant.percentage}
+                  />
+                )}
 
-              <ProductImage
-                image={selectedVariant?.image}
-                name={product.render_name}
-                className={css.mobileImage}
-              />
-
-              {selectedVariant && (
-                <ProductPrice
-                  large
-                  actualPrice={selectedVariant.actual_price}
-                  salePrice={selectedVariant.sale_price}
-                  percentage={selectedVariant.percentage}
-                />
-              )}
-              <div className={css.devider}></div>
-              <Label label='Бренд'>{product.brand.name}</Label>
-              {product.article && (
-                <Label label='Артикул'>{product.article}</Label>
-              )}
-              {product.brand.manufacturer_country && (
-                <Label label='Страна производитель'>
-                  {product.brand.manufacturer_country.name}
-                </Label>
-              )}
-              <Label label='Категория'>{getRootCategory(product.category)}</Label>
-              {product.ph_level && (
-                <Label label='Уровень pH'>{product.ph_level}</Label>
-              )}
-              <Label label='Вариант товара'>
-                <RadioVariants
-                  options={product.variants}
-                  selectedVariantId={selectedVariantId}
-                  setSelectedVariantId={setSelectedVariantId}
-                />
-              </Label>
-              {selectedVariant?.is_in_stock && (
-                <Label label='Количество'>
-                  <AmountInput
-                    amount={amount}
-                    setAmount={setAmount}
+                <Label label='Вариант товара'>
+                  <RadioVariants
+                    options={product.variants}
+                    selectedVariantId={selectedVariantId}
+                    setSelectedVariantId={setSelectedVariantId}
                   />
                 </Label>
-              )}
+              </div>
+
               {selectedVariant && (
                 <div className={css.buttons}>
                   <ToggleCartButton
                     cartItemId={selectedVariant.cart_item_id}
                     variantId={selectedVariant.id}
                     isInStock={selectedVariant.is_in_stock}
-                    amount={amount}
                   />
 
                   <Button
@@ -160,6 +134,30 @@ export function ProductDetail() {
                   />
                 </div>
               )}
+
+              <Description text={product.description} />
+
+              <ProductImage
+                image={selectedVariant?.image}
+                name={product.render_name}
+                className={css.mobileImage}
+              />
+
+              <div className={css.properties}>
+                <Label label='Бренд'>{product.brand.name}</Label>
+                {product.article && (
+                  <Label label='Артикул'>{product.article}</Label>
+                )}
+                {product.brand.manufacturer_country && (
+                  <Label label='Страна производитель'>
+                    {product.brand.manufacturer_country.name}
+                  </Label>
+                )}
+                <Label label='Категория'>{getRootCategory(product.category)}</Label>
+                {product.ph_level && (
+                  <Label label='Уровень pH'>{product.ph_level}</Label>
+                )}
+              </div>
             </div>
           </div>
           <NavTabs

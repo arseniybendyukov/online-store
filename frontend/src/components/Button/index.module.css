@@ -8,6 +8,14 @@
   border-radius: 10px;
   border: 2px solid transparent;
   white-space: nowrap;
+  transition: var(--hover);
+}
+
+.button.blue:active {
+  background: var(--main-light-2) !important;
+  border-color: var(--main-light-2) !important;
+  color: #fff;
+  transition: var(--hover);
 }
 
 .icon {

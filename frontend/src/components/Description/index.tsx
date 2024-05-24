@@ -18,6 +18,8 @@ export function Description({ text }: Props) {
 
   return (
     <div className={css.container}>
+      <h4 className='h4'>Описание</h4>
+
       <p ref={ref} className={`${css.description} ${height >= MAX_HEIGHT && !isOpened ? css.truncate : ''}`}>
         {text}
       </p>

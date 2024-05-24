@@ -68,7 +68,14 @@ export function ProductCard({
         <p className={css.name}>{product.render_name}</p>
         <p className={css.category}>{getRootCategory(product.category)}</p>
       </div>
-
+      
+      {product.avg_rating > 0 && (
+        <RatingStars
+        avgRating={product.avg_rating}
+        reviewsCount={product.reviews_count}
+      />
+      )}
+      
       <ProductPrice
         actualPrice={shownVariant.actual_price}
         salePrice={shownVariant.sale_price}

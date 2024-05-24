@@ -7,6 +7,10 @@
   border-radius: 5px;
 }
 
+.container.big {
+  border: none;
+}
+
 .button {
   display: flex;
   align-items: center;
@@ -16,6 +20,11 @@
 .button svg {
   width: 20px;
   height: 20px;
+}
+
+.container.big .button svg {
+  width: 30px;
+  height: 30px;
 }
 
 .button svg path {
@@ -29,6 +38,11 @@
 .input {
   width: 50px;
   text-align: center;
+}
+
+.container.big .input {
+  color: var(--main-1);
+  font-size: 40px;
 }
 
 @media (max-width: 850px) {
