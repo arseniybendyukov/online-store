@@ -4,7 +4,6 @@ import { Payment } from '../types/data';
 export const paymentApi = createApi({
   reducerPath: 'payment-api',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('Authorization', `Basic ${btoa(`${process.env.REACT_APP_SHOP_ID}:${process.env.REACT_APP_SECRET_KEY}`)}`);
       headers.set('Content-Type', 'application/json');
