@@ -1,10 +1,8 @@
 import { useEffect } from "react";
-import { useCreatePaymentMutation } from "../../redux/payment-api";
 
 export function Payment() {
-  const [createPayment, { data, isLoading }]  = useCreatePaymentMutation();
   // @ts-ignore
-  /* const checkout = new window.YooMoneyCheckoutWidget({
+  const checkout = new window.YooMoneyCheckoutWidget({
     confirmation_token: 'ct-287e0c37-000f-5000-8000-16961d35b0fd', //Токен, который перед проведением оплаты нужно получить от ЮKassa
     return_url: 'https://proffclean.market/', //Ссылка на страницу завершения оплаты, это может быть любая ваша страница
 
@@ -26,16 +24,7 @@ export function Payment() {
 
   useEffect(() => {
     checkout.render('payment-form');
-  }, []); */
-  
-  useEffect(() => {
-    createPayment({
-      orderId: 31,
-      sum: 20,
-    });
-  }, [createPayment]);
-
-  console.log(data)
+  }, []);
 
   return (
     <div id='payment-form' />

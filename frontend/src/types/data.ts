@@ -261,4 +261,8 @@ export interface BlogDetail extends BlogList {
   text: string;
 }
 
-export interface Payment {}
+export interface Payment {
+  confirmation: {
+    confirmation_token: string;
+  };
+}

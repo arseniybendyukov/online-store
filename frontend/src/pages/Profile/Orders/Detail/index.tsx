@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import css from './index.module.css';
 import { useGetOrderDetailQuery } from '../../../../redux/api';
-import { monthAndDayFromDate, toCurrency } from '../../../../utils/data';
+import { getOrderPrice, monthAndDayFromDate, toCurrency } from '../../../../utils/data';
 import { OrderStages } from './OrderStages';
 import { Label } from '../../../../components/Label';
 import { OrderedProductCard } from '../../../../components/OrderedProductCard';
@@ -11,12 +11,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 import { OrderPrice } from '../../../../components/OrderPrice';
+import { useCreatePaymentMutation } from '../../../../redux/payment-api';
 
 export function OrderDetail() {
   const { id = '' } = useParams();
   const { data: order, isLoading } = useGetOrderDetailQuery({ id });
 
   const [selectedStageId, setSelectedStageId] = useState<number | null>(null);
+
+  const [createPayment, { data }]  = useCreatePaymentMutation();
+
+  console.log(data);
 
   const selectedStage = useMemo(() => {
     if (order) {
@@ -41,6 +46,8 @@ export function OrderDetail() {
       );
     }
   }, [order, selectedStageId, setSelectedStageId]);
+
+  const [actualPrice, promocodePrice] = getOrderPrice(order);
 
   return <>
     {
@@ -82,7 +89,13 @@ export function OrderDetail() {
 
               {selectedStage === currentStage && currentStage?.stage_type.is_payment_stage && (
                 <div className={css.paymentContainer}>
-                  <Button state={{ default: { text: 'Оплатить', icon: undefined } }} />
+                  <Button
+                    state={{ default: { text: 'Оплатить', icon: undefined } }}
+                    onClick={() => createPayment({
+                      orderId: order.id,
+                      sum: order.delivery_sum + promocodePrice
+                    })}
+                  />
                 </div>
               )}
             </div>
