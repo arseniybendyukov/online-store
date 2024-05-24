@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Order as IOrder } from '../../types/data';
-import { formatDate, getOverallPrice } from '../../utils/data';
+import { formatDate, getOrderPrice, toCurrency } from '../../utils/data';
 import { Label } from '../Label';
 import { OrderedProductCard } from '../OrderedProductCard';
 import { Slider } from '../Slider';
 import css from './index.module.css';
 import { NavPaths, ProfileNestedPaths } from '../../navigation';
 import { OrderIsCancelled } from '../OrderIsCancelled';
+import { ProductPrice } from '../ProductPrice';
+import { OrderPrice } from '../OrderPrice';
 
 interface Props {
   order: IOrder;
@@ -22,8 +24,10 @@ export function Order({ order }: Props) {
           {formatDate(order.created_at)}
         </Label>
 
-        <Label label='Стоимость заказа'>
-          {getOverallPrice(order)}
+        <OrderPrice order={order} />
+
+        <Label label='Стоимость доставки'>
+          {toCurrency(order.delivery_sum)}
         </Label>
       </div>
       <Link to={`${NavPaths.PROFILE}/${ProfileNestedPaths.ORDER_DETAIL}/${order.id}`}>

@@ -76,10 +76,6 @@ export const Banner = () => (
           `<span class=${className}>${slides[index].name}</span>`
         ),
       }}
-      on={{
-        slideChange: (swiper) => {console.log(swiper)},
-        paginationUpdate: (swiper) => {console.log(swiper)},
-      }}
     >
       {slides.map(({ name, img }) => (
         <SwiperSlide key={name}>

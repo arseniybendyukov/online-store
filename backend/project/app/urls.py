@@ -45,4 +45,7 @@ urlpatterns = [
   path('token/refresh/', TokenRefreshView.as_view()),
   path('logout/', TokenBlacklistView.as_view()),
   path('am-i-authenticated/', views.AmIAuthenticated.as_view()),
+
+  # Промокоды
+  path('promocodes/<slug:name>', views.PromocodeDetailView.as_view()),
 ]

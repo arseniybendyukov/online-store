@@ -81,6 +81,11 @@ button:not(:disabled) {
   color: var(--red);
 }
 
+.success {
+  font-size: 14px;
+  color: var(--green);
+}
+
 .empty {
   flex-grow: 1;
   display: flex;

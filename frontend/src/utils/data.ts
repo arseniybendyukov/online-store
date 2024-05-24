@@ -66,13 +66,15 @@ export function monthAndDayFromDate(date: string) {
 export const toCurrency = (money: number) => `${money} ₽`;
 
 
-export function getOverallPrice(order: Order) {
+export function getOrderPrice(order?: Order) {
+  if (!order) return [0, 0];
+  
   const price = order.products.reduce((acc, orderedProduct) => {
     const price = orderedProduct.sale_price || orderedProduct.actual_price;
     return acc + price * orderedProduct.amount;
   }, 0);
 
-  return toCurrency(price);
+  return [price, price * (100 - (order.promocode?.percentage || 0)) / 100];
 }
 
 

@@ -2,11 +2,13 @@ from rest_framework import serializers
 from app.models import Order, OrderedProduct, CartItem, OrderStageType, OrderStage
 from .order_stage import OrderStageSerializer
 from .ordered_product import OrderedProductListSerializer, OrderProductSerializer
+from .promocode import PromocodeSerializer
 
 
 class OrderListSerializer(serializers.ModelSerializer):
   products = OrderedProductListSerializer(many=True)
   is_active = serializers.BooleanField()
+  promocode = PromocodeSerializer()
 
   class Meta:
     model = Order
@@ -16,12 +18,15 @@ class OrderListSerializer(serializers.ModelSerializer):
       'products',
       'created_at',
       'is_cancelled',
+      'promocode',
+      'delivery_sum',
     )
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
   products = OrderedProductListSerializer(many=True)
   stages = OrderStageSerializer(many=True)
+  promocode = PromocodeSerializer()
 
   class Meta:
     model = Order
@@ -52,6 +57,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
       address=validated_data['address'],
       delivery_sum=validated_data['delivery_sum'],
       tariff=validated_data['tariff'],
+      promocode=validated_data['promocode'],
     )
 
     for raw in validated_data['products']:
@@ -87,6 +93,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
       'address',
       'delivery_sum',
       'tariff',
+      'promocode',
     )
 
 

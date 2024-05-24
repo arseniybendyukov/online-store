@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../../redux/store';
-import { CartItem, DeliveryInfo } from '../../types/data';
+import { CartItem, DeliveryInfo, Promocode } from '../../types/data';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { Link } from 'react-router-dom';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
@@ -15,6 +15,8 @@ export function Cart() {
   const user = useAppSelector((state) => state.userState.user);
 
   const [isModalOpened, setIsModalOpened] = useState(false);
+
+  const [promocode, setPromocode] = useState<Promocode | null>(null);
 
   const localCart = useAppSelector((state) => state.localCartState.items);
   const {
@@ -80,6 +82,7 @@ export function Cart() {
                   origin_variant: cartItem.variant.id,
                   amount: cartItem.amount,
                 })),
+                promocode: promocode ? promocode.id : null,
               });            
         
               if ('error' in result) {
@@ -96,7 +99,7 @@ export function Cart() {
         toast('Войдите, чтобы сделать заказ', { type: 'error' });
       }
     },
-    [user, hasNotInStockVariants, remoteCartData, deliveryInfo],
+    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
   );
 
   const goodsPrice = useMemo(
@@ -168,6 +171,8 @@ export function Cart() {
                           remoteCartData={remoteCartData}
                           deliveryInfo={deliveryInfo}
                           setDeliveryInfo={setDeliveryInfo}
+                          promocode={promocode}
+                          setPromocode={setPromocode}
                         />
                       </>) : (
                         <p className={css.notAuthorizedNotification}>

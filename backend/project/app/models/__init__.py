@@ -9,6 +9,7 @@ from .order_stage import OrderStage
 from .order import Order
 from .ordered_product import OrderedProduct
 from .product import Product
+from .promocode import Promocode
 from .review import Review
 from .tags import ProductTag, BlogTag
 from .user import User

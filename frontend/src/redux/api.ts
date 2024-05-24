@@ -21,6 +21,7 @@ import {
   BlogList,
   BlogDetail,
   AppealInput,
+  Promocode,
 } from '../types/data';
 import { CatalogFilters } from '../types/filters';
 import { baseQueryWithReauth } from './baseQuery';
@@ -184,6 +185,10 @@ export const api = createApi({
         body: data,
       }),
       invalidatesTags: ['Order', 'Product', 'SavedProduct', 'ProductDetail', 'Cart', 'User'],
+    }),
+
+    getPromocode: builder.query<Promocode, string>({
+      query: (name) => `promocodes/${name}`,
     }),
 
     cancelOrder: builder.mutation<void, { id: number }>({
@@ -383,6 +388,7 @@ export const {
   useUpdateCartAmountMutation,
   useGetOrdersQuery,
   useCreateOrderMutation,
+  useGetPromocodeQuery,
   useCancelOrderMutation,
   useGetOrderDetailQuery,
   useCreateReviewMutation,

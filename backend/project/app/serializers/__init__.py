@@ -9,6 +9,7 @@ from .order_stage import OrderStageSerializer
 from .order import OrderListSerializer, OrderDetailSerializer, CreateOrderSerializer
 from .ordered_product import OrderProductSerializer, OrderedProductListSerializer
 from .product import ProductListSerializer, ProductDetailSerializer, VariantProductSerializer
+from .promocode import PromocodeSerializer
 from .review import ReviewSerializer, UserReviewSerializer, CreateReviewSerializer
 from .tags import ProductTagSerializer, BlogTagSerializer
 from .user import RegisterUserSerializer, UserDetailSerializer, UserSmallSerializer, UpdateUserSerializer, UpdateAvatarSerializer

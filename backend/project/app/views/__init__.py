@@ -5,6 +5,7 @@ from .cart_item import CartItemViewSet
 from .category import CategoryViewSet
 from .order import OrderViewSet
 from .product import ProductListView, ProductDetailView
+from .promocode import PromocodeDetailView
 from .review import PublicReviewListView, PrivateReviewViewSet
 from .tags import TagViewSet
 from .user import UserViewSet, EmailViewSet, AmIAuthenticated

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import css from './index.module.css';
 import { useGetOrderDetailQuery } from '../../../../redux/api';
-import { getOverallPrice, monthAndDayFromDate } from '../../../../utils/data';
+import { monthAndDayFromDate, toCurrency } from '../../../../utils/data';
 import { OrderStages } from './OrderStages';
 import { Label } from '../../../../components/Label';
 import { OrderedProductCard } from '../../../../components/OrderedProductCard';
@@ -10,6 +10,7 @@ import { OrderIsCancelled } from '../../../../components/OrderIsCancelled';
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
+import { OrderPrice } from '../../../../components/OrderPrice';
 
 export function OrderDetail() {
   const { id = '' } = useParams();
@@ -40,7 +41,6 @@ export function OrderDetail() {
       );
     }
   }, [order, selectedStageId, setSelectedStageId]);
-
 
   return <>
     {
@@ -91,8 +91,9 @@ export function OrderDetail() {
           <section className={css.productsSection}>
             <div className={css.heading}>
               <h3 className='h3'>Товары ({ order.products.length })</h3>
-              <Label label='Стоимость'>
-                {getOverallPrice(order)}
+              <OrderPrice order={order} />
+              <Label label='Стоимость доставки'>
+                {toCurrency(order.delivery_sum)}
               </Label>
             </div>
 

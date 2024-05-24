@@ -1,6 +1,7 @@
 from django.db import models
 from app.utils import format_datetime
 from .user import User
+from .promocode import Promocode
 
 
 class Order(models.Model):
@@ -11,6 +12,13 @@ class Order(models.Model):
   address = models.CharField(max_length=256, verbose_name='Адрес')
   delivery_sum = models.PositiveIntegerField(verbose_name='Стоимость доставки')
   tariff = models.CharField(max_length=256, verbose_name='Тариф')
+  promocode = models.ForeignKey(
+    Promocode,
+    null=True,
+    blank=True,
+    on_delete=models.SET_NULL,
+    verbose_name='Промокод',
+  )
 
   @property 
   def is_active(self):

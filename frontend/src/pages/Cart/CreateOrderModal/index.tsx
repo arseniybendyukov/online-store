@@ -4,12 +4,12 @@ import { Information } from '../../../components/Information';
 import { Modal } from '../../../components/Modal';
 import { toCurrency, toKilos } from '../../../utils/data';
 import css from './index.module.css';
-import { CartItem, DeliveryInfo } from '../../../types/data';
+import { CartItem, DeliveryInfo, Promocode } from '../../../types/data';
 import { DeliveryType, Tariff, OfficeAddress, DoorAddress } from '../../../types/cdek';
 import { SetState } from '../../../types/common';
-import { Link } from 'react-router-dom';
 import { PDFDocumentsPaths } from '../../../navigation';
 import { Checkbox } from '../../../components/Checkbox';
+import { PromocodeInput } from './PromocodeInput/input';
 
 const PAYMENT_METHOD = 'наличными или картой при получении';
 
@@ -23,6 +23,8 @@ interface Props {
   remoteCartData: CartItem[] | undefined;
   deliveryInfo: DeliveryInfo | null;
   setDeliveryInfo: SetState<DeliveryInfo | null>;
+  promocode: Promocode | null;
+  setPromocode: SetState<Promocode | null>;
 }
 
 export function CreateOrderModal({
@@ -35,11 +37,14 @@ export function CreateOrderModal({
   remoteCartData,
   deliveryInfo,
   setDeliveryInfo,
+  promocode,
+  setPromocode,
 }: Props) {
   const [agreed, setArgeed] = useState(true);
 
   const deliverySum = deliveryInfo?.delivery_sum;
-  const overallPrice = goodsPrice + (deliverySum || 0);
+  const promocodeGoodsPrice = promocode ? goodsPrice * (100 - promocode.percentage) / 100 : goodsPrice;
+  const overallPrice = promocodeGoodsPrice + (deliverySum || 0);
   
   const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
     width: parcel.variant.width,
@@ -93,7 +98,11 @@ export function CreateOrderModal({
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = useMemo(() => [
     {
       label: 'Товары',
-      value: toCurrency(goodsPrice),
+      value: (
+        promocode
+        ? `${toCurrency(promocodeGoodsPrice)} (-${promocode.percentage}%)`
+        : toCurrency(goodsPrice)
+      ),
     },
     {
       label: 'Общий вес',
@@ -108,7 +117,7 @@ export function CreateOrderModal({
       value: toCurrency(overallPrice),
       isBold: true,
     },
-  ], [goodsPrice, goodsWeight, deliverySum]);
+  ], [goodsPrice, goodsWeight, deliverySum, promocode, promocodeGoodsPrice]);
 
   // Без этого внизу страницы спавнятся виджеты
   useEffect(() => {
@@ -129,6 +138,10 @@ export function CreateOrderModal({
           <div id='cdek-map' className={css.cdek} />
         </div>
         <div className={css.side}>
+          <PromocodeInput
+            setPromocode={setPromocode}
+          />
+
           <div className={css.properties}>
             {properties.map(({ label, value, isBold }) => (
               <div key={label} className={`${css.property} ${isBold ? css.bold : ''}`}>
@@ -138,6 +151,7 @@ export function CreateOrderModal({
               </div>
             ))}
           </div>
+
           <Information text={`Способ оплаты: ${PAYMENT_METHOD}`} />
         </div>
       </div>

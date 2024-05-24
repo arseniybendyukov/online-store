@@ -22,7 +22,7 @@ export function Catalog() {
   );
 
   // Поиск
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
 
   // Сортировка

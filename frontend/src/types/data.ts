@@ -184,6 +184,7 @@ export interface OderedProductInput extends DeliveryInfo {
     origin_variant: number;
     amount: number;
   }[];
+  promocode: number | null;
 }
 
 export interface OrderedProduct {
@@ -215,6 +216,12 @@ export interface OrderStage {
   modified_at: string;
 }
 
+export interface Promocode {
+  id: number;
+  name: string;
+  percentage: number;
+}
+
 export interface Order {
   id: number;
   is_active: boolean;
@@ -222,6 +229,8 @@ export interface Order {
   created_at: string;
   approx_delivery_date: string | null;
   is_cancelled: boolean;
+  delivery_sum: number;
+  promocode: Promocode | null;
 }
 
 export interface OrderDetail extends Order {

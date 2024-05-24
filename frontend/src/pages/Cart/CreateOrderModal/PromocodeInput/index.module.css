@@ -1,0 +1,8 @@
+.svg {
+  width: 23px;
+  height: 23px;
+}
+
+.svg path {
+  fill: var(--grey-1);
+}

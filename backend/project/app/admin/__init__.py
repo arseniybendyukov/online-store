@@ -9,6 +9,7 @@ from .order_stage import OrderStageAdmin
 from .order import OrderAdmin
 from .ordered_product import OrderedProductAdmin
 from .product import ProductAdmin
+from .promocode import PromocodeAdmin
 from .review import ReviewAdmin
 from .tags import ProductTagAdmin, BlogTagAdmin
 from .user import UserAdmin
