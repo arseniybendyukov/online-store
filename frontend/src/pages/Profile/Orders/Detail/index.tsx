@@ -22,17 +22,19 @@ export function OrderDetail() {
   const [createPayment, { data }]  = useCreatePaymentMutation();
 
   useEffect(() => {
-    //@ts-ignore
-    const checkout = new window.YooMoneyCheckoutWidget({
-      confirmation_token: data?.confirmation.confirmation_token,
-      return_url: 'https://proffclean.market/',
-      modal: true,
-      error_callback: function(error: any) {
-        console.log(error)
-      }
-    });
+    if (data) {
+      //@ts-ignore
+      const checkout = new window.YooMoneyCheckoutWidget({
+        confirmation_token: data.confirmation.confirmation_token,
+        return_url: 'https://proffclean.market/',
+        modal: true,
+        error_callback: function(error: any) {
+          console.log(error)
+        }
+      });
 
-    checkout.render('payment-form');
+      checkout.render('payment-form');
+    }
   }, [data]);
 
   const selectedStage = useMemo(() => {
