@@ -13,7 +13,7 @@ export const paymentApi = createApi({
   endpoints: (builder) => ({
     createPayment: builder.mutation<Payment, { orderId: number; sum: number; }>({
       query: ({ orderId, sum }) => ({
-        url: `v3/payments`,
+        url: `/v3/payments`,
         method: 'POST',
         headers: { 'Idempotence-Key': `${Math.floor(Math.random() * (10000))  + Date.now()}` },
         body: {

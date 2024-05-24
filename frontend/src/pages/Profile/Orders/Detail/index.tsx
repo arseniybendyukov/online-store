@@ -21,7 +21,19 @@ export function OrderDetail() {
 
   const [createPayment, { data }]  = useCreatePaymentMutation();
 
-  console.log(data);
+  useEffect(() => {
+    //@ts-ignore
+    const checkout = new window.YooMoneyCheckoutWidget({
+      confirmation_token: data?.confirmation.confirmation_token,
+      return_url: 'https://proffclean.market/',
+      modal: true,
+      error_callback: function(error: any) {
+        console.log(error)
+      }
+    });
+
+    checkout.render('payment-form');
+  }, [data]);
 
   const selectedStage = useMemo(() => {
     if (order) {
@@ -96,6 +108,7 @@ export function OrderDetail() {
                       sum: order.delivery_sum + promocodePrice
                     })}
                   />
+                  <div id='payment-form' />
                 </div>
               )}
             </div>
