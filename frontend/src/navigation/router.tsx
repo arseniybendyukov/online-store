@@ -32,6 +32,7 @@ import { BlogDetail } from '../pages/BlogDetail';
 import { EmailResend } from '../pages/Auth/EmailResend';
 import { About } from '../pages/About';
 import { HowToBuy } from '../pages/HowToBuy';
+import { Payment } from '../pages/Payment';
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ export const router = createBrowserRouter([
       {
         path: NavPaths.MAIN,
         element: <Main />
+      },
+      {
+        path: NavPaths.PAYMENT,
+        element: <Payment />
       },
       {
         path: NavPaths.ABOUT,
