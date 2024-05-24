@@ -34,7 +34,7 @@ export const Banner = () => (
       <div id='containerForBullets' className={css.bullets} />
       <div className={css.main}>
         <div className={css.text}>
-          <h1 className={`h1 ${css.h1}`}>Профессиональная химия</h1>
+          <h1 className={`h1 ${css.h1}`}>Профессиональная&nbsp;химия</h1>
           <p className={css.paragraph}>
             Наша компания представляет широкий выбор средств профессиональной химии  и оборудования от известных мировых и росийских производителей
             <span className={css.highlighted}> с доставкой по Новосибирску и всей России</span>
@@ -44,6 +44,7 @@ export const Banner = () => (
           <Button
             path={NavPaths.CATALOG}
             state={{ default: { text: 'Перейти в каталог', icon: undefined } }}
+            className={css.button}
             isBig
           />
           <Button
@@ -51,6 +52,7 @@ export const Banner = () => (
             state={{ default: { text: 'Связаться с нами', icon: undefined } }}
             color={Colors.WHITE}
             outlineColor={Colors.DARK_BLUE}
+            className={css.button}
             coloredBorder
             isBig
           />

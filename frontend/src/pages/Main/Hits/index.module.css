@@ -7,3 +7,9 @@
 .button {
   align-self: flex-start;
 }
+
+@media (max-width: 800px) {
+  .container {
+    gap: 15px;
+  }
+}

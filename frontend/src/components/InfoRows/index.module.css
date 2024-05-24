@@ -29,3 +29,12 @@
 .rowIcon svg path {
   fill: #fff;
 }
+
+@media (max-width: 800px) {
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+

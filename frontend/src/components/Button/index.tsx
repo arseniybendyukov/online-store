@@ -122,11 +122,10 @@ function Content(props: Props & { color: Colors, outlineColor: Colors, coloredBo
 
   return (
     <div
-      className={`${css.button} ${props.isBlue ? css.blue : ''}`}
+      className={`${css.button} ${props.isBlue ? css.blue : ''} ${props.isBig ? css.big : ''}`}
       style={{
         background: mainColor,
         borderColor: !props.coloredBorder ? props.color : secondaryColor,
-        height: props.isBig ? 'auto' : '50px',
       }}
     >
       <div

@@ -115,6 +115,18 @@
   .buttons {
     gap: 5px;
   }
+
+  .main {
+    box-shadow: none;
+    padding: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 10px;
+  }
+
+  .container {
+    padding-top: 40px;
+  }
 }
 
 @media (max-width: 450px) {

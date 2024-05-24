@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   position: relative;
 }
 
@@ -16,6 +17,7 @@
   max-width: 670px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: 70px;
 }
 
@@ -42,6 +44,7 @@
 .buttons {
   display: inline-flex;
   gap: 40px;
+  flex-wrap: wrap; 
 }
 
 .swiper {
@@ -82,41 +85,91 @@
 }
 
 
-@media (max-width: 1200px) {
-  .spray {
-    display: none;
+@media (max-width: 1240px) {
+  .buttons {
+    gap: 20px;
+  }
+
+  .main {
+    gap: 30px;
+  }
+
+  .content {
+    gap: 40px;
   }
 }
 
-@media (max-width: 1110px) {
-  .banner {
-    justify-content: center;
+@media (max-width: 1000px) {
+  .h1 {
+    font-size: 32px !important;
   }
-}
 
-@media (max-width: 700px) {
   .content {
     max-width: 520px;
-    gap: 15px;
+  }
+
+  .bullet {
+    padding: 8px 10px;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+
+  .bullets {
+    gap: 10px !important;
+  }
+
+  .bullet:not(:last-child)::after {
+    content: '';
+  }
+
+  .content {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .h1 {
+    font-size: 20px !important;
+  }
+
+  .content {
+    max-width: 450px;
   }
 
   .paragraph {
-    font-size: 16px;
+    font-size: 14px;
   }
-}
 
-@media (max-width: 580px) {
-  .content {
-    max-width: 400px;
-    gap: 10px;
+  .button > div {
+    font-size: 18px;
+    padding: 12px 15px;
   }
 
   .buttons {
-    display: inline-flex;
-    gap: 5px;
+    gap: 15px;
   }
 
-  .button {
-    font-size: 14px !important;
+  .main {
+    gap: 20px;
+  }
+
+  .content {
+    gap: 20px;
+  }
+
+  .text {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .banner {
+    flex-direction: column;
+    height: auto;
+    padding-top: 40px;
+  }
+
+  .swiper {
+    width: 300px;
   }
 }

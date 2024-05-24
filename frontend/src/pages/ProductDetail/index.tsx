@@ -135,13 +135,13 @@ export function ProductDetail() {
                 </div>
               )}
 
-              <Description text={product.description} />
-
               <ProductImage
                 image={selectedVariant?.image}
                 name={product.render_name}
                 className={css.mobileImage}
               />
+
+              <Description text={product.description} />
 
               <div className={css.properties}>
                 <Label label='Бренд'>{product.brand.name}</Label>

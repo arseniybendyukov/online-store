@@ -28,3 +28,10 @@
     transition: var(--hover);
   }
 }
+
+@media (max-width: 800px) {
+  .container {
+    gap: 15px;
+  }
+}
+
