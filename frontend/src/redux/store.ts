@@ -12,11 +12,13 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { api } from './api';
+import { paymentApi } from './payment-api';
 import { userSlice } from './slices/userSlice';
 import { localCartSlice } from './slices/localCart';
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  [paymentApi.reducerPath]: paymentApi.reducer,
   userState: userSlice.reducer,
   localCartState: localCartSlice.reducer,
 });
@@ -38,6 +40,7 @@ export const store = configureStore({
       },
     }).concat([
       api.middleware,
+      paymentApi.middleware
     ]),
 });
 

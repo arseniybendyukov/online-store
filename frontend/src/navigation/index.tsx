@@ -16,7 +16,8 @@ export const enum NavPaths {
   CATALOG = '/catalog',
   CONTACTS = '/contacts',
   HOW_TO_BUY = '/how-to-buy',
-  PRODUCT_DETAIL = '/product'
+  PRODUCT_DETAIL = '/product',
+  PAYMENT = '/payment',
 }
 
 export const enum ProductDetailNestedPaths {
