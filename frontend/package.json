@@ -1,4 +1,5 @@
 {
+  "proxy":"https://api.yookassa.ru",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,

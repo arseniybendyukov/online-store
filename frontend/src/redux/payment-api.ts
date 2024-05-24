@@ -4,7 +4,7 @@ import { Payment } from '../types/data';
 export const paymentApi = createApi({
   reducerPath: 'payment-api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.yookassa.ru/',
+    baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('Authorization', `Basic ${btoa(`${process.env.REACT_APP_SHOP_ID}:${process.env.REACT_APP_SECRET_KEY}`)}`);
       headers.set('Content-Type', 'application/json');
@@ -19,7 +19,7 @@ export const paymentApi = createApi({
         headers: { 'Idempotence-Key': `${orderId}` },
         body: {
           "amount": {
-            "value": sum,
+            "value": `20.00`,
             "currency": "RUB"
           },
           "confirmation": {
