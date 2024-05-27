@@ -6,7 +6,8 @@
 
 .blocks {
   display: grid;
-  grid-template-columns: repeat(4, min-content);
+  grid-template-columns: 1fr 1fr 200px;
+  gap: 30px;
   justify-content: space-between;
   padding: 100px 0 50px 0;
 }
@@ -36,7 +37,7 @@
 
 @media (max-width: 1100px) {
   .blocks {
-    grid-template-columns: repeat(2, min-content);
+    grid-template-columns: repeat(2, 1fr);
     justify-content: start;
     row-gap: 30px;
     column-gap: 100px;
