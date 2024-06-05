@@ -17,7 +17,7 @@ export function OrderStages({
   isPickup,
 }: Props) {
   if (isPickup) {
-    stages = [stages[0], stages[1]]
+    stages = [stages[0], stages[stages.length - 1]]
   }
 
   const done = stages.filter((stage) => stage.is_done).length;
