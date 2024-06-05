@@ -54,10 +54,11 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     user = self.context['request'].user
     order = Order.objects.create(
       user=user,
-      address=validated_data['address'],
-      delivery_sum=validated_data['delivery_sum'],
-      tariff=validated_data['tariff'],
-      promocode=validated_data['promocode'],
+      address=validated_data['address'] if 'address' in validated_data else None,
+      delivery_sum=validated_data['delivery_sum'] if 'delivery_sum' in validated_data else None,
+      tariff=validated_data['tariff'] if 'tariff' in validated_data else None,
+      promocode=validated_data['promocode'] if 'promocode' in validated_data else None,
+      is_pickup=validated_data['is_pickup'],
     )
 
     for raw in validated_data['products']:
@@ -94,6 +95,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
       'delivery_sum',
       'tariff',
       'promocode',
+      'is_pickup',
     )
 
 

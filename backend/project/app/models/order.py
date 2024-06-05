@@ -9,9 +9,9 @@ class Order(models.Model):
   created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
   approx_delivery_date = models.DateField(blank=True, null=True, verbose_name='Примерная дата доставки')
   is_cancelled = models.BooleanField(default=False, verbose_name='Отменен ли')
-  address = models.CharField(max_length=256, verbose_name='Адрес')
-  delivery_sum = models.PositiveIntegerField(verbose_name='Стоимость доставки')
-  tariff = models.CharField(max_length=256, verbose_name='Тариф')
+  address = models.CharField(max_length=256, blank=True, null=True, verbose_name='Адрес')
+  delivery_sum = models.PositiveIntegerField(blank=True, null=True, verbose_name='Стоимость доставки')
+  tariff = models.CharField(max_length=256, blank=True, null=True, verbose_name='Тариф')
   promocode = models.ForeignKey(
     Promocode,
     null=True,
@@ -19,6 +19,7 @@ class Order(models.Model):
     on_delete=models.SET_NULL,
     verbose_name='Промокод',
   )
+  is_pickup = models.BooleanField(default=False, verbose_name='Самовывоз ли')
 
   @property 
   def is_active(self):

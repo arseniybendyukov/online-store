@@ -25,10 +25,12 @@ export function Order({ order }: Props) {
         </Label>
 
         <OrderPrice order={order} />
-
-        <Label label='Стоимость доставки'>
-          {toCurrency(order.delivery_sum)}
-        </Label>
+        
+        {order.delivery_sum && (
+          <Label label='Стоимость доставки'>
+            {toCurrency(order.delivery_sum)}
+          </Label>
+        )}
       </div>
       <Link to={`${NavPaths.PROFILE}/${ProfileNestedPaths.ORDER_DETAIL}/${order.id}`}>
         <Slider

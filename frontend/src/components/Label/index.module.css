@@ -1,8 +1,9 @@
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .label {
   color: var(--grey-1);
+  white-space: nowrap;
 }

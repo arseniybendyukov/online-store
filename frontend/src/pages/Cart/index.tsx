@@ -10,11 +10,14 @@ import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { Link } from 'react-router-dom';
 import { AuthNestedPaths, NavPaths } from '../../navigation';
 import { CreateOrderModal } from './CreateOrderModal';
+import { Colors } from '../../types/common';
+import { CreateOrderPickupModal } from './CreateOrderPickupModal';
 
 export function Cart() {
   const user = useAppSelector((state) => state.userState.user);
 
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isPickupModalOpened, setIsPickupModalOpened] = useState(false);
 
   const [promocode, setPromocode] = useState<Promocode | null>(null);
 
@@ -102,6 +105,38 @@ export function Cart() {
     [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
   );
 
+  const onCreatePickupOrderClick = useCallback(
+    async function(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+      e.preventDefault();
+
+      if (user) {
+        if (remoteCartData) {
+          if (!hasNotInStockVariants) {
+            const result = await createOrder({
+              products: remoteCartData.map((cartItem) => ({
+                origin_variant: cartItem.variant.id,
+                amount: cartItem.amount,
+              })),
+              is_pickup: true,
+            });
+      
+            if ('error' in result) {
+              toast('Произошла ошибка при создании заказа', { type: 'error' });
+            } else {
+              toast('Заказ создан!', { type: 'success' });
+            }
+                     
+          } else {
+            toast('В корзине есть товары, которых нет в наличии', { type: 'error' });
+          }
+        }
+      } else {
+        toast('Войдите, чтобы сделать заказ', { type: 'error' });
+      }
+    },
+    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
+  );
+
   const goodsPrice = useMemo(
     () => data.reduce((accum, cartItem) => {
       if (cartItem.variant.is_in_stock) {
@@ -154,11 +189,22 @@ export function Cart() {
                       user
                       ? (goodsPrice > 0 && <>
                         <Button
-                          state={{ default: { text: 'Оформить заказ', icon: undefined } }}
+                          state={{ default: { text: 'Оформить доставку', icon: undefined } }}
                           onClick={(e) => {
                             e.preventDefault();
                             setIsModalOpened(true)
                           }}
+                        />
+
+                        <Button
+                          state={{ default: { text: 'Оформить самовывоз', icon: undefined } }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsPickupModalOpened(true)
+                          }}
+                          color={Colors.WHITE}
+                          outlineColor={Colors.DARK_BLUE}
+                          coloredBorder
                         />
 
                         <CreateOrderModal
@@ -173,6 +219,14 @@ export function Cart() {
                           setDeliveryInfo={setDeliveryInfo}
                           promocode={promocode}
                           setPromocode={setPromocode}
+                        />
+
+                        <CreateOrderPickupModal
+                          goodsPrice={goodsPrice}
+                          onCreateOrderClick={onCreatePickupOrderClick}
+                          isOrderCreationLoading={isOrderCreationLoading}
+                          isOpened={isPickupModalOpened}
+                          close={() => setIsPickupModalOpened(false)}
                         />
                       </>) : (
                         <p className={css.notAuthorizedNotification}>

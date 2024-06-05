@@ -179,12 +179,15 @@ export interface DeliveryInfo {
   tariff: string;
 }
 
-export interface OderedProductInput extends DeliveryInfo {
+type OptionalDeliveryInfo = { [K in keyof DeliveryInfo]?: DeliveryInfo[K] };
+
+export interface OderedProductInput extends OptionalDeliveryInfo {
   products: {
     origin_variant: number;
     amount: number;
   }[];
-  promocode: number | null;
+  promocode?: number | null;
+  is_pickup?: boolean;
 }
 
 export interface OrderedProduct {
@@ -229,8 +232,9 @@ export interface Order {
   created_at: string;
   approx_delivery_date: string | null;
   is_cancelled: boolean;
-  delivery_sum: number;
+  delivery_sum?: number;
   promocode: Promocode | null;
+  is_pickup: boolean;
 }
 
 export interface OrderDetail extends Order {

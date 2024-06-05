@@ -12,6 +12,7 @@ import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 import { OrderPrice } from '../../../../components/OrderPrice';
 import { useCreatePaymentMutation } from '../../../../redux/payment-api';
+import { PickupDetails } from '../../../../components/PickupDetails';
 
 export function OrderDetail() {
   const { id = '' } = useParams();
@@ -93,9 +94,15 @@ export function OrderDetail() {
                 stages={order.stages}
                 selectedStageId={selectedStageId}
                 setSelectedStageId={setSelectedStageId}
+                isPickup={order.is_pickup}
               />
             )
           }
+
+          {order.is_pickup && <div>
+            <h3 className='h3'>Самовывоз</h3>
+            <PickupDetails />
+          </div>}
 
           {selectedStage && !order.is_cancelled && (
             <div className={css.stageDescription}>
@@ -109,7 +116,7 @@ export function OrderDetail() {
                     state={{ default: { text: 'Оплатить', icon: undefined } }}
                     onClick={() => createPayment({
                       orderId: order.id,
-                      sum: order.delivery_sum + promocodePrice
+                      sum: order.delivery_sum ? order.delivery_sum + promocodePrice : promocodePrice
                     })}
                   />
                   <div id='payment-form' />
@@ -122,9 +129,11 @@ export function OrderDetail() {
             <div className={css.heading}>
               <h3 className='h3'>Товары ({ order.products.length })</h3>
               <OrderPrice order={order} />
-              <Label label='Стоимость доставки'>
-                {toCurrency(order.delivery_sum)}
-              </Label>
+              {order.delivery_sum && (
+                <Label label='Стоимость доставки'>
+                  {toCurrency(order.delivery_sum)}
+                </Label>
+              )}
             </div>
 
             <div className={css.products}>

@@ -7,13 +7,19 @@ interface Props {
   stages: OrderStage[];
   selectedStageId: number | null;
   setSelectedStageId: SetState<number | null>;
+  isPickup: boolean;
 }
 
 export function OrderStages({
   stages,
   selectedStageId,
   setSelectedStageId,
+  isPickup,
 }: Props) {
+  if (isPickup) {
+    stages = [stages[0], stages[1]]
+  }
+
   const done = stages.filter((stage) => stage.is_done).length;
   const percentage = (done === stages.length ? done - 1 : done) / (stages.length - 1) * 100;
 
