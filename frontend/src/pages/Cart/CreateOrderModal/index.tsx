@@ -53,47 +53,49 @@ export function CreateOrderModal({
     weight: parcel.variant.weight,
   })), [remoteCartData]);
 
-  // @ts-ignore
-  const widget = new window.CDEKWidget({
-    from: {
-      country_code: 'RU',
-      city: 'Новосибирск',
-      postal_code: 630091,
-      code: 270,
-      address: 'ул. Советская, д. 36/1',
-    },
-    root: 'cdek-map',
-    apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
-    servicePath: 'https://proffclean.market/service.php',
-    goods,
-    defaultLocation: 'Новосибирск',
-    tariffs: {
-      office: [234, 136],
-      door: [233, 137],
-    },
-    forceFilters: {
-      type: 'PVZ',
-    },
-    onChoose<T extends DeliveryType>(
-      deliveryType: T,
-      tariff: Tariff,
-      address: T extends DeliveryType.OFFICE ? OfficeAddress : DoorAddress,
-    ) {
-      let formattedAddress: string;
+  useEffect(() => {
+    // @ts-ignore
+    const widget = new window.CDEKWidget({
+      from: {
+        country_code: 'RU',
+        city: 'Новосибирск',
+        postal_code: 630091,
+        code: 270,
+        address: 'ул. Советская, д. 36/1',
+      },
+      root: 'cdek-map',
+      apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
+      servicePath: 'https://proffclean.market/service.php',
+      goods,
+      defaultLocation: 'Новосибирск',
+      tariffs: {
+        office: [234, 136],
+        door: [233, 137],
+      },
+      forceFilters: {
+        type: 'PVZ',
+      },
+      onChoose<T extends DeliveryType>(
+        deliveryType: T,
+        tariff: Tariff,
+        address: T extends DeliveryType.OFFICE ? OfficeAddress : DoorAddress,
+      ) {
+        let formattedAddress: string;
 
-      if (deliveryType === 'office') {
-        formattedAddress = `${address.city}, ${address.address!}`;
-      } else {
-        formattedAddress = address.formatted!;
-      }
+        if (deliveryType === 'office') {
+          formattedAddress = `${address.city}, ${address.address!}`;
+        } else {
+          formattedAddress = address.formatted!;
+        }
 
-      setDeliveryInfo({
-        tariff: tariff.tariff_name,
-        delivery_sum: tariff.delivery_sum,
-        address: formattedAddress,
-      });
-    },
-  });
+        setDeliveryInfo({
+          tariff: tariff.tariff_name,
+          delivery_sum: tariff.delivery_sum,
+          address: formattedAddress,
+        });
+      },
+    });
+  }, [setDeliveryInfo]);
 
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = useMemo(() => [
     {
@@ -118,13 +120,6 @@ export function CreateOrderModal({
       isBold: true,
     },
   ], [goodsPrice, goodsWeight, deliverySum, promocode, promocodeGoodsPrice]);
-
-  // Без этого внизу страницы спавнятся виджеты
-  useEffect(() => {
-    for (let el of document.getElementsByClassName('cdek-map')) {
-      el.remove();
-    }
-  }, []);
 
   return (
     <Modal
