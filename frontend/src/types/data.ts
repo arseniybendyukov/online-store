@@ -187,7 +187,7 @@ export interface OderedProductInput extends OptionalDeliveryInfo {
     amount: number;
   }[];
   promocode?: number | null;
-  is_pickup?: boolean;
+  is_pickup: boolean;
 }
 
 export interface OrderedProduct {

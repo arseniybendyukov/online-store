@@ -86,6 +86,7 @@ export function Cart() {
                   amount: cartItem.amount,
                 })),
                 promocode: promocode ? promocode.id : null,
+                is_pickup: false,
               });            
         
               if ('error' in result) {
