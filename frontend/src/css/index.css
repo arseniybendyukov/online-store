@@ -114,6 +114,12 @@ button:not(:disabled) {
           filter: grayscale(100%);
 }
 
+/* Swiper 'position: fixed' bug solved */
+.swiper-wrapper,
+.swiper-slide {
+  transform: none !important;
+}
+
 @media (max-width: 1270px) {
   body {
     font-size: 16px;
