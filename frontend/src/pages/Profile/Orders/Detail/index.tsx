@@ -11,34 +11,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 import { OrderPrice } from '../../../../components/OrderPrice';
-import { useCreatePaymentMutation } from '../../../../redux/payment-api';
 import { PickupDetails } from '../../../../components/PickupDetails';
+import { TBankPayform } from './TBankPayform';
 
 export function OrderDetail() {
   const { id = '' } = useParams();
   const { data: order, isLoading } = useGetOrderDetailQuery({ id });
 
   const [selectedStageId, setSelectedStageId] = useState<number | null>(null);
-
-  const [createPayment, { data }]  = useCreatePaymentMutation();
-
-  useEffect(() => {
-    if (data) {
-      //@ts-ignore
-      const checkout = new window.YooMoneyCheckoutWidget({
-        confirmation_token: data.confirmation.confirmation_token,
-        return_url: 'https://proffclean.market/',
-        customization: {
-          modal: true,
-        },
-        error_callback: function(error: any) {
-          console.log(error)
-        }
-      });
-
-      checkout.render('payment-form');
-    }
-  }, [data]);
 
   const selectedStage = useMemo(() => {
     if (order) {
@@ -64,7 +44,7 @@ export function OrderDetail() {
     }
   }, [order, selectedStageId, setSelectedStageId]);
 
-  const [actualPrice, promocodePrice] = getOrderPrice(order);
+  const [_, promocodePrice] = getOrderPrice(order);
 
   return <>
     {
@@ -112,14 +92,10 @@ export function OrderDetail() {
 
               {selectedStage === currentStage && currentStage?.stage_type.is_payment_stage && (
                 <div className={css.paymentContainer}>
-                  <Button
-                    state={{ default: { text: 'Оплатить', icon: undefined } }}
-                    onClick={() => createPayment({
-                      orderId: order.id,
-                      sum: order.delivery_sum ? order.delivery_sum + promocodePrice : promocodePrice
-                    })}
+                  <TBankPayform
+                    amount={order.delivery_sum ? order.delivery_sum + promocodePrice : promocodePrice}
+                    orderId={order.id}
                   />
-                  <div id='payment-form' />
                 </div>
               )}
             </div>

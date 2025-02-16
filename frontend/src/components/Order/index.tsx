@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Order as IOrder } from '../../types/data';
-import { formatDate, getOrderPrice, toCurrency } from '../../utils/data';
+import { formatDate, toCurrency } from '../../utils/data';
 import { Label } from '../Label';
 import { OrderedProductCard } from '../OrderedProductCard';
 import { Slider } from '../Slider';
