@@ -45,7 +45,7 @@ export const Footer = () => {
               <PhoneLink className={css.phone} />
 
               <p className={css.addressAndSchedule}>
-                <span>{SCHEDULE}</span>
+                {/* <span>{SCHEDULE}</span> */}
                 <span>{ADDRESS}</span>
               </p>
               <SocialMedias />
