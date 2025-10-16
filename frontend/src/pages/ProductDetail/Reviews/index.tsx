@@ -38,25 +38,25 @@ export function ProductReviews() {
                 ratings={reviews.map((review) => review.rating)}
               />            </div>
             <div className={css.main}>
-              <h2 className='h2'>Отзывы</h2>
+              <h2 className='h2'>Reviews</h2>
               
-              <Label label='Сортировка по' gap={10}>
+              <Label label='Sort by' gap={10}>
                 <ArrowOrdering
                   value={ordering}
                   setValue={setOrdering}
                   options={[
                     {
-                      name: 'Дате',
+                      name: 'Date',
                       param: ReviewsOrdering.Date,
                       isDesc: false,
                     },
                     {
-                      name: 'Рейтингу',
+                      name: 'Rating',
                       param: ReviewsOrdering.Rating,
                       isDesc: true,
                     },
                     {
-                      name: 'Голосам',
+                      name: 'Votes',
                       param: ReviewsOrdering.Votes,
                       isDesc: true,
                     },
@@ -73,7 +73,7 @@ export function ProductReviews() {
           </div>
         ) : (
           <div className='empty' style={{ minHeight: 300 }}>
-            Пока нет ни одного отзыва
+            No reviews yet
           </div>
         )
       )

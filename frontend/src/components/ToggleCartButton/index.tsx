@@ -1,7 +1,7 @@
 import { Button } from '../Button';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toast } from 'react-toastify';
-import { addToLocalCart, removeFromLocalCart, toggleLocalCart } from '../../redux/slices/localCart';
+import { addToLocalCart, removeFromLocalCart } from '../../redux/slices/localCart';
 import { useState } from 'react';
 import { AmountModal } from './AmountModal';
 import { useAddToCartMutation, useRemoveFromCartMutation } from '../../redux/api';
@@ -40,7 +40,7 @@ export function ToggleCartButton({
     e.preventDefault();
 
     if (!isInCart && !isInStock) {
-      toast('Нет в наличии', { type: 'error' });
+      toast('Not in stock', { type: 'error' });
     } else {
       if (!isInCart) {
         setIsModalOpened(true);
@@ -65,7 +65,7 @@ export function ToggleCartButton({
 
   if (!isInStock) {
     return (
-      <span>Невозможно добавить в корзину</span>
+      <span>Can't add to Cart</span>
     );
   }
 
@@ -76,11 +76,11 @@ export function ToggleCartButton({
       isActive={isInCart}
       state={{
         default: {
-          text: 'В корзину',
+          text: 'Add to Cart',
           icon: undefined,
         },
         active: {
-          text: 'Добавлено',
+          text: 'Added',
           icon: undefined,
         },
       }}

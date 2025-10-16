@@ -30,7 +30,7 @@ export function AmountModal({
         className={css.container}
       >
         <div className={css.content}>
-          <h2 className='h4'>Выберите количество товара</h2>
+          <h2 className='h4'>Please select the amount</h2>
 
           <AmountInput
             amount={amount}
@@ -40,7 +40,7 @@ export function AmountModal({
 
           <Button
             onClick={(e) => {e.preventDefault(); onClick()}}
-            state={{ default: { text: 'В корзину', icon: undefined } }}
+            state={{ default: { text: 'Add to Cart', icon: undefined } }}
             isBig
           />
         </div>

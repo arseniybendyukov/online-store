@@ -9,10 +9,10 @@ export function Brands() {
 
   return (
     <section className={css.container}>
-      <h2 className='h2'>Бренды</h2>
+      <h2 className='h2'>Brands</h2>
       {
         isLoading
-        ? 'Загрузка брендов'
+        ? 'Loading brands...'
         : (
           <Slider
             insideArrows

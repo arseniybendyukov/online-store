@@ -12,8 +12,8 @@ interface Props {
 export function RangeInput({ min, max, setMin, setMax }: Props) {
   return (
     <div className={css.container}>
-      <label htmlFor='min-price' className={css.label}>От</label>
-      <label htmlFor='max-price' className={css.label}>До</label>
+      <label htmlFor='min-price' className={css.label}>From</label>
+      <label htmlFor='max-price' className={css.label}>To</label>
     
       {
         min

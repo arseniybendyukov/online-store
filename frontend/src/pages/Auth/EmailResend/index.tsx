@@ -41,7 +41,7 @@ export function EmailResend() {
       if (!('error' in result)) {
         setIsSubmitted(true);
       } else {
-        toast('Произошла ошибка', { type: 'error' });
+        toast('An error occured!', { type: 'error' });
       }
     }
   });
@@ -51,7 +51,7 @@ export function EmailResend() {
       if (error.status === 404) {
         formik.setFieldError(
           'email',
-          'Пользователя с такой электронной почтой не найдено',
+          'No user found with this email address',
         );
       }
     }
@@ -59,7 +59,7 @@ export function EmailResend() {
 
   return (
     <ModalTemplate
-      heading='Отправка письма для верификации'
+      heading='Verify Your Email'
       width={650}
     >
       {
@@ -67,7 +67,7 @@ export function EmailResend() {
         ? (
           <form onSubmit={formik.handleSubmit} className={css.form}>
             <Input
-              label='Электронная почта'
+              label='Email'
               name='email'
               type='email'
               onChange={formik.handleChange}
@@ -79,13 +79,13 @@ export function EmailResend() {
             <Button
               type='submit'
               isLoading={isLoading}
-              state={{ default: { text: 'Отправить', icon: undefined } }}
+              state={{ default: { text: 'Submit', icon: undefined } }}
             />
           </form>
         )
         : (
           <div className={css.container}>
-            <p className={css.success}>Письмо успешно отправлено на почту!</p>
+            <p className={css.success}>Email successfully sent!</p>
             <p>({formik.values.email})</p>
           </div>
         )

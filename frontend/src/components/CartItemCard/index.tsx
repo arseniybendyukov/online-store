@@ -74,7 +74,7 @@ export function CartItemCard(props: Props) {
     if (cartItemId) {
       toggleSaved({ variantId: variantId });
     } else {
-      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+      toast('Please log in to save products', { type: 'error' });
     }
   }
 
@@ -97,7 +97,7 @@ export function CartItemCard(props: Props) {
       <div className={css.major}>
         <div className={css.productProperties}>
           <h4 className={`h4 ${css.name} ${!isInStock ? css.notInStock : ''}`}>{productName}</h4>
-          <Label label='Вариант' gap={10}>{variantName}</Label>
+          <Label label='Option' gap={10}>{variantName}</Label>
         </div>
 
         <div className={css.minor}>

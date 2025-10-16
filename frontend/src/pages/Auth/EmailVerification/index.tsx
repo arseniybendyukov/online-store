@@ -21,7 +21,7 @@ export function EmailVerification() {
 
   return (
     <ModalTemplate
-      heading='Активация электронной почты'
+      heading='Email Activation'
       width={700}
     >
       {
@@ -37,18 +37,18 @@ export function EmailVerification() {
 
 const Success = () => (
   <p>
-    <span className={css.success}>Электронная почта активирована! </span>
-    Теперь Вы можете <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войти</Link> в аккаунт.
+    <span className={css.success}>Email successfully activated!</span>
+    You can now <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>log in</Link> to your account.
   </p>
 );
 
 const Error = () => (
   <div className={css.container}>
-    <p><span className={css.error}>Произошла ошибка!</span> Возможные причины:</p>
+    <p><span className={css.error}>An errror occured!</span> Possible reasons:</p>
 
     <ul className={css.list}>
-      <li><p>Истёк срок действия ссылки-активации. <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Выслать еще раз</Link>?</p></li>
-      <li><p>Ссылка-активация уже была исользована. Попробуйте <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войти</Link> в аккаунт.</p></li>
+      <li><p>The activation link has expired. <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Resend it</Link>?</p></li>
+      <li><p>Activation link has already been used. Try to <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>log in</Link> to your account.</p></li>
     </ul>
   </div>
 );

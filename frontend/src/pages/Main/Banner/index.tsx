@@ -2,7 +2,7 @@ import { Button } from '../../../components/Button';
 import { NavPaths } from '../../../navigation';
 import { Colors } from '../../../types/common';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import pylesos from '../../../images/pylesos.png';
 import pipidastr from '../../../images/pipidastr.png';
 import pshykalka from '../../../images/pshykalka.png';
@@ -15,15 +15,15 @@ interface Bullet {
 
 const slides: Bullet[] = [
   {
-    name: 'Для химчистки',
+    name: 'For Dry Cleaning',
     img: pylesos,
   },
   {
-    name: 'Клининга',
+    name: 'Cleaning',
     img: pipidastr,
   },
   {
-    name: 'И дома',
+    name: '& Home',
     img: pshykalka,
   },
 ];
@@ -34,22 +34,22 @@ export const Banner = () => (
       <div id='containerForBullets' className={css.bullets} />
       <div className={css.main}>
         <div className={css.text}>
-          <h1 className={`h1 ${css.h1}`}>Профессиональная&nbsp;химия</h1>
+          <h1 className={`h1 ${css.h1}`}>Professional&nbsp;chemicals</h1>
           <p className={css.paragraph}>
-            Наша компания представляет широкий выбор средств профессиональной химии  и оборудования от известных мировых и росийских производителей
-            <span className={css.highlighted}> с доставкой по Новосибирску и всей России</span>
+            Our company offers a wide range of professional chemicals and equipment from well-known international and russian manufacturers
+            <span className={css.highlighted}> with delivery in Novosibirsk and across Russia</span>
           </p>
         </div>
         <div className={css.buttons}>
           <Button
             path={NavPaths.CATALOG}
-            state={{ default: { text: 'Перейти в каталог', icon: undefined } }}
+            state={{ default: { text: 'Go to Catalog', icon: undefined } }}
             className={css.button}
             isBig
           />
           <Button
             path={NavPaths.CONTACTS}
-            state={{ default: { text: 'Связаться с нами', icon: undefined } }}
+            state={{ default: { text: 'Contact Us', icon: undefined } }}
             color={Colors.WHITE}
             outlineColor={Colors.DARK_BLUE}
             className={css.button}
@@ -72,7 +72,7 @@ export const Banner = () => (
         bulletClass: css.bullet,
         bulletActiveClass: css.active,
         clickable: true,
-        renderBullet: (index, className) => (
+        renderBullet: (index: number, className: string) => (
           `<span class=${className}>${slides[index].name}</span>`
         ),
       }}

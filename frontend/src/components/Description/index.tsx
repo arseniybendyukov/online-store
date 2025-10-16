@@ -31,8 +31,8 @@ export function Description({ text }: Props) {
       >
         {
           isOpened
-          ? 'Свернуть'
-          : 'Подробнее...'
+          ? 'Hide'
+          : 'Read more...'
         }
       </button>
       )}

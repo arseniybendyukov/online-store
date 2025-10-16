@@ -6,7 +6,7 @@
 
 .blocks {
   display: grid;
-  grid-template-columns: 1fr 1fr 200px;
+  grid-template-columns: 1fr 1fr 200px 200px;
   gap: 30px;
   justify-content: space-between;
   padding: 100px 0 50px 0;
@@ -49,7 +49,7 @@
   .blocks {
     row-gap: 30px;
     column-gap: 50px;
-    grid-template-columns: min-content;
+    grid-template-columns: max-content;
     justify-content: center;
     font-size: 16px;
   }

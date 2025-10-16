@@ -8,8 +8,8 @@ export function Saved() {
 
   return (
     <ProfileSubpage
-      heading='Сохраненное'
-      empty='Нет сохраненных товаров'
+      heading='Saved Products'
+      empty='No Saved Products yet'
       itemsCount={data?.length}
       isLoading={isLoading}
     >

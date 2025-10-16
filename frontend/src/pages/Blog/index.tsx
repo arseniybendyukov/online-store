@@ -21,7 +21,7 @@ export function Blog() {
   }));
 
   tagOptions.unshift({
-    label: 'Все',
+    label: 'All',
     value: '0',
   });
 
@@ -33,7 +33,7 @@ export function Blog() {
   return (
     <div className={`container ${css.container}`}>
       <div className={css.header}>
-        <h1 className='h1'>Блог</h1>
+        <h1 className='h1'>Blog</h1>
 
         <IconFormElement
           icon={<Tag className={css.tagSVG} />}
@@ -46,7 +46,7 @@ export function Blog() {
           )}
           options={
             isTagsLoading
-            ? [{ label: 'Загрузка...', value: '0' }]
+            ? [{ label: 'Loading...', value: '0' }]
             : tagOptions
           }
         />
@@ -65,7 +65,7 @@ export function Blog() {
             )
             : (
               <div className='empty' style={{ height: 500 }}>
-                Нет постов в блоге
+                No posts yet
               </div>
             )
           }

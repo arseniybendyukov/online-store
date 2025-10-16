@@ -6,12 +6,12 @@ export function Copyright() {
   return (
     <div className={css.container}>
       <div className={css.infos}>
-        <span>© Proff Clean Market, 2020 — 2024</span>
-        <span>ИП КРАМЕР ТАТЬЯНА ПЕТРОВНА</span>
-        <span>ИНН 540551812287</span>
-        <span>ОГРНИП: 320547600093414</span>
+        <span>© Online Store, 2019 — 2025</span>
+        <span>John Doe Enterprises</span>
+        <span>Tax ID: 123456789</span>
+        <span>Registration No.: 9876543210</span>
       </div>
-      <a href={PDFDocumentsPaths.PRIVACY_POLICY}>Политика конфиденциальности</a>
+      <Link to={PDFDocumentsPaths.PRIVACY_POLICY}>Privacy Policy</Link>
     </div>
   );
 }

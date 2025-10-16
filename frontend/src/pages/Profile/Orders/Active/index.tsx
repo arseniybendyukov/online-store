@@ -16,7 +16,7 @@ export function Active() {
           {
             activeOrders.length > 0
             ? activeOrders.map((order) => <Order key={order.id} order={order} />)
-            : <div className='empty' style={{ minHeight: 300 }}>Нет активных заказов</div>
+            : <div className='empty' style={{ minHeight: 300 }}>No active orders</div>
           }
         </div>
       )

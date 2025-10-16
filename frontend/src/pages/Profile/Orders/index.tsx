@@ -12,17 +12,17 @@ export function Orders() {
 
   return (
     <div className={css.content}>
-      <h1 className='h1'>Заказы</h1>
+      <h1 className='h1'>Orders</h1>
 
       <NavTabs
         options={[
           {
             path: OrdersNestedPaths.ACTIVE,
-            name: `Активные (${activeOrders.length})`,
+            name: `Active (${activeOrders.length})`,
           },
           {
             path: OrdersNestedPaths.NOT_ACTIVE,
-            name: `Неактивные (${notActiveOrders.length})`,
+            name: `Inactive (${notActiveOrders.length})`,
           },
         ]}
       />

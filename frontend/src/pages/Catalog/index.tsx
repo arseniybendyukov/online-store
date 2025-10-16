@@ -15,12 +15,6 @@ import { ReactComponent as ArrowDown } from '../../images/arrow.svg';
 export function Catalog() {
   const [isFormOpened, setIsFormOpened] = useState(false);
 
-  // Все товары
-  const [areProductsShown, setAreProductsShown] = useSearchParamsState(
-    'show-all',
-    (searchParams) => !!searchParams.get('show-all'),
-  );
-
   // Поиск
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
@@ -104,13 +98,13 @@ export function Catalog() {
         />
       )}
 
-      <h1 className={`h1 ${css.h1}`}>Каталог товаров</h1>
+      <h1 className={`h1 ${css.h1}`}>Catalog</h1>
       
       {
         isLoadingCategories
         ? (
           // TODO: skeleton loading
-          <>Загрузка...</>
+          <>Loading...</>
         ) : (
           categories && (
             <CategoryCards
@@ -122,73 +116,58 @@ export function Catalog() {
         )
       }
 
-      {!selectedCategoryId && !areProductsShown && (
-        <Button
-          className={css.showAllButton}
-          onClick={() => setAreProductsShown(true)}
-          state={{
-            default: {
-              text: 'Все товары',
-              icon: <ArrowDown className={css.arrowDownSVG} width={30} height={30} />,
-            }
-          }}
+      <div className={css.content}>
+        <FiltersForm
+          isOpened={isFormOpened}
+          close={() => setIsFormOpened(false)}
+          categories={categories}
+          isLoadingCategories={isLoadingCategories}
+          selectedCategoryId={selectedCategoryId}
+          setSelectedCategoryId={setSelectedCategoryId}
+          isLoadingMinMaxPrice={isLoadingMinMaxPrice}
+          minPrice={minPrice}
+          setMinPrice={setMinPrice}
+          maxPrice={maxPrice}
+          setMaxPrice={setMaxPrice}
+          brandIds={brandIds}
+          setBrandIds={setBrandIds}
         />
-      )}
 
-      {(selectedCategoryId || areProductsShown) && (
-        <div className={css.content}>
-          <FiltersForm
-            isOpened={isFormOpened}
-            close={() => setIsFormOpened(false)}
-            categories={categories}
-            isLoadingCategories={isLoadingCategories}
-            selectedCategoryId={selectedCategoryId}
-            setSelectedCategoryId={setSelectedCategoryId}
-            isLoadingMinMaxPrice={isLoadingMinMaxPrice}
-            minPrice={minPrice}
-            setMinPrice={setMinPrice}
-            maxPrice={maxPrice}
-            setMaxPrice={setMaxPrice}
-            brandIds={brandIds}
-            setBrandIds={setBrandIds}
+        <div className={css.main}>
+          <CatalogRowForm
+            openFilters={() => setIsFormOpened(true)}
+            search={search}
+            setSearch={setSearch}
+            ordering={ordering}
+            setOrdering={setOrdering}
+            tag={tag}
+            setTag={setTag}
           />
 
-          <div className={css.main}>
-            <CatalogRowForm
-              openFilters={() => setIsFormOpened(true)}
-              search={search}
-              setSearch={setSearch}
-              ordering={ordering}
-              setOrdering={setOrdering}
-              tag={tag}
-              setTag={setTag}
-            />
-
-            {
-              isLoading
-              ? <SpinnerScreen />
-              : data && (
-                data.length > 0
-                ? (
-                  <div className={css.products}>
-                    {data?.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        willBecomeMobile
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className='empty' style={{ minHeight: 300 }}>
-                    Нет товаров
-                  </div>
-                )
+          {
+            isLoading
+            ? <SpinnerScreen />
+            : data && (
+              data.length > 0
+              ? (
+                <div className={css.products}>
+                  {data?.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      willBecomeMobile
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className='empty' style={{ minHeight: 300 }}>
+                  No such products
+                </div>
               )
-            }
-          </div>
+            )
+          }
         </div>
-      )}
+      </div>
     </main>
   );
 }

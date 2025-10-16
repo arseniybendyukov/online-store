@@ -23,7 +23,7 @@ export function CancelOrderButton({ orderId }: Props) {
           className={css.button}
           onClick={onButtonClick}
         >
-          Отменить заказ
+          Cancel order
         </button>
       )
     }

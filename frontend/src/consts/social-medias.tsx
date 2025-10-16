@@ -10,15 +10,15 @@ interface SocialMedia {
 
 export const socialMedias: SocialMedia[] = [
   {
-    path: 'https://vk.com/proffcleanmarket',
+    path: 'https://vk.com/',
     icon: <VK width={40} height={40} />
   },
   {
-    path: 'https://t.me/proff_cleanmarket',
+    path: 'https://t.me/',
     icon: <Telegram width={30} height={30} style={{ transform: 'translate(-2px, 0)' }} />
   },
   {
-    path: 'https://wa.me/79137120200',
+    path: 'https://wa.me/',
     icon: <Whatsapp width={35} height={35} />
   },
 ];

@@ -38,7 +38,7 @@ export function ProductCard({
     if (user) {
       toggleSaved({ variantId: shownVariant.id });
     } else {
-      toast('Войдите, чтобы сохранять товары', { type: 'error' });
+      toast('Please log in to save products', { type: 'error' });
     }
   }
 

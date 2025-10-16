@@ -20,14 +20,14 @@ export function Order({ order }: Props) {
       <div className={css.properties}>
         {order.is_cancelled && <OrderIsCancelled />}
 
-        <Label label='Создан'>
+        <Label label='Created at'>
           {formatDate(order.created_at)}
         </Label>
 
         <OrderPrice order={order} />
         
         {order.delivery_sum && (
-          <Label label='Стоимость доставки'>
+          <Label label='Delivery Cost'>
             {toCurrency(order.delivery_sum)}
           </Label>
         )}

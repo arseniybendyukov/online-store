@@ -11,19 +11,19 @@ import { CatalogOrdering } from '../../../types/filters';
 
 const orderingOptions: SelectOption<CatalogOrdering>[] = [
   {
-    label: 'По возрастанию цены',
+    label: 'Price: Low to High',
     value: CatalogOrdering.PRICE_LOW_HIGH,
   },
   {
-    label: 'По убыванию цены',
+    label: 'Price: High to Low',
     value: CatalogOrdering.PRICE_HIGH_LOW,
   },
   {
-    label: 'По возрастанию рейтинга',
+    label: 'Rating: Low to High',
     value: CatalogOrdering.RATING_LOW_HIGH,
   },
   {
-    label: 'По убыванию рейтинга',
+    label: 'Rating: High to Low',
     value: CatalogOrdering.RATING_HIGH_LOW,
   },
 ];
@@ -56,7 +56,7 @@ export function CatalogRowForm({
   }));
 
   tagOptions.unshift({
-    label: 'Все',
+    label: 'All',
     value: '0',
   });
 
@@ -71,7 +71,7 @@ export function CatalogRowForm({
         onChange={(e: ChangeEvent<HTMLInputElement>) => (
           setSearch(e.target.value)
         )}
-        placeholder='Найти товар по названию'
+        placeholder='Search product by name'
         type='text'
         value={search}
       />
@@ -81,7 +81,7 @@ export function CatalogRowForm({
         className={css.filter}
         icon={<Filter className={css.svg} />}
         onClick={openFilters}
-        text='Фильтры'
+        text='Filters'
       />
 
       <IconFormElement
@@ -108,7 +108,7 @@ export function CatalogRowForm({
         )}
         options={
           isLoading
-          ? [{ label: 'Загрузка...', value: '0' }]
+          ? [{ label: 'Loading...', value: '0' }]
           : tagOptions
         }
         value={tag}

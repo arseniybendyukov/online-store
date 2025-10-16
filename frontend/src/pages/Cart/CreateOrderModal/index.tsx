@@ -10,8 +10,9 @@ import { SetState } from '../../../types/common';
 import { PDFDocumentsPaths } from '../../../navigation';
 import { Checkbox } from '../../../components/Checkbox';
 import { PromocodeInput } from './PromocodeInput/input';
+import { Link } from 'react-router-dom';
 
-const PAYMENT_METHOD = 'наличными или картой при получении';
+const PAYMENT_METHOD = 'Cash or card on delivery';
 
 interface Props {
   goodsPrice: number;
@@ -99,7 +100,7 @@ export function CreateOrderModal({
 
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = useMemo(() => [
     {
-      label: 'Товары',
+      label: 'Products cost',
       value: (
         promocode
         ? `${toCurrency(promocodeGoodsPrice)} (-${promocode.percentage}%)`
@@ -107,15 +108,15 @@ export function CreateOrderModal({
       ),
     },
     {
-      label: 'Общий вес',
+      label: 'Total weight',
       value: toKilos(goodsWeight),
     },
     {
-      label: 'Доставка',
+      label: 'Delivery cost',
       value: deliverySum ? toCurrency(deliverySum) : '-',
     },
     {
-      label: 'Итого',
+      label: 'Overall',
       value: toCurrency(overallPrice),
       isBold: true,
     },
@@ -123,7 +124,7 @@ export function CreateOrderModal({
 
   return (
     <Modal
-      heading='Оформление заказа'
+      heading='Checkout'
       width={1200}
       isOpened={isOpened}
       close={close}
@@ -147,14 +148,14 @@ export function CreateOrderModal({
             ))}
           </div>
 
-          <Information text={`Способ оплаты: ${PAYMENT_METHOD}`} />
+          <Information text={`Payment method: ${PAYMENT_METHOD}`} />
         </div>
       </div>
 
       <Checkbox
         label={
           <span>
-            Я принимаю условия <a href={PDFDocumentsPaths.OFERTA} className='link'>оферты</a>
+            I accept <Link to={PDFDocumentsPaths.OFERTA} className='link'>the terms of the offer</Link>
           </span>
         }
         checked={agreed}
@@ -163,7 +164,7 @@ export function CreateOrderModal({
 
       <Button
         isLoading={isOrderCreationLoading}
-        state={{ default: { text: `Оформить заказ (${toCurrency(overallPrice)})`, icon: undefined } }}
+        state={{ default: { text: `Checkout (${toCurrency(overallPrice)})`, icon: undefined } }}
         disabled={!agreed}
         onClick={onCreateOrderClick}
       />

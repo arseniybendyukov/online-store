@@ -35,7 +35,7 @@ export const ProductSlider = ({ products }: Props) => <>
     />
     ) : (
     <div className='empty' style={{ minHeight: 300 }}>
-      Товары отсутствуют
+      No such products
     </div>
     )
   }

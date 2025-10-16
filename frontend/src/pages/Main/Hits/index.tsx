@@ -10,7 +10,7 @@ export function Hits() {
 
   return (
     <section className={css.container}>
-      <h2 className='h2'>Хиты продаж</h2>
+      <h2 className='h2'>Best sellers</h2>
       {
         isLoading
         ? <SpinnerScreen height='300px' />
@@ -18,7 +18,7 @@ export function Hits() {
       }
       <Button
         path={`${NavPaths.CATALOG}?tag=${Number(process.env.REACT_APP_HIT_TAG_ID)}&show-all=true`}
-        state={{ default: { text: 'Перейти в каталог', icon: undefined } }}
+        state={{ default: { text: 'Go to Catalog', icon: undefined } }}
         className={css.button}
         isBig
       />

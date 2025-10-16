@@ -10,12 +10,6 @@
   gap: 20px;
 }
 
-.formTemplate {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr;
-  gap: 20px;
-}
-
 .separator {
   background: var(--grey-1);
 }

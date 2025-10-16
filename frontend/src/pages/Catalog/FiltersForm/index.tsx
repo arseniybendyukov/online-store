@@ -49,7 +49,7 @@ export function FiltersForm({
     <div className={`${css.wrapper} ${isOpened ? css.opened : ''}`}>
       <div className={css.container}>
         <header className={css.header}>
-          <h2 className='h2'>Фильтры</h2>
+          <h2 className='h2'>Filters</h2>
           <button onClick={close} className={css.closeButton}>
             <Cross className={css.crossSVG} />
           </button>
@@ -58,7 +58,7 @@ export function FiltersForm({
 
         <div className={css.content}>
           <Section
-            heading='Цена'
+            heading='Price'
             isLoading={isLoadingMinMaxPrice}
           >
             <RangeInput
@@ -70,7 +70,7 @@ export function FiltersForm({
           </Section>
           
           <Section
-            heading='Категории'
+            heading='Categories'
             isLoading={isLoadingCategories}
           >
             {categories && (
@@ -83,7 +83,7 @@ export function FiltersForm({
           </Section>
 
           <Section
-            heading='Бренды'
+            heading='Brands'
             isLoading={isLoadingBrands}
           >
             {brands && (

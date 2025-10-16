@@ -54,11 +54,11 @@ export function OrderDetail() {
         <div className={css.container}>
           <div className={css.heading}>
             <h1 className='h1'>
-              Заказ от {monthAndDayFromDate(order.created_at)}
+              Ordered on {monthAndDayFromDate(order.created_at)}
             </h1>
             
             {order.approx_delivery_date && (
-              <Label label='Примерная дата доставки'>
+              <Label label='Estimated Delivery Date'>
                 {monthAndDayFromDate(order.approx_delivery_date)}
               </Label>
             )}
@@ -80,13 +80,13 @@ export function OrderDetail() {
           }
 
           {order.is_pickup && <div>
-            <h3 className='h3'>Самовывоз</h3>
+            <h3 className='h3'>Pickup</h3>
             <PickupDetails />
           </div>}
 
           {selectedStage && !order.is_cancelled && (
             <div className={css.stageDescription}>
-              <h3 className='h3'>Детали этапа</h3>
+              <h3 className='h3'>Stage Details</h3>
 
               <p>{selectedStage.stage_type.description}</p>
 
@@ -106,7 +106,7 @@ export function OrderDetail() {
               <h3 className='h3'>Товары ({ order.products.length })</h3>
               <OrderPrice order={order} />
               {order.delivery_sum && (
-                <Label label='Стоимость доставки'>
+                <Label label='Delivery cost'>
                   {toCurrency(order.delivery_sum)}
                 </Label>
               )}

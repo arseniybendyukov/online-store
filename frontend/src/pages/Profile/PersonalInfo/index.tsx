@@ -78,7 +78,7 @@ export function PersonalInfo() {
 
                 <div className={css.nameInputs}>
                   <Input
-                    label='Имя'
+                    label='Name'
                     name='firstName'
                     onChange={formik.handleChange}
                     value={formik.values.firstName}
@@ -87,7 +87,7 @@ export function PersonalInfo() {
                   />
 
                   <Input
-                    label='Фамилия'
+                    label='Surname'
                     name='lastName'
                     onChange={formik.handleChange}
                     value={formik.values.lastName}
@@ -96,7 +96,7 @@ export function PersonalInfo() {
                   />
 
                   <Input
-                    label='Отчество'
+                    label='Patronymic'
                     name='patronymic'
                     onChange={formik.handleChange}
                     value={formik.values.patronymic}
@@ -107,7 +107,7 @@ export function PersonalInfo() {
               </div>
 
               <Input
-                label='Дата рождения'
+                label='Birthdate'
                 name='birthdate'
                 type='date'
                 onChange={formik.handleChange}
@@ -118,13 +118,13 @@ export function PersonalInfo() {
 
               <Input
                 disabled
-                label='Электронная почта'
+                label='Email'
                 type='email'
                 value={user.email}
               />
               
               <Input
-                label='Номер телефона'
+                label='Phone number'
                 name='phoneNumber'
                 onChange={formik.handleChange}
                 value={formik.values.phoneNumber}
@@ -132,15 +132,11 @@ export function PersonalInfo() {
                 error={formik.errors.phoneNumber}
               />
             </div>
-            <div className={css.separator}></div>
-            <div className={css.orderFormSide}>
-              (...)
-            </div>
           </div>
           <Button
             type='submit'
             isLoading={isLoading}
-            state={{ default: { text: 'Сохранить', icon: undefined } }}
+            state={{ default: { text: 'Save', icon: undefined } }}
           />
         </form>
       )}

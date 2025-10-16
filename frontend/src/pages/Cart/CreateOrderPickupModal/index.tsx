@@ -8,6 +8,7 @@ import { Checkbox } from '../../../components/Checkbox';
 import { Label } from '../../../components/Label';
 import { ADDRESS, SCHEDULE } from '../../../consts/data';
 import { PickupDetails } from '../../../components/PickupDetails';
+import { Link } from 'react-router-dom';
 
 interface Props {
   goodsPrice: number;
@@ -28,7 +29,7 @@ export function CreateOrderPickupModal({
 
   return (
     <Modal
-      heading='Самовывоз'
+      heading='Pickup'
       width={600}
       isOpened={isOpened}
       close={close}
@@ -38,7 +39,7 @@ export function CreateOrderPickupModal({
       <Checkbox
         label={
           <span>
-            Я принимаю условия <a href={PDFDocumentsPaths.OFERTA} className='link'>оферты</a>
+            I accept <Link to={PDFDocumentsPaths.OFERTA} className='link'>the terms of the offer</Link>
           </span>
         }
         checked={agreed}
@@ -47,7 +48,7 @@ export function CreateOrderPickupModal({
 
       <Button
         isLoading={isOrderCreationLoading}
-        state={{ default: { text: `Оформить заказ (${toCurrency(goodsPrice)})`, icon: undefined } }}
+        state={{ default: { text: `Checkout (${toCurrency(goodsPrice)})`, icon: undefined } }}
         disabled={!agreed}
         onClick={onCreateOrderClick}
       />

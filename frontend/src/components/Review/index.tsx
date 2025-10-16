@@ -32,7 +32,7 @@ export function Review({ review }: Props) {
       if (user) {
         vote({ is_positive, review });
       } else {
-        toast('Войдите, чтобы голосовать за отзывы', { type: 'error' });
+        toast('Please log in to vote for reviews', { type: 'error' });
       }
     },
     [user]
@@ -58,7 +58,7 @@ export function Review({ review }: Props) {
             </div>
             {review.variant
             ? (
-              <Label label='Вариант'>
+              <Label label='Option'>
                 {review.variant}
               </Label>
             )
@@ -67,7 +67,7 @@ export function Review({ review }: Props) {
                 to={`${NavPaths.PRODUCT_DETAIL}/${review.product}`}
                 className='link'
               >
-                Перейти к товару
+                Show Product
               </Link>
             )}
           </div>

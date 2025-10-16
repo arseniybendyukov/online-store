@@ -24,7 +24,7 @@ export function RatingStatsBar({ avgRating, ratings }: Props) {
         <span className={css.avgRating}>{avgRating}</span>
         <RatingStars onlyStars avgRating={avgRating} />
         <span className={css.reviewsCount}>
-          {ratings.length} отзывов
+          {ratings.length} reviews
         </span>
       </div>
       <div className={css.rows}>

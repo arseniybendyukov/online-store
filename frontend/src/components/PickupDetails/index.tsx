@@ -4,16 +4,16 @@ import { Label } from '../Label';
 export const PickupDetails = () => (
   <ul>
     <li>
-      <Label label='Срок хранения' gap={10}>1 день</Label>
+      <Label label='Storage Period' gap={10}>1 day</Label>
     </li>
     <li>
-      <Label label='Адрес 'gap={10}>{ADDRESS}</Label>
+      <Label label='Address' gap={10}>{ADDRESS}</Label>
     </li>
     <li>
-      <Label label='Время работы' gap={10}>{SCHEDULE}</Label>
+      <Label label='Working Hours' gap={10}>{SCHEDULE}</Label>
     </li>
     <li>
-      <Label label='Способ оплаты' gap={10}>При получении</Label>
+      <Label label='Payment Method' gap={10}>Cash on Delivery</Label>
     </li>
   </ul>
 );

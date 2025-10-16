@@ -57,7 +57,7 @@ export function CategoryTree({
         {headerCategory && (
           <Category
             id={headerCategory.id}
-            name='Показать все'
+            name='Show all'
             count={null}
             setSelectedId={setSelectedId}
             isSelected={selectedId === headerCategory.id}

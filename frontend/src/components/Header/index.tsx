@@ -77,7 +77,7 @@ export function Header() {
 
                       <li>
                         <button onClick={() => logout()} className={css.logoutButton}>
-                          Выйти из аккаунта
+                          Log out
                         </button>
                       </li>
                     </ul>
@@ -88,7 +88,7 @@ export function Header() {
               <Button
                 path={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`}
                 state={{
-                  default: { text: 'Войти', icon: undefined }
+                  default: { text: 'Log in', icon: undefined }
                 }}
               />
             )

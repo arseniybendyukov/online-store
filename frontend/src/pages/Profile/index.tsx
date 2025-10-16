@@ -27,7 +27,7 @@ export function Profile() {
               <NavTabs vertical options={profileLinks} />
 
               <button onClick={() => logout()} className={css.logoutButton}>
-                Выйти из аккаунта
+                Log out
               </button>
             </div>
           </aside>

@@ -36,17 +36,17 @@ export function PromocodeInput({ setPromocode }: Props) {
         onChange={(e: ChangeEvent<HTMLInputElement>) => (
           setPromocodeSlug(e.target.value)
         )}
-        placeholder='Применить промокод'
+        placeholder='Use a promo code'
         type='text'
         value={promocodeSlug}
       />
 
       {!isLoading && error && 'status' in error && error.status === 404 && (
-        <span className='error'>Промокода не существует или он неактивен</span>
+        <span className='error'>The promo code does not exist or is inactive</span>
       )}
 
       {!isLoading && !isError && data && (
-        <span className='success'>Применена скидка {data.percentage}% по промокоду!</span>
+        <span className='success'>A {data.percentage}% discount has been applied with the promo code!</span>
       )}
     </div>
   );

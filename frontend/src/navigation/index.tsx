@@ -48,42 +48,41 @@ export const enum OrdersNestedPaths {
 export const headerLinks: NamedLink<NavPaths>[] = [
   {
     path: NavPaths.ABOUT,
-    name: 'О нас',
+    name: 'About',
   },
-  // TODO: !!СКРЫТЫЙ БЛОГ!!
-  // {
-  //   path: NavPaths.BLOG,
-  //   name: 'Блог',
-  // },
+  {
+    path: NavPaths.BLOG,
+    name: 'Blog',
+  },
   {
     path: NavPaths.CATALOG,
-    name: 'Каталог',
+    name: 'Catalog',
   },
   {
     path: NavPaths.CONTACTS,
-    name: 'Контакты',
+    name: 'Contact Us',
   },
   {
     path: NavPaths.HOW_TO_BUY,
-    name: 'Как купить',
+    name: 'How to Buy',
   },
 ];
 
 export const profileLinks: NamedLink[] = [
   {
-    name: 'Заказы',
+    name: 'My Orders',
     path: `${ProfileNestedPaths.ORDERS}/${OrdersNestedPaths.ACTIVE}`,
   },
   {
-    name: 'Сохраненное',
+    name: 'Saved Products',
     path: ProfileNestedPaths.SAVED,
   },
   {
-    name: 'Мои отзывы',
+    name: 'My Reviews',
     path: ProfileNestedPaths.REVIEWS,
   },
   {
-    name: 'Личные данные',
+    name: 'Personal Data',
     path: ProfileNestedPaths.PERSONAL_INFO,
   },
 ];

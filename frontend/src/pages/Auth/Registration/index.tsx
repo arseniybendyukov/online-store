@@ -94,9 +94,9 @@ export function Registration() {
 
       if (!('error' in result)) {
         resetForm();
-        toast('На электронную почту было отправлено письмо, пройдите верификацию!', { type: 'info', autoClose: false });
+        toast('A verification email has been sent. Please verify your email!', { type: 'info', autoClose: false });
       } else {
-        toast('Ошибка регистрации', { type: 'error' });
+        toast('Registration Error!', { type: 'error' });
       }
     }
   });
@@ -113,17 +113,17 @@ export function Registration() {
 
   return (
     <ModalTemplate
-      heading='Регистрация'
+      heading='Registration'
       width={600}
       link={{
         path: `${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`,
-        name: 'Вход',
+        name: 'Log in',
       }}
     >
       <form onSubmit={formik.handleSubmit} className={css.form}>
         <div className={css.row}>
           <Input
-            label='Имя'
+            label='First name'
             name='firstName'
             onChange={formik.handleChange}
             value={formik.values.firstName}
@@ -132,7 +132,7 @@ export function Registration() {
           />
 
           <Input
-            label='Фамилия'
+            label='Last name'
             name='lastName'
             onChange={formik.handleChange}
             value={formik.values.lastName}
@@ -142,7 +142,7 @@ export function Registration() {
         </div>
 
         <Input
-          label='Электронная почта'
+          label='Email'
           name='email'
           type='email'
           onChange={formik.handleChange}
@@ -152,7 +152,7 @@ export function Registration() {
         />
 
         <Input
-          label='Номер телефона'
+          label='Phone number'
           name='phoneNumber'
           onChange={formik.handleChange}
           value={formik.values.phoneNumber}
@@ -161,7 +161,7 @@ export function Registration() {
         />
 
         <Input
-          label='Пароль'
+          label='Password'
           name='password1'
           type='password'
           onChange={formik.handleChange}
@@ -171,7 +171,7 @@ export function Registration() {
         />
 
         <Input
-          label='Подтверждение пароля'
+          label='Password confirmation'
           name='password2'
           type='password'
           onChange={formik.handleChange}
@@ -183,7 +183,7 @@ export function Registration() {
         <Checkbox
           label={
             <span>
-              Я даю согласие на <a href={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</a>
+              I give my consent to the <Link to={PDFDocumentsPaths.DATA_PROCESSING} className='link'>processing of personal data</Link>
             </span>
           }
           checked={agreed}
@@ -193,7 +193,7 @@ export function Registration() {
         <Button
           type='submit'
           isLoading={isLoading}
-          state={{ default: { text: 'Зарегистрироваться', icon: undefined } }}
+          state={{ default: { text: 'Register', icon: undefined } }}
           disabled={!agreed}
         />
       </form>

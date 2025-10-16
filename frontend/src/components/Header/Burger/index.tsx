@@ -25,7 +25,7 @@ export function Burger() {
             [
               {
                 path: '/',
-                name: 'Главная',
+                name: 'Home',
               },
               ...headerLinks,
             ].map((link) => (

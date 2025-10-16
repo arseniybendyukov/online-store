@@ -68,16 +68,16 @@ export function Login() {
 
   return (
     <ModalTemplate
-      heading='Вход'
+      heading='Log in'
       width={500}
       link={{
         path: `${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`,
-        name: 'Регистрация',
+        name: 'Register a new account',
       }}
     >
       <form onSubmit={formik.handleSubmit} className={css.form}>
         <Input
-          label='Электронная почта'
+          label='Email'
           name='email'
           type='email'
           onChange={formik.handleChange}
@@ -87,7 +87,7 @@ export function Login() {
         />
 
         <Input
-          label='Пароль'
+          label='Password'
           name='password'
           type='password'
           onChange={formik.handleChange}
@@ -99,11 +99,11 @@ export function Login() {
         <Button
           type='submit'
           isLoading={isLoading}
-          state={{ default: { text: 'Войти', icon: undefined } }}
+          state={{ default: { text: 'Log in', icon: undefined } }}
         />
 
-        {formik.errors.email === 'Электронная почта не верифицирована!' && (
-          <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Выслать письмо ещё раз</Link>
+        {formik.errors.email === 'Email not verified!' && (
+          <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.EMAIL_RESEND}`} className='link'>Resend verification</Link>
         )}
       </form>
     </ModalTemplate>

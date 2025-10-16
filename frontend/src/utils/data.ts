@@ -63,7 +63,7 @@ export function monthAndDayFromDate(date: string) {
 }
 
 
-export const toCurrency = (money: number) => `${money} ₽`;
+export const toCurrency = (money: number) => `$${money}`;
 
 
 export function getOrderPrice(order?: Order) {
@@ -94,4 +94,4 @@ T extends {
 }
 
 
-export const toKilos = (grams: number) => `${grams / 1000} кг`
+export const toKilos = (grams: number) => `${grams / 1000} kg`

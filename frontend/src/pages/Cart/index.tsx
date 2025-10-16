@@ -77,7 +77,7 @@ export function Cart() {
         if (remoteCartData) {
           if (!hasNotInStockVariants) {
             if (!deliveryInfo) {
-              toast('Выберите адрес и способ доставки', { type: 'error' });
+              toast('Please select address and delivery method', { type: 'error' });
             } else {
               const result = await createOrder({
                 ...deliveryInfo,
@@ -90,17 +90,17 @@ export function Cart() {
               });            
         
               if ('error' in result) {
-                toast('Произошла ошибка при создании заказа', { type: 'error' });
+                toast('An error occurred while creating the order', { type: 'error' });
               } else {
-                toast('Заказ создан!', { type: 'success' });
+                toast('Order created!', { type: 'success' });
               }
             }            
           } else {
-            toast('В корзине есть товары, которых нет в наличии', { type: 'error' });
+            toast('There are items in your cart that are out of stock', { type: 'error' });
           }
         }
       } else {
-        toast('Войдите, чтобы сделать заказ', { type: 'error' });
+        toast('Please log in to make an order', { type: 'error' });
       }
     },
     [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
@@ -122,17 +122,17 @@ export function Cart() {
             });
       
             if ('error' in result) {
-              toast('Произошла ошибка при создании заказа', { type: 'error' });
+              toast('An error occurred while creating the order', { type: 'error' });
             } else {
-              toast('Заказ создан!', { type: 'success' });
+              toast('Order created!', { type: 'success' });
             }
                      
           } else {
-            toast('В корзине есть товары, которых нет в наличии', { type: 'error' });
+            toast('There are items in your cart that are out of stock', { type: 'error' });
           }
         }
       } else {
-        toast('Войдите, чтобы сделать заказ', { type: 'error' });
+        toast('Please log in to make an order', { type: 'error' });
       }
     },
     [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
@@ -173,16 +173,16 @@ export function Cart() {
             {
               data?.length
               ? <div className={css.content}>
-                <h1 className='h1'>Корзина ({data?.length})</h1>
+                <h1 className='h1'>Cart ({data?.length})</h1>
                 {data && (
                   <div className={css.cartItems}>
                     {data.map((cartItem) => <CartItemCard key={cartItem.variant.id} {...cartItem} />)}
 
                     {hasNotInStockVariants && (
                       <p className={css.notInStockNotification}>
-                        В корзине есть товары, которых нет в наличии.
-                        Их стоимость не учитывается при вычислении общей суммы заказа.
-                        Удалите эти товары из корзины, чтобы оформить заказ.
+                        There are items in your cart that are out of stock.
+                        Their cost is not included in the total order amount.
+                        Please remove these items from your cart to proceed with the order.
                       </p>
                     )}
 
@@ -190,7 +190,7 @@ export function Cart() {
                       user
                       ? (goodsPrice > 0 && <>
                         <Button
-                          state={{ default: { text: 'Оформить доставку', icon: undefined } }}
+                          state={{ default: { text: 'Place Order for Delivery', icon: undefined } }}
                           onClick={(e) => {
                             e.preventDefault();
                             setIsModalOpened(true)
@@ -198,7 +198,7 @@ export function Cart() {
                         />
 
                         <Button
-                          state={{ default: { text: 'Оформить самовывоз', icon: undefined } }}
+                          state={{ default: { text: 'Place Order for Pickup', icon: undefined } }}
                           onClick={(e) => {
                             e.preventDefault();
                             setIsPickupModalOpened(true)
@@ -231,14 +231,14 @@ export function Cart() {
                         />
                       </>) : (
                         <p className={css.notAuthorizedNotification}>
-                          Чтобы создать заказ, <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>войдите</Link> или <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`} className='link'>зарегистрируйтесь</Link>.
+                          To make an order, please <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`} className='link'>log in</Link> or <Link to={`${NavPaths.AUTH}/${AuthNestedPaths.REGISTRATION}`} className='link'>register a new account</Link>.
                         </p>
                       )
                     }
                   </div>
                 )}
               </div>
-              : <div className={`empty ${css.empty}`}>Корзина пуста</div>
+              : <div className={`empty ${css.empty}`}>Cart is empty</div>
             }
           </>
         )

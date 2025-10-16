@@ -76,7 +76,7 @@ function CategoryCard({
         </p>
 
         <span className={css.count}>
-          {`${count} ${declOfNum(count, ['товар', 'товара', 'товаров'])}`}
+          {`${count} products found`}
         </span>
       </div>
     </div>

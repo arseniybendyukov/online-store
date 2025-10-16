@@ -37,7 +37,7 @@ export function VotesCounter({
   }
 
   return (
-    <HoverTitle title={`${positive} плюсов; ${negative} минусов`}>
+    <HoverTitle title={`${positive} upvotes; ${negative} downvotes`}>
       <div className={css.container}>
         <button onClick={downVote} className={`${css.button} ${isVotePositive === false ? css.negative : ''}`}>
           <Arrow className={css.arrowSVG} />

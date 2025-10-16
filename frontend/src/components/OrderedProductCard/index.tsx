@@ -28,7 +28,7 @@ export function OrderedProductCard({
           salePrice={orderedProduct.sale_price}
           oldPriceClassName={css.oldPrice}
         />
-        <p className={css.amount}>{`${orderedProduct.amount} шт.`}</p>
+        <p className={css.amount}>{`${orderedProduct.amount} pcs`}</p>
       </div>
 
       {showCreateReviewButton && orderedProduct.is_review_allowed && orderedProduct.origin_variant && (
@@ -36,7 +36,7 @@ export function OrderedProductCard({
           className={css.reviewButton}
           state={{
             default: {
-              text: 'Оставить отзыв',
+              text: 'Write a review',
               icon: undefined,
             }
           }}

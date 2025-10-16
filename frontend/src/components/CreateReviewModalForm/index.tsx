@@ -19,7 +19,7 @@ function validate(values: FormValues) {
   const errors: Partial<Record<keyof FormValues, string>> = {};
 
   if (values.rating === 0) {
-    errors.rating = 'Укажите оценку товара!';
+    errors.rating = 'Please rate the product.';
   }
 
   if (!values.text) {
@@ -61,9 +61,9 @@ export function CreateReviewModalForm({
       });
 
       if ('error' in result) {
-        toast('Произошла ошибка создания отзыва!', { type: 'error' });
+        toast('An error occurred while creating the review', { type: 'error' });
       } else {
-        toast('Благодарим за оставленный отзыв!', { type: 'success' });
+        toast('Thank you for your review!', { type: 'success' });
         resetForm();
         close();
       }
@@ -72,14 +72,14 @@ export function CreateReviewModalForm({
 
   return (
     <Modal
-      heading='Отзыв на товар'
+      heading='Write a review'
       width={800}
       isOpened={isOpened}
       close={close}
     >
       <form className={css.form} onSubmit={formik.handleSubmit}>
         <div className={css.labeled}>
-          <Label label='Оцените товар' gap={10}>
+          <Label label='Rate the product' gap={10}>
             <RadioStars
               selectedRating={formik.values.rating}
               setSelectedRating={(value) => formik.setFieldValue('rating', value)}
@@ -92,7 +92,7 @@ export function CreateReviewModalForm({
         <Input
           identity='textarea'
           rows={7}
-          label='Текст отзыва'
+          label='Write a review'
           name='text'
           onChange={formik.handleChange}
           value={formik.values.text}
@@ -103,7 +103,7 @@ export function CreateReviewModalForm({
         <Button
           type='submit'
           isLoading={isCreationLoading}
-          state={{ default: { text: 'Отправить', icon: undefined } }}
+          state={{ default: { text: 'Submit', icon: undefined } }}
         />
       </form>
     </Modal>

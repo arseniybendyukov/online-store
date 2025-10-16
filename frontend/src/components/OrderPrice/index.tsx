@@ -8,7 +8,7 @@ export function OrderPrice({ order }: { order: OrderDetail | Order }) {
   const [actualPrice, promocodePrice] = getOrderPrice(order);
 
   return (
-    <Label label='Стоимость товаров'>
+    <Label label='Order Cost'>
       <div className={css.container}>
         <ProductPrice
           actualPrice={actualPrice}

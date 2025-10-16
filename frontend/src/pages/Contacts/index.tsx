@@ -14,9 +14,9 @@ export function Contacts() {
           <div className={css.main}>
             <div className={css.left}>
               <div className={css.heading}>
-                <h2 className='h2'>Свяжитесь с нами</h2>
+                <h2 className='h2'>Contact Us</h2>
                 <p className={css.subheading}>
-                  Отправьте сообщение, и мы ответим как можно скорее!
+                  Send a message, and we’ll get back to you as soon as possible!
                 </p>
               </div>
               <ContactsForm />
@@ -30,7 +30,7 @@ export function Contacts() {
           
           <div className={css.footer}>
             <h4 className='h4'>
-              Задайте вопрос в наших социальных сетях
+              Ask a question on our social media pages
             </h4>
             <SocialMedias dark />
           </div>

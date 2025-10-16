@@ -1,7 +1,7 @@
 import { ReactNode, useId } from 'react';
 import css from './index.module.css';
 import { Swiper, SwiperSlide, SwiperProps } from 'swiper/react';
-import { Navigation } from 'swiper';
+import { Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import { ReactComponent as Arrow } from '../../images/arrow.svg';
 

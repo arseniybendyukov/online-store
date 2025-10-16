@@ -13,15 +13,15 @@ import { PhoneLink } from '../PhoneLink';
 const companyLinks: NamedLink[] = [
   {
     path: NavPaths.ABOUT,
-    name: 'О нас',
+    name: 'About',
   },
   {
     path: NavPaths.CONTACTS,
-    name: 'Контакты',
+    name: 'Contact Us',
   },
   {
     path: NavPaths.HOW_TO_BUY,
-    name: 'Купить',
+    name: 'How to Buy',
   },
 ];
 
@@ -40,12 +40,12 @@ export const Footer = () => {
     <footer className={css.footer}>
       <div className='container'>
         <div className={css.blocks}>
-          <FooterBlock heading='Контакты'>
+          <FooterBlock heading='Contact Us'>
             <div className={css.block}>
               <PhoneLink className={css.phone} />
 
               <p className={css.addressAndSchedule}>
-                {/* <span>{SCHEDULE}</span> */}
+                <span>{SCHEDULE}</span>
                 <span>{ADDRESS}</span>
               </p>
               <SocialMedias />
@@ -55,10 +55,10 @@ export const Footer = () => {
           {
             isCategoryIdsLoading
             // TODO: skeleton loading
-            ? 'Загрузка категорий...'
+            ? 'Loading categories...'
             : categoryIds && (
               <FooterLinksBlock
-                heading='Каталог'
+                heading='Catalog'
                 path={NavPaths.CATALOG}
                 links={categoryIds.map((category) => ({
                   name: category.name,
@@ -68,14 +68,13 @@ export const Footer = () => {
             )
           }
 
-          {/* TODO: !!СКРЫТЫЙ БЛОГ!! */}
-          {/* {
+          {
             isBlogTagsLoading
             // TODO: skeleton loading
-            ? 'Загрузка блога...'
+            ? 'Loading blog...'
             : blogTags && (
               <FooterLinksBlock
-                heading='Блог'
+                heading='Blog'
                 path={NavPaths.BLOG}
                 links={blogTags.map((tag) => ({
                   name: tag.name,
@@ -83,10 +82,10 @@ export const Footer = () => {
                 }))}
               />
             )
-          } */}
+          }
 
           <FooterLinksBlock
-            heading='Компания'
+            heading='Company'
             links={companyLinks}
           />
         </div>

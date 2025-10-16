@@ -42,7 +42,7 @@ export function RatingStars({
             )}
           </div>
         ) : (
-          <span className={css.noReviews}>Нет отзывов</span>
+          <span className={css.noReviews}>There are no Reviews yet</span>
         )
       }
     </div>

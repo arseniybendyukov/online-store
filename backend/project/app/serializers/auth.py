@@ -9,7 +9,7 @@ class CustomJWTSerializer(TokenObtainPairSerializer):
     user = User.objects.filter(email=attrs.get('email')).first()
     if user and not user.is_email_verified:
       raise serializers.ValidationError({
-        'email': 'Электронная почта не верифицирована!'
+        'email': 'Email not verified!'
       })
     return data
 

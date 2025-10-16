@@ -57,9 +57,9 @@ export function ContactsForm() {
       });
 
       if ('error' in result) {
-        toast('Произошла ошибка отправки обращения!', { type: 'error' });
+        toast('An error occurred!', { type: 'error' });
       } else {
-        toast('Ваше обращение отправлено!', { type: 'success' });
+        toast('Your request has been submitted!', { type: 'success' });
       }
     },
   });
@@ -74,7 +74,7 @@ export function ContactsForm() {
   return (
     <form onSubmit={formik.handleSubmit} className={css.form}>
       <Input
-        label='Полное имя'
+        label='Full name'
         name='fullName'
         onChange={formik.handleChange}
         value={formik.values.fullName}
@@ -83,7 +83,7 @@ export function ContactsForm() {
       />
 
       <Input
-        label='Номер телефона'
+        label='Phone number'
         name='phoneNumber'
         onChange={formik.handleChange}
         value={formik.values.phoneNumber}
@@ -92,7 +92,7 @@ export function ContactsForm() {
       />
 
       <Input
-        label='Текст сообщения'
+        label='Message'
         name='text'
         identity='textarea'
         rows={5}
@@ -105,7 +105,7 @@ export function ContactsForm() {
       <Checkbox
         label={
           <span>
-            Я даю согласие на <a href={PDFDocumentsPaths.DATA_PROCESSING} className='link'>обработку персональных данных</a>
+            I give my consent to <Link to={PDFDocumentsPaths.DATA_PROCESSING} className='link'>the processing of personal data</Link>
           </span>
         }
         checked={agreed}
@@ -115,7 +115,7 @@ export function ContactsForm() {
       <Button
         type='submit'
         isLoading={isLoading}
-        state={{ default: { text: 'Отправить сообщение', icon: undefined } }}
+        state={{ default: { text: 'Submit', icon: undefined } }}
         disabled={!agreed}
       />
     </form>

@@ -54,10 +54,10 @@ export function ProductDetail() {
       if (user) {
         toggleSaved({ variantId: selectedVariant.id });
       } else {
-        toast('Войдите, чтобы сохранять товары', { type: 'error' });
+        toast('Please log in to save products', { type: 'error' });
       }
     } else {
-      toast('Ошибка: не выбран вариант товара', { type: 'error' });
+      toast('Error: No product option selected', { type: 'error' });
     }
   }
 
@@ -99,7 +99,7 @@ export function ProductDetail() {
                   />
                 )}
 
-                <Label label='Вариант товара'>
+                <Label label='Option'>
                   <RadioVariants
                     options={product.variants}
                     selectedVariantId={selectedVariantId}
@@ -123,11 +123,11 @@ export function ProductDetail() {
                     color={Colors.RED}
                     state={{
                       default: {
-                        text: 'В сохраненное',
+                        text: 'Save',
                         icon: <Heart className={css.heartSVG} />,
                       },
                       active: {
-                        text: 'Cохранено',
+                        text: 'Saved',
                         icon: <Heart className={`${css.heartSVG} ${css.active}`} />,
                       },
                     }}
@@ -144,18 +144,18 @@ export function ProductDetail() {
               <Description text={product.description} />
 
               <div className={css.properties}>
-                <Label label='Бренд'>{product.brand.name}</Label>
+                <Label label='Brand'>{product.brand.name}</Label>
                 {product.article && (
-                  <Label label='Артикул'>{product.article}</Label>
+                  <Label label='Product ID'>{product.article}</Label>
                 )}
                 {product.brand.manufacturer_country && (
-                  <Label label='Страна производитель'>
+                  <Label label='Country of Origin'>
                     {product.brand.manufacturer_country.name}
                   </Label>
                 )}
-                <Label label='Категория'>{getRootCategory(product.category)}</Label>
+                <Label label='Category'>{getRootCategory(product.category)}</Label>
                 {product.ph_level && (
-                  <Label label='Уровень pH'>{product.ph_level}</Label>
+                  <Label label='pH Level'>{product.ph_level}</Label>
                 )}
               </div>
             </div>
@@ -164,15 +164,15 @@ export function ProductDetail() {
             options={[
               {
                 path: ProductDetailNestedPaths.BOUGHT_TOGETHER_PRODUCTS,
-                name: `С этим товаром покупают (${product.bought_together_products.length})`,
+                name: `Frequently Bought Together (${product.bought_together_products.length})`,
               },
               {
                 path: ProductDetailNestedPaths.SIMILAR_PRODUCTS,
-                name: `Похожие товары (${product.silimar_products.length})`,
+                name: `Related Products (${product.silimar_products.length})`,
               },
               {
                 path: ProductDetailNestedPaths.REVIEWS,
-                name: `Отзывы (${product.reviews_count})`,
+                name: `Reviews (${product.reviews_count})`,
               },
             ]}
           />
@@ -214,6 +214,6 @@ interface ReadReviewsProps {
 
 const ReadReviews = ({ reviewsCount }: ReadReviewsProps) => (
   <Link to='#' className={css.reviewsCount}>
-    Читать {reviewsCount} отзывов
+    Read {reviewsCount} reviews
   </Link>
 );

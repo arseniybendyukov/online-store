@@ -43,7 +43,7 @@ export function SavedProductVariantCard({
       <div className={css.major}>
         <div className={css.productProperties}>
           <h4 className={`h4 ${css.name} ${!isInStock ? css.notInStock : ''}`}>{renderName}</h4>
-          <Label label='Вариант' gap={10}>{name}</Label>
+          <Label label='Option' gap={10}>{name}</Label>
         </div>
 
         <div className={css.minor}>
