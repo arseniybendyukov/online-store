@@ -56,7 +56,7 @@ export function CartItemCard(props: Props) {
     } else {
       dispatch(updateAmountInLocalCart({ variantId, amount: debouncedAmount }));
     }
-  }, [debouncedAmount, cartItemId, amount, variantId, dispatch]);
+  }, [debouncedAmount, cartItemId, amount, variantId, dispatch, updateCartAmount]);
 
   const [
     removeFromCart,

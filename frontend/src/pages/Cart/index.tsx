@@ -135,7 +135,7 @@ export function Cart() {
         toast('Please log in to make an order', { type: 'error' });
       }
     },
-    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode, createOrder],
+    [user, hasNotInStockVariants, remoteCartData, createOrder],
   );
 
   const goodsPrice = useMemo(
