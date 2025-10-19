@@ -7,7 +7,6 @@ import { Slider } from '../Slider';
 import css from './index.module.css';
 import { NavPaths, ProfileNestedPaths } from '../../navigation';
 import { OrderIsCancelled } from '../OrderIsCancelled';
-import { ProductPrice } from '../ProductPrice';
 import { OrderPrice } from '../OrderPrice';
 
 interface Props {

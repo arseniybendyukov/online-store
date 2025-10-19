@@ -64,7 +64,7 @@ export function Login() {
         formik.setFieldError('email', data.email[0]);
       }
     }
-  }, [error]);
+  }, [error, formik]);
 
   return (
     <ModalTemplate

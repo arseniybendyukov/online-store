@@ -17,7 +17,7 @@ export function PrivateRoute({ children }: Props) {
     if (isAuthenticated === false) {
       navigate(`${NavPaths.AUTH}/${AuthNestedPaths.LOGIN}`);
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, navigate]);
 
   return <>{children}</>;
 }

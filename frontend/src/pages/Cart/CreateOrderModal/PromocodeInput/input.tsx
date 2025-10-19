@@ -23,7 +23,7 @@ export function PromocodeInput({ setPromocode }: Props) {
     } else if (data) {
       setPromocode(data);
     }
-  }, [data, isError]);
+  }, [data, isError, setPromocode]);
 
   return (
     <div>

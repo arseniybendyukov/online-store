@@ -55,7 +55,7 @@ export function EmailResend() {
         );
       }
     }
-  }, [error]);
+  }, [error, formik]);
 
   return (
     <ModalTemplate

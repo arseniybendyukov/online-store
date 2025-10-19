@@ -5,7 +5,6 @@ import { ReactComponent as Phone } from '../../images/phone.svg';
 import { ReactComponent as Envelope } from '../../images/envelope.svg';
 import css from './index.module.css';
 import { PhoneLink } from "../PhoneLink";
-import { useActivateEmailMutation } from "../../redux/api";
 
 interface Row {
   icon: ReactNode;

@@ -109,7 +109,7 @@ export function Registration() {
         formik.setFieldError('email', data.email[0]);
       }
     }
-  }, [error]);
+  }, [error, formik]);
 
   return (
     <ModalTemplate

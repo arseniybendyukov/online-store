@@ -60,7 +60,7 @@ export function PersonalInfo() {
       formik.setFieldValue('birthdate', user.birthdate ?? '');
       formik.setFieldValue('phoneNumber', user.phone_number);
     }
-  }, [user]);
+  }, [user, formik]);
 
   return (
     <div className={css.container}>

@@ -3,8 +3,6 @@ import { HoverTitle } from '../HoverTitle';
 import { Spinner } from '../Spinner';
 import css from './index.module.css';
 
-type VotesCountState = 'positive' | 'neutral' | 'negative';
-
 interface Props {
   votes: [number, number];
   isVotePositive: boolean | null;
@@ -23,16 +21,13 @@ export function VotesCounter({
   const [positive, negative] = votes;
   const value = positive - negative;
 
-  let votesCountState: VotesCountState = 'neutral';
   let formattedValue = `${value}`;
   let stateClass = '';
 
   if (value > 0) {
     formattedValue = `+${formattedValue}`;
-    votesCountState = 'positive';
     stateClass = css.positive;
-  } else if (value < 0) {
-    votesCountState = 'negative';
+  } else {
     stateClass = css.negative;
   }
 

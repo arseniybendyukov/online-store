@@ -8,7 +8,6 @@ import { OrderedProductCard } from '../../../../components/OrderedProductCard';
 import { SpinnerScreen } from '../../../../components/SpinnerScreen';
 import { OrderIsCancelled } from '../../../../components/OrderIsCancelled';
 import { useEffect, useMemo, useState } from 'react';
-import { Button } from '../../../../components/Button';
 import { CancelOrderButton } from './CancelOrderButton';
 import { OrderPrice } from '../../../../components/OrderPrice';
 import { PickupDetails } from '../../../../components/PickupDetails';
@@ -34,7 +33,7 @@ export function OrderDetail() {
     } else {
       return null;
     }
-  }, [order, selectedStageId]);
+  }, [order]);
 
   useEffect(() => {
     if (order && selectedStageId === null) {
@@ -44,7 +43,7 @@ export function OrderDetail() {
     }
   }, [order, selectedStageId, setSelectedStageId]);
 
-  const [_, promocodePrice] = getOrderPrice(order);
+  const promocodePrice = getOrderPrice(order)[1];
 
   return <>
     {

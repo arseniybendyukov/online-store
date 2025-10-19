@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
 import css from './index.module.css';
-import { ReactComponent as Cross } from '../../images/cross.svg';
 import { SetState } from '../../../types/common';
 import { Button } from '../../Button';
 import { AmountInput } from '../../AmountInput';

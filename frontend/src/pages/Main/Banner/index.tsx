@@ -79,7 +79,7 @@ export const Banner = () => (
     >
       {slides.map(({ name, img }) => (
         <SwiperSlide key={name}>
-          <img src={img} className={css.slideImage} />
+          <img src={img} className={css.slideImage} alt={name} />
         </SwiperSlide>
       ))}
     </Swiper>

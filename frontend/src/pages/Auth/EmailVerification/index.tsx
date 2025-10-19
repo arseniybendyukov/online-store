@@ -17,7 +17,7 @@ export function EmailVerification() {
     if (uidb64 && token) {
       activateEmail({ uidb64, token });
     }
-  }, [uidb64, token]);
+  }, [uidb64, token, activateEmail]);
 
   return (
     <ModalTemplate

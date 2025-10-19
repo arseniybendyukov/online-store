@@ -12,7 +12,7 @@ export function useDebounce<V extends string | number | null>(value: V, delay: n
     return () => {
       clearTimeout(handler);
     };
-  }, [value]);
+  }, [value, delay]);
 
   return debouncedValue;
 }

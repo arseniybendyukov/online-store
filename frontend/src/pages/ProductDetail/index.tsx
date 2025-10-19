@@ -6,7 +6,6 @@ import { ProductPrice } from "../../components/ProductPrice";
 import { Label } from "../../components/Label";
 import { RadioVariants } from "../../components/RadioVariants";
 import { useEffect, useState } from "react";
-import { AmountInput } from "../../components/AmountInput";
 import { ToggleCartButton } from "../../components/ToggleCartButton";
 import { Button } from "../../components/Button";
 import { Colors } from "../../types/common";

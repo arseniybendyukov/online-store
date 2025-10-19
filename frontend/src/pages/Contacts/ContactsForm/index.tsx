@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import css from './index.module.css';
-import { INVALID_EMAIL, INVALID_PHONE_NUMBER, REQUIRED_FIELD, isPhoneNumberValid } from '../../../utils/forms';
+import { INVALID_PHONE_NUMBER, REQUIRED_FIELD, isPhoneNumberValid } from '../../../utils/forms';
 import { useAppSelector } from '../../../redux/store';
 import { useEffect, useState } from 'react';
 import { getFullName } from '../../../utils/data';
@@ -69,7 +69,7 @@ export function ContactsForm() {
       formik.setFieldValue('fullName', getFullName(user));
       formik.setFieldValue('phoneNumber', user.phone_number ?? '');
     }
-  }, [user]);
+  }, [user, formik]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={css.form}>

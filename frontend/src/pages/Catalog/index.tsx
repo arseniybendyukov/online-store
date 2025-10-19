@@ -9,8 +9,6 @@ import { CatalogOrdering } from '../../types/filters';
 import { SpinnerScreen } from '../../components/SpinnerScreen';
 import { CategoryBreadCrumps } from '../../components/CategoryBreadCrumps';
 import { CategoryCards } from './CategoryCards';
-import { Button } from '../../components/Button';
-import { ReactComponent as ArrowDown } from '../../images/arrow.svg';
 
 export function Catalog() {
   const [isFormOpened, setIsFormOpened] = useState(false);

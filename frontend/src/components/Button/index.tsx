@@ -72,7 +72,7 @@ export function Button({
   className,
   ...props
 }: Props) {
-  const isBlue = color == Colors.DARK_BLUE || outlineColor == Colors.DARK_BLUE;
+  const isBlue = color === Colors.DARK_BLUE || outlineColor === Colors.DARK_BLUE;
   
   if (props.path) {
     return (

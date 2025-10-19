@@ -21,7 +21,7 @@ export function Avatar({ initials, color, image }: Props) {
       formData.append('image', selectedImage)
       updateAvatar(formData);
     }
-  }, [selectedImage]);
+  }, [selectedImage, updateAvatar]);
 
   return (
     <div className={css.avatar}>

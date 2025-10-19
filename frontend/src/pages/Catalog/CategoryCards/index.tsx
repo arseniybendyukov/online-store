@@ -1,7 +1,6 @@
 import { SetState } from '../../../types/common';
 import { TreeCategory } from '../../../types/data';
 import { findCategoryById } from '../../../utils/data';
-import { declOfNum } from '../../../utils/lang';
 import css from './index.module.css';
 
 interface Props {

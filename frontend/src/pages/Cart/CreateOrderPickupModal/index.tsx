@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
 import { toCurrency } from '../../../utils/data';
-
 import { PDFDocumentsPaths } from '../../../navigation';
 import { Checkbox } from '../../../components/Checkbox';
-import { Label } from '../../../components/Label';
-import { ADDRESS, SCHEDULE } from '../../../consts/data';
 import { PickupDetails } from '../../../components/PickupDetails';
 import { Link } from 'react-router-dom';
 

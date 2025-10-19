@@ -35,7 +35,7 @@ export function Review({ review }: Props) {
         toast('Please log in to vote for reviews', { type: 'error' });
       }
     },
-    [user]
+    [user, vote]
   );
 
   return (

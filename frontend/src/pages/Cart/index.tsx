@@ -103,7 +103,7 @@ export function Cart() {
         toast('Please log in to make an order', { type: 'error' });
       }
     },
-    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
+    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode, createOrder],
   );
 
   const onCreatePickupOrderClick = useCallback(
@@ -135,7 +135,7 @@ export function Cart() {
         toast('Please log in to make an order', { type: 'error' });
       }
     },
-    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode],
+    [user, hasNotInStockVariants, remoteCartData, deliveryInfo, promocode, createOrder],
   );
 
   const goodsPrice = useMemo(

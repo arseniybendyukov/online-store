@@ -32,7 +32,6 @@ export function CartItemCard(props: Props) {
       image,
       actual_price: actualPrice,
       sale_price: salePrice,
-      percentage,
       is_saved: isSaved,
       is_in_stock: isInStock,
       product: {
@@ -51,13 +50,13 @@ export function CartItemCard(props: Props) {
 
   useEffect(() => {
     if (cartItemId) {
-      if (inputAmount !== amount) {
+      if (debouncedAmount !== amount) {
         updateCartAmount({ cartItemId, amount: debouncedAmount });
       }
     } else {
       dispatch(updateAmountInLocalCart({ variantId, amount: debouncedAmount }));
     }
-  }, [debouncedAmount]);
+  }, [debouncedAmount, cartItemId, amount, variantId, dispatch]);
 
   const [
     removeFromCart,

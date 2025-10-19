@@ -56,7 +56,7 @@ export function CreateOrderModal({
 
   useEffect(() => {
     // @ts-ignore
-    const widget = new window.CDEKWidget({
+    new window.CDEKWidget({
       from: {
         country_code: 'RU',
         city: 'Новосибирск',
@@ -65,8 +65,8 @@ export function CreateOrderModal({
         address: 'ул. Советская, д. 36/1',
       },
       root: 'cdek-map',
-      apiKey: '428be7b8-9215-449f-bb9c-0e991a87d20e',
-      servicePath: 'https://proffclean.market/service.php',
+      apiKey: process.env.REACT_APP_CDEK_API_KEY,
+      servicePath: process.env.REACT_APP_CDEK_SERVICE_PATH,
       goods,
       defaultLocation: 'Новосибирск',
       tariffs: {
@@ -96,7 +96,7 @@ export function CreateOrderModal({
         });
       },
     });
-  }, [setDeliveryInfo]);
+  }, [setDeliveryInfo, goods]);
 
   const properties: Array<{ label: string, value: string, isBold?: boolean }> = useMemo(() => [
     {
@@ -120,7 +120,7 @@ export function CreateOrderModal({
       value: toCurrency(overallPrice),
       isBold: true,
     },
-  ], [goodsPrice, goodsWeight, deliverySum, promocode, promocodeGoodsPrice]);
+  ], [goodsPrice, goodsWeight, deliverySum, promocode, promocodeGoodsPrice, overallPrice]);
 
   return (
     <Modal

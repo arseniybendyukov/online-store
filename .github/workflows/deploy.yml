@@ -25,6 +25,8 @@ jobs:
         env:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_HIT_TAG_ID: ${{ secrets.REACT_APP_HIT_TAG_ID }}
+          REACT_APP_CDEK_API_KEY: ${{ secrets.REACT_APP_CDEK_API_KEY }}
+          REACT_APP_CDEK_SERVICE_PATH: ${{ secrets.REACT_APP_CDEK_SERVICE_PATH }}
         run: |
           echo "⚙️ Building React app..."
           npm ci
