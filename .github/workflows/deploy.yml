@@ -25,7 +25,6 @@ jobs:
         env:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_HIT_TAG_ID: ${{ secrets.REACT_APP_HIT_TAG_ID }}
-          ESLINT_NO_DEV_ERRORS: true
         run: |
           echo "⚙️ Building React app..."
           npm ci
