@@ -65,6 +65,7 @@ jobs:
             pip install -r requirements.txt
 
             echo "⚙️ Running migrations and collecting static files..."
+            cd ~/online-store/backend/project
             python manage.py migrate --noinput
             python manage.py collectstatic --noinput
 
