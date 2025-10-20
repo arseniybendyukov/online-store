@@ -54,7 +54,7 @@ export function formatDate(date: string) {
 
 
 export function monthAndDayFromDate(date: string) {
-  const obj = new Intl.DateTimeFormat('ru', {
+  const obj = new Intl.DateTimeFormat('en', {
     month: 'long',
     day: 'numeric',
   });
