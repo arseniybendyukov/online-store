@@ -16,6 +16,7 @@ export function Brands() {
         : (
           <Slider
             insideArrows
+            autoplay={{ delay: 5000 }}
             slidesPerView={2}
             className={css.slider}
             breakpoints={{
