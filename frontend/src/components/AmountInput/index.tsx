@@ -25,6 +25,7 @@ export const AmountInput = ({ amount, setAmount, isBig = false }: Props) => (
       className={css.input}
       type='number'
       min='1'
+      max='100'
       value={amount}
       onChange={(e) => setAmount(Math.max(Number(e.target.value), 1))}
     />
