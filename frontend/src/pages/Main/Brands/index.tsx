@@ -3,7 +3,7 @@ import { useGetBrandImagesQuery } from '../../../redux/api';
 import css from './index.module.css';
 import { NavPaths } from '../../../navigation';
 import { Slider } from '../../../components/Slider';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 export function Brands() {
   const { data=[], isLoading } = useGetBrandImagesQuery();
@@ -18,7 +18,7 @@ export function Brands() {
           <Slider
             insideArrows
             autoplay={{ delay: 5000 }}
-            modules={[ Autoplay ]}
+            modules={[ Autoplay, Navigation, Pagination ]}
             slidesPerView={2}
             className={css.slider}
             breakpoints={{

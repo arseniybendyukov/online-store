@@ -30,7 +30,7 @@ export function ProductPrice({
       </p>
       {isInStock && salePrice !== null && (
         <p className={`${css.oldPrice} ${oldPriceClassName ? oldPriceClassName : ''}`}>
-          {actualPrice} ₽
+          ${actualPrice}
         </p>
       )}
       {isInStock && percentage && (
