@@ -26,7 +26,7 @@ export function ProductPrice({
   return (
     <div className={`${css.price} ${className ? className : ''}`}>
       <p className={`${priceClassName} ${large ? css.large : ''} ${!isInStock ? css.notInStock : ''}`}>
-        {salePrice !== null ? salePrice : actualPrice} ₽
+        ${salePrice !== null ? salePrice : actualPrice}
       </p>
       {isInStock && salePrice !== null && (
         <p className={`${css.oldPrice} ${oldPriceClassName ? oldPriceClassName : ''}`}>
