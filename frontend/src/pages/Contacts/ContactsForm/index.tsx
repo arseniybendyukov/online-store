@@ -49,7 +49,7 @@ export function ContactsForm() {
       text: '',
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setFieldValue }) => {
       const result = await createAppeal({
         full_name: values.fullName,
         phone_number: values.phoneNumber,
@@ -60,6 +60,7 @@ export function ContactsForm() {
         toast('An error occurred!', { type: 'error' });
       } else {
         toast('Your request has been submitted!', { type: 'success' });
+        setFieldValue('text', '');
       }
     },
   });
