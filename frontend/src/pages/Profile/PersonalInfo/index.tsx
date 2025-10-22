@@ -66,7 +66,7 @@ export function PersonalInfo() {
 
   return (
     <div className={css.container}>
-      <h1 className='h1'>Личные данные</h1>
+      <h1 className='h1'>Personal Information</h1>
       {user && (
         <form onSubmit={formik.handleSubmit} className={css.form}>
           <div className={css.formTemplate}>
