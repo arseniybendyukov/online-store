@@ -46,16 +46,18 @@ export function EmailResend() {
     }
   });
 
+  const setFieldError = formik.setFieldError;
+
   useEffect(() => {
     if (error && 'status' in error) {
       if (error.status === 404) {
-        formik.setFieldError(
+        setFieldError(
           'email',
           'No user found with this email address',
         );
       }
     }
-  }, [error, formik]);
+  }, [error, setFieldError]);
 
   return (
     <ModalTemplate

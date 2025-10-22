@@ -101,15 +101,17 @@ export function Registration() {
     }
   });
 
+  const setFieldError = formik.setFieldError;
+
   useEffect(() => {
     if (error && 'data' in error) {
       const data = error.data as Record<string, string[]>;
 
       if (data instanceof Object && 'email' in data) {
-        formik.setFieldError('email', data.email[0]);
+        setFieldError('email', data.email[0]);
       }
     }
-  }, [error, formik]);
+  }, [error, setFieldError]);
 
   return (
     <ModalTemplate

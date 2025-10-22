@@ -64,12 +64,14 @@ export function ContactsForm() {
     },
   });
 
+  const setFieldValue = formik.setFieldValue;
+
   useEffect(() => {
     if (user) {
-      formik.setFieldValue('fullName', getFullName(user));
-      formik.setFieldValue('phoneNumber', user.phone_number ?? '');
+      setFieldValue('fullName', getFullName(user));
+      setFieldValue('phoneNumber', user.phone_number ?? '');
     }
-  }, [user, formik]);
+  }, [user, setFieldValue]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={css.form}>

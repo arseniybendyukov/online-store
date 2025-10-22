@@ -52,15 +52,17 @@ export function PersonalInfo() {
     },
   });
 
+  const setFieldValue = formik.setFieldValue;
+
   useEffect(() => {
     if (user) {
-      formik.setFieldValue('firstName', user.first_name);
-      formik.setFieldValue('lastName', user.last_name);
-      formik.setFieldValue('patronymic', user.patronymic ?? '');
-      formik.setFieldValue('birthdate', user.birthdate ?? '');
-      formik.setFieldValue('phoneNumber', user.phone_number);
+      setFieldValue('firstName', user.first_name);
+      setFieldValue('lastName', user.last_name);
+      setFieldValue('patronymic', user.patronymic ?? '');
+      setFieldValue('birthdate', user.birthdate ?? '');
+      setFieldValue('phoneNumber', user.phone_number);
     }
-  }, [user, formik]);
+  }, [user, setFieldValue]);
 
   return (
     <div className={css.container}>
