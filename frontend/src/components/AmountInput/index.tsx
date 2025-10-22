@@ -27,11 +27,11 @@ export const AmountInput = ({ amount, setAmount, isBig = false }: Props) => (
       min='1'
       max='100'
       value={amount}
-      onChange={(e) => setAmount(Math.max(Number(e.target.value), 1))}
+      onChange={(e) => setAmount(Math.min(Math.max(Number(e.target.value), 1), 100))}
     />
     <button
       className={css.button}
-      onClick={() => setAmount((prevAmount) => prevAmount + 1)}
+      onClick={() => setAmount((prevAmount) => Math.min(prevAmount + 1, 100))}
     >
       <Increment />
     </button>
