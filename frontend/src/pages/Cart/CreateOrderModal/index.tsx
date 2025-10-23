@@ -28,6 +28,13 @@ interface Props {
   setPromocode: SetState<Promocode | null>;
 }
 
+interface Goods {
+  width: number;
+  height: number;
+  length: number;
+  weight: number;
+}
+
 export function CreateOrderModal({
   goodsPrice,
   goodsWeight,
@@ -46,13 +53,16 @@ export function CreateOrderModal({
   const deliverySum = deliveryInfo?.delivery_sum;
   const promocodeGoodsPrice = promocode ? goodsPrice * (100 - promocode.percentage) / 100 : goodsPrice;
   const overallPrice = promocodeGoodsPrice + (deliverySum || 0);
-  
-  const goods = useMemo(() => (remoteCartData || []).map((parcel) => ({
-    width: parcel.variant.width,
-    height: parcel.variant.height,
-    length: parcel.variant.length,
-    weight: parcel.variant.weight,
-  })), [remoteCartData]);
+
+  const goods = useMemo(() => (remoteCartData || []).reduce<Goods[]>(
+    (acc, current) => [...acc, ...Array(current.amount).fill({
+      width: current.variant.width,
+      height: current.variant.height,
+      length: current.variant.length,
+      weight: current.variant.weight,
+    })],
+    []
+  ), [remoteCartData]);
 
   useEffect(() => {
     // @ts-ignore

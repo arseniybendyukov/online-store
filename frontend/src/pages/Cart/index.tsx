@@ -153,7 +153,7 @@ export function Cart() {
   const goodsWeight = useMemo(
     () => data.reduce((accum, cartItem) => {
       if (cartItem.variant.is_in_stock) {
-        return accum + cartItem.variant.weight;
+        return accum + cartItem.variant.weight * cartItem.amount;
       } else {
         return accum;
       }
